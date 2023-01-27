@@ -283,3 +283,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Webstorm
+.DS_Store
+.idea
+.gitignore.swp
