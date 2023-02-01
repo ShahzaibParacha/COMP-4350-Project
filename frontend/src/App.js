@@ -1,24 +1,33 @@
 import {
-    BrowserRouter as Router,
+    BrowserRouter,
     Route,
     Navigate,
     Routes,
 } from "react-router-dom";
 
-import Home from "./components/home/home";
-import Error from "./components/error/error.component";
+import Home from "./components/home/Home";
+import Error from "./components/error/Error";
 
 import './App.css';
 
+
+// const Home = () => {
+//     return (<body><h1>Home</h1></body>);
+// }
+//
+// const Error = () => {
+//     return (<body><h1>404</h1></body>);
+// }
+
 const App = () => {
     return (
-        <Router>
+        <BrowserRouter>
             <Routes>
-                <Route path="/" exact component={<Home/>}/>
-                <Route path="/404" exact component={<Error/>}/>
-                <Navigate to="/404" />
+                <Route exact path="/" element={<Home/>}/>
+                <Route exact path="/404" element={<Error/>}/>
+                <Route path='*' element={<Navigate to="/404"/>} />
             </Routes>
-        </Router>
+        </BrowserRouter>
     );
 }
 
