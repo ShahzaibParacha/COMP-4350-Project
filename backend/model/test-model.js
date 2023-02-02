@@ -1,4 +1,4 @@
-const {Test} = require('../schema/test-schema')
+const Test = require('../schema/test-schema')
 
 function addNewUser({username, password}) {
     let test = new Test({username, password})

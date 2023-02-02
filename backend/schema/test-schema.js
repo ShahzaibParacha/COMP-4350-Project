@@ -22,5 +22,4 @@ const testSchema = mongoose.Schema({
     }
 })
 
-const Test = mongoose.model('test', testSchema);
-exports.Test = Test
+module.exports = mongoose.model('test', testSchema);
