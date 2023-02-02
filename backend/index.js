@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config()
 const cors = require('cors')
 const mongoose = require("mongoose")
+const testModel = require("./model/test-model")
 
 const app = express();
 mongoose
@@ -15,6 +16,9 @@ app.use(cors())
 
 app.get('/test', (req, res) => {
     console.log('Hello World')
+    let username = "tom"
+    let password = "tom122"
+    testModel.addNewUser({username, password})
     res.send('Hello World')
 })
 
