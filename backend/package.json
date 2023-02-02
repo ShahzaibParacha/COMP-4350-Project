@@ -1,0 +1,25 @@
+{
+  "name": "comp4350-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShahzaibParacha/COMP-4350-Project.git"
+  },
+  "author": "Shahzaib Paracha, Dean Cruz, Da Tan, Weiyu Sun, Theo Gerwing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShahzaibParacha/COMP-4350-Project/issues"
+  },
+  "homepage": "https://github.com/ShahzaibParacha/COMP-4350-Project#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^5.10.0"
+  }
+}
