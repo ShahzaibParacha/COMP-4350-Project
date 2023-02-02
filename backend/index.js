@@ -11,7 +11,6 @@ mongoose
     .then(() => {console.log("Success to connect mongodb")})
     .catch(() => {console.log("Fail to connect mongodb")})
 
-
 app.use(cors())
 
 app.get('/test', (req, res) => {
