@@ -18,6 +18,15 @@ app.get('/test', (req, res) => {
     res.send('Hello World')
 })
 
+//test for comment routes and models
+const commentRoutes = require('./route/comment-route')
+app.use(express.json())
+app.use((req, res, next)=>{
+    console.log(req.path, req.method)
+    next()
+})
+app.use('/api/comments', commentRoutes)
+
 app.listen(process.env.PORT, () => {
     console.log(`Comp4350 backend is listening on port ${process.env.PORT}`)
 })

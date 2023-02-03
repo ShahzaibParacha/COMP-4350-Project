@@ -21,7 +21,7 @@ const commentSchema = new Schema({
 
     comment_date: { //the date the comment was created
         type: Date,
-        required: true,
+        required: false,
         default: Date.now()
     },
 });
