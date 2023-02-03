@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 const subscriberSchema = mongoose.Schema({
     writer_id: {
-        type: Number,
+        type: String,
         require: true,
     },
 
     reader_id: {
-        type: Number,
+        type: String,
         require: true,
     },
 

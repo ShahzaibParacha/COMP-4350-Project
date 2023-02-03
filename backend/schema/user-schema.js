@@ -1,18 +1,6 @@
 const mongoose = require('mongoose')
 
 const userSchema = mongoose.Schema({
-    user_id: {
-        type: Number,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-
-    is_writer: { // ture means writer, false means reader
-        type: Boolean,
-        require: true,
-        default: false,
-    },
-
     username:{
         type: String,
         unique: true,
@@ -38,6 +26,12 @@ const userSchema = mongoose.Schema({
     birthdate: {
         type: Date,
         require: true,
+    },
+
+    is_writer: { // ture means writer, false means reader
+        type: Boolean,
+        require: true,
+        default: false,
     },
 
     registration_date: {
