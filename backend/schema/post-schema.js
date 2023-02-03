@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 
 const postSchema = mongoose.Schema({
-    post_id: {
-        type: Number,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    
+
     user_id: { //the id of the user who posted the post
         type: Number,
         required: true
