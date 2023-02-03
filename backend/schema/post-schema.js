@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const postSchema = mongoose.Schema({
 
     user_id: { //the id of the user who posted the post
-        type: Number,
+        type: mongoose.ObjectId,
         required: true
     },
 
