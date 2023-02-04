@@ -16,7 +16,11 @@ const  {
     createPost = (user_id, content, image) => createPost(user_id, content, image);
     removePostByID = (id) => removePostByID(id);
     removeAllPostsFromUser = (user_id) => removeAllPostsFromUser(user_id);
-    updateLikes = (id, likes) => updateLikes(id, likes);
+    updateLikes = (id, likes) => {
+        if (likes >= 0) {
+            updateLikes(id, likes);
+        }
+    }
     updateContent = (id, content) => updateContent(id, content);
  }
 
