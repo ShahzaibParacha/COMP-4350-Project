@@ -10,18 +10,18 @@ const  {
  } = require('../model/post-model');
 
  class PostServices {
-    getAllPosts = () => getAllPosts();
-    getPostByID = (id) => getPostByID(id);
-    getAllPostsFromUser = (user_id) => getAllPostsFromUser(user_id);
-    createPost = (user_id, content, image) => createPost(user_id, content, image);
-    removePostByID = (id) => removePostByID(id);
-    removeAllPostsFromUser = (user_id) => removeAllPostsFromUser(user_id);
-    updateLikes = (id, likes) => {
+    getAllPosts() { return getAllPosts(); }
+    getPostByID(id) { return getPostByID(id); }
+    getAllPostsFromUser(user_id) { return getAllPostsFromUser(user_id); }
+    createPost(user_id, content, image) { return createPost(user_id, content, image); }
+    removePostByID(id) { return removePostByID(id); }
+    removeAllPostsFromUser(user_id) { return removeAllPostsFromUser(user_id); }
+    updateLikes(id, likes) {
         if (likes >= 0) {
-            updateLikes(id, likes);
+             return updateLikes(id, likes);
         }
     }
-    updateContent = (id, content) => updateContent(id, content);
+    updateContent(id, content) { return updateContent(id, content); }
  }
 
  module.exports = PostServices;

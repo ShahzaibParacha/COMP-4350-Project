@@ -10,7 +10,7 @@ const getAllPosts = async () => {
 //get a post by id
 //returns the found document
 const getPostByID = async (id) => {
-    return await Post.findByID(id);
+    return await Post.findOne({_id: id});
 }
 
 //get all posts of a user
@@ -20,7 +20,7 @@ const getAllPostsFromUser = async (user_id) => {
 }
 
  //create a new post
- //returns a promise
+ //returns the new document
  const createPost = async (user_id, content, image) => {
     return await Post.create({user_id, content, image});
  }
