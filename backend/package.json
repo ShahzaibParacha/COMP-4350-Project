@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./schema/post-schema-test.js"
+    "test": "nyc mocha ./service/post-service-test.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^5.10.0",
+    "nyc": "^15.1.0",
     "sinon": "^15.0.1"
   }
 }

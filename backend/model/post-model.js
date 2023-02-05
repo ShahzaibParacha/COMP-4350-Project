@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 //get all posts
 //returns the documents
 const getAllPosts = async () => {
-    return await Post.find(); 
+    return await Post.find({}); 
 }
 
 //get a post by id

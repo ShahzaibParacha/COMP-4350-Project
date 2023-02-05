@@ -1,0 +1,22 @@
+const PostServices = require('./post-service');
+const sinon = require("sinon");
+
+describe('Post services and model', function () {
+
+    //get rid of all stubs
+    afterEach(function() {
+        sinon.restore();
+    });
+
+    describe('getAllPosts', function() {
+        it('should return nothing', function(done) {
+            const posts = [];
+            sinon.stub(Post, 'find', () => {
+                return posts;
+            });
+
+            const result = PostServices.getAllPosts();
+            console.log(result);
+        });
+    });
+});
