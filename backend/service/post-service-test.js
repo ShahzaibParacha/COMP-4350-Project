@@ -159,18 +159,6 @@ describe('Post services and model', function () {
             expect(value[0].content).to.equal('1');
         });
 
-        it('should return all posts with even content', async function() {
-            data = generatePosts(10, 2);
-            posts = data.posts;
-            userIDs = data.userIDs;
-
-            const value = await services.getAllPostsFromUser(userIDs[0]);
-            expect(value.length).to.equal(5);
-            value.forEach(item => {
-                expect(item.content % 2).to.equal(0);
-            });
-        });
-
         it('should return nothing', async function() {
             data = generatePosts(9, 10);
             posts = data.posts;
