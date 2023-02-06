@@ -14,7 +14,7 @@ mongoose
 app.use(cors())
 
 app.get('/test', (req, res) => {
-    console.log('Hello World')
+    console.log("hello world")
     res.send('Hello World')
 })
 
