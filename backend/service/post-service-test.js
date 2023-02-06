@@ -4,6 +4,18 @@ const Post = require('../schema/post-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 
+/* generatePosts
+ *
+ * Purpose: Generates a number of posts assigned to a number of users
+ * Input:
+ * numPosts - the number of posts to create
+ * numUsers - the number of users who created the posts
+ * 
+ * Output:
+ * Returns an object with two properties:
+ * posts - the posts created
+ * userIDs - the user ids of the users that made the posts
+ */
 const generatePosts = (numPosts, numUsers) => {
     let posts = [];
     let userIDs = [];
@@ -22,65 +34,57 @@ const generatePosts = (numPosts, numUsers) => {
     return { posts, userIDs };
 }
 
-const findAllStub = () => {
-    sinon.stub(Post, 'find').callsFake(() => {
+/* setFakeDatabase
+ *
+ * Purpose: Replaces the Model methods with methods that access a fake
+ * database; used for unit testing
+ */
+const setFakeDatabase = () => {
+    sinon.stub(Post, 'find').callsFake((obj) => {
+        if (obj !== undefined && 'user_id' in obj) { 
+            return posts.filter(post => { return post.user_id.equals(obj.user_id); });
+        }
         return posts; 
     });
-};
 
-const findOneByIDStub = () => {
     sinon.stub(Post, 'findOne').callsFake(({_id: id}) => {
         return posts.filter(post => { return post._id.equals(id); });
     });
-};
 
-const findFromUserStub = () => {
-    sinon.stub(Post, 'find').callsFake(({user_id}) => {
-        return posts.filter(post => { return post.user_id.equals(user_id); });
-    });
-};
-
-const createStub = () => {
     sinon.stub(Post, 'create').callsFake(({user_id, content, image}) => {
         const doc = new Post({user_id, content, image});
         posts.push(doc);
     });
-};
 
-const findOneAndDeleteStub = () => {
     sinon.stub(Post, 'findOneAndDelete').callsFake(({_id: id}) => {
         posts = posts.filter(post => { return !post._id.equals(id); });
     });
-};
 
-const deleteManyStub = () => {
     sinon.stub(Post, 'deleteMany').callsFake(({user_id}) => {
         posts = posts.filter(post => { return !post.user_id.equals(user_id); });
     });
-};
 
-const findOneAndUpdateLikesStub = () => {
-    sinon.stub(Post, 'findOneAndUpdate').callsFake(({_id: id}, {likes}) => {
+    sinon.stub(Post, 'findOneAndUpdate').callsFake(({_id: id}, obj) => {
         const doc = posts.find(item => item._id.equals(id));
-        doc.likes = likes;
-    });
-};
 
-const findOneAndUpdateContentStub = () => {
-    sinon.stub(Post, 'findOneAndUpdate').callsFake(({_id: id}, {content}) => {
-        const doc = posts.find(item => item._id.equals(id));
-        doc.content = content;
+        if ('likes' in obj) {
+            doc.likes = obj.likes;
+        }
+        else if ('content' in obj) {
+            doc.content = obj.content;
+        }
     });
 };
 
 const services = new PostServices();
-let posts = [];
+let posts = []; //fake database
 
 describe('Post services and model', function () {
 
     //clear out the posts array
     beforeEach(() => {
         posts = [];
+        setFakeDatabase();
     });
 
     //get rid of all stubs
@@ -89,8 +93,6 @@ describe('Post services and model', function () {
     });
 
     describe('getAllPosts', function() {
-
-        beforeEach(() => findAllStub());
 
         it('should return nothing', async function() {
             posts = generatePosts(0, 0).posts;
@@ -108,8 +110,6 @@ describe('Post services and model', function () {
     });
 
     describe('getPostByID', function() {
-
-        beforeEach(() => findOneByIDStub());
 
         it('should return post with content of 1', async function() {
             posts = generatePosts(5, 5).posts;
@@ -134,8 +134,6 @@ describe('Post services and model', function () {
     });
 
     describe('getAllPostsFromUser', function() {
-    
-        beforeEach(() => findFromUserStub());
 
         it('should return all posts with even content', async function() {
             data = generatePosts(10, 2);
@@ -170,11 +168,6 @@ describe('Post services and model', function () {
     });
 
     describe('createPost', function() {
-    
-        beforeEach(() => {
-            findAllStub();
-            createStub();
-        });
 
         it('should return nothing', async function() {
             posts = [];
@@ -204,11 +197,6 @@ describe('Post services and model', function () {
     });
 
     describe('removePostByID', function() {
-    
-        beforeEach(() => {
-            findAllStub();
-            findOneAndDeleteStub();
-        });
 
         it('should return one post', async function() {
             posts = generatePosts(2, 2).posts;
@@ -228,11 +216,6 @@ describe('Post services and model', function () {
     });
 
     describe('removeAllPostsFromUser', function() {
-    
-        beforeEach(() => {
-            findAllStub();
-            deleteManyStub();
-        });
 
         it('should return only the posts with even content', async function() {
             data = generatePosts(10, 2);
@@ -257,11 +240,6 @@ describe('Post services and model', function () {
     });
 
     describe('updateLikes', function() {
-    
-        beforeEach(() => {
-            findOneByIDStub();
-            findOneAndUpdateLikesStub();
-        });
 
         it('should show likes = 69', async function() {
             posts = generatePosts(10, 10).posts;
@@ -281,12 +259,6 @@ describe('Post services and model', function () {
     });
 
     describe('updateContent', function() {
-    
-        beforeEach(() => {
-            createStub();
-            findOneByIDStub();
-            findOneAndUpdateContentStub();
-        });
 
         it('should show content = \'mitochondria\'', async function() {
             posts = generatePosts(10, 10).posts;
