@@ -1,4 +1,4 @@
-const PostServices = require('./post-service');
+const PostServices = require('../service/post-service');
 const sinon = require("sinon");
 const Post = require('../schema/post-schema');
 const mongoose = require('mongoose');

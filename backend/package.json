@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha ./service/post-service-test.js"
+    "test": "nyc mocha ./unit_tests/*.js"
   },
   "repository": {
     "type": "git",
