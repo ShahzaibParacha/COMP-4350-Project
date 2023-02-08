@@ -16,5 +16,5 @@ EXPOSE 4350
 CMD ["node", "/home/Castr/backend/index.js"]
 
 # an example to run this on docker
-# 1. docker build -t castr .
-# 2. docker run -d -p 4350:4350 --name castr castr:latest
+# 1. docker build -t castr-backend .
+# 2. docker run -d -p 4350:4350 --name castr-backend  castr-backend:latest
