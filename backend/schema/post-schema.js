@@ -4,15 +4,16 @@ const postSchema = mongoose.Schema({
 
     user_id: { //the id of the user who posted the post
         type: mongoose.ObjectId,
-        required: true
+        required: true,
     },
 
     content: {
         type: String,
         required: true,
-        default: ""
+        default: ' ',
     },
 
+    //TODO: Might need to add an access method for image
     image: { 
         type: String,
     },
@@ -20,13 +21,13 @@ const postSchema = mongoose.Schema({
     post_date: { //the date the post was created
         type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now(),
     },
 
     likes: { //the number of likes
         type: Number,
         required: true,
-        default: 0
+        default: 0,
     },
 });
 
