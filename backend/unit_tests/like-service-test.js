@@ -2,8 +2,10 @@ const sinon = require("sinon");
 const Like = require('../schema/likes-schema');
 const mongoose = require('mongoose');
 const LikeServices = require('../service/likes-service');
-const { getNumLikes } = require("../model/likes-model");
 const expect = require('chai').expect;
+require("dotenv").config();
+
+const useRealDatabase = true;
 
 /* generateLikes
  *
@@ -18,7 +20,7 @@ const expect = require('chai').expect;
  * postIDs - the ids of the posts that got liked
  * userIDs - the user ids of the users that liked the posts
  */
-const generateLikes = (numPosts, numUsers, numLikes) => {
+const generateLikes = async (numPosts, numUsers, numLikes) => {
     let postIDs = [];
     let userIDs = [];
     let i = 0, userIdx = 0, postIdx = 0;
@@ -43,7 +45,13 @@ const generateLikes = (numPosts, numUsers, numLikes) => {
         //...
         //the last user will like the last post
         for (i = 0; i < numLikes; i++) {
-            likes.push(new Like({post_id: postIDs[postIdx], user_id: userIDs[userIdx]}));
+
+            if (useRealDatabase) {
+                await Like.create({post_id: postIDs[postIdx], user_id: userIDs[userIdx]});
+            }
+            else {
+                likes.push(new Like({post_id: postIDs[postIdx], user_id: userIDs[userIdx]}));
+            }
             
             userIdx++;
             if (userIdx >= numUsers) {
@@ -83,15 +91,33 @@ let likes = []; //fake database
 
 describe('Like services and model', function () {
 
-    //clear out the posts array
-    beforeEach(() => {
-        likes = [];
-        setFakeDatabase();
+    //clear out the posts array if using fake 
+    //otherwise, connect to database and drop the table
+    beforeEach(async () => {
+        if (useRealDatabase) {
+            mongoose
+            .connect(process.env.MONGODB_CONNECTION, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,})
+                .then(() => {console.log("Success to connect mongodb")})
+                .catch(() => {console.log("Fail to connect mongodb")});
+
+            await Like.deleteMany({});
+        }
+        else {
+            likes = [];
+            setFakeDatabase();
+        }
     });
 
     //get rid of all stubs
-    afterEach(() => {
-        sinon.restore();
+    afterEach(async () => {
+        if (useRealDatabase) {
+            await mongoose.disconnect();
+        }
+        else {
+            sinon.restore();
+        }
     });
 
     describe('getNumLikes', function() {
@@ -103,14 +129,14 @@ describe('Like services and model', function () {
         });
 
         it('should return 1', async function() {
-            const postIDs = generateLikes(5, 1, 4).postIDs;
+            const postIDs = (await generateLikes(5, 1, 4)).postIDs;
 
             const value = await services.getNumLikes(postIDs[2]);
             expect(value).to.equal(1);
         });
 
         it('should return 3', async function() {
-            const postIDs = generateLikes(5, 5, 13).postIDs;
+            const postIDs = (await generateLikes(5, 5, 13)).postIDs;
 
             const value = await services.getNumLikes(postIDs[2]);
             expect(value).to.equal(3);
@@ -126,7 +152,7 @@ describe('Like services and model', function () {
         });
 
         it('should return true', async function() {
-            const data = generateLikes(5, 5, 4);
+            const data = await generateLikes(5, 5, 4);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
 
@@ -135,7 +161,7 @@ describe('Like services and model', function () {
         })
 
         it('should return false', async function() {
-            const data = generateLikes(5, 5, 4);
+            const data = await generateLikes(5, 5, 4);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
 
@@ -147,7 +173,7 @@ describe('Like services and model', function () {
     describe('likePost', function() {
 
         it('should say that user liked post', async function() {
-           const data = generateLikes(5, 1, 0);
+           const data = await generateLikes(5, 1, 0);
            const userIDs = data.userIDs;
            const postIDs = data.postIDs;
 
@@ -166,15 +192,15 @@ describe('Like services and model', function () {
         });
 
         it('should not increase the number of likes of the post', async function() {
-            const data = generateLikes(5, 1, 1);
+            const data = await generateLikes(5, 1, 1);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
 
-            let value = await getNumLikes(postIDs[0]);
+            let value = await services.getNumLikes(postIDs[0]);
             expect(value).to.equal(1);
 
             await services.likePost(postIDs[0], userIDs[0]);
-            value = await getNumLikes(postIDs[0]);
+            value = await services.getNumLikes(postIDs[0]);
             expect(value).to.equal(1);
         });
     });
@@ -182,30 +208,29 @@ describe('Like services and model', function () {
     describe('unlikePost', function() {
 
         it('should reduce the number of likes', async function() {
-            const data = generateLikes(5, 5, 10);
+            const data = await generateLikes(5, 5, 10);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
 
-            let value = await getNumLikes(postIDs[0]);
+            let value = await services.getNumLikes(postIDs[0]);
             expect(value).to.equal(5);
 
             await services.unlikePost(postIDs[0], userIDs[0]);
-            value = await getNumLikes(postIDs[0]);
+            value = await services.getNumLikes(postIDs[0]);
             expect(value).to.equal(4);
         });
 
         it('should not reduce the number of likes', async function() {
-            const data = generateLikes(5, 5, 9);
+            const data = await generateLikes(5, 5, 9);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
 
-            let value = await getNumLikes(postIDs[1]);
+            let value = await services.getNumLikes(postIDs[1]);
             expect(value).to.equal(4);
 
             await services.unlikePost(postIDs[1], userIDs[4]);
-            value = await getNumLikes(postIDs[1]);
+            value = await services.getNumLikes(postIDs[1]);
             expect(value).to.equal(4);
         });
-
     });
 });

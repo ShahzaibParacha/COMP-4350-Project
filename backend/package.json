@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha ./unit_tests/*.js"
+    "test": "nyc mocha --timeout 15000 ./unit_tests/*.js"
   },
   "repository": {
     "type": "git",

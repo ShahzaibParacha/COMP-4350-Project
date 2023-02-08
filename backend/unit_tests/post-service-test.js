@@ -3,6 +3,9 @@ const sinon = require("sinon");
 const Post = require('../schema/post-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
+require("dotenv").config();
+
+const useRealDatabase = false;
 
 /* generatePosts
  *
@@ -16,9 +19,9 @@ const expect = require('chai').expect;
  * posts - the posts created
  * userIDs - the user ids of the users that made the posts
  */
-const generatePosts = (numPosts, numUsers) => {
-    let posts = [];
+const generatePosts = async (numPosts, numUsers) => {
     let userIDs = [];
+    let postIDs = [];
     let i = 0;
 
     //generate user ids
@@ -28,10 +31,17 @@ const generatePosts = (numPosts, numUsers) => {
 
     //generate random posts created by numUsers users
     for (i = 0; i < numPosts; i++) {
-        posts.push(new Post({user_id: userIDs[i % numUsers], content: i}));
+        postIDs.push(new mongoose.mongo.ObjectID);
+
+        if (useRealDatabase) {
+            await Post.create({_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i});
+        }
+        else {
+            posts.push(new Post({_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i}));
+        }
     }
 
-    return { posts, userIDs };
+    return { postIDs, userIDs };
 }
 
 /* setFakeDatabase
@@ -48,7 +58,8 @@ const setFakeDatabase = () => {
     });
 
     sinon.stub(Post, 'findOne').callsFake(({_id: id}) => {
-        return posts.filter(post => { return post._id.equals(id); });
+        const matches = posts.filter(post => { return post._id.equals(id); });
+        return (matches.length > 0) ? matches[0] : null;
     });
 
     sinon.stub(Post, 'create').callsFake(({user_id, content, image}) => {
@@ -81,27 +92,44 @@ let posts = []; //fake database
 describe('Post services and model', function () {
 
     //clear out the posts array
-    beforeEach(() => {
-        posts = [];
-        setFakeDatabase();
+    beforeEach(async () => {
+        if (useRealDatabase) {
+            mongoose
+            .connect(process.env.MONGODB_CONNECTION, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,})
+                .then(() => {console.log("Success to connect mongodb");})
+                .catch(() => {console.log("Fail to connect mongodb")});
+
+            await Post.deleteMany({});
+        }
+        else {
+            posts = [];
+            setFakeDatabase();
+        }
     });
 
     //get rid of all stubs
-    afterEach(() => {
-        sinon.restore();
+    afterEach(async () => {
+        if (useRealDatabase) {
+            await mongoose.disconnect();
+        }
+        else {
+            sinon.restore();
+        }
     });
 
     describe('getAllPosts', function() {
 
         it('should return nothing', async function() {
-            posts = generatePosts(0, 0).posts;
+            await generatePosts(0, 0);
             
             const value = await services.getAllPosts();
             expect(value.length).to.equal(0);
         });
 
         it('should return all the posts', async function() {
-            posts = generatePosts(4, 4).posts;
+            await generatePosts(4, 4);
 
             const value = await services.getAllPosts();
             expect(value.length).to.equal(4);
@@ -111,33 +139,33 @@ describe('Post services and model', function () {
     describe('getPostByID', function() {
 
         it('should return post with content of 1', async function() {
-            posts = generatePosts(5, 5).posts;
+            const postIDs = (await generatePosts(5, 5)).postIDs;
 
-            const value = await services.getPostByID(posts[1]._id);
-            expect(value[0].content).to.equal('1');
+            const value = await services.getPostByID(postIDs[1]);
+            expect(value).to.not.be.null;
+            expect(value.content).to.equal('1');
         });
 
         it('should return post with content 9', async function() {
-            posts = generatePosts(10, 10).posts;
+            const postIDs = (await generatePosts(10, 10)).postIDs;
 
-            const value = await services.getPostByID(posts[9]._id);
-            expect(value[0].content).to.equal('9');
+            const value = await services.getPostByID(postIDs[9]);
+            expect(value).to.not.be.null;
+            expect(value.content).to.equal('9');
         })
 
         it('should return nothing', async function() {
-            posts = generatePosts(3, 3).posts;
+            await generatePosts(3, 3);
 
             const value = await services.getPostByID(new mongoose.mongo.ObjectID);
-            expect(value).to.be.empty;
+            expect(value).to.be.null;
         })
     });
 
     describe('getAllPostsFromUser', function() {
 
         it('should return all posts with even content', async function() {
-            const data = generatePosts(10, 2);
-            posts = data.posts;
-            const userIDs = data.userIDs;
+            const userIDs = (await generatePosts(10, 2)).userIDs;
 
             const value = await services.getAllPostsFromUser(userIDs[0]);
             expect(value.length).to.equal(5);
@@ -147,9 +175,7 @@ describe('Post services and model', function () {
         });
 
         it('should return only one post with content 1', async function() {
-            const data = generatePosts(3, 2);
-            posts = data.posts;
-            const userIDs = data.userIDs;
+            const userIDs = (await generatePosts(3, 2)).userIDs;
 
             const value = await services.getAllPostsFromUser(userIDs[1]);
             expect(value.length).to.equal(1);
@@ -157,9 +183,7 @@ describe('Post services and model', function () {
         });
 
         it('should return nothing', async function() {
-            const data = generatePosts(9, 10);
-            posts = data.posts;
-            const userIDs = data.userIDs;
+            const userIDs = (await generatePosts(9, 10)).userIDs;
 
             const value = await services.getAllPostsFromUser(userIDs[9]);
             expect(value).to.be.empty;
@@ -169,14 +193,12 @@ describe('Post services and model', function () {
     describe('createPost', function() {
 
         it('should return nothing', async function() {
-            posts = [];
 
             const value = await services.getAllPosts();
             expect(value.length).to.equal(0);
         });
 
         it('should return one post', async function() {
-            posts = [];
 
             await services.createPost(new mongoose.mongo.ObjectID, '1', '1');
 
@@ -185,7 +207,6 @@ describe('Post services and model', function () {
         });
 
         it('should return two posts', async function() {
-            posts = [];
 
             await services.createPost(new mongoose.mongo.ObjectID, '0', '0');
             await services.createPost(new mongoose.mongo.ObjectID, '1', '1');
@@ -198,17 +219,17 @@ describe('Post services and model', function () {
     describe('removePostByID', function() {
 
         it('should return one post', async function() {
-            posts = generatePosts(2, 2).posts;
+            const postIDs = (await generatePosts(2, 2)).postIDs;
 
-            await services.removePostByID(posts[0]._id);
+            await services.removePostByID(postIDs[0]);
             const value = await services.getAllPosts();
             expect(value.length).to.equal(1);
         });
 
         it('should return nothing', async function() {
-            posts = generatePosts(1, 1).posts;
+            const postIDs = (await generatePosts(1, 1)).postIDs;
 
-            await services.removePostByID(posts[0]._id);
+            await services.removePostByID(postIDs[0]);
             const value = await services.getAllPosts();
             expect(value.length).to.equal(0);
         });
@@ -217,9 +238,7 @@ describe('Post services and model', function () {
     describe('removeAllPostsFromUser', function() {
 
         it('should return only the posts with even content', async function() {
-            const data = generatePosts(10, 2);
-            posts = data.posts;
-            const userIDs = data.userIDs;
+            const userIDs = (await generatePosts(10, 2)).userIDs;
 
             await services.removeAllPostsFromUser(userIDs[1]);
             const value = await services.getAllPosts();
@@ -228,9 +247,7 @@ describe('Post services and model', function () {
         });
 
         it('should return nothing', async function() {
-            const data = generatePosts(5, 1);
-            posts = data.posts;
-            const userIDs = data.userIDs;
+            const userIDs = (await generatePosts(5, 1)).userIDs;
 
             await services.removeAllPostsFromUser(userIDs[0]);
             const value = await services.getAllPosts();
@@ -241,20 +258,22 @@ describe('Post services and model', function () {
     describe('updateContent', function() {
 
         it('should show content = \'mitochondria\'', async function() {
-            posts = generatePosts(10, 10).posts;
+            const postIDs = (await generatePosts(10, 10)).postIDs;
 
-            await services.updateContent(posts[0]._id, 'mitochondria');
-            const value = await services.getPostByID(posts[0]._id);
-            expect(value[0].content).to.equal('mitochondria');
+            await services.updateContent(postIDs[0], 'mitochondria');
+            const value = await services.getPostByID(postIDs[0]);
+            expect(value).to.not.be.null;
+            expect(value.content).to.equal('mitochondria');
         });
 
         it('should show content = \' \'', async function() {
-            posts = [];
 
             await services.createPost(new mongoose.mongo.ObjectID, 'mitochondria', '0');
+            const posts = await services.getAllPosts();
             await services.updateContent(posts[0]._id, ' ');
             const value = await services.getPostByID(posts[0]._id);
-            expect(value[0].content).to.equal(' ');
+            expect(value).to.not.be.null;
+            expect(value.content).to.equal(' ');
         });
     });
 
@@ -266,18 +285,14 @@ describe('Post services and model', function () {
         });
 
         it('should return 5', async function() {
-            const data = generatePosts(5, 1);
-            posts = data.posts;
-            const userIDs = data.userIDs;
+            const userIDs = (await generatePosts(5, 1)).userIDs;
 
             const num = await services.countPostsFromUser(userIDs[0]);
             expect(num).to.equal(5);
         });
 
         it('should return 5', async function() {
-            const data = generatePosts(10, 2);
-            posts = data.posts;
-            const userIDs = data.userIDs;
+            const userIDs = (await generatePosts(10, 2)).userIDs;
 
             const num = await services.countPostsFromUser(userIDs[1]);
             expect(num).to.equal(5);
