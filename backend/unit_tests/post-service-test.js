@@ -64,15 +64,9 @@ const setFakeDatabase = () => {
         posts = posts.filter(post => { return !post.user_id.equals(user_id); });
     });
 
-    sinon.stub(Post, 'findOneAndUpdate').callsFake(({_id: id}, obj) => {
+    sinon.stub(Post, 'findOneAndUpdate').callsFake(({_id: id}, {content}) => {
         const doc = posts.find(item => item._id.equals(id));
-
-        if ('likes' in obj) {
-            doc.likes = obj.likes;
-        }
-        else if ('content' in obj) {
-            doc.content = obj.content;
-        }
+        doc.content = content;
     });
 };
 
@@ -236,25 +230,6 @@ describe('Post services and model', function () {
             await services.removeAllPostsFromUser(userIDs[0]);
             const value = await services.getAllPosts();
             expect(value.length).to.equal(0);
-        });
-    });
-
-    describe('updateLikes', function() {
-
-        it('should show likes = 69', async function() {
-            posts = generatePosts(10, 10).posts;
-
-            await services.updateLikes(posts[0]._id, 69);
-            const value = await services.getPostByID(posts[0]._id);
-            expect(value[0].likes).to.equal(69);
-        });
-
-        it('should show likes = 0', async function() {
-            posts = generatePosts(10, 10).posts;
-
-            await services.updateLikes(posts[0]._id, -420);
-            const value = await services.getPostByID(posts[0]._id);
-            expect(value[0].likes).to.equal(0);
         });
     });
 

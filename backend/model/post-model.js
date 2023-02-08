@@ -37,12 +37,6 @@ const getAllPostsFromUser = async (user_id) => {
     return await Post.deleteMany({user_id});
  }
 
- //update the number of likes of a post
- //returns the object updated
- const updateLikes = async (id, likes) => {
-    return await Post.findOneAndUpdate({_id: id}, {likes});
- }
-
  //update the content of a post
  //returns the object updated
  const updateContent = async (id, content) => {
@@ -56,6 +50,5 @@ const getAllPostsFromUser = async (user_id) => {
     createPost,
     removePostByID,
     removeAllPostsFromUser,
-    updateLikes,
     updateContent,
  };

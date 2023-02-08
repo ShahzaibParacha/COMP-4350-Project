@@ -5,7 +5,6 @@ const  {
     createPost,
     removePostByID,
     removeAllPostsFromUser,
-    updateLikes,
     updateContent,
  } = require('../model/post-model');
 
@@ -16,11 +15,6 @@ const  {
     createPost(user_id, content, image) { return createPost(user_id, content, image); }
     removePostByID(id) { return removePostByID(id); }
     removeAllPostsFromUser(user_id) { return removeAllPostsFromUser(user_id); }
-    updateLikes(id, likes) {
-        if (likes >= 0) {
-             return updateLikes(id, likes);
-        }
-    }
     updateContent(id, content) { return updateContent(id, content); }
  }
 
