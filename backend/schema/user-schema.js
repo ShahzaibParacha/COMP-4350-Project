@@ -23,11 +23,6 @@ const userSchema = mongoose.Schema({
         maxLength: 20,
     },
 
-    birthdate: {
-        type: Date,
-        require: true,
-    },
-
     is_writer: { // ture means writer, false means reader
         type: Boolean,
         require: true,
