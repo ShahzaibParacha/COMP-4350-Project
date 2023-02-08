@@ -1,10 +1,18 @@
 const Post = require('../schema/post-schema');
-const mongoose = require('mongoose');
 
 //get all posts
 //returns the documents
 const getAllPosts = async () => {
     return await Post.find({}); 
+}
+
+//get a page of posts
+const getPageOfPosts = async (page_number, page_size) => {
+   let query = await Post.find({}
+      , null
+      , {sort: {post_date: -1}, skip: page_number * page_size, limit: page_size});
+
+   return query;
 }
 
 //get a post by id
@@ -17,6 +25,11 @@ const getPostByID = async (id) => {
 //returns the documents
 const getAllPostsFromUser = async (user_id) => {
     return await Post.find({user_id});
+}
+
+//count the number of posts made by a user
+const countPostsFromUser = async (user_id) => {
+   return await Post.countDocuments({user_id});
 }
 
  //create a new post
@@ -37,12 +50,6 @@ const getAllPostsFromUser = async (user_id) => {
     return await Post.deleteMany({user_id});
  }
 
- //update the number of likes of a post
- //returns the object updated
- const updateLikes = async (id, likes) => {
-    return await Post.findOneAndUpdate({_id: id}, {likes});
- }
-
  //update the content of a post
  //returns the object updated
  const updateContent = async (id, content) => {
@@ -51,11 +58,12 @@ const getAllPostsFromUser = async (user_id) => {
 
  module.exports = {
     getAllPosts, 
+    getPageOfPosts,
     getPostByID,
     getAllPostsFromUser,
     createPost,
     removePostByID,
     removeAllPostsFromUser,
-    updateLikes,
     updateContent,
+    countPostsFromUser,
  };
