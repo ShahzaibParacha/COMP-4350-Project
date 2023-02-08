@@ -1,5 +1,4 @@
 const Post = require('../schema/post-schema');
-const mongoose = require('mongoose');
 
 //get all posts
 //returns the documents
