@@ -1,5 +1,6 @@
 const  {
     getAllPosts, 
+    getPageOfPosts,
     getPostByID,
     getAllPostsFromUser,
     createPost,
@@ -11,6 +12,7 @@ const  {
 
  class PostServices {
     getAllPosts() { return getAllPosts(); }
+    getPageOfPosts(page_number, page_size) { return getPageOfPosts(page_number, page_size); }
     getPostByID(id) { return getPostByID(id); }
     getAllPostsFromUser(user_id) { return getAllPostsFromUser(user_id); }
     createPost(user_id, content, image) { return createPost(user_id, content, image); }

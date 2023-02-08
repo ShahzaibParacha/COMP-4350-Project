@@ -7,20 +7,12 @@ const getNumLikes = async (post_id) => {
 
 //determine if the user has liked a post
 const userLikedPost = async (post_id, user_id) => {
-    return await Like.countDocuments({post_id, user_id}) > 0;
+    return (await Like.countDocuments({post_id, user_id})) > 0;
 }
 
 //like a post
 const likePost = async (post_id, user_id) => {
-    const hasLiked = await userLikedPost(post_id, user_id);
-    let returnValue;
-
-    //don't want to like the post if the user has already liked it
-    if (!hasLiked) {
-        returnValue = await Like.create({post_id, user_id});
-    }
-
-    return returnValue;
+    return await Like.create({post_id, user_id});
 }
 
 //unlike a post

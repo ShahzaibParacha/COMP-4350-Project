@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const expect = require('chai').expect;
 require("dotenv").config();
 
-const useRealDatabase = false;
+const useRealDatabase = true;
 
 /* generatePosts
  *
@@ -33,11 +33,13 @@ const generatePosts = async (numPosts, numUsers) => {
     for (i = 0; i < numPosts; i++) {
         postIDs.push(new mongoose.mongo.ObjectID);
 
+        const attrib = {_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i, post_date: new Date(i * 1000000)};
+
         if (useRealDatabase) {
-            await Post.create({_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i});
+            await Post.create(attrib);
         }
         else {
-            posts.push(new Post({_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i}));
+            posts.push(new Post(attrib));
         }
     }
 
@@ -50,11 +52,32 @@ const generatePosts = async (numPosts, numUsers) => {
  * database; used for unit testing
  */
 const setFakeDatabase = () => {
-    sinon.stub(Post, 'find').callsFake((obj) => {
-        if (obj !== undefined && 'user_id' in obj) { 
-            return posts.filter(post => { return post.user_id.equals(obj.user_id); });
+    sinon.stub(Post, 'find').callsFake((obj1, obj2, obj3) => {
+        let temp = [];
+
+        if (obj1 !== undefined && 'user_id' in obj1) { //get all posts from users
+            return posts.filter(post => { return post.user_id.equals(obj1.user_id); });
         }
-        return posts; 
+
+        if (obj3 === undefined) { //get all posts
+            return posts;
+        }
+
+        //get page from posts
+        temp = posts.sort((a, b) => { return b.post_date - a.post_date; });
+        
+        if (obj3.skip < posts.length) {
+            temp = temp.slice(obj3.skip, temp.length);
+        }
+        else {
+            temp = [];
+        }
+
+        if (obj3.limit < temp.length) {
+            return temp.slice(0, obj3.limit);
+        }
+
+        return temp.slice(0, temp.length);
     });
 
     sinon.stub(Post, 'findOne').callsFake(({_id: id}) => {
@@ -133,6 +156,65 @@ describe('Post services and model', function () {
 
             const value = await services.getAllPosts();
             expect(value.length).to.equal(4);
+        });
+    });
+
+    describe('getPageFromPosts', function() {
+
+        it('should return all ten posts (content: 9-0)', async function() {
+            await generatePosts(10, 1);
+            
+            const value = await services.getPageOfPosts(0, 10);
+
+            expect(value).to.not.be.undefined;
+            expect(value.length).to.exist;
+            expect(value.length).to.equal(10);
+            for (let i = 0; i < value.length; i++) {
+                expect(value[i].content).to.equal((9 - i) + '');
+            }
+        });
+
+        it('should return the first five posts (content: 4-0)', async function() {
+            await generatePosts(10, 1);
+
+            const value = await services.getPageOfPosts(1, 5);
+
+            expect(value).to.not.be.undefined;
+            expect(value.length).to.exist;
+            expect(value.length).to.equal(5);
+            for (let i = 0; i < value.length; i++) {
+                expect(value[i].content).to.equal((4 - i) + '');
+            }
+        });
+
+        it('should return posts with content 7 and 6', async function() {
+            await generatePosts(10, 1);
+
+            const value = await services.getPageOfPosts(1, 2);
+            expect(value).to.not.be.undefined;
+            expect(value.length).to.exist;
+            expect(value.length).to.equal(2);
+            expect(value[0].content).to.equal('7');
+            expect(value[1].content).to.equal('6');
+        });
+
+        it('should return only one post despite page size being 2', async function() {
+            await generatePosts(5, 1);
+
+            const value = await services.getPageOfPosts(2, 2);
+            expect(value).to.not.be.undefined;
+            expect(value.length).to.exist;
+            expect(value.length).to.equal(1);
+            expect(value[0].content).to.equal('0');
+        });
+
+        it('should not return anything', async function() {
+            await generatePosts(5, 1);
+
+            const value = await services.getPageOfPosts(2, 5);
+            expect(value).to.not.be.undefined;
+            expect(value.length).to.exist;
+            expect(value.length).to.equal(0);
         });
     });
 

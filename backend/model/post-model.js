@@ -6,6 +6,15 @@ const getAllPosts = async () => {
     return await Post.find({}); 
 }
 
+//get a page of posts
+const getPageOfPosts = async (page_number, page_size) => {
+   let query = await Post.find({}
+      , null
+      , {sort: {post_date: -1}, skip: page_number * page_size, limit: page_size});
+
+   return query;
+}
+
 //get a post by id
 //returns the found document
 const getPostByID = async (id) => {
@@ -49,6 +58,7 @@ const countPostsFromUser = async (user_id) => {
 
  module.exports = {
     getAllPosts, 
+    getPageOfPosts,
     getPostByID,
     getAllPostsFromUser,
     createPost,
