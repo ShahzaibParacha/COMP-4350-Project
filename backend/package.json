@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --timeout 15000 ./unit_tests/*.js"
+    "test": "nyc mocha --timeout 15000 ./tests/*.js"
   },
   "repository": {
     "type": "git",
@@ -22,13 +22,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
-    "sinon": "^15.0.1",
     "jsonwebtoken": "^9.0.0",
+    "mocha": "^10.2.0",
     "mongoose": "^5.10.0",
+    "nyc": "^15.1.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "sinon": "^15.0.1"
   }
 }
