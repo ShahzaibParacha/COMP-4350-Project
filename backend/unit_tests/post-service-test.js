@@ -68,6 +68,11 @@ const setFakeDatabase = () => {
         const doc = posts.find(item => item._id.equals(id));
         doc.content = content;
     });
+
+    sinon.stub(Post, 'countDocuments').callsFake(({user_id}) => {
+        const postsFromUser = posts.filter(item => item.user_id.equals(user_id));
+        return postsFromUser.length;
+    });
 };
 
 const services = new PostServices();
@@ -130,9 +135,9 @@ describe('Post services and model', function () {
     describe('getAllPostsFromUser', function() {
 
         it('should return all posts with even content', async function() {
-            data = generatePosts(10, 2);
+            const data = generatePosts(10, 2);
             posts = data.posts;
-            userIDs = data.userIDs;
+            const userIDs = data.userIDs;
 
             const value = await services.getAllPostsFromUser(userIDs[0]);
             expect(value.length).to.equal(5);
@@ -142,9 +147,9 @@ describe('Post services and model', function () {
         });
 
         it('should return only one post with content 1', async function() {
-            data = generatePosts(3, 2);
+            const data = generatePosts(3, 2);
             posts = data.posts;
-            userIDs = data.userIDs;
+            const userIDs = data.userIDs;
 
             const value = await services.getAllPostsFromUser(userIDs[1]);
             expect(value.length).to.equal(1);
@@ -152,9 +157,9 @@ describe('Post services and model', function () {
         });
 
         it('should return nothing', async function() {
-            data = generatePosts(9, 10);
+            const data = generatePosts(9, 10);
             posts = data.posts;
-            userIDs = data.userIDs;
+            const userIDs = data.userIDs;
 
             const value = await services.getAllPostsFromUser(userIDs[9]);
             expect(value).to.be.empty;
@@ -212,9 +217,9 @@ describe('Post services and model', function () {
     describe('removeAllPostsFromUser', function() {
 
         it('should return only the posts with even content', async function() {
-            data = generatePosts(10, 2);
+            const data = generatePosts(10, 2);
             posts = data.posts;
-            userIDs = data.userIDs;
+            const userIDs = data.userIDs;
 
             await services.removeAllPostsFromUser(userIDs[1]);
             const value = await services.getAllPosts();
@@ -223,9 +228,9 @@ describe('Post services and model', function () {
         });
 
         it('should return nothing', async function() {
-            data = generatePosts(5, 1);
+            const data = generatePosts(5, 1);
             posts = data.posts;
-            userIDs = data.userIDs;
+            const userIDs = data.userIDs;
 
             await services.removeAllPostsFromUser(userIDs[0]);
             const value = await services.getAllPosts();
@@ -250,6 +255,32 @@ describe('Post services and model', function () {
             await services.updateContent(posts[0]._id, ' ');
             const value = await services.getPostByID(posts[0]._id);
             expect(value[0].content).to.equal(' ');
+        });
+    });
+
+    describe('countPostsFromUser', function() {
+
+        it('should return 0', async function() {
+            const num = await services.countPostsFromUser(new mongoose.mongo.ObjectID);
+            expect(num).to.equal(0);
+        });
+
+        it('should return 5', async function() {
+            const data = generatePosts(5, 1);
+            posts = data.posts;
+            const userIDs = data.userIDs;
+
+            const num = await services.countPostsFromUser(userIDs[0]);
+            expect(num).to.equal(5);
+        });
+
+        it('should return 5', async function() {
+            const data = generatePosts(10, 2);
+            posts = data.posts;
+            const userIDs = data.userIDs;
+
+            const num = await services.countPostsFromUser(userIDs[1]);
+            expect(num).to.equal(5);
         });
     });
 });
