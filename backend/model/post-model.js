@@ -18,6 +18,11 @@ const getAllPostsFromUser = async (user_id) => {
     return await Post.find({user_id});
 }
 
+//count the number of posts made by a user
+const countPostsFromUser = async (user_id) => {
+   return await Post.countDocuments({user_id});
+}
+
  //create a new post
  //returns the new document
  const createPost = async (user_id, content, image) => {
@@ -50,4 +55,5 @@ const getAllPostsFromUser = async (user_id) => {
     removePostByID,
     removeAllPostsFromUser,
     updateContent,
+    countPostsFromUser,
  };

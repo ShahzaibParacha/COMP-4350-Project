@@ -6,6 +6,7 @@ const  {
     removePostByID,
     removeAllPostsFromUser,
     updateContent,
+    countPostsFromUser,
  } = require('../model/post-model');
 
  class PostServices {
@@ -16,6 +17,7 @@ const  {
     removePostByID(id) { return removePostByID(id); }
     removeAllPostsFromUser(user_id) { return removeAllPostsFromUser(user_id); }
     updateContent(id, content) { return updateContent(id, content); }
+    countPostsFromUser(user_id) { return countPostsFromUser(user_id); }
  }
 
  module.exports = PostServices;
