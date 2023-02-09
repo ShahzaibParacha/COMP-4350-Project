@@ -1,11 +1,11 @@
-const PostServices = require('../service/post-service');
+const services = require('../service/post-service');
 const sinon = require("sinon");
 const Post = require('../schema/post-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 require("dotenv").config();
 
-const useRealDatabase = true;
+const useRealDatabase = false;
 
 /* generatePosts
  *
@@ -109,7 +109,6 @@ const setFakeDatabase = () => {
     });
 };
 
-const services = new PostServices();
 let posts = []; //fake database
 
 describe('Post services and model', function () {
