@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const expect = require('chai').expect;
 require("dotenv").config();
 
-const useRealDatabase = false;
+const useRealDatabase = true;
 
 /* generatePosts
  *
