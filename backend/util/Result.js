@@ -1,5 +1,4 @@
 const ResultCode = require("./ResultCode")
-const {mode} = require("mongoose/webpack.base.config");
 
 class Result {
     code;
