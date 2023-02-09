@@ -13,7 +13,7 @@ async function createNewUser(userInfo) {
         affiliation: null
     });
 
-    await user.save()
+    user.save()
 }
 
 // return true means username and password correct, false means username and password not match
@@ -26,35 +26,36 @@ async function getUserById(id) {
     return await UserSchema.findById(id)
 }
 
-function getUserByUsername(username) {
-    return UserSchema.findOne({username: username})
+async function getUserByUsername(username) {
+    return await UserSchema.findOne({username: username})
 }
 
-function getUserByEmail(email) {
-    return UserSchema.findOne({email: email})
+async function getUserByEmail(email) {
+    return await UserSchema.findOne({email: email})
 }
 
-async function updateUsername(userInfo) {
-    let {id, newUsername} = userInfo
-
-    if (await getUserByUsername(newUsername) !== null) {
+async function updateUsername({id, newUsername}) {
+    if (await getUserByUsername(newUsername) !== null) { // means the username have already, the user cannot use this
         return false
     }
 
-    await UserSchema.findOneAndUpdate({_id: id}, {username: newUsername})
-    return true
+    let result = UserSchema.updateOne({_id: id}, {username: newUsername})
+    return result.modifiedCount > 0
 }
 
-async function updatePassword(userInfo) {
-    let {id, password} = userInfo;
+async function updatePassword({id, newPassword}) {
+    let result = await UserSchema.updateOne({_id: id}, {password: newPassword})
+    return result.modifiedCount > 0
+}
 
-    await UserSchema.findOneAndUpdate({_id: id}, {password: password})
-    return true
+async function removeUser(id){
+    let result = await UserSchema.remove({_id: id})
+    return result.modifiedCount > 0
 }
 
 async function updateBasicInfo({id, isWriter, profilePhoto, bio, affiliation}) {
-    await UserSchema.updateOne({_id: id}, {is_writer: isWriter, profile_photo: profilePhoto, bio: bio, affiliation: affiliation})
-    return true;
+    let result = await UserSchema.updateOne({_id: id}, {is_writer: isWriter, profile_photo: profilePhoto, bio: bio, affiliation: affiliation})
+    return result.modifiedCount > 0
 }
 
 
@@ -65,3 +66,4 @@ exports.getUserByUsername = getUserByUsername
 exports.updateUsername = updateUsername
 exports.updatePassword = updatePassword
 exports.updateBasicInfo = updateBasicInfo
+exports.removeUser = removeUser
