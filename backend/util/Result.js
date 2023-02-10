@@ -28,6 +28,10 @@ class Result {
     static invalidUserId(){
         return new Result(ResultCode.INVALID_USERID.code, ResultCode.INVALID_USERID.desc, null)
     }
+
+    static invalidPostId(){
+        return new Result(ResultCode.INVALID_POSTID.code, ResultCode.INVALID_POSTID.desc, null)
+    }
 }
 
 module.exports = Result
