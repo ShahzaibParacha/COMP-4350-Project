@@ -1,5 +1,5 @@
 const express = require("express");
-const commentController = require("../controller/comment-controller")
+const { getCommentsFromPost, createComment } = require("../controller/comment-controller")
 const router = require("express").Router();
 
 router.use((req, res, next) => {
@@ -7,8 +7,8 @@ router.use((req, res, next) => {
     next()
 })
 
-router.get('/getCommentsFromPost', commentController.getCommentsFromPost);
+router.get('/getCommentsFromPost', getCommentsFromPost);
 
-router.post('/create', commentController.createComment);
+router.post('/create', createComment);
 
 module.exports = router;

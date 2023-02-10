@@ -1,6 +1,9 @@
-const commentService = require("../service/comment-service")
-const Result = require("../util/Result")
+const {
+    createComment: createCommentService,
+    getAllCommentsFromPost: getAllCommentsFromPostService
+    } = require("../service/comment-service")
 const mongoose = require("mongoose")
+const Result = require("../util/Result")
 
 const getCommentsFromPost = (req, res) => {
     const post_id = req.query.post_id;
@@ -10,7 +13,7 @@ const getCommentsFromPost = (req, res) => {
          return res.json(Result.invalidPostId());
     }
 
-    commentService.getAllCommentsFromPost(post_id)
+    getAllCommentsFromPostService(post_id)
         .then((comments) => {
             res.json(Result.success(comments));
         })
@@ -31,7 +34,7 @@ const createComment = (req, res) => {
         return res.json(Result.invalidUserId());
     }
 
-    commentService.createComment(post_id, user_id, content, Date.now())
+    createCommentService(post_id, user_id, content, Date.now())
         .then((result) => {
             res.json(Result.success(result));
         })
