@@ -1,7 +1,7 @@
 const sinon = require("sinon");
 const Like = require('../schema/likes-schema');
 const mongoose = require('mongoose');
-const LikeServices = require('../service/likes-service');
+const services = require('../service/likes-service');
 const expect = require('chai').expect;
 require("dotenv").config();
 
@@ -47,12 +47,12 @@ const generateLikes = async (numPosts, numUsers, numLikes) => {
         for (i = 0; i < numLikes; i++) {
 
             if (useRealDatabase) {
-                await Like.create({post_id: postIDs[postIdx], user_id: userIDs[userIdx]});
+                await Like.create({ post_id: postIDs[postIdx], user_id: userIDs[userIdx] });
             }
             else {
-                likes.push(new Like({post_id: postIDs[postIdx], user_id: userIDs[userIdx]}));
+                likes.push(new Like({ post_id: postIDs[postIdx], user_id: userIDs[userIdx] }));
             }
-            
+
             userIdx++;
             if (userIdx >= numUsers) {
                 userIdx = 0;
@@ -77,16 +77,15 @@ const setFakeDatabase = () => {
         return likes.filter(item => item.post_id.equals(obj.post_id)).length;
     });
 
-    sinon.stub(Like, 'create').callsFake(({post_id, user_id}) => {
-        likes.push(new Like({post_id, user_id}));
+    sinon.stub(Like, 'create').callsFake(({ post_id, user_id }) => {
+        likes.push(new Like({ post_id, user_id }));
     });
 
-    sinon.stub(Like, 'findOneAndDelete').callsFake(({post_id, user_id}) => {
+    sinon.stub(Like, 'findOneAndDelete').callsFake(({ post_id, user_id }) => {
         likes = likes.filter(item => !(item.user_id.equals(user_id) && item.post_id.equals(post_id)));
     });
 };
 
-const services = new LikeServices();
 let likes = []; //fake database
 
 describe('Like services and model', function () {
@@ -96,11 +95,12 @@ describe('Like services and model', function () {
     beforeEach(async () => {
         if (useRealDatabase) {
             mongoose
-            .connect(process.env.MONGODB_CONNECTION, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,})
-                .then(() => {console.log("Success to connect mongodb")})
-                .catch(() => {console.log("Fail to connect mongodb")});
+                .connect(process.env.MONGODB_CONNECTION, {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true,
+                })
+                .then(() => { console.log("Success to connect mongodb") })
+                .catch(() => { console.log("Fail to connect mongodb") });
 
             await Like.deleteMany({});
         }
@@ -120,22 +120,22 @@ describe('Like services and model', function () {
         }
     });
 
-    describe('getNumLikes', function() {
+    describe('getNumLikes', function () {
 
-        it('should return 0', async function() {
+        it('should return 0', async function () {
             const value = await services.getNumLikes(new mongoose.mongo.ObjectID);
-            
+
             expect(value).to.equal(0);
         });
 
-        it('should return 1', async function() {
+        it('should return 1', async function () {
             const postIDs = (await generateLikes(5, 1, 4)).postIDs;
 
             const value = await services.getNumLikes(postIDs[2]);
             expect(value).to.equal(1);
         });
 
-        it('should return 3', async function() {
+        it('should return 3', async function () {
             const postIDs = (await generateLikes(5, 5, 13)).postIDs;
 
             const value = await services.getNumLikes(postIDs[2]);
@@ -143,15 +143,15 @@ describe('Like services and model', function () {
         })
     });
 
-    describe('userLikedPost', function() {
+    describe('userLikedPost', function () {
 
-        it('should return false', async function() {
+        it('should return false', async function () {
             const value = await services.userLikedPost(new mongoose.mongo.ObjectID, new mongoose.mongo.ObjectID);
 
             expect(value).to.equal(false);
         });
 
-        it('should return true', async function() {
+        it('should return true', async function () {
             const data = await generateLikes(5, 5, 4);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
@@ -160,7 +160,7 @@ describe('Like services and model', function () {
             expect(value).to.equal(true);
         })
 
-        it('should return false', async function() {
+        it('should return false', async function () {
             const data = await generateLikes(5, 5, 4);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
@@ -170,28 +170,28 @@ describe('Like services and model', function () {
         })
     });
 
-    describe('likePost', function() {
+    describe('likePost', function () {
 
-        it('should say that user liked post', async function() {
-           const data = await generateLikes(5, 1, 0);
-           const userIDs = data.userIDs;
-           const postIDs = data.postIDs;
+        it('should say that user liked post', async function () {
+            const data = await generateLikes(5, 1, 0);
+            const userIDs = data.userIDs;
+            const postIDs = data.postIDs;
 
-           let value = await services.userLikedPost(postIDs[0], userIDs[0]);
-           expect(value).to.equal(false);
+            let value = await services.userLikedPost(postIDs[0], userIDs[0]);
+            expect(value).to.equal(false);
 
-           value = await services.getNumLikes(postIDs[0]);
-           expect(value).to.equal(0);
+            value = await services.getNumLikes(postIDs[0]);
+            expect(value).to.equal(0);
 
-           await services.likePost(postIDs[0], userIDs[0]);
-           value = await services.userLikedPost(postIDs[0], userIDs[0]);
-           expect(value).to.equal(true);
+            await services.likePost(postIDs[0], userIDs[0]);
+            value = await services.userLikedPost(postIDs[0], userIDs[0]);
+            expect(value).to.equal(true);
 
-           value = await services.getNumLikes(postIDs[0]);
-           expect(value).to.equal(1);
+            value = await services.getNumLikes(postIDs[0]);
+            expect(value).to.equal(1);
         });
 
-        it('should not increase the number of likes of the post', async function() {
+        it('should not increase the number of likes of the post', async function () {
             const data = await generateLikes(5, 1, 1);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
@@ -205,9 +205,9 @@ describe('Like services and model', function () {
         });
     });
 
-    describe('unlikePost', function() {
+    describe('unlikePost', function () {
 
-        it('should reduce the number of likes', async function() {
+        it('should reduce the number of likes', async function () {
             const data = await generateLikes(5, 5, 10);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;
@@ -220,7 +220,7 @@ describe('Like services and model', function () {
             expect(value).to.equal(4);
         });
 
-        it('should not reduce the number of likes', async function() {
+        it('should not reduce the number of likes', async function () {
             const data = await generateLikes(5, 5, 9);
             const userIDs = data.userIDs;
             const postIDs = data.postIDs;

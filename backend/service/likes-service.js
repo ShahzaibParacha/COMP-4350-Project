@@ -1,19 +1,22 @@
 const  {
-    getNumLikes,
-    userLikedPost,
-    likePost,
-    unlikePost,
+    getNumLikes: getNumLikesModel,
+    userLikedPost: userLikedPostModel,
+    likePost: likePostModel,
+    unlikePost: unlikePostModel,
  } = require('../model/likes-model');
-
- class LikeServices {
-    getNumLikes(post_id) { return getNumLikes(post_id); }
-    userLikedPost(post_id, user_id) { return userLikedPost(post_id, user_id); }
-    async likePost(post_id, user_id) { 
+ 
+const getNumLikes = (post_id) => { return getNumLikesModel(post_id); }
+const userLikedPost = (post_id, user_id) => { return userLikedPostModel(post_id, user_id); }
+const likePost = async (post_id, user_id) => { 
       if (!(await userLikedPost(post_id, user_id))) {
-         return likePost(post_id, user_id);  
+         return likePostModel(post_id, user_id);  
       }
    }
-    unlikePost(post_id, user_id) { return unlikePost(post_id, user_id); }
- }
+const unlikePost = (post_id, user_id) => { return unlikePostModel(post_id, user_id); }
 
- module.exports = LikeServices;
+module.exports = {
+   getNumLikes,
+   userLikedPost,
+   likePost,
+   unlikePost,
+};;

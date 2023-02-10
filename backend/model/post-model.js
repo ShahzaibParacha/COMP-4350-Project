@@ -41,7 +41,7 @@ const countPostsFromUser = async (user_id) => {
  //remove a post by id
  //returns the found document
  const removePostByID = async (id) => {
-    return await Post.findOneAndDelete({_id: id});
+    return await Post.findOneAndDelete({_id: id}, {useFindAndModify: false});
  }
 
  //remove all the posts of a user
@@ -53,7 +53,7 @@ const countPostsFromUser = async (user_id) => {
  //update the content of a post
  //returns the object updated
  const updateContent = async (id, content) => {
-   return await Post.findOneAndUpdate({_id: id}, {content});
+   return await Post.findOneAndUpdate({_id: id}, {content}, {useFindAndModify: false});
  }
 
  module.exports = {

@@ -3,6 +3,9 @@ require("dotenv").config()
 const cors = require('cors')
 const mongoose = require("mongoose")
 const apiRouter = require("./route/api-route")
+const userRoute = require("./route/user-route")
+const freeRoute = require("./route/free-route")
+const commentRoute = require('./route/comment-route');
 const bodyParser = require('body-parser');
 const passport = require("passport")
 require("./util/passport")(passport)
@@ -25,6 +28,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors())
 
 app.use("/api", apiRouter)
+app.use("/api/free",freeRoute)
+app.use("/api/user", passport.authenticate("jwt", {session: false}), userRoute)
+app.use("/api/comment", passport.authenticate("jwt", {session: false}), commentRoute)
 
 // just for sample test, delete before sprint2 due
 app.post("/test", (req, res) => {
