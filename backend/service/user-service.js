@@ -29,7 +29,7 @@ async function getUserInfo(id) {
 }
 
 async function updateUserInfo({id, profilePhoto, isWriter, affiliation, bio }) {
-    if(id === undefined ||  id !== null)
+    if(id === undefined || id === null)
         return false;
 
     let user = await userModel.getUserById(id)
@@ -52,7 +52,7 @@ async function updateUserInfo({id, profilePhoto, isWriter, affiliation, bio }) {
         bio = user.bio
     }
 
-    return await userModel.updateBasicInfo(id, profilePhoto, isWriter, affiliation, bio)
+    return await userModel.updateBasicInfo({id, profilePhoto, isWriter, affiliation, bio})
 }
 
 async function removeUser(id){

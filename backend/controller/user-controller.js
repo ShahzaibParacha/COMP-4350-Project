@@ -3,7 +3,6 @@ const Result = require("../util/Result")
 
 function login(req, res) {
     let {email, password} = req.body
-    console.log(email, password)
     userService.getJwt(email, password)
         .then((result) => {
             if (result === null) {
@@ -25,8 +24,6 @@ function signup(req, res) {
 
 function getUserProfile(req, res) {
     let id = req.query.user_id
-    console.log("from controller" + req.query)
-
     userService.getUserInfo(id).then((user) => {
         if (user) {
             res.json(Result.success(user))
@@ -37,17 +34,14 @@ function getUserProfile(req, res) {
 }
 
 function updateUserProfile(req, res) {
+
     let id = req.body.user_id
     let profilePhoto = req.body.profile_photo
     let isWriter = req.body.is_writer
     let {affiliation, bio} = req.body
 
     userService.updateUserInfo({id, profilePhoto, isWriter, affiliation, bio}).then((result) => {
-        if (result === true) {
-            res.json(Result.success(null))
-        } else {
-            res.json(Result.fail("Cannot update user information by given user_id"))
-        }
+        (result === true) ? res.json(Result.success(null)) : res.json(Result.failUpdate())
     })
 }
 
@@ -65,6 +59,7 @@ function removeAccount(req, res) {
 
 function updateUsername(req, res) {
     let id = req.body.user_id
+
     let newUsername = req.body.new_username
 
     userService.updateUsername({id, newUsername}).then((result => {

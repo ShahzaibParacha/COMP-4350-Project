@@ -48,16 +48,22 @@ async function updatePassword({id, newPassword}) {
     return result.modifiedCount > 0
 }
 
-async function removeUser(id){
+async function removeUser(id) {
     let result = await UserSchema.remove({_id: id})
+
     return result.modifiedCount > 0
 }
 
 async function updateBasicInfo({id, isWriter, profilePhoto, bio, affiliation}) {
-    let result = await UserSchema.updateOne({_id: id}, {is_writer: isWriter, profile_photo: profilePhoto, bio: bio, affiliation: affiliation})
-    return result.modifiedCount > 0
-}
+    let result = await UserSchema.updateOne({_id: id}, {
+        is_writer: isWriter,
+        profile_photo: profilePhoto,
+        bio: bio,
+        affiliation: affiliation
+    })
 
+    return result.ok === 1
+}
 
 exports.getUserById = getUserById
 exports.createNewUser = createNewUser
