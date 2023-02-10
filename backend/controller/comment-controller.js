@@ -41,4 +41,4 @@ const createComment = (req, res) => {
         });
 };
 
-modules.exports = { getCommentsFromPost, createComment };
+module.exports = { getCommentsFromPost, createComment };
