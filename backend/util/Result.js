@@ -16,7 +16,7 @@ class Result {
     }
 
     static failUpdate() {
-        return new Result(ResultCode.UPDATE_FAIL, ResultCode.UPDATE_FAIL.desc, null)
+        return new Result(ResultCode.UPDATE_FAIL.code, ResultCode.UPDATE_FAIL.desc, null)
     }
 
     static fail(msg) {

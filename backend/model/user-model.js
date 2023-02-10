@@ -35,23 +35,9 @@ async function getUserByEmail(email) {
 }
 
 async function updateUsername({id, newUsername}) {
-    if (await getUserByUsername(newUsername) !== null) { // means the username have already, the user cannot use this
-        return false
-    }
-
-    let result = UserSchema.updateOne({_id: id}, {username: newUsername})
-    return result.modifiedCount > 0
-}
-
-async function updatePassword({id, newPassword}) {
-    let result = await UserSchema.updateOne({_id: id}, {password: newPassword})
-    return result.modifiedCount > 0
-}
-
-async function removeUser(id) {
-    let result = await UserSchema.remove({_id: id})
-
-    return result.modifiedCount > 0
+    let result = await UserSchema.updateOne({_id: id}, {username: newUsername})
+    console.log("this is the result " + JSON.stringify(result))
+    return result.ok === 1
 }
 
 async function updateBasicInfo({id, isWriter, profilePhoto, bio, affiliation}) {
@@ -62,6 +48,16 @@ async function updateBasicInfo({id, isWriter, profilePhoto, bio, affiliation}) {
         affiliation: affiliation
     })
 
+    return result.ok === 1
+}
+
+async function updatePassword({id, newPassword}) {
+    let result = await UserSchema.updateOne({_id: id}, {password: newPassword})
+    return result.ok === 1
+}
+
+async function removeUser(id) {
+    let result = await UserSchema.remove({_id: id})
     return result.ok === 1
 }
 

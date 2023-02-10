@@ -61,12 +61,13 @@ function updateUsername(req, res) {
     let id = req.body.user_id
 
     let newUsername = req.body.new_username
+    console.log("from controller: new user name: " + newUsername)
 
     userService.updateUsername({id, newUsername}).then((result => {
         if (result === true) {
             res.json(Result.success(null))
         } else {
-            res.json(Result.fail("Fail to update username by given user_id"))
+            res.json(Result.failUpdate())
         }
     }))
 }

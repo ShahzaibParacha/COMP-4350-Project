@@ -62,11 +62,15 @@ async function removeUser(id){
     return await userModel.removeUser(id)
 }
 
-async function updateUsername({id, mewUsername}) {
+async function updateUsername({id, newUsername}) {
     if(id === undefined || id === null)
         return false
 
-    return await userModel.updateUsername({id, mewUsername})
+    if (await userModel.getUserByUsername(newUsername) !== null) { // means the username have already, the user cannot use this
+        return false
+    }
+
+    return await userModel.updateUsername({id, newUsername})
 }
 
 async function updatePassword({id, newPassword}) {
