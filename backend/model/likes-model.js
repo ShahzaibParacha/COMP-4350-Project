@@ -17,7 +17,7 @@ const likePost = async (post_id, user_id) => {
 
 //unlike a post
 const unlikePost = async (post_id, user_id) => {
-    return await Like.findOneAndDelete({post_id, user_id});
+    return await Like.findOneAndDelete({post_id, user_id}, {useFindAndModify: false});
 }
 
  module.exports = {
