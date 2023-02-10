@@ -28,9 +28,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors())
 
 app.use("/api", apiRouter)
-app.use("/api/free",freeRoute)
-app.use("/api/user", passport.authenticate("jwt", {session: false}), userRoute)
-app.use("/api/comment", passport.authenticate("jwt", {session: false}), commentRoute)
 
 // just for sample test, delete before sprint2 due
 app.post("/test", (req, res) => {

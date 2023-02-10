@@ -1,12 +1,13 @@
 const commentService = require("../service/comment-service")
 const Result = require("../util/Result")
+const mongoose = require("mongoose")
 
 const getCommentsFromPost = (req, res) => {
     const post_id = req.query.post_id;
     console.log(post_id);
 
     if (!mongoose.Types.ObjectId.isValid(post_id)) {
-         return res.json(Result.fail('Cannot find comments by given post id'));
+         return res.json(Result.invalidPostId());
     }
 
     commentService.getAllCommentsFromPost(post_id)
@@ -19,17 +20,15 @@ const getCommentsFromPost = (req, res) => {
 };
 
 const createComment = (req, res) => {
-    const post_id = req.query.post_id;
-    const user_id = req.query.user_id;
-    const {content} = req.body;
+    const {content, post_id, user_id} = req.body;
 
     console.log(post_id, user_id, content);
 
     if (!mongoose.Types.ObjectId.isValid(post_id)) {
-        return res.json(Result.fail('Cannot create comment for invalid post'));
+        return res.json(Result.invalidPostId());
     }
     if (!mongoose.Types.ObjectId.isValid(user_id)) {
-        return res.json(Result.fail('Cannot create comment since the user is invalid'));
+        return res.json(Result.invalidUserId());
     }
 
     commentService.createComment(post_id, user_id, content, Date.now())
