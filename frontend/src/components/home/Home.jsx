@@ -5,9 +5,12 @@ import "./home.css"
 const Home = () => {
 
     return (
-        <body>
-        <h1>Home</h1>
+        <body background={"base-100"}>
+        <h1 className="text-3xl font-bold underline">
+            Hello world!
+        </h1>
         </body>
+
     );
 }
 
