@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema({
         maxLength: 20,
     },
 
-    is_writer: { // ture means writer, false means reader
+    is_writer: { // true means writer, false means reader
         type: Boolean,
         require: true,
         default: false,
