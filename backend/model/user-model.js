@@ -1,8 +1,8 @@
-const UserSchema = require("../schema/user-schema")
+const User = require("../schema/user-schema")
 
 async function createNewUser(userInfo) {
     // username, email, password, birthday, is_writer, registration_date, last_login_date, bio,affiliation
-    const user = new UserSchema({
+    const user = new User({
         username: userInfo.username,
         password: userInfo.password,
         email: userInfo.email,
@@ -18,30 +18,30 @@ async function createNewUser(userInfo) {
 
 // return true means username and password correct, false means username and password not match
 async function identifyUser({username, password}) {
-    let user = await UserSchema.findOne({username: username})
+    let user = await User.findOne({username: username})
     return user.password === password;
 }
 
 async function getUserById(id) {
-    return await UserSchema.findById(id)
+    return await User.findById(id)
 }
 
 async function getUserByUsername(username) {
-    return await UserSchema.findOne({username: username})
+    return await User.findOne({username: username})
 }
 
 async function getUserByEmail(email) {
-    return await UserSchema.findOne({email: email})
+    return await User.findOne({email: email})
 }
 
 async function updateUsername({id, newUsername}) {
-    let result = await UserSchema.updateOne({_id: id}, {username: newUsername})
+    let result = await User.updateOne({_id: id}, {username: newUsername})
     console.log("this is the result " + JSON.stringify(result))
     return result.ok === 1
 }
 
 async function updateBasicInfo({id, isWriter, profilePhoto, bio, affiliation}) {
-    let result = await UserSchema.updateOne({_id: id}, {
+    let result = await User.updateOne({_id: id}, {
         is_writer: isWriter,
         profile_photo: profilePhoto,
         bio: bio,
@@ -52,12 +52,12 @@ async function updateBasicInfo({id, isWriter, profilePhoto, bio, affiliation}) {
 }
 
 async function updatePassword({id, newPassword}) {
-    let result = await UserSchema.updateOne({_id: id}, {password: newPassword})
+    let result = await User.updateOne({_id: id}, {password: newPassword})
     return result.ok === 1
 }
 
 async function removeUser(id) {
-    let result = await UserSchema.remove({_id: id})
+    let result = await User.remove({_id: id})
     return result.ok === 1
 }
 

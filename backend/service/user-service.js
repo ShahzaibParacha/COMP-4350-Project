@@ -66,6 +66,7 @@ async function updateUsername({id, newUsername}) {
     if(id === undefined || id === null)
         return false
 
+    console.log(`from user service, id: ${id}, new user name: ${newUsername}`)
     if (await userModel.getUserByUsername(newUsername) !== null) { // means the username have already, the user cannot use this
         return false
     }
