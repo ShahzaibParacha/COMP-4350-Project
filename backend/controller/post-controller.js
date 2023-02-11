@@ -3,7 +3,7 @@ const Result = require("../util/Result")
 const mongoose = require("mongoose")
 
 const numberPages = 1 //default number of pages to show
-const numberPostsPerPage = 10 //default number of posts to present on each page
+const numberPostsPerPage = 5 //default number of posts to present on each page
 
 const createPost = async (req, res) => {
     const{content, user_id} = req.body
@@ -57,15 +57,16 @@ const removePostByID = async (req, res) => {
     })
 }
 
+//TODO: implement pigination
 const getRecentPost = async (req, res) => {
-    const page = parseInt(req.query.page) || numberPages
-    const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage
-    const startInd = (page - 1) * postsPerPage
+    // const page = parseInt(req.query.page) || numberPages
+    // const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage
+    // const startInd = (page - 1) * postsPerPage
 
     await postService.getAllPosts()
-    .sort({post_date: -1})
-    .skip(startInd)
-    .limit(numberPosts)
+    // .sort({post_date: -1})
+    // .skip(startInd)
+    // .limit(numberPostsPerPage)
     .then((result) => {
         res.json(Result.success(result))
     })
@@ -74,22 +75,23 @@ const getRecentPost = async (req, res) => {
     })
 }
 
+//TODO: implement pagination
 const getAllPostsFromUser = async (req, res) => {
     const { user_id } = req.body
     console.log(user_id)
 
-    const page = parseInt(req.query.page) || numberPages
-    const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage
-    const startInd = (page - 1) * postsPerPage
+    // const page = parseInt(req.query.page) || numberPages
+    // const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage
+    // const startInd = (page - 1) * postsPerPage
 
     if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.json(Result.invalidUserId())
     }
     
-    await postService.getAllPostsFromUser()
-    .sort({post_date: -1})
-    .skip(startInd)
-    .limit(numberPosts)
+    await postService.getAllPostsFromUser(user_id)
+    // .sort({post_date: -1})
+    // .skip(startInd)
+    // .limit(numberPostsPerPage)
     .then((result) => {
         res.json(Result.success(result))
     })
