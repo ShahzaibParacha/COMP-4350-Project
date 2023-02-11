@@ -1,4 +1,4 @@
-const CommentServices = require('../service/comment-service');
+const services = require('../service/comment-service');
 const sinon = require("sinon");
 const Comment = require('../schema/comment-schema');
 const mongoose = require('mongoose');
@@ -77,7 +77,6 @@ const setFakeDatabase = () => {
     });
 };
 
-const services = new CommentServices();
 let comments = []; //fake database
 
 describe('Comments services and model', function () {
