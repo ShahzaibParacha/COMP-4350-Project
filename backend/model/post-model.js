@@ -3,7 +3,7 @@ const Post = require('../schema/post-schema');
 //get all posts
 //returns the documents
 const getAllPosts = async () => {
-    return await Post.find({}).sort({post_date: -1}); 
+    return await Post.find({}); 
 }
 
 //get a page of posts
@@ -24,7 +24,7 @@ const getPostByID = async (id) => {
 //get all posts of a user
 //returns the documents
 const getAllPostsFromUser = async (user_id) => {
-    return await Post.find({user_id}).sort({post_date: -1});
+    return await Post.find({user_id});
 }
 
 //count the number of posts made by a user
