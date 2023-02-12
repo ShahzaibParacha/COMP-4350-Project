@@ -17,8 +17,13 @@ function signup(req, res) {
     let {username, email, password} = req.body
     let isWriter = req.body.is_writer
     userService.signup({email, password, username, isWriter})
-        .then(() => {
-            res.json(Result.success(null))
+        .then((result) => {
+            if (result) {
+                res.json(Result.success(null))
+            } else {
+                res.json(Result.failSignup())
+            }
+
         })
 }
 
@@ -61,7 +66,6 @@ function updateUsername(req, res) {
     let id = req.body.user_id
 
     let newUsername = req.body.new_username
-    console.log("from controller: new user name: " + newUsername)
 
     userService.updateUsername({id, newUsername}).then((result => {
         if (result === true) {

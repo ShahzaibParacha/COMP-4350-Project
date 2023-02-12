@@ -19,6 +19,10 @@ class Result {
         return new Result(ResultCode.UPDATE_FAIL.code, ResultCode.UPDATE_FAIL.desc, null)
     }
 
+    static failSignup() {
+        return new Result(ResultCode.FAIL_SIGNUP.code, ResultCode.FAIL_SIGNUP.desc, null)
+    }
+
     static fail(msg) {
         if (msg === undefined || msg === null)
             msg = ResultCode.FAIL.desc

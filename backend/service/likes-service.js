@@ -19,4 +19,4 @@ module.exports = {
    userLikedPost,
    likePost,
    unlikePost,
-};;
+};
