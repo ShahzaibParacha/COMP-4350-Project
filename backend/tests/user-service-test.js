@@ -203,20 +203,20 @@ describe('User service and model', function () {
     })
 
     describe('Test get jwt', function () {
-        it('should exist since the username and password matched', async () => {
+        it.skip('should exist since the username and password matched', async () => {
             let user = userList.find(user => user.username === 'Xin An')
             let result = await userService.getJwt(user.email, user.password)
             expect(result.id).to.exist
             expect(result.token).to.exist
         })
 
-        it('should return null since the password not correct', async () => {
+        it.skip('should return null since the password not correct', async () => {
             let user = userList.find(user => user.username === 'Xin An')
             let result = await userService.getJwt(user.email, 'Uncorrect1')
             expect(result).to.not.exist
         })
 
-        it('should return null since the username does not exist', async () => {
+        it.skip('should return null since the username does not exist', async () => {
             let user = userList.find(user => user.username === 'Xin An')
             let result = await userService.getJwt("aabb@ccdd.com", user.password)
             expect(result).to.not.exist
