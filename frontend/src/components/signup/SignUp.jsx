@@ -1,11 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Login() {
+function SignUp() {
   let email;
   let password;
-  const navigate = useNavigate();
+  let username;
 
   const handleEmailAddress = (e) => {
     e.preventDefault();
@@ -17,10 +16,20 @@ function Login() {
     password = e.target.value;
   };
 
+  const handleUsername = (e) => {
+    e.preventDefault();
+    username = e.target.value;
+  };
+
   function handleLogin(e) {
     e.preventDefault();
     axios
-      .post("http://0.0.0.0:4350/api/free/user/login", { email, password })
+      .post("http://0.0.0.0:4350/api/free/user/signup", {
+        username,
+        email,
+        password,
+        isWriter: true,
+      })
       .catch((error) => {
         // eslint-disable-next-line no-alert
         alert(error);
@@ -31,14 +40,10 @@ function Login() {
         // eslint-disable-next-line no-alert
         alert(res);
         // eslint-disable-next-line no-console
-        console.log("res: ", res);
-        if (res.data.msg === "success") {
-          navigate("../");
-          localStorage.setItem("session_jwt", res.data.data.token);
-        }
+        console.log(res);
       });
     // eslint-disable-next-line no-console
-    console.log(email, password);
+    console.log(email, password, username);
   }
 
   return (
@@ -51,11 +56,27 @@ function Login() {
           {/*  alt="Your Company" */}
           {/* /> */}
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            Log in to your account
+            Sign up for an account
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="-space-y-px rounded-md shadow-sm">
+            <div className="-space-y-px rounded-md shadow-sm">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label htmlFor="email-address" className="sr-only">
+                Username
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="username"
+                autoComplete="username"
+                onChange={handleUsername}
+                required
+                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Username"
+              />
+            </div>
             <div>
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="email-address" className="sr-only">
@@ -68,7 +89,7 @@ function Login() {
                 autoComplete="email"
                 onChange={handleEmailAddress}
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Email address"
               />
             </div>
@@ -96,12 +117,8 @@ function Login() {
               className="group relative flex w-full justify-center rounded-md border border-transparent bg-neutral py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               <span className="absolute inset-y-0 left-0 flex items-center pl-3" />
-              Log in
+              Sign up
             </button>
-          </div>
-          <div className="text-center">
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Don't have an account? <a href="../signup">Sign up</a>
           </div>
         </form>
       </div>
@@ -109,4 +126,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
