@@ -33,12 +33,12 @@ function Login() {
         // eslint-disable-next-line no-console
         console.log("res: ", res);
         if (res.data.msg === "success") {
-          navigate("../");
+          localStorage.setItem("session_user_id", res.data.data.id);
           localStorage.setItem("session_jwt", res.data.data.token);
+          navigate("../");
         }
       });
     // eslint-disable-next-line no-console
-    console.log(email, password);
   }
 
   return (

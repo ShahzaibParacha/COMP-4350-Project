@@ -1,24 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 function SignUp() {
-  let email;
-  let password;
-  let username;
+  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const handleUsername = (e) => {
+    e.preventDefault();
+    setUsername(e.target.value);
+  };
 
   const handleEmailAddress = (e) => {
     e.preventDefault();
-    email = e.target.value;
+    setEmail(e.target.value);
   };
 
   const handlePassword = (e) => {
     e.preventDefault();
-    password = e.target.value;
-  };
-
-  const handleUsername = (e) => {
-    e.preventDefault();
-    username = e.target.value;
+    setPassword(e.target.value);
   };
 
   function handleLogin(e) {
@@ -119,6 +119,10 @@ function SignUp() {
               <span className="absolute inset-y-0 left-0 flex items-center pl-3" />
               Sign up
             </button>
+          </div>
+          <div className="text-center">
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            Already have an account? <a href="../login">Log in</a>
           </div>
         </form>
       </div>
