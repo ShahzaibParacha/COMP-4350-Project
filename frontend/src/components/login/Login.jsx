@@ -22,20 +22,15 @@ function Login() {
     axios
       .post("http://0.0.0.0:4350/api/free/user/login", { email, password })
       .catch((error) => {
-        // eslint-disable-next-line no-alert
-        alert(error);
         // eslint-disable-next-line no-console
-        console.log(error);
+        console.error(error);
       })
       .then((res) => {
-        // eslint-disable-next-line no-alert
-        alert(res);
         // eslint-disable-next-line no-console
-        console.log("res: ", res);
         if (res.data.msg === "success") {
-          localStorage.setItem("session_user_id", res.data.data.id);
-          localStorage.setItem("session_jwt", res.data.data.token);
-          navigate("../");
+          window.sessionStorage.setItem("session_user_id", res.data.data.id);
+          window.sessionStorage.setItem("session_jwt", res.data.data.token);
+          navigate("/");
         }
       });
     // eslint-disable-next-line no-console

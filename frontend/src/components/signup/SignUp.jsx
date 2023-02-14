@@ -31,19 +31,13 @@ function SignUp() {
         isWriter: true,
       })
       .catch((error) => {
-        // eslint-disable-next-line no-alert
-        alert(error);
         // eslint-disable-next-line no-console
-        console.log(error);
+        console.error(error);
       })
       .then((res) => {
-        // eslint-disable-next-line no-alert
-        alert(res);
         // eslint-disable-next-line no-console
         console.log(res);
       });
-    // eslint-disable-next-line no-console
-    console.log(email, password, username);
   }
 
   return (
