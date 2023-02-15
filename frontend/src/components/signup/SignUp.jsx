@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function SignUp() {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const navigate = useNavigate();
 
   const handleUsername = (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ function SignUp() {
     setPassword(e.target.value);
   };
 
-  function handleLogin(e) {
+  function handleSignUp(e) {
     e.preventDefault();
     axios
       .post("http://0.0.0.0:4350/api/free/user/signup", {
@@ -36,7 +38,9 @@ function SignUp() {
       })
       .then((res) => {
         // eslint-disable-next-line no-console
-        console.log(res);
+        if (res.data.msg === "success") {
+          navigate("../login");
+        }
       });
   }
 
@@ -53,7 +57,7 @@ function SignUp() {
             Sign up for an account
           </h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+        <form className="mt-8 space-y-6" onSubmit={handleSignUp}>
           <div className="-space-y-px rounded-md shadow-sm">
             <div className="-space-y-px rounded-md shadow-sm">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}

@@ -1,5 +1,6 @@
 import React from "react";
 
+// TODO: This is a placeholder, we will not be hardcoding anything
 function WidePost() {
   const postData = {
     name: "FirstName LastName",

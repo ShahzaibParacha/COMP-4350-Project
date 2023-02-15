@@ -30,7 +30,7 @@ function Login() {
         if (res.data.msg === "success") {
           window.sessionStorage.setItem("session_user_id", res.data.data.id);
           window.sessionStorage.setItem("session_jwt", res.data.data.token);
-          navigate("/");
+          navigate("../");
         }
       });
     // eslint-disable-next-line no-console
