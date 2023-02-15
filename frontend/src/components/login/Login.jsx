@@ -1,20 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  let email;
-  let password;
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [loginStatus, setLoginStatus] = useState("");
   const navigate = useNavigate();
 
   const handleEmailAddress = (e) => {
     e.preventDefault();
-    email = e.target.value;
+    setEmail(e.target.value);
   };
 
   const handlePassword = (e) => {
     e.preventDefault();
-    password = e.target.value;
+    setPassword(e.target.value);
   };
 
   function handleLogin(e) {
@@ -30,10 +31,21 @@ function Login() {
         if (res.data.msg === "success") {
           window.sessionStorage.setItem("session_user_id", res.data.data.id);
           window.sessionStorage.setItem("session_jwt", res.data.data.token);
+          setLoginStatus("logged in");
           navigate("../");
+        } else {
+          setLoginStatus("failure");
         }
       });
     // eslint-disable-next-line no-console
+  }
+
+  function renderFailure() {
+    return <p className="text-red-600">Login Failed! Try again</p>;
+  }
+
+  function renderSuccess() {
+    return <p className="text-green-600">Login Succeeded!</p>;
   }
 
   return (
@@ -93,9 +105,14 @@ function Login() {
               Log in
             </button>
           </div>
+          <div>{loginStatus === "success" ? renderSuccess() : null}</div>
+          <div>{loginStatus === "failure" ? renderFailure() : null}</div>
           <div className="text-center">
             {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Don't have an account? <a href="../signup">Sign up</a>
+            Don't have an account?{" "}
+            <a className="hover:text-green-600" href="../signup">
+              Sign up
+            </a>
           </div>
         </form>
       </div>
