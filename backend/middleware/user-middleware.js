@@ -5,6 +5,7 @@ const router = require("express").Router();
 
 const userIdValidation = router.use((req, res, next) => {
     let userId = req.query.user_id
+
     if (userId !== undefined && userId !== null) {
         if (ParamValidator.isValidObjectId(userId) === false) {
             res.json(Result.invalidUserId())

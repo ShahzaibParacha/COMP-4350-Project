@@ -21,7 +21,7 @@ function Login() {
   function handleLogin(e) {
     e.preventDefault();
     axios
-      .post("http://0.0.0.0:4350/api/free/user/login", { email, password })
+      .post("http://localhost:4350/api/free/user/login", { email, password })
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error);

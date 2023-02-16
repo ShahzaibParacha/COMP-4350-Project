@@ -8,8 +8,7 @@
     "airbnb",
     "plugin:prettier/recommended"
   ],
-  "overrides": [
-  ],
+  "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
