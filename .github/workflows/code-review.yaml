@@ -11,4 +11,4 @@ jobs:
     
     steps:
       - name: Required Code review
-      - uses: Automatic/action-required-review@v3
+        uses: Automatic/action-required-review@v3
