@@ -14,10 +14,10 @@ function Writer() {
   const [changeBio, isChangingBio] = useState(false);
   const [changeAffiliation, isChangingAffiliation] = useState(false);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [bio, setBio] = useState('');
-  const [affiliation, setAffiliation] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [bio, setBio] = useState("");
+  const [affiliation, setAffiliation] = useState("");
 
   useEffect(() => {
     axios
@@ -69,10 +69,11 @@ function Writer() {
     e.preventDefault();
     const usernameInput = document.getElementById("username_input");
 
-    if (changeUsername) { //if we clicked the button and the textbox is there, then we submit
+    if (changeUsername) {
+      // if we clicked the button and the text box is there, then we submit
       if (usernameInput.value.length > 0) {
         axios({
-          method: 'post',
+          method: "post",
           url: `http://localhost:4350/api/user/username`,
           headers: {
             Authorization: sessionJWT,
@@ -81,18 +82,19 @@ function Writer() {
           data: {
             user_id: sessionUserID,
             new_username: usernameInput.value,
-          }
+          },
         })
           .then((r) => {
             if (r.data.code === 40001) {
+              // eslint-disable-next-line no-alert
               alert("Failed to update username");
-            }
-            else {
+            } else {
+              // eslint-disable-next-line no-alert
               alert("Successfully updated username");
               setUsername(usernameInput.value);
             }
           })
-          // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console,no-shadow
           .catch((e) => console.error(e, username));
       }
     }
@@ -104,10 +106,11 @@ function Writer() {
     e.preventDefault();
     const passwordInput = document.getElementById("password_input");
 
-    if (changePassword) { //if we clicked the button and the textbox is there, then we submit
+    if (changePassword) {
+      // if we clicked the button and the text box is there, then we submit
       if (passwordInput.value.length > 0) {
         axios({
-          method: 'post',
+          method: "post",
           url: `http://localhost:4350/api/user/password`,
           headers: {
             Authorization: sessionJWT,
@@ -116,20 +119,22 @@ function Writer() {
           data: {
             user_id: sessionUserID,
             new_password: passwordInput.value,
-          }
+          },
         })
           .then((r) => {
             if (r.data.code === 40000) {
+              // eslint-disable-next-line no-alert
               alert("Failed to update password");
-            }
-            else {
+            } else {
+              // eslint-disable-next-line no-alert
               alert("Successfully updated password");
               setPassword(passwordInput.value);
             }
           })
-          // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console,no-shadow
           .catch((e) => {
-            console.error(e, password)
+            // eslint-disable-next-line no-console
+            console.error(e, password);
           });
       }
     }
@@ -141,10 +146,11 @@ function Writer() {
     e.preventDefault();
     const bioInput = document.getElementById("bio_input");
 
-    if (changeBio) { //if we clicked the button and the textbox is there, then we submit
+    if (changeBio) {
+      // if we clicked the button and the text box is there, then we submit
       if (bioInput.value.length > 0) {
         axios({
-          method: 'post',
+          method: "post",
           url: `http://localhost:4350/api/user/profile`,
           headers: {
             Authorization: sessionJWT,
@@ -154,20 +160,21 @@ function Writer() {
             user_id: sessionUserID,
             profile_photo: "",
             is_writer: true,
-            affiliation: affiliation,
+            affiliation,
             bio: bioInput.value,
-          }
+          },
         })
           .then((r) => {
             if (r.data.code === 40001) {
+              // eslint-disable-next-line no-alert
               alert("Failed to update bio");
-            }
-            else {
+            } else {
+              // eslint-disable-next-line no-alert
               alert("Successfully updated bio");
               setBio(bioInput.value);
             }
           })
-          // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console,no-shadow
           .catch((e) => console.error(e, bio));
       }
     }
@@ -178,10 +185,11 @@ function Writer() {
     e.preventDefault();
     const affiliationInput = document.getElementById("affiliation_input");
 
-    if (changeAffiliation) { //if we clicked the button and the textbox is there, then we submit
+    if (changeAffiliation) {
+      // if we clicked the button and the text box is there, then we submit
       if (affiliationInput.value.length > 0) {
         axios({
-          method: 'post',
+          method: "post",
           url: `http://localhost:4350/api/user/profile`,
           headers: {
             Authorization: sessionJWT,
@@ -192,19 +200,20 @@ function Writer() {
             profile_photo: "",
             is_writer: true,
             affiliation: affiliationInput.value,
-            bio: bio,
-          }
+            bio,
+          },
         })
           .then((r) => {
             if (r.data.code === 40001) {
+              // eslint-disable-next-line no-alert
               alert("Failed to update affiliation");
-            }
-            else {
+            } else {
+              // eslint-disable-next-line no-alert
               alert("Successfully updated affiliation");
               setAffiliation(affiliationInput.value);
             }
           })
-          // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console,no-shadow
           .catch((e) => console.error(e, affiliation));
       }
     }
@@ -217,11 +226,7 @@ function Writer() {
         <div className="grid-rows-1 h-48">
           <div className="row-start-1 col-start-2 col-span-4 row-end-5 h-screen">
             <h1 className="mt-8 text-2xl font-bold ml-12 text-center text-simple font-base tracking-tight text-black-800 sm:text-5xl">
-              {`${username
-                ? username
-                : sessionStorage.getItem("user")
-                }'s`}{" "}
-              Preferences
+              {`${username || sessionStorage.getItem("user")}'s`} Preferences
             </h1>
           </div>
         </div>
@@ -271,7 +276,8 @@ function Writer() {
         <div className="grid-rows-1 h-48">
           <div>
             <h1 className="mt-8 text-2xl font-bold ml-12 text-center text-simple font-base tracking-tight text-black-800 sm:text-5xl">
-              {username}{"'s "}
+              {username}
+              {"'s "}
               Profile
             </h1>
           </div>
@@ -298,65 +304,146 @@ function Writer() {
           </div>
           <div className="row-start-1 col-start-2 col-span-4 row-end-5 h-screen">
             <div className="grid-column-1">
-              <img className="rounded-full m-auto w-1/6" src="/sample_profile.jpg" alt="A sample profile picture" />
+              {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+              <img
+                className="rounded-full m-auto w-1/6"
+                src="/sample_profile.jpg"
+                alt="A sample profile picture"
+              />
               <form className="grid grid-cols-3 gap-4">
                 <h1 className="col-start-1 col-end-4 mt-4 text-2xl text-center font-bold border-b pb-4 tracking-tight text-simple sm:text-5xl">
                   Account Details
                 </h1>
                 <div className="text-right">Username</div>
-                {!changeUsername
-                  ? <div>{username}
-                  </div>
-                  : <input type="text" placeholder={username} id="username_input"></input>}
+                {!changeUsername ? (
+                  <div>{username}</div>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder={username}
+                    id="username_input"
+                  />
+                )}
                 <div>
-                  <button className="hover:border-b-2 hover:border-black" onClick={switchUsername}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                  <button
+                    type="button"
+                    className="hover:border-b-2 hover:border-black"
+                    onClick={switchUsername}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                      />
                     </svg>
                   </button>
                 </div>
                 <div className="text-right">Password</div>
-                {!changePassword
-                  ? <div>*******
-                  </div>
-                  : <input type="password" id="password_input"></input>}
+                {!changePassword ? (
+                  <div>*******</div>
+                ) : (
+                  <input type="password" id="password_input" />
+                )}
                 <div>
-                  <button className="hover:border-b-2 hover:border-black" onClick={switchPassword}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                  <button
+                    type="button"
+                    className="hover:border-b-2 hover:border-black"
+                    onClick={switchPassword}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                      />
                     </svg>
                   </button>
                 </div>
               </form>
               <h1 className="mt-4 text-2xl pt-20 text-center font-bold border-b pb-4 tracking-tight text-simple sm:text-5xl">
                 Bio
-                <button className="hover:border-b-2 hover:border-black ml-4" onClick={switchBio}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                <button
+                  type="button"
+                  className="hover:border-b-2 hover:border-black ml-4"
+                  onClick={switchBio}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                    />
                   </svg>
                 </button>
               </h1>
               <div className="flex justify-center">
-                {!changeBio
-                  ? <p className="w-[40rem] text-center pt-4">
-                    {bio}
-                  </p>
-                  : <textarea className="mt-4" id="bio_input" rows="4" cols="50" placeholder={bio} />}
+                {!changeBio ? (
+                  <p className="w-[40rem] text-center pt-4">{bio}</p>
+                ) : (
+                  <textarea
+                    className="mt-4"
+                    id="bio_input"
+                    rows="4"
+                    cols="50"
+                    placeholder={bio}
+                  />
+                )}
               </div>
               <h1 className="mt-4 text-2xl pt-20 text-center font-bold border-b pb-4 tracking-tight text-simple sm:text-5xl">
                 Affiliation
-                <button className="hover:border-b-2 hover:border-black ml-4" onClick={switchAffiliation}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                <button
+                  type="button"
+                  className="hover:border-b-2 hover:border-black ml-4"
+                  onClick={switchAffiliation}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                    />
                   </svg>
                 </button>
               </h1>
               <div className="flex justify-center">
-                {!changeAffiliation
-                  ? <p className="w-[40rem] text-center pt-4">
-                    {affiliation}
-                  </p>
-                  : <input type="text" placeholder={affiliation} id="affiliation_input"></input>}
+                {!changeAffiliation ? (
+                  <p className="w-[40rem] text-center pt-4">{affiliation}</p>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder={affiliation}
+                    id="affiliation_input"
+                  />
+                )}
               </div>
             </div>
 
@@ -371,15 +458,13 @@ function Writer() {
             </div>
           </div>
           <div className="row-start-1 row-end-5 h-screen" />
-        </div >
-      </div >
+        </div>
+      </div>
     );
   }
 
   return (
-    <div>
-      {page === "profile" ? renderProfile() : renderPreferences()}
-    </div>
+    <div>{page === "profile" ? renderProfile() : renderPreferences()}</div>
   );
 }
 
