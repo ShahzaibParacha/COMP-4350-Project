@@ -2,7 +2,8 @@ name: Required Code Review
 on: 
   pull_request_review:
   pull_request:
-    types: [ synchronize, opened, edited, closed, reopeend, review_requested, ready_for_review ]
+    branches: ["master", "develop"]
+    types: [synchronize, opened, edited, closed, reopened, review_requested, ready_for_review]
     
 jobs:
   check:
