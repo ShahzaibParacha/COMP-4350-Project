@@ -8,13 +8,10 @@ import SignUp from "./components/signup/SignUp";
 import CreatePost from "./components/createpost/CreatePost";
 
 import "./App.css";
-import { useAuthContext } from "./hooks/useAuthContext";
+import useAuthContext from "./hooks/useAuthContext";
 
 function App() {
-  const { user_id } = useAuthContext();
-
-  console.log("here");
-  console.log(user_id);
+  const { userId } = useAuthContext();
 
   return (
     <BrowserRouter>
@@ -22,17 +19,17 @@ function App() {
         <Route
           exact
           path="/"
-          element={user_id != null ? <Home /> : <Navigate to="/login" />}
+          element={userId != null ? <Home /> : <Navigate to="/login" />}
         />
         <Route
           exact
           path="/writer/:id"
-          element={user_id != null ? <Writer /> : <Navigate to="/login" />}
+          element={userId != null ? <Writer /> : <Navigate to="/login" />}
         />
         <Route
           exact
           path="/writer/:id/write"
-          element={user_id != null ? <CreatePost /> : <Navigate to="/login" />}
+          element={userId != null ? <CreatePost /> : <Navigate to="/login" />}
         />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<SignUp />} />

@@ -1,29 +1,38 @@
 import { createContext, useReducer } from "react";
+import PropTypes from "prop-types";
 
 export const AuthContext = createContext();
 
 export const authReducer = (state, action) => {
   switch (action.type) {
     case "SET_USER_ID":
-      return { ...state, user_id: action.payload };
+      return { ...state, userId: action.payload };
     case "SET_TOKEN":
       return { ...state, token: action.payload };
     case "CLEAR":
-      return { ...state, user_id: null, token: null };
+      return { ...state, userId: null, token: null };
     default:
       return state;
   }
 };
 
-export const AuthContextProvider = ({ children }) => {
+export function AuthContextProvider({ children }) {
   const [state, dispatch] = useReducer(authReducer, {
-    user_id: null,
+    userId: null,
     token: null,
   });
 
   return (
+    // might need to change this in the future if performance is degrading
+    // eslint-disable-next-line
     <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}
     </AuthContext.Provider>
   );
+}
+
+AuthContextProvider.propTypes = {
+  // can keep this since it is up to preference according to the doc
+  // eslint-disable-next-line
+  children: PropTypes.any,
 };
