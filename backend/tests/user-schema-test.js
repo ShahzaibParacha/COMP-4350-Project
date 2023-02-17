@@ -4,13 +4,6 @@ const Post = require("../schema/post-schema");
 const expect = require('chai').expect;
 
 describe('User schema', function () {
-    // it('should not accept since all required user information are NOT given', function () {
-    //     let user = new User()
-    //     user.validate(function (err) {
-    //         expect(err.errors.user_id).to.exist;
-    //     });
-    // });
-
     it('should accept since all required user information are given', function () {
         let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "this is username", password: "this is password", email: "this is an email"});
 
@@ -36,22 +29,22 @@ describe('User schema', function () {
     })
 
     it('should not accept since email cannot over 50 characters', () => {
-        let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "ab", password: "this is password", email: "123456789012345678901234567890123456789012345678901"})
+        let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "Wayne", password: "this is password", email: "123456789012345678901234567890123456789012345678901"})
         expect(user.validateSync().errors.email).to.exist
     })
 
     it('should not accept since email cannot over 5 characters', () => {
-        let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "ab", password: "this is password", email: "emai"})
+        let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "Wayne", password: "this is password", email: "emai"})
         expect(user.validateSync().errors.email).to.exist
     })
 
     it('should not accept since password cannot over 20 characters', () => {
-        let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "ab", password: "123456789012345678901", email: "this is a email"})
+        let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "Wayne", password: "123456789012345678901", email: "this is a email"})
         expect(user.validateSync().errors.password).to.exist
     })
 
     it('should not accept since password must over 8 characters', () => {
-        let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "ab", password: "passwor", email: "1234567"})
+        let user = new User({ _id: new mongoose.mongo.ObjectID(), username: "Wayne", password: "passwor", email: "1234567"})
         expect(user.validateSync().errors.password).to.exist
     })
 })
