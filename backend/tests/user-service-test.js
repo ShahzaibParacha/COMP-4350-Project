@@ -284,7 +284,7 @@ describe('User service and model', function () {
         })
     })
 
-    describe('Test get user information account', function () {
+    describe('Test get user information', function () {
         it('should get the user since the user id is valid', async () => {
             let user = userList.find(user => user.username === 'Xin An')
             let result = await userService.getUserInfo(user._id)
