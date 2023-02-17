@@ -29,12 +29,20 @@ class Result {
         return new Result(ResultCode.FAIL.code, msg, null)
     }
 
-    static invalidUserId(){
+    static invalidUserId() {
         return new Result(ResultCode.INVALID_USERID.code, ResultCode.INVALID_USERID.desc, null)
     }
 
-    static invalidPostId(){
+    static invalidPostId() {
         return new Result(ResultCode.INVALID_POSTID.code, ResultCode.INVALID_POSTID.desc, null)
+    }
+
+    static invalidEmail() {
+        return new Result(ResultCode.INVALID_EMAIL.code, ResultCode.INVALID_EMAIL.desc, null)
+    }
+
+    static invalidPassword() {
+        return new Result(ResultCode.INVALID_PASSWORD.code, ResultCode.INVALID_EMAIL.desc, null)
     }
 }
 

@@ -11,7 +11,7 @@ const userSchema = new Schema({
         validate: (username) => {
             return username.length >= 3 && username.length <= 30;
         },
-        require: true
+        required: true
     },
 
     email: {
@@ -22,12 +22,12 @@ const userSchema = new Schema({
         validate: (email) => {
             return email.length >= 5 && email.length <= 50;
         },
-        require: true,
+        required: true,
     },
 
     password: {
         type: String,
-        require: true,
+        required: true,
         minLength: 8,
         maxLength: 20,
         validate: (password) => {
@@ -37,38 +37,38 @@ const userSchema = new Schema({
 
     is_writer: { // true means writer, false means reader
         type: Boolean,
-        require: true,
+        required: true,
         default: false,
     },
 
     registration_date: {
         type: Date,
         default: Date.now(),
-        require: false
+        required: false
     },
 
     last_login_date: {
         type: Date,
-        require: false,
+        required: false,
         default: null
     },
 
     // TODO: create something to store image and video
     profile_photo: {
         type: String,
-        require: true,
+        required: true,
         default: "a link to default profile photo",
     },
 
     bio: {
         type: String,
-        require: false,
+        required: false,
         default: ""
     },
 
     affiliation: {
         type: String,
-        require: false,
+        required: false,
         default: ""
     }
 })
