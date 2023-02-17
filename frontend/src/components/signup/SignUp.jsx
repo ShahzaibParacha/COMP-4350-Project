@@ -6,6 +6,7 @@ function SignUp() {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [loginStatus, setLoginStatus] = useState("");
   const navigate = useNavigate();
 
   const handleUsername = (e) => {
@@ -23,10 +24,18 @@ function SignUp() {
     setPassword(e.target.value);
   };
 
+  function renderFailure() {
+    return <p className="text-red-600">Signup Failed! Try again</p>;
+  }
+
+  function renderSuccess() {
+    return <p className="text-green-600">Signup Succeeded!</p>;
+  }
+
   function handleSignUp(e) {
     e.preventDefault();
     axios
-      .post("http://0.0.0.0:4350/api/free/user/signup", {
+      .post("http://localhost:4350/api/free/user/signup", {
         username,
         email,
         password,
@@ -38,8 +47,12 @@ function SignUp() {
       })
       .then((res) => {
         // eslint-disable-next-line no-console
+        console.log(res.data.msg);
         if (res.data.msg === "success") {
+          setLoginStatus("success");
           navigate("../login");
+        } else {
+          setLoginStatus("failure");
         }
       });
   }
@@ -118,6 +131,8 @@ function SignUp() {
               Sign up
             </button>
           </div>
+          <div>{loginStatus === "success" ? renderSuccess() : null}</div>
+          <div>{loginStatus === "failure" ? renderFailure() : null}</div>
           <div className="text-center">
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Already have an account? <a href="../login">Log in</a>

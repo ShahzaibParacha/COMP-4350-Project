@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import WidePost from "../widepost/WidePost";
 
 function Home() {
   const [session, setSession] = useState(null);
+  const { user_id, token, dispatch } = useAuthContext();
 
   useEffect(() => {
     const currentSession = {
-      session_jwt: window.sessionStorage.getItem("session_jwt"),
-      session_user_id: window.sessionStorage.getItem("session_user_id"),
+      session_jwt: user_id,
+      session_user_id: token,
     };
     setSession(currentSession);
     // eslint-disable-next-line no-console
@@ -22,7 +24,7 @@ function Home() {
   }
 
   function handleLogout() {
-    window.sessionStorage.clear();
+    dispatch({ type: "CLEAR", payload: "" });
     navigate("/login");
   }
 
@@ -34,10 +36,7 @@ function Home() {
             CASTr
           </h1>
         </button>
-        <Link
-          to={`writer/${sessionStorage.getItem("session_user_id")}`}
-          type="button"
-        >
+        <Link to={`writer/${user_id}`} type="button">
           <h1 className="mt-8 text-2xl font-bold ml-12 font-base tracking-tight text-black-800 sm:text-5xl">
             Profile
           </h1>

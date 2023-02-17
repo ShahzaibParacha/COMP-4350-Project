@@ -8,43 +8,31 @@ import SignUp from "./components/signup/SignUp";
 import CreatePost from "./components/createpost/CreatePost";
 
 import "./App.css";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 function App() {
+  const { user_id } = useAuthContext();
+
+  console.log("here");
+  console.log(user_id);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           exact
           path="/"
-          element={
-            window.sessionStorage.getItem("session_user_id") != null ? (
-              <Home />
-            ) : (
-              <Navigate to="/signup" />
-            )
-          }
+          element={user_id != null ? <Home /> : <Navigate to="/login" />}
         />
         <Route
           exact
           path="/writer/:id"
-          element={
-            window.sessionStorage.getItem("session_user_id") != null ? (
-              <Writer />
-            ) : (
-              <Navigate to="/signup" />
-            )
-          }
+          element={user_id != null ? <Writer /> : <Navigate to="/login" />}
         />
         <Route
           exact
           path="/writer/:id/write"
-          element={
-            window.sessionStorage.getItem("session_user_id") != null ? (
-              <CreatePost />
-            ) : (
-              <Navigate to="/signup" />
-            )
-          }
+          element={user_id != null ? <CreatePost /> : <Navigate to="/login" />}
         />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<SignUp />} />

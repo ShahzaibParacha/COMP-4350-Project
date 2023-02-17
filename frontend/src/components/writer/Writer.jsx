@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 function Writer() {
-  const sessionUserID = sessionStorage.getItem("session_user_id");
-  const sessionJWT = sessionStorage.getItem("session_jwt");
-
   const [page, setPage] = useState("profile");
   const navigate = useNavigate();
 
@@ -19,17 +17,18 @@ function Writer() {
   const [bio, setBio] = useState("");
   const [affiliation, setAffiliation] = useState("");
 
+  const { user_id, token, dispatch } = useAuthContext();
+
   useEffect(() => {
     axios
       .get(`http://localhost:4350/api/user/profile`, {
-        params: { user_id: sessionUserID },
+        params: { user_id },
         headers: {
-          Authorization: sessionJWT,
+          Authorization: token,
           withCredentials: true,
         },
       })
       .then((r) => {
-        sessionStorage.setItem("user", r.data.data);
         setUsername(r.data.data.username);
         setBio(r.data.data.bio);
         setAffiliation(r.data.data.affiliation);
@@ -49,15 +48,15 @@ function Writer() {
   function handleDeletion() {
     axios
       .get(`http://localhost:4350/api/user/delete_account`, {
-        params: { user_id: sessionUserID },
+        params: { user_id },
         headers: {
-          Authorization: sessionJWT,
+          Authorization: token,
           withCredentials: true,
         },
       })
       .then((r) => {
         if (r.data.msg === "success") {
-          sessionStorage.clear();
+          dispatch({ type: "CLEAR", payload: "" });
           navigate("../login");
         }
       })
@@ -76,11 +75,11 @@ function Writer() {
           method: "post",
           url: `http://localhost:4350/api/user/username`,
           headers: {
-            Authorization: sessionJWT,
+            Authorization: token,
             withCredentials: true,
           },
           data: {
-            user_id: sessionUserID,
+            user_id,
             new_username: usernameInput.value,
           },
         })
@@ -113,11 +112,11 @@ function Writer() {
           method: "post",
           url: `http://localhost:4350/api/user/password`,
           headers: {
-            Authorization: sessionJWT,
+            Authorization: token,
             withCredentials: true,
           },
           data: {
-            user_id: sessionUserID,
+            user_id,
             new_password: passwordInput.value,
           },
         })
@@ -153,11 +152,11 @@ function Writer() {
           method: "post",
           url: `http://localhost:4350/api/user/profile`,
           headers: {
-            Authorization: sessionJWT,
+            Authorization: token,
             withCredentials: true,
           },
           data: {
-            user_id: sessionUserID,
+            user_id,
             profile_photo: "",
             is_writer: true,
             affiliation,
@@ -192,11 +191,11 @@ function Writer() {
           method: "post",
           url: `http://localhost:4350/api/user/profile`,
           headers: {
-            Authorization: sessionJWT,
+            Authorization: token,
             withCredentials: true,
           },
           data: {
-            user_id: sessionUserID,
+            user_id,
             profile_photo: "",
             is_writer: true,
             affiliation: affiliationInput.value,
@@ -226,7 +225,7 @@ function Writer() {
         <div className="grid-rows-1 h-48">
           <div className="row-start-1 col-start-2 col-span-4 row-end-5 h-screen">
             <h1 className="mt-8 text-2xl font-bold ml-12 text-center text-simple font-base tracking-tight text-black-800 sm:text-5xl">
-              {`${username || sessionStorage.getItem("user")}'s`} Preferences
+              {`${username}'s`} Preferences
             </h1>
           </div>
         </div>
@@ -285,8 +284,7 @@ function Writer() {
         <div className="grid grid-rows-4 grid-cols-6 gap-4">
           <div className="row-start-1 justify-items-center row-end-5 bg-black-600 row-span-2 h-screen">
             <Link
-              to={`../writer/${sessionStorage.getItem(
-                "session_user_id"
+              to={`../writer/${user_id}
               )}/write`}
               type="button"
               className=" bg-base-100 w-9/12 text-center text-simple border-neutral border-2 hover:bg-neutral hover:text-white px-5 py-3.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

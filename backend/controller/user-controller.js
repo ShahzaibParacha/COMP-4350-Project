@@ -90,7 +90,7 @@ function updatePassword(req, res) {
 }
 
 exports.login = login
-exports.singup = signup
+exports.signup = signup
 exports.getUserProfile = getUserProfile
 exports.updateUserProfile = updateUserProfile
 exports.removeAccount = removeAccount

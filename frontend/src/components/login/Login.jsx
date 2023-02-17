@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loginStatus, setLoginStatus] = useState("");
   const navigate = useNavigate();
+
+  const { dispatch } = useAuthContext();
 
   const handleEmailAddress = (e) => {
     e.preventDefault();
@@ -29,9 +32,9 @@ function Login() {
       .then((res) => {
         // eslint-disable-next-line no-console
         if (res.data.msg === "success") {
-          window.sessionStorage.setItem("session_user_id", res.data.data.id);
-          window.sessionStorage.setItem("session_jwt", res.data.data.token);
-          setLoginStatus("logged in");
+          dispatch({ type: "SET_USER_ID", payload: res.data.data.id });
+          dispatch({ type: "SET_TOKEN", payload: res.data.data.token });
+          setLoginStatus("success");
           navigate("../");
         } else {
           setLoginStatus("failure");
