@@ -16,3 +16,5 @@ jobs:
         with:
           requirements: |
             - paths: unmatched
+              teams: 
+                - write
