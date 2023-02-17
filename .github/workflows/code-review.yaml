@@ -13,3 +13,6 @@ jobs:
     steps:
       - name: Required Code review
         uses: Automattic/action-required-review@v3
+        with:
+          requirements: |
+            - paths: unmatched
