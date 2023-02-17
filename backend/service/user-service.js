@@ -1,4 +1,5 @@
 const userModel = require("../model/user-model")
+const userSchema = require("../schema/user-schema")
 const jwt = require("jsonwebtoken")
 
 async function signup({email, password, username, isWriter}) {
@@ -7,6 +8,7 @@ async function signup({email, password, username, isWriter}) {
 
 async function getJwt(email, password) {
     let user = await userModel.getUserByEmail(email)
+    await userSchema.updateOne({email: email}, {last_login_date: Date.now()})
 
     if (user && user.password === password) {
         const tokenObj = {
