@@ -25,4 +25,4 @@ jobs:
       - name: Installing Nodejs dependencies
         run: npm install
       - name: Build
-        run: npm run auto-build
+        run: npm run build
