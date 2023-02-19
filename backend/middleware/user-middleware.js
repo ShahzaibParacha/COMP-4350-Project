@@ -5,6 +5,7 @@ const Result = require("../util/Result");
 function userIdValidation(req, res, next) {
     console.log(`validating user_id`)
     let userId = req.query.user_id
+
     if (userId !== undefined && userId !== null) {
         if (ParamValidator.isValidObjectId(userId) === false) {
             res.json(Result.invalidUserId())
