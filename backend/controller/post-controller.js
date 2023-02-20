@@ -25,6 +25,7 @@ const createPost = async (req, res) => {
 const updatePostContent = async (req, res) => {
     const{content, post_id} = req.body
     console.log(post_id, content)
+    console.log("here");
 
     if(!mongoose.Types.ObjectId.isValid(post_id)){
         return res.json(Result.invalidPostId())
@@ -78,7 +79,6 @@ const getRecentPost = async (req, res) => {
 //TODO: implement pagination
 const getAllPostsFromUser = async (req, res) => {
     const { user_id } = req.body
-    console.log(user_id)
 
     // const page = parseInt(req.query.page) || numberPages
     // const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage

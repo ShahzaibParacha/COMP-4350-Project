@@ -5,8 +5,6 @@ const mongoose = require('mongoose');
 const expect = require('chai').expect;
 require("dotenv").config();
 
-const useRealDatabase = false;
-
 /* generatePosts
  *
  * Purpose: Generates a number of posts assigned to a number of users
@@ -35,7 +33,7 @@ const generatePosts = async (numPosts, numUsers) => {
 
         const attrib = {_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i, post_date: new Date(i * 1000000)};
 
-        if (useRealDatabase) {
+        if (process.env.TEST_TYPE === 'INTEGRATION') {
             await Post.create(attrib);
         }
         else {
@@ -115,7 +113,7 @@ describe('Post services and model', function () {
 
     //clear out the posts array
     beforeEach(async () => {
-        if (useRealDatabase) {
+        if (process.env.TEST_TYPE === 'INTEGRATION') {
             mongoose
             .connect(process.env.MONGODB_CONNECTION, {
                 useNewUrlParser: true,
@@ -133,7 +131,7 @@ describe('Post services and model', function () {
 
     //get rid of all stubs
     afterEach(async () => {
-        if (useRealDatabase) {
+        if (process.env.TEST_TYPE === 'INTEGRATION') {
             await mongoose.disconnect();
         }
         else {
