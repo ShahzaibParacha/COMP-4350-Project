@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "jest": "^29.4.2"
+  },
+  "dependencies": {
+    "@uiw/react-md-editor": "^3.20.5"
   }
 }

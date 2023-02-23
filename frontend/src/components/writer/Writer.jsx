@@ -284,8 +284,7 @@ function Writer() {
         <div className="grid grid-rows-4 grid-cols-6 gap-4">
           <div className="row-start-1 justify-items-center row-end-5 bg-black-600 row-span-2 h-screen">
             <Link
-              to={`../writer/${userId}
-              )}/write`}
+              to={`../writer/${userId}/write`}
               type="button"
               className=" bg-base-100 w-9/12 text-center text-simple border-neutral border-2 hover:bg-neutral hover:text-white px-5 py-3.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
