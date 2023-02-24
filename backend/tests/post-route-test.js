@@ -86,16 +86,6 @@ describe('Post routes', function () {
             
         app.use("/api", apiRouter)
             
-        // just for sample test, delete before sprint2 due
-        app.post("/test", (req, res) => {
-            console.log(req.body)
-            res.send(req.body)
-        })
-            
-        app.get('/test', (req, res) => {
-            res.send(req.query)
-        })
-            
         server = app.listen(process.env.PORT, () => {
             console.log(`Comp4350 backend is listening on port ${process.env.PORT}`)
         })

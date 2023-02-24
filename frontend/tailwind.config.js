@@ -7,7 +7,7 @@ module.exports = {
     "./src/components/**/*.{html,js}",
     "../public/index.html",
   ],
-
+  mode: "jit",
   darkMode: "class",
   theme: {
     extend: {

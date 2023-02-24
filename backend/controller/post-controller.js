@@ -25,7 +25,6 @@ const createPost = async (req, res) => {
 const updatePostContent = async (req, res) => {
     const{content, post_id} = req.body
     console.log(post_id, content)
-    console.log("here");
 
     if(!mongoose.Types.ObjectId.isValid(post_id)){
         return res.json(Result.invalidPostId())
