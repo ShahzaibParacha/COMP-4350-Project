@@ -33,6 +33,7 @@ function Writer() {
         },
       })
       .then((r) => {
+        // stores the user profile
         setUsername(r.data.data.username);
         setPassword(r.data.data.password);
         setBio(r.data.data.bio);
@@ -55,6 +56,7 @@ function Writer() {
     hideMessage(e.target);
   }
 
+  // trigger the message animation
   function showMessage(element, message, color, persists) {
     element.innerHTML = message;
     element.style.color = color;
@@ -116,14 +118,19 @@ function Writer() {
     const usernameInput = document.getElementById("username_input");
 
     if (changeUsername) {
-      // if we clicked the button and the text box is there, then we submit
+      // do not update username if the username entered is the same
+      // or if the textbox is left blank
       if (
         usernameInput.value.length === 0 ||
         usernameInput.value === username
       ) {
         isChangingUsername(!changeUsername);
         hideMessage(document.getElementById("username_message"));
-      } else if (
+      }
+      // update username if the textbox is not left blank
+      // and if the username entered is different from the current
+      // username
+      else if (
         usernameInput.value.length > 0 &&
         username !== usernameInput.value
       ) {
@@ -140,6 +147,7 @@ function Writer() {
           },
         })
           .then((r) => {
+            // if there was a problem with the update
             if (r.data.code === 40001) {
               showMessage(
                 document.getElementById("username_message"),
@@ -147,7 +155,9 @@ function Writer() {
                 failure,
                 true
               );
-            } else {
+            }
+            // if the update was successful
+            else {
               showMessage(
                 document.getElementById("username_message"),
                 "Successfully updated!",
@@ -177,6 +187,7 @@ function Writer() {
     );
 
     if (changePassword) {
+      // do not update password if all the textboxes are left blank
       if (
         oldPasswordInput.value.length === 0 &&
         newPasswordInput.value.length === 0 &&
@@ -184,23 +195,25 @@ function Writer() {
       ) {
         isChangingPassword(!changePassword);
         hideMessage(document.getElementById("password_message"));
-      } else if (oldPasswordInput.value !== password) {
+      }
+      // do not update password if the old password is not correct
+      else if (oldPasswordInput.value !== password) {
         showMessage(
           document.getElementById("password_message"),
           "Incorrect old password!",
           failure,
           true
         );
-      } else if (newPasswordInput.value !== confirmNewPasswordInput.value) {
+      }
+      // do not update password if the passwords do not match
+      else if (newPasswordInput.value !== confirmNewPasswordInput.value) {
         showMessage(
           document.getElementById("password_message"),
           "Passwords do not match!",
           failure,
           true
         );
-      }
-      // if we clicked the button and the text box is there, then we submit
-      else {
+      } else {
         axios({
           method: "post",
           url: `http://localhost:4350/api/user/password`,
@@ -214,6 +227,7 @@ function Writer() {
           },
         })
           .then((r) => {
+            // if there was a problem with the update
             if (r.data.code === 40000) {
               showMessage(
                 document.getElementById("password_message"),
@@ -221,7 +235,9 @@ function Writer() {
                 failure,
                 true
               );
-            } else {
+            }
+            // if the update was successful
+            else {
               showMessage(
                 document.getElementById("password_message"),
                 "Successfully updated!",
@@ -232,10 +248,9 @@ function Writer() {
               isChangingPassword(!changePassword);
             }
           })
-          // eslint-disable-next-line no-console,no-shadow
-          .catch((e) => {
+          .catch((err) => {
             // eslint-disable-next-line no-console
-            console.error(e, password);
+            console.error(err, password);
           });
       }
     }
@@ -266,6 +281,7 @@ function Writer() {
         },
       })
         .then((r) => {
+          // if there was a problem with the update
           if (r.data.code === 40001) {
             showMessage(
               document.getElementById("bio_message"),
@@ -273,7 +289,9 @@ function Writer() {
               failure,
               true
             );
-          } else {
+          }
+          // if the update was successful
+          else {
             showMessage(
               document.getElementById("bio_message"),
               "Successfully updated!",
@@ -310,6 +328,7 @@ function Writer() {
         },
       })
         .then((r) => {
+          // if there was a problem with the update
           if (r.data.code === 40001) {
             showMessage(
               document.getElementById("affiliation_message"),
@@ -317,7 +336,9 @@ function Writer() {
               failure,
               true
             );
-          } else {
+          }
+          // if the update was successful
+          else {
             showMessage(
               document.getElementById("affiliation_message"),
               "Successfully updated!",
@@ -383,6 +404,7 @@ function Writer() {
   //   );
   // }
 
+  // return a string of *'s of the same length as the password
   function getStarString(s) {
     const { length } = s;
     let toReturn = "";
