@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
+import Comment from "../comment/comment";
 
 function Writer() {
   // const [page, setPage] = useState("profile");
@@ -23,6 +24,14 @@ function Writer() {
 
   const success = "#006600";
   const failure = "#660000";
+
+  const post = {
+    content: "Start writing...",
+    post_date: "2023-02-24T16:40:08.178Z",
+    _id: "63f8f5d64172cc717673675f",
+    user_id: "63ed9f2533c8c71a58f98b9b",
+    __v: 0,
+  };
 
   useEffect(() => {
     axios
@@ -790,6 +799,7 @@ function Writer() {
               </form>
             </div>
           )}
+          <Comment post={post} />
         </div>
       </div>
     );

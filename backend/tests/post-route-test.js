@@ -69,7 +69,6 @@ const setup = async (numPosts, numUsers) => {
 
 describe('Post routes', function () {
 
-    //clear out the posts array
     beforeEach(async () => {
         const app = express();
 
@@ -91,13 +90,12 @@ describe('Post routes', function () {
         })
     });
 
-    //get rid of all stubs
     afterEach(async () => {
         await mongoose.disconnect();
         server.close();
     });
 
-    // this test will change once get_recen_posts paginate
+    // this test will change once get_recent_posts paginate
     // also this test does not cover line 75 of post controller
     // I do not know how to make Post.find() throw an exception
     describe('GET request to get_recent_posts', function() {
