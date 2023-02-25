@@ -90,6 +90,7 @@ function Comment() {
         },
       }).then(() => {
         updateLikes(numLikes + 1);
+        changeHasLiked(!hasLiked);
       });
     } else {
       axios({
@@ -105,10 +106,9 @@ function Comment() {
         },
       }).then(() => {
         updateLikes(numLikes - 1);
+        changeHasLiked(!hasLiked);
       });
     }
-
-    changeHasLiked(!hasLiked);
   }
 
   function writeComment() {
