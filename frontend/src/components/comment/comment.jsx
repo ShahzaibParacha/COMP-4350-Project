@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import useAuthContext from "../../hooks/useAuthContext";
+import { showMessage, success, failure } from "../../util/messages";
 
 function Comment() {
   const { userId, token } = useAuthContext(); // userId is the id of the user who logged in
@@ -8,6 +10,7 @@ function Comment() {
   const [writingComment, isWritingComment] = useState(false);
   const [numLikes, updateLikes] = useState("");
   const [comments, updateComments] = useState([]);
+  const [hasWrittenComment, changeHasWrittenComment] = useState(false);
   const [postId, setPost] = useState(null);
 
   useEffect(() => {
@@ -52,8 +55,22 @@ function Comment() {
         }).then((s) => {
           updateLikes(s.data.data);
         });
+
+        axios({
+          method: "get",
+          params: {
+            post_id: id,
+          },
+          url: `http://localhost:4350/api/comment/getCommentsFromPost`,
+          headers: {
+            Authorization: token,
+            withCredentials: true,
+          },
+        }).then((s) => {
+          updateComments(s.data.data);
+        });
       });
-  }, []);
+  }, [hasWrittenComment]);
 
   function likePost() {
     if (!hasLiked) {
@@ -93,9 +110,53 @@ function Comment() {
 
   function writeComment() {
     isWritingComment(!writingComment);
+    changeHasWrittenComment(false);
   }
 
-  function submitComment() {}
+  function submitComment() {
+    const commentInput = document.getElementById("comment_input");
+
+    if (writingComment) {
+      if (commentInput.value.trim().length > 0) {
+        const newComment = {
+          user_id: userId,
+          post_id: postId,
+          content: commentInput.value.trim(),
+        };
+
+        axios({
+          method: "post",
+          url: `http://localhost:4350/api/comment/create`,
+          headers: {
+            Authorization: token,
+            withCredentials: true,
+          },
+          data: newComment,
+        }).then((r) => {
+          // if there was a problem with the update
+          if (r.data.code === 40000) {
+            showMessage(
+              document.getElementById("comment_message"),
+              "Could not create comment!",
+              failure,
+              false
+            );
+          }
+          // if the update was successful
+          else {
+            changeHasWrittenComment(true);
+            showMessage(
+              document.getElementById("comment_message"),
+              "Comment created!",
+              success,
+              false
+            );
+          }
+        });
+      }
+    }
+    isWritingComment(!writingComment);
+  }
 
   const buttonClicked = "w-6 h-6 fill-blue-400 hover:fill-blue-800";
   const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none";
@@ -120,7 +181,9 @@ function Comment() {
                 />
               </svg>
             </button>
-            <p className="ml-2">{numLikes} Like/s</p>
+            <p className="ml-2">
+              {numLikes} {numLikes !== 1 ? "Likes" : "Like"}
+            </p>
           </div>
         </div>
         <div className="basis-1/2 flex justify-center">
@@ -145,7 +208,7 @@ function Comment() {
         </div>
       </div>
       {writingComment && (
-        <div className="border-black border-b-2">
+        <div className="px-4 mt-4">
           <p>What&apos;s on your mind?</p>
           <textarea className="resize-none w-full h-32" id="comment_input" />
           <div className="flex justify-end">
@@ -159,6 +222,38 @@ function Comment() {
           </div>
         </div>
       )}
+      <div className="flex justify-center my-4">
+        <p id="comment_message" className="row-span-1 opacity-0 text-md" />
+      </div>
+      <div>
+        {comments &&
+          comments.map((comment) => (
+            <div className="flex border-black border-b-2 last:border-b-0 h-32 p-1">
+              <div className="basis-1/6 flex justify-center">
+                <img
+                  className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
+                  src="/sample_profile.jpg"
+                  alt="Profile"
+                />
+              </div>
+              <div className="basis-5/6">
+                <div className="mb-2 h-[1rem] flex justify-between">
+                  <p className="font-bold leading-4 text-[1rem]">
+                    {comment.username}
+                  </p>
+                  <p className="leading-4 text-[1rem]">
+                    {formatDistanceToNow(new Date(comment.comment_date), {
+                      addSuffix: true,
+                    })}
+                  </p>
+                </div>
+                <div className="h-[6rem] overflow-y-auto">
+                  <p>{comment.content}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }

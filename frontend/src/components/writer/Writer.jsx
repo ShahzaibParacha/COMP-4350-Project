@@ -3,6 +3,12 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 import Comment from "../comment/comment";
+import {
+  hideMessage,
+  showMessage,
+  success,
+  failure,
+} from "../../util/messages";
 
 function Writer() {
   // const [page, setPage] = useState("profile");
@@ -21,9 +27,6 @@ function Writer() {
 
   const { userId, token, dispatch } = useAuthContext();
   const { id } = useParams(); // userId is the id of the user who logged in; id is the id of the user whose profile is being rendered
-
-  const success = "#006600";
-  const failure = "#660000";
 
   useEffect(() => {
     axios
@@ -52,31 +55,6 @@ function Writer() {
   //     setPage("profile");
   //   }
   // }
-
-  /* eslint-disable */
-  function animationEnd(e) {
-    hideMessage(e.target);
-  }
-
-  // trigger the message animation
-  function showMessage(element, message, color, persists) {
-    element.innerHTML = message;
-    element.style.color = color;
-    element.style.opacity = "1";
-    element.classList = "";
-
-    if (!persists) {
-      element.addEventListener("animationend", animationEnd);
-      element.classList = "vanishing";
-    }
-  }
-
-  function hideMessage(element) {
-    element.innerHTML = "";
-    element.style.opacity = "0";
-    element.classList = "";
-  }
-  /* eslint-enable */
 
   function showDeleteModal() {
     document.getElementById("delete_modal").style.display = "block";
@@ -123,8 +101,8 @@ function Writer() {
       // do not update username if the username entered is the same
       // or if the textbox is left blank
       if (
-        usernameInput.value.length === 0 ||
-        usernameInput.value === username
+        usernameInput.value.trim().length === 0 ||
+        usernameInput.value.trim() === username
       ) {
         isChangingUsername(!changeUsername);
         hideMessage(document.getElementById("username_message"));
@@ -133,8 +111,8 @@ function Writer() {
       // and if the username entered is different from the current
       // username
       else if (
-        usernameInput.value.length > 0 &&
-        username !== usernameInput.value
+        usernameInput.value.trim().length > 0 &&
+        username !== usernameInput.value.trim()
       ) {
         axios({
           method: "post",
@@ -145,7 +123,7 @@ function Writer() {
           },
           data: {
             user_id: userId,
-            new_username: usernameInput.value,
+            new_username: usernameInput.value.trim(),
           },
         })
           .then((r) => {
@@ -166,7 +144,7 @@ function Writer() {
                 success,
                 false
               );
-              setUsername(usernameInput.value);
+              setUsername(usernameInput.value.trim());
               isChangingUsername(!changeUsername);
             }
           })
@@ -191,15 +169,15 @@ function Writer() {
     if (changePassword) {
       // do not update password if all the textboxes are left blank
       if (
-        oldPasswordInput.value.length === 0 &&
-        newPasswordInput.value.length === 0 &&
-        confirmNewPasswordInput.value.length === 0
+        oldPasswordInput.value.trim().length === 0 &&
+        newPasswordInput.value.trim().length === 0 &&
+        confirmNewPasswordInput.value.trim().length === 0
       ) {
         isChangingPassword(!changePassword);
         hideMessage(document.getElementById("password_message"));
       }
       // do not update password if the old password is not correct
-      else if (oldPasswordInput.value !== password) {
+      else if (oldPasswordInput.value.trim() !== password) {
         showMessage(
           document.getElementById("password_message"),
           "Incorrect old password!",
@@ -208,7 +186,9 @@ function Writer() {
         );
       }
       // do not update password if the passwords do not match
-      else if (newPasswordInput.value !== confirmNewPasswordInput.value) {
+      else if (
+        newPasswordInput.value.trim() !== confirmNewPasswordInput.value.trim()
+      ) {
         showMessage(
           document.getElementById("password_message"),
           "Passwords do not match!",
@@ -225,7 +205,7 @@ function Writer() {
           },
           data: {
             user_id: userId,
-            new_password: newPasswordInput.value,
+            new_password: newPasswordInput.value.trim(),
           },
         })
           .then((r) => {
@@ -246,7 +226,7 @@ function Writer() {
                 success,
                 false
               );
-              setPassword(newPasswordInput.value);
+              setPassword(newPasswordInput.value.trim());
               isChangingPassword(!changePassword);
             }
           })
@@ -279,7 +259,7 @@ function Writer() {
           profile_photo: "",
           is_writer: true,
           affiliation,
-          bio: bioInput.value,
+          bio: bioInput.value.trim(),
         },
       })
         .then((r) => {
@@ -289,7 +269,7 @@ function Writer() {
               document.getElementById("bio_message"),
               "Failed to update!",
               failure,
-              true
+              false
             );
           }
           // if the update was successful
@@ -300,7 +280,7 @@ function Writer() {
               success,
               false
             );
-            setBio(bioInput.value);
+            setBio(bioInput.value.trim());
           }
         })
         // eslint-disable-next-line no-console,no-shadow
@@ -325,7 +305,7 @@ function Writer() {
           user_id: userId,
           profile_photo: "",
           is_writer: true,
-          affiliation: affiliationInput.value,
+          affiliation: affiliationInput.value.trim(),
           bio,
         },
       })
@@ -336,7 +316,7 @@ function Writer() {
               document.getElementById("affiliation_message"),
               "Failed to update!",
               failure,
-              true
+              false
             );
           }
           // if the update was successful
@@ -347,7 +327,7 @@ function Writer() {
               success,
               false
             );
-            setAffiliation(affiliationInput.value);
+            setAffiliation(affiliationInput.value.trim());
           }
         })
         // eslint-disable-next-line no-console,no-shadow

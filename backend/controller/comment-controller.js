@@ -27,7 +27,7 @@ const getCommentsFromPost = (req, res) => {
             Promise.all(promises).then((users) => {
                 for (let i = 0; i < comments.length; i++) {
                     //return the username of the users who wrote the comments too
-                    result.push({username: users[i].username, user_id: comments[i].user_id, post_id: comments[i].post_id, content: comments[i].content })
+                    result.push({username: users[i].username, user_id: comments[i].user_id, post_id: comments[i].post_id, content: comments[i].content, comment_date: comments[i].comment_date })
                 }
 
                 res.json(Result.success(result));
