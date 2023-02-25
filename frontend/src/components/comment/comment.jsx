@@ -2,31 +2,40 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useAuthContext from "../../hooks/useAuthContext";
 
-function Comment(post) {
+function Comment() {
   const { userId, token } = useAuthContext(); // userId is the id of the user who logged in
   const [hasLiked, changeHasLiked] = useState(false);
   const [writingComment, isWritingComment] = useState(false);
+  const [numLikes, updateLikes] = useState(0);
 
   useEffect(() => {
-    console.log(post);
-    // axios
-    //   .get(`http://localhost:4350/api/comment/getCommentsFromPost`, {
-    //     params: { post_id: post._id },
-    //     headers: {
-    //       Authorization: token,
-    //       withCredentials: true,
-    //     },
-    //   })
-    //   .then((r) => {
-    //     // stores the user profile
-    //     setUsername(r.data.data.username);
-    //     setPassword(r.data.data.password);
-    //     setBio(r.data.data.bio);
-    //     setAffiliation(r.data.data.affiliation);
-    //   })
-    //   // eslint-disable-next-line no-console
-    //   .catch((e) => console.error(e, username));
-  }, []);
+    axios
+      .get(`http://localhost:4350/api/post/get_recent_posts`, {
+        headers: {
+          Authorization: token,
+          withCredentials: true,
+        },
+      })
+      .then((r) => {
+        const id = r.data.data[r.data.data.length - 1]._id;
+        console.log(id);
+
+        axios({
+          method: "get",
+          params: {
+            post_id: "Hello There",
+          },
+          url: `http://localhost:4350/api/like/getNumLikes`,
+          headers: {
+            Authorization: token,
+            withCredentials: true,
+          },
+        }).then((s) => {
+          console.log(s.data.data);
+          updateLikes(s.data.data);
+        });
+      });
+  }, [numLikes]);
 
   function likePost() {
     changeHasLiked(!hasLiked);
@@ -61,7 +70,7 @@ function Comment(post) {
                 />
               </svg>
             </button>
-            <p className="ml-2"># of Likes</p>
+            <p className="ml-2">{numLikes} Like/s</p>
           </div>
         </div>
         <div className="basis-1/2 flex justify-center">
@@ -81,7 +90,7 @@ function Comment(post) {
                 />
               </svg>
             </button>
-            <p className="ml-2"># of Comments</p>
+            <p className="ml-2">Comment</p>
           </div>
         </div>
       </div>
