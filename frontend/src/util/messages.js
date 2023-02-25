@@ -4,6 +4,10 @@ function animationEnd(e) {
 }
 
 // trigger the message animation
+//
+// element - the element you want to make appear and disappear
+// color - color of the form '#RRGGBB'
+// persists - if true, the message will disappear after some time; if false, it will stay there until hideMessage is called
 function showMessage(element, message, color, persists) {
   element.innerHTML = message;
   element.style.color = color;
@@ -16,6 +20,9 @@ function showMessage(element, message, color, persists) {
   }
 }
 
+// hide the message
+//
+// element - the element you want to hide
 function hideMessage(element) {
   element.innerHTML = "";
   element.style.opacity = "0";
