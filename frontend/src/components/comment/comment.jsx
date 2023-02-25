@@ -231,7 +231,7 @@ function Comment() {
       <div>
         {comments &&
           comments.map((comment) => (
-            <div className="flex border-black border-b-2 last:border-b-0 h-32 p-1">
+            <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mb-4 last:mb-0">
               <div className="basis-1/6 flex justify-center">
                 <img
                   className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
@@ -240,7 +240,7 @@ function Comment() {
                 />
               </div>
               <div className="basis-5/6">
-                <div className="mb-2 h-[1rem] flex justify-between">
+                <div className="mb-2 flex justify-between">
                   <p className="font-bold leading-4 text-[1rem]">
                     {comment.username}
                   </p>
@@ -250,7 +250,7 @@ function Comment() {
                     })}
                   </p>
                 </div>
-                <div className="h-[6rem] overflow-y-auto">
+                <div>
                   <p>{comment.content}</p>
                 </div>
               </div>
