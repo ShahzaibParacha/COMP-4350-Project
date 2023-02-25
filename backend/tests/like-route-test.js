@@ -21,10 +21,11 @@ let server;
 
 /* setup
  *
- * Purpose: Generates a number of posts assigned to a number of users and creates an account
+ * Purpose: Generates a number of posts, a number of users, and have the users like the posts a number of times
  * Input:
  * numPosts - the number of posts to create
  * numUsers - the number of users who created the posts
+ * numLikes - the number of likes to be made
  * 
  * Output:
  * Returns an object with three properties:
@@ -86,6 +87,10 @@ const setup = async (numPosts, numUsers, numLikes) => {
     return { postIDs, userIDs, res };
 }
 
+//this function will send four requests of type req to route and verify the codes in the response
+//
+//the first two requests will have an invalid user_id but valid post_id
+//the last two requests will have a valid user_id but invalid post_id
 const testInvalidIDs = async (res, req, route, valid_post, valid_user, codes) => {
     let resp = await axios({
         method: req,

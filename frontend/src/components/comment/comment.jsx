@@ -27,6 +27,7 @@ function Comment() {
         setPost(r.data.data[r.data.data.length - 1]._id);
         /* eslint-enable */
 
+        // want to know if the user liked the post to display the like button appropriately
         axios({
           method: "get",
           params: {
@@ -42,6 +43,7 @@ function Comment() {
           changeHasLiked(s.data.data);
         });
 
+        // get the number of likes a post has to display
         axios({
           method: "get",
           params: {
@@ -56,6 +58,7 @@ function Comment() {
           updateLikes(s.data.data);
         });
 
+        // get the comments of the post
         axios({
           method: "get",
           params: {
