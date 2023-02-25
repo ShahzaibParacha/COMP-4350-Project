@@ -11,6 +11,7 @@ function Comment() {
   const [numLikes, updateLikes] = useState("");
   const [comments, updateComments] = useState([]);
   const [hasWrittenComment, changeHasWrittenComment] = useState(false);
+  const [oldestFirst, changeSortOrder] = useState(true);
   const [postId, setPost] = useState(null);
 
   useEffect(() => {
@@ -70,10 +71,21 @@ function Comment() {
             withCredentials: true,
           },
         }).then((s) => {
-          updateComments(s.data.data);
+          if (oldestFirst) {
+            updateComments(s.data.data);
+          } else {
+            updateComments(s.data.data.reverse());
+          }
         });
       });
   }, [hasWrittenComment]);
+
+  function changeOrdering() {
+    const temp = [...comments];
+    temp.reverse();
+    updateComments(temp);
+    changeSortOrder(!oldestFirst);
+  }
 
   function likePost() {
     if (!hasLiked) {
@@ -158,6 +170,7 @@ function Comment() {
         });
       }
     }
+
     isWritingComment(!writingComment);
   }
 
@@ -211,7 +224,7 @@ function Comment() {
         </div>
       </div>
       {writingComment && (
-        <div className="px-4 mt-4">
+        <div className="mt-4">
           <p>What&apos;s on your mind?</p>
           <textarea className="resize-none w-full h-32" id="comment_input" />
           <div className="flex justify-end">
@@ -225,13 +238,19 @@ function Comment() {
           </div>
         </div>
       )}
-      <div className="flex justify-center my-4">
+      <div className="flex justify-center mt-4">
         <p id="comment_message" className="row-span-1 opacity-0 text-md" />
+      </div>
+      <div className="flex justify-end mt-4">
+        <select onChange={changeOrdering} className="text-xs p-2 pr-8">
+          <option value="oldest">Oldest first</option>
+          <option value="newest">Newest first</option>
+        </select>
       </div>
       <div>
         {comments &&
           comments.map((comment) => (
-            <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mb-4 last:mb-0">
+            <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4">
               <div className="basis-1/6 flex justify-center">
                 <img
                   className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
