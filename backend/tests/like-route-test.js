@@ -89,6 +89,10 @@ const setup = async (numPosts, numUsers, numLikes) => {
 const testInvalidIDs = async (res, req, route, valid_post, valid_user, codes) => {
     let resp = await axios({
         method: req,
+        params: {
+          user_id: 20,
+          post_id: valid_post
+        },
         url: route,
         headers: {
             Authorization: res.data.data.token,
@@ -104,6 +108,10 @@ const testInvalidIDs = async (res, req, route, valid_post, valid_user, codes) =>
 
     resp = await axios({
         method: req,
+        params: {
+          user_id: '20',
+          post_id: valid_post
+        },
         url: route,
         headers: {
             Authorization: res.data.data.token,
@@ -119,6 +127,10 @@ const testInvalidIDs = async (res, req, route, valid_post, valid_user, codes) =>
 
     resp = await axios({
         method: req,
+        params: {
+          user_id: valid_user,
+          post_id: 20
+          },
         url: route,
         headers: {
             Authorization: res.data.data.token,
@@ -134,6 +146,10 @@ const testInvalidIDs = async (res, req, route, valid_post, valid_user, codes) =>
 
     resp = await axios({
         method: req,
+        params: {
+          user_id: valid_user,
+          post_id: '20'
+          },
         url: route,
         headers: {
             Authorization: res.data.data.token,
@@ -183,14 +199,14 @@ describe('Like routes', function () {
 
             const resp = await axios({
                 method: "get",
+                params: {
+                  post_id: postIDs[0],
+                },
                 url: `http://localhost:4350/api/like/getNumLikes`,
                 headers: {
                     Authorization: res.data.data.token,
                     withCredentials: true,
-                  },
-                data: {
-                    post_id: postIDs[0],
-                }
+                  },      
               });
 
             expect(resp.data.msg).to.equal('success');
@@ -203,14 +219,14 @@ describe('Like routes', function () {
 
             const resp = await axios({
                 method: "get",
+                params: {
+                  post_id: postIDs[0],
+                },
                 url: `http://localhost:4350/api/like/getNumLikes`,
                 headers: {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
-                    post_id: postIDs[0],
-                }
               });
 
             expect(resp.data.msg).to.equal('success');
@@ -223,14 +239,14 @@ describe('Like routes', function () {
 
             const resp = await axios({
                 method: "get",
+                params: {
+                  post_id: postIDs[1],
+                },
                 url: `http://localhost:4350/api/like/getNumLikes`,
                 headers: {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
-                    post_id: postIDs[1],
-                }
               });
 
             expect(resp.data.msg).to.equal('success');
@@ -243,17 +259,17 @@ describe('Like routes', function () {
 
             const resp = await axios({
                 method: "get",
+                params: {
+                  post_id: 20,
+                },
                 url: `http://localhost:4350/api/like/getNumLikes`,
                 headers: {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
-                    post_id: 20,
-                }
               });
 
-            expect(resp.data.code).to.equal(40000);
+            expect(resp.data.code).to.equal(40003);
         });
 
         it('should not succeed', async function() {
@@ -261,14 +277,14 @@ describe('Like routes', function () {
 
             const resp = await axios({
                 method: "get",
+                params: {
+                  post_id: '20',
+                },
                 url: `http://localhost:4350/api/like/getNumLikes`,
                 headers: {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
-                    post_id: '20',
-                }
               });
 
             expect(resp.data.code).to.equal(40003);
@@ -282,15 +298,15 @@ describe('Like routes', function () {
 
             const resp = await axios({
                 method: "get",
+                params: {
+                  user_id: userIDs[0],
+                  post_id: postIDs[0]
+                  },
                 url: `http://localhost:4350/api/like/userLikedPost`,
                 headers: {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
-                    user_id: userIDs[0],
-                    post_id: postIDs[0]
-                }
               });
 
             expect(resp.data.msg).to.equal('success');
@@ -303,15 +319,15 @@ describe('Like routes', function () {
 
             const resp = await axios({
                 method: "get",
+                params: {
+                  user_id: userIDs[0],
+                  post_id: postIDs[0]
+                  },
                 url: `http://localhost:4350/api/like/userLikedPost`,
                 headers: {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
-                    user_id: userIDs[0],
-                    post_id: postIDs[0]
-                }
               });
 
             expect(resp.data.msg).to.equal('success');
@@ -322,7 +338,7 @@ describe('Like routes', function () {
         it('should not succeed', async function() {
             const { userIDs, postIDs, res } = (await setup(1, 1, 1));
 
-            await testInvalidIDs(res, 'get', `http://localhost:4350/api/like/userLikedPost`, postIDs[0], userIDs[0], [40000, 40002, 40000, 40003]);
+            await testInvalidIDs(res, 'get', `http://localhost:4350/api/like/userLikedPost`, postIDs[0], userIDs[0], [40002, 40002, 40003, 40003]);
         });
     });
 

@@ -43,7 +43,7 @@ function Writer() {
       })
       // eslint-disable-next-line no-console
       .catch((e) => console.error(e, username));
-  }, [username, password, bio, affiliation]);
+  }, []);
 
   // function handlePageChange() {
   //   if (page === "profile") {

@@ -6,7 +6,9 @@ function Comment() {
   const { userId, token } = useAuthContext(); // userId is the id of the user who logged in
   const [hasLiked, changeHasLiked] = useState(false);
   const [writingComment, isWritingComment] = useState(false);
-  const [numLikes, updateLikes] = useState(0);
+  const [numLikes, updateLikes] = useState("");
+  const [comments, updateComments] = useState([]);
+  const [postId, setPost] = useState(null);
 
   useEffect(() => {
     axios
@@ -17,13 +19,30 @@ function Comment() {
         },
       })
       .then((r) => {
+        /* eslint-disable */
         const id = r.data.data[r.data.data.length - 1]._id;
-        console.log(id);
+        setPost(r.data.data[r.data.data.length - 1]._id);
+        /* eslint-enable */
 
         axios({
           method: "get",
           params: {
-            post_id: "Hello There",
+            user_id: userId,
+            post_id: id,
+          },
+          url: `http://localhost:4350/api/like/userLikedPost`,
+          headers: {
+            Authorization: token,
+            withCredentials: true,
+          },
+        }).then((s) => {
+          changeHasLiked(s.data.data);
+        });
+
+        axios({
+          method: "get",
+          params: {
+            post_id: id,
           },
           url: `http://localhost:4350/api/like/getNumLikes`,
           headers: {
@@ -31,13 +50,44 @@ function Comment() {
             withCredentials: true,
           },
         }).then((s) => {
-          console.log(s.data.data);
           updateLikes(s.data.data);
         });
       });
-  }, [numLikes]);
+  }, []);
 
   function likePost() {
+    if (!hasLiked) {
+      axios({
+        method: "post",
+        url: `http://localhost:4350/api/like/likePost`,
+        headers: {
+          Authorization: token,
+          withCredentials: true,
+        },
+        data: {
+          post_id: postId,
+          user_id: userId,
+        },
+      }).then(() => {
+        updateLikes(numLikes + 1);
+      });
+    } else {
+      axios({
+        method: "post",
+        url: `http://localhost:4350/api/like/unlikePost`,
+        headers: {
+          Authorization: token,
+          withCredentials: true,
+        },
+        data: {
+          post_id: postId,
+          user_id: userId,
+        },
+      }).then(() => {
+        updateLikes(numLikes - 1);
+      });
+    }
+
     changeHasLiked(!hasLiked);
   }
 
