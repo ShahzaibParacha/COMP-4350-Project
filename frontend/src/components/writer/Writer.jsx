@@ -20,10 +20,10 @@ function Writer() {
   const [changeAffiliation, isChangingAffiliation] = useState(false);
   const [changeDetails, isChangingDetails] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [bio, setBio] = useState("");
-  const [affiliation, setAffiliation] = useState("");
+  const [username, setUsername] = useState("Loading...");
+  const [password, setPassword] = useState("Loading...");
+  const [bio, setBio] = useState("Loading...");
+  const [affiliation, setAffiliation] = useState("Loading...");
 
   const { userId, token, dispatch } = useAuthContext();
   const { id } = useParams(); // userId is the id of the user who logged in; id is the id of the user whose profile is being rendered

@@ -8,11 +8,12 @@ function Comment() {
   const { userId, token } = useAuthContext(); // userId is the id of the user who logged in
   const [hasLiked, changeHasLiked] = useState(false);
   const [writingComment, isWritingComment] = useState(false);
-  const [numLikes, updateLikes] = useState("");
-  const [comments, updateComments] = useState([]);
   const [hasWrittenComment, changeHasWrittenComment] = useState(false);
   const [oldestFirst, changeSortOrder] = useState(true);
+
   const [postId, setPost] = useState(null);
+  const [numLikes, updateLikes] = useState(null);
+  const [comments, updateComments] = useState(null);
 
   useEffect(() => {
     axios
@@ -198,7 +199,9 @@ function Comment() {
               </svg>
             </button>
             <p className="ml-2">
-              {numLikes} {numLikes !== 1 ? "Likes" : "Like"}
+              {numLikes === null
+                ? "Loading..."
+                : `${numLikes} ${numLikes !== 1 ? "Likes" : "Like"}`}
             </p>
           </div>
         </div>
@@ -241,41 +244,46 @@ function Comment() {
       <div className="flex justify-center mt-4">
         <p id="comment_message" className="row-span-1 opacity-0 text-md" />
       </div>
-      <div className="flex justify-end mt-4">
-        <select onChange={changeOrdering} className="text-xs p-2 pr-8">
-          <option value="oldest">Oldest first</option>
-          <option value="newest">Newest first</option>
-        </select>
-      </div>
-      <div>
-        {comments &&
-          comments.map((comment) => (
-            <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4">
-              <div className="basis-1/6 flex justify-center">
-                <img
-                  className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
-                  src="/sample_profile.jpg"
-                  alt="Profile"
-                />
-              </div>
-              <div className="basis-5/6">
-                <div className="mb-2 flex justify-between">
-                  <p className="font-bold leading-4 text-[1rem]">
-                    {comment.username}
-                  </p>
-                  <p className="leading-4 text-[1rem]">
-                    {formatDistanceToNow(new Date(comment.comment_date), {
-                      addSuffix: true,
-                    })}
-                  </p>
+      {comments && comments.length > 0 && (
+        <div className="flex justify-end mt-4">
+          <select onChange={changeOrdering} className="text-xs p-2 pr-8">
+            <option value="oldest">Oldest first</option>
+            <option value="newest">Newest first</option>
+          </select>
+        </div>
+      )}
+      {comments === null && <div>Loading...</div>}
+      {comments !== null && (
+        <div>
+          {comments &&
+            comments.map((comment) => (
+              <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4">
+                <div className="basis-1/6 flex justify-center">
+                  <img
+                    className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
+                    src="/sample_profile.jpg"
+                    alt="Profile"
+                  />
                 </div>
-                <div>
-                  <p>{comment.content}</p>
+                <div className="basis-5/6">
+                  <div className="mb-2 flex justify-between">
+                    <p className="font-bold leading-4 text-[1rem]">
+                      {comment.username}
+                    </p>
+                    <p className="leading-4 text-[1rem]">
+                      {formatDistanceToNow(new Date(comment.comment_date), {
+                        addSuffix: true,
+                      })}
+                    </p>
+                  </div>
+                  <div>
+                    <p>{comment.content}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-      </div>
+            ))}
+        </div>
+      )}
     </div>
   );
 }
