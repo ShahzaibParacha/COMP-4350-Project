@@ -91,6 +91,11 @@ function Writer() {
     isChangingUsername(false);
     isChangingAffiliation(false);
     isChangingBio(false);
+
+    hideMessage(document.getElementById("username_message"));
+    hideMessage(document.getElementById("password_message"));
+    hideMessage(document.getElementById("bio_message"));
+    hideMessage(document.getElementById("affiliation_message"));
   }
 
   function switchUsername(e) {
@@ -300,47 +305,60 @@ function Writer() {
     e.preventDefault();
     const affiliationInput = document.getElementById("affiliation_input");
 
-    if (changeAffiliation) {
-      axios({
-        method: "post",
-        url: `http://localhost:4350/api/user/profile`,
-        headers: {
-          Authorization: token,
-          withCredentials: true,
-        },
-        data: {
-          user_id: userId,
-          profile_photo: "",
-          is_writer: true,
-          affiliation: affiliationInput.value.trim(),
-          bio,
-        },
-      })
-        .then((r) => {
-          // if there was a problem with the update
-          if (r.data.code === 40001) {
-            showMessage(
-              document.getElementById("affiliation_message"),
-              "Failed to update!",
-              failure,
-              false
-            );
-          }
-          // if the update was successful
-          else {
-            showMessage(
-              document.getElementById("affiliation_message"),
-              "Successfully updated!",
-              success,
-              false
-            );
-            setAffiliation(affiliationInput.value.trim());
-          }
+    if (
+      affiliationInput !== null &&
+      affiliationInput.value.trim().length > 40
+    ) {
+      showMessage(
+        document.getElementById("affiliation_message"),
+        "Affiliation must be at most 40 characters!",
+        failure,
+        true
+      );
+    } else {
+      if (changeAffiliation) {
+        axios({
+          method: "post",
+          url: `http://localhost:4350/api/user/profile`,
+          headers: {
+            Authorization: token,
+            withCredentials: true,
+          },
+          data: {
+            user_id: userId,
+            profile_photo: "",
+            is_writer: true,
+            affiliation: affiliationInput.value.trim(),
+            bio,
+          },
         })
-        // eslint-disable-next-line no-console,no-shadow
-        .catch((e) => console.error(e, affiliation));
+          .then((r) => {
+            // if there was a problem with the update
+            if (r.data.code === 40001) {
+              showMessage(
+                document.getElementById("affiliation_message"),
+                "Failed to update!",
+                failure,
+                false
+              );
+            }
+            // if the update was successful
+            else {
+              showMessage(
+                document.getElementById("affiliation_message"),
+                "Successfully updated!",
+                success,
+                false
+              );
+              setAffiliation(affiliationInput.value.trim());
+            }
+          })
+          // eslint-disable-next-line no-console,no-shadow
+          .catch((e) => console.error(e, affiliation));
+      }
+
+      isChangingAffiliation(!changeAffiliation);
     }
-    isChangingAffiliation(!changeAffiliation);
   }
 
   // function renderPreferences() {
@@ -469,16 +487,16 @@ function Writer() {
           </div>
         </div>
 
-        <div className="w-9/12 h-fit min-h-screen mx-auto bg-gray-200 px-8">
+        <div className="bg-gray-200 w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
           <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4">
-            <div className="flex justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4 border-solid border-2">
+            <div className="flex justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
               <img
-                className="rounded-full w-[calc(20rem*0.83*0.75)] h-[calc(20rem*0.83*0.75)]"
+                className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)]"
                 src="/sample_profile.jpg"
                 alt="Profile"
               />
             </div>
-            <div className="flex justify-center items-center col-start-1 col-end-2 row-start-4 row-end-5 border-sold border-2">
+            <div className="flex justify-center items-center col-start-1 col-end-2 row-start-4 row-end-5">
               <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip">
                 {username}
               </h1>
@@ -525,7 +543,7 @@ function Writer() {
                   )}
                 </div>
               </div>
-              <div className="row-span-1 overflow-x-auto">
+              <div className="row-span-1">
                 {!changeAffiliation ? (
                   affiliation
                 ) : (

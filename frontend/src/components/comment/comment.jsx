@@ -257,15 +257,15 @@ function Comment() {
         <div>
           {comments &&
             comments.map((comment) => (
-              <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4">
-                <div className="basis-1/6 flex justify-center">
+              <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4 bg-white">
+                <div className="basis-1/6 lg:basis-1/12 flex justify-center">
                   <img
                     className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
                     src="/sample_profile.jpg"
                     alt="Profile"
                   />
                 </div>
-                <div className="basis-5/6">
+                <div className="basis-5/6 lg:basis-11/12">
                   <div className="mb-2 flex justify-between">
                     <p className="font-bold leading-4 text-[1rem]">
                       {comment.username}
