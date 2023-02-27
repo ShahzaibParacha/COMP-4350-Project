@@ -106,6 +106,13 @@ function Writer() {
       ) {
         isChangingUsername(!changeUsername);
         hideMessage(document.getElementById("username_message"));
+      } else if (usernameInput.value.trim().length > 25) {
+        showMessage(
+          document.getElementById("username_message"),
+          "Username must be at most 25 characters!",
+          failure,
+          true
+        );
       }
       // update username if the textbox is not left blank
       // and if the username entered is different from the current
@@ -472,7 +479,7 @@ function Writer() {
               />
             </div>
             <div className="flex justify-center items-center col-start-1 col-end-2 row-start-4 row-end-5 border-sold border-2">
-              <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900">
+              <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip">
                 {username}
               </h1>
             </div>
@@ -623,7 +630,7 @@ function Writer() {
                     </div>
                     <div className="basis-1/3 flex flex-col">
                       {!changeUsername ? (
-                        <p className="basis-1/3">{username}</p>
+                        <p>{username}</p>
                       ) : (
                         <input
                           type="text"
