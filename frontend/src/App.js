@@ -7,6 +7,7 @@ import Error from "./components/error/Error";
 import Login from "./components/login/Login";
 import SignUp from "./components/signup/SignUp";
 import CreatePost from "./components/createpost/CreatePost";
+import ViewPost from "./components/viewpost/ViewPost";
 
 import "./App.css";
 import useAuthContext from "./hooks/useAuthContext";
@@ -32,6 +33,11 @@ function App() {
           exact
           path="/writer/:id/write"
           element={userId != null ? <CreatePost /> : <Navigate to="/login" />}
+        />
+        <Route
+          exact
+          path="/post/:id"
+          element={userId != null ? <ViewPost /> : <Navigate to="/login" />}
         />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<SignUp />} />
