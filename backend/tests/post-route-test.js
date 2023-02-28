@@ -69,7 +69,6 @@ const setup = async (numPosts, numUsers) => {
 
 describe('Post routes', function () {
 
-    //clear out the posts array
     beforeEach(async () => {
         const app = express();
 
@@ -86,28 +85,17 @@ describe('Post routes', function () {
             
         app.use("/api", apiRouter)
             
-        // just for sample test, delete before sprint2 due
-        app.post("/test", (req, res) => {
-            console.log(req.body)
-            res.send(req.body)
-        })
-            
-        app.get('/test', (req, res) => {
-            res.send(req.query)
-        })
-            
         server = app.listen(process.env.PORT, () => {
             console.log(`Comp4350 backend is listening on port ${process.env.PORT}`)
         })
     });
 
-    //get rid of all stubs
     afterEach(async () => {
         await mongoose.disconnect();
         server.close();
     });
 
-    // this test will change once get_recen_posts paginate
+    // this test will change once get_recent_posts paginate
     // also this test does not cover line 75 of post controller
     // I do not know how to make Post.find() throw an exception
     describe('GET request to get_recent_posts', function() {

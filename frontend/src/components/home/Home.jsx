@@ -13,8 +13,8 @@ function Home() {
       session_user_id: userId,
     };
     setSession(currentSession);
+    sessionStorage.setItem("session", session);
     // eslint-disable-next-line no-console
-    console.log(session);
   }, []);
 
   const navigate = useNavigate();

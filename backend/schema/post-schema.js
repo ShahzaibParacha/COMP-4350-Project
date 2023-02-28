@@ -13,8 +13,7 @@ const postSchema = mongoose.Schema({
         default: ' ',
     },
 
-    //TODO: Might need to add an access method for image
-    image: { 
+    image: { //might not need this
         type: String,
     },
 

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 export const AuthContext = createContext();
 
 export const authReducer = (state, action) => {
+  // defines the actions that can be done with the context
   switch (action.type) {
     case "SET_USER_ID":
       return { ...state, userId: action.payload };
