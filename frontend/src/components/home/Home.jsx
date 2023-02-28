@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 import WidePost from "../widepost/WidePost";
 
 function Home() {
-  const [session, setSession] = useState(null);
-  const { userId, token, dispatch } = useAuthContext();
-
-  useEffect(() => {
-    const currentSession = {
-      session_jwt: token,
-      session_user_id: userId,
-    };
-    setSession(currentSession);
-    sessionStorage.setItem("session", session);
-    // eslint-disable-next-line no-console
-  }, []);
+  const { dispatch } = useAuthContext();
 
   const navigate = useNavigate();
 
@@ -25,6 +14,7 @@ function Home() {
 
   function handleLogout() {
     dispatch({ type: "CLEAR", payload: "" });
+    sessionStorage.setItem("session", null);
     navigate("/login");
   }
 
@@ -36,7 +26,10 @@ function Home() {
             CASTr
           </h1>
         </button>
-        <Link to={`writer/${userId}`} type="button">
+        <Link
+          to={`writer/${JSON.parse(sessionStorage.getItem("session")).userId}`}
+          type="button"
+        >
           <h1 className="mt-8 text-2xl font-bold ml-12 font-base tracking-tight text-black-800 sm:text-5xl">
             Profile
           </h1>

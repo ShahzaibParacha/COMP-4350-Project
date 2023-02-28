@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import useAuthContext from "../../hooks/useAuthContext";
 import { showMessage, success, failure } from "../../util/messages";
 
 function Comment() {
-  const { userId, token } = useAuthContext(); // userId is the id of the user who logged in
   const [hasLiked, changeHasLiked] = useState(false);
   const [writingComment, isWritingComment] = useState(false);
   const [hasWrittenComment, changeHasWrittenComment] = useState(false);
@@ -19,7 +17,7 @@ function Comment() {
     axios
       .get(`http://localhost:4350/api/post/get_recent_posts`, {
         headers: {
-          Authorization: token,
+          Authorization: JSON.parse(sessionStorage.getItem("session")).token,
           withCredentials: true,
         },
       })
@@ -33,12 +31,12 @@ function Comment() {
         axios({
           method: "get",
           params: {
-            user_id: userId,
+            user_id: JSON.parse(sessionStorage.getItem("session")).userId,
             post_id: id,
           },
           url: `http://localhost:4350/api/like/userLikedPost`,
           headers: {
-            Authorization: token,
+            Authorization: JSON.parse(sessionStorage.getItem("session")).token,
             withCredentials: true,
           },
         }).then((s) => {
@@ -53,7 +51,7 @@ function Comment() {
           },
           url: `http://localhost:4350/api/like/getNumLikes`,
           headers: {
-            Authorization: token,
+            Authorization: JSON.parse(sessionStorage.getItem("session")).token,
             withCredentials: true,
           },
         }).then((s) => {
@@ -68,7 +66,7 @@ function Comment() {
           },
           url: `http://localhost:4350/api/comment/getCommentsFromPost`,
           headers: {
-            Authorization: token,
+            Authorization: JSON.parse(sessionStorage.getItem("session")).token,
             withCredentials: true,
           },
         }).then((s) => {
@@ -94,12 +92,12 @@ function Comment() {
         method: "post",
         url: `http://localhost:4350/api/like/likePost`,
         headers: {
-          Authorization: token,
+          Authorization: JSON.parse(sessionStorage.getItem("session")).token,
           withCredentials: true,
         },
         data: {
           post_id: postId,
-          user_id: userId,
+          user_id: JSON.parse(sessionStorage.getItem("session")).userId,
         },
       }).then(() => {
         updateLikes(numLikes + 1);
@@ -110,12 +108,12 @@ function Comment() {
         method: "post",
         url: `http://localhost:4350/api/like/unlikePost`,
         headers: {
-          Authorization: token,
+          Authorization: JSON.parse(sessionStorage.getItem("session")).token,
           withCredentials: true,
         },
         data: {
           post_id: postId,
-          user_id: userId,
+          user_id: JSON.parse(sessionStorage.getItem("session")).userId,
         },
       }).then(() => {
         updateLikes(numLikes - 1);
@@ -135,7 +133,7 @@ function Comment() {
     if (writingComment) {
       if (commentInput.value.trim().length > 0) {
         const newComment = {
-          user_id: userId,
+          user_id: JSON.parse(sessionStorage.getItem("session")).userId,
           post_id: postId,
           content: commentInput.value.trim(),
         };
@@ -144,7 +142,7 @@ function Comment() {
           method: "post",
           url: `http://localhost:4350/api/comment/create`,
           headers: {
-            Authorization: token,
+            Authorization: JSON.parse(sessionStorage.getItem("session")).token,
             withCredentials: true,
           },
           data: newComment,
