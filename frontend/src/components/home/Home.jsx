@@ -5,8 +5,8 @@ import WidePost from "../widepost/WidePost";
 
 function Home() {
   const { dispatch } = useAuthContext();
-
   const navigate = useNavigate();
+  const { userId } = JSON.parse(sessionStorage.getItem("session"));
 
   function handleHomeClick() {
     navigate("/");
@@ -26,10 +26,7 @@ function Home() {
             CASTr
           </h1>
         </button>
-        <Link
-          to={`writer/${JSON.parse(sessionStorage.getItem("session")).userId}`}
-          type="button"
-        >
+        <Link to={`writer/${userId}`} type="button">
           <h1 className="mt-8 text-2xl font-bold ml-12 font-base tracking-tight text-black-800 sm:text-5xl">
             Profile
           </h1>

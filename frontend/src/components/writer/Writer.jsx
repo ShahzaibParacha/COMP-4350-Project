@@ -27,15 +27,16 @@ function Writer() {
 
   const { dispatch } = useAuthContext();
   const { id } = useParams(); // userId is the id of the user who logged in; id is the id of the user whose profile is being rendered
+  const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
   useEffect(() => {
     axios
       .get(`http://localhost:4350/api/user/profile`, {
         params: {
-          user_id: JSON.parse(sessionStorage.getItem("session")).userId,
+          user_id: userId,
         },
         headers: {
-          Authorization: JSON.parse(sessionStorage.getItem("session")).token,
+          Authorization: token,
           withCredentials: true,
         },
       })
@@ -70,10 +71,10 @@ function Writer() {
     axios
       .get(`http://localhost:4350/api/user/delete_account`, {
         params: {
-          user_id: JSON.parse(sessionStorage.getItem("session")).userId,
+          user_id: userId,
         },
         headers: {
-          Authorization: JSON.parse(sessionStorage.getItem("session")).token,
+          Authorization: token,
           withCredentials: true,
         },
       })
@@ -147,11 +148,11 @@ function Writer() {
           method: "post",
           url: `http://localhost:4350/api/user/username`,
           headers: {
-            Authorization: JSON.parse(sessionStorage.getItem("session")).token,
+            Authorization: token,
             withCredentials: true,
           },
           data: {
-            user_id: JSON.parse(sessionStorage.getItem("session")).userId,
+            user_id: userId,
             new_username: usernameInput.value.trim(),
           },
         })
@@ -229,11 +230,11 @@ function Writer() {
           method: "post",
           url: `http://localhost:4350/api/user/password`,
           headers: {
-            Authorization: JSON.parse(sessionStorage.getItem("session")).token,
+            Authorization: token,
             withCredentials: true,
           },
           data: {
-            user_id: JSON.parse(sessionStorage.getItem("session")).userId,
+            user_id: userId,
             new_password: newPasswordInput.value.trim(),
           },
         })
@@ -280,11 +281,11 @@ function Writer() {
         method: "post",
         url: `http://localhost:4350/api/user/profile`,
         headers: {
-          Authorization: JSON.parse(sessionStorage.getItem("session")).token,
+          Authorization: token,
           withCredentials: true,
         },
         data: {
-          user_id: JSON.parse(sessionStorage.getItem("session")).userId,
+          user_id: userId,
           profile_photo: "",
           is_writer: true,
           affiliation,
@@ -338,11 +339,11 @@ function Writer() {
           method: "post",
           url: `http://localhost:4350/api/user/profile`,
           headers: {
-            Authorization: JSON.parse(sessionStorage.getItem("session")).token,
+            Authorization: token,
             withCredentials: true,
           },
           data: {
-            user_id: JSON.parse(sessionStorage.getItem("session")).userId,
+            user_id: userId,
             profile_photo: "",
             is_writer: true,
             affiliation: affiliationInput.value.trim(),
@@ -632,7 +633,7 @@ function Writer() {
               </div>
             </div>
             <div className="flex justify-between items-center col-start-1 col-end-3 row-start-6 row-end-7">
-              {id === JSON.parse(sessionStorage.getItem("session")).userId && (
+              {id === userId && (
                 <button
                   type="button"
                   className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-fit"
@@ -641,7 +642,7 @@ function Writer() {
                   {!changeDetails ? "Edit Profile" : "Finish Editing"}
                 </button>
               )}
-              {id !== JSON.parse(sessionStorage.getItem("session")).userId && (
+              {id !== userId && (
                 <button
                   type="button"
                   className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-fit"
@@ -833,7 +834,7 @@ function Writer() {
     //     <div className="grid grid-rows-4 grid-cols-6 gap-4">
     //       <div className="row-start-1 justify-items-center row-end-5 bg-black-600 row-span-2 h-screen">
     //         <Link
-    //           to={`../writer/${JSON.parse(sessionStorage.getItem("session")).userId}
+    //           to={`../writer/${userId}
     //         )}/write`}
     //           type="button"
     //           className=" bg-base-100 w-9/12 text-center text-simple border-neutral border-2 hover:bg-neutral hover:text-white px-5 py-3.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
