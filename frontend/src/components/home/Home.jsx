@@ -14,7 +14,7 @@ function Home() {
 
   function handleLogout() {
     dispatch({ type: "CLEAR", payload: "" });
-    sessionStorage.setItem("session", null);
+    sessionStorage.clear();
     navigate("/login");
   }
 
