@@ -279,32 +279,28 @@ describe('Post routes', function () {
           expect(res.data.code).to.equal(40003);
       });
 
-    //TODO: solve the bug
-    //   it('should not find the post with a newly generated id', async function() {
-    //     const { token } = (await setup(10, 2)).res.data.data;
-    //     const new_id = new mongoose.mongo.ObjectID;
-    //     //console.log("The created new post id is: " + new_id )
+      it('should not find the post with a newly generated id', async function() {
+        const { token } = (await setup(10, 2)).res.data.data;
+        const new_id = new mongoose.mongo.ObjectID;
 
-    //     const res = await axios({
-    //         method: "get",
-    //         url: `http://localhost:4350/api/post/get_post_by_ID`,
-    //         headers: {
-    //             Authorization: token,
-    //             withCredentials: true,
-    //           },
-    //         data: {
-    //             post_id: new_id,
-    //         },
-    //     });
+        await axios({
+            method: "get",
+            url: `http://localhost:4350/api/post/get_post_by_ID`,
+            headers: {
+                Authorization: token,
+                withCredentials: true,
+              },
+            data: {
+                post_id: new_id,
+            },
+        });
 
-    //     const post = await Post.findById(new_id);
+        const post = await Post.findById(new_id);
 
-    //     expect(post).to.not.exist;
-    //     //expect(res.data.msg).to.equal('The given post_id is invalid');
-    //     expect(res.data.code).to.equal(40003);
-    // });
+        expect(post).to.not.exist;
+    });
 
-      it('should not find the post with the wrong id type', async function() {
+    it('should not find the post with the wrong id type', async function() {
           const { token } = (await setup(10, 2)).res.data.data;
 
           const res = await axios({
