@@ -237,7 +237,86 @@ describe('Post routes', function () {
         });
     });
 
-    describe('POST request to update', function() {
+    describe('GET request to get_post_by_ID', function() {
+
+      it('should return the post with content of "1"', async function() {
+        const { postIDs, res } = (await setup(10, 1));
+
+        const result = await axios({
+            method: "get",
+            url: `http://localhost:4350/api/post/get_post_by_ID`,
+            headers: {
+                Authorization: res.data.data.token,
+                withCredentials: true,
+              },
+            data: {
+                post_id: postIDs[1],
+            },
+          });
+
+        const post = result.data.data
+
+        expect(result.data.msg).to.equal('success');
+        expect(post).to.exist;
+        expect(post.content).to.equal('1')
+    });
+
+      it('should not find the post with an id of "20"', async function() {
+          const { token } = (await setup(10, 2)).res.data.data;
+
+          const res = await axios({
+              method: "get",
+              url: `http://localhost:4350/api/post/get_post_by_ID`,
+              headers: {
+                  Authorization: token,
+                  withCredentials: true,
+                },
+              data: {
+                  post_id: "20",
+              },
+            });
+
+          expect(res.data.code).to.equal(40003);
+      });
+
+      it('should not find the post with a newly generated id', async function() {
+        const { token } = (await setup(10, 2)).res.data.data;
+
+        const res = await axios({
+            method: "get",
+            url: `http://localhost:4350/api/post/get_post_by_ID`,
+            headers: {
+                Authorization: token,
+                withCredentials: true,
+              },
+            data: {
+                post_id: new mongoose.mongo.ObjectID,
+            },
+        });
+
+        expect(res.data.data).to.not.exist;
+    });
+
+    it('should not find the post with the wrong id type', async function() {
+          const { token } = (await setup(10, 2)).res.data.data;
+
+          const res = await axios({
+              method: "get",
+              url: `http://localhost:4350/api/post/get_post_by_ID`,
+              headers: {
+                  Authorization: token,
+                  withCredentials: true,
+                },
+              data: {
+                  post_id: 2,
+              },
+            });
+
+          expect(res.data.code).to.equal(40000);
+      });
+  });
+
+  describe('POST request to update', function() {
 
         it('should update content from 0 to 69', async function() {
             const { postIDs, res } = (await setup(10, 1));
