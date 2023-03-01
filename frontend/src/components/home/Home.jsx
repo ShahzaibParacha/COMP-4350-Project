@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
 import WidePost from "../widepost/WidePost";
 
 function Home() {
-  const [session, setSession] = useState(null);
-  const { userId, token, dispatch } = useAuthContext();
-
-  useEffect(() => {
-    const currentSession = {
-      session_jwt: token,
-      session_user_id: userId,
-    };
-    setSession(currentSession);
-    sessionStorage.setItem("session", session);
-    // eslint-disable-next-line no-console
-  }, []);
-
+  const { dispatch } = useAuthContext();
   const navigate = useNavigate();
+  const { userId } = JSON.parse(sessionStorage.getItem("session"));
 
   function handleHomeClick() {
     navigate("/");
@@ -25,6 +14,7 @@ function Home() {
 
   function handleLogout() {
     dispatch({ type: "CLEAR", payload: "" });
+    sessionStorage.clear();
     navigate("/login");
   }
 

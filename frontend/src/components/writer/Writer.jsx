@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
-import Comment from "../comment/comment";
+import Comment from "../comment/Comment";
 import {
   hideMessage,
   showMessage,
@@ -25,13 +25,16 @@ function Writer() {
   const [bio, setBio] = useState("Loading...");
   const [affiliation, setAffiliation] = useState("Loading...");
 
-  const { userId, token, dispatch } = useAuthContext();
+  const { dispatch } = useAuthContext();
   const { id } = useParams(); // userId is the id of the user who logged in; id is the id of the user whose profile is being rendered
+  const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
   useEffect(() => {
     axios
       .get(`http://localhost:4350/api/user/profile`, {
-        params: { user_id: userId },
+        params: {
+          user_id: userId,
+        },
         headers: {
           Authorization: token,
           withCredentials: true,
@@ -67,7 +70,9 @@ function Writer() {
   function deleteAccount() {
     axios
       .get(`http://localhost:4350/api/user/delete_account`, {
-        params: { user_id: userId },
+        params: {
+          user_id: userId,
+        },
         headers: {
           Authorization: token,
           withCredentials: true,
@@ -92,10 +97,23 @@ function Writer() {
     isChangingAffiliation(false);
     isChangingBio(false);
 
-    hideMessage(document.getElementById("username_message"));
-    hideMessage(document.getElementById("password_message"));
-    hideMessage(document.getElementById("bio_message"));
-    hideMessage(document.getElementById("affiliation_message"));
+    const usernameMsg = document.getElementById("username_message");
+    const passwordMsg = document.getElementById("password_message");
+    const bioMsg = document.getElementById("bio_message");
+    const affiliationMsg = document.getElementById("affiliation_message");
+
+    if (usernameMsg !== null) {
+      hideMessage(document.getElementById("username_message"));
+    }
+    if (passwordMsg !== null) {
+      hideMessage(document.getElementById("password_message"));
+    }
+    if (bioMsg !== null) {
+      hideMessage(document.getElementById("bio_message"));
+    }
+    if (affiliationMsg !== null) {
+      hideMessage(document.getElementById("affiliation_message"));
+    }
   }
 
   function switchUsername(e) {

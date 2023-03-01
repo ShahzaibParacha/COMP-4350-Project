@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import useAuthContext from "../../hooks/useAuthContext";
 import { showMessage, success, failure } from "../../util/messages";
 
 function Comment() {
-  const { userId, token } = useAuthContext(); // userId is the id of the user who logged in
   const [hasLiked, changeHasLiked] = useState(false);
   const [writingComment, isWritingComment] = useState(false);
   const [hasWrittenComment, changeHasWrittenComment] = useState(false);
@@ -14,6 +12,8 @@ function Comment() {
   const [postId, setPost] = useState(null);
   const [numLikes, updateLikes] = useState(null);
   const [comments, updateComments] = useState(null);
+
+  const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
   useEffect(() => {
     axios
