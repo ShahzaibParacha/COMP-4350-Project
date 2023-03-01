@@ -242,7 +242,7 @@ describe('Post routes', function () {
       it('should return the post with content of "1"', async function() {
         const { postIDs, res } = (await setup(10, 1));
 
-        await axios({
+        const result = await axios({
             method: "get",
             url: `http://localhost:4350/api/post/get_post_by_ID`,
             headers: {
@@ -254,9 +254,9 @@ describe('Post routes', function () {
             },
           });
 
-        const post = await Post.findById(postIDs[1]);
+        const post = result.data.data
 
-        expect(res.data.msg).to.equal('success');
+        expect(result.data.msg).to.equal('success');
         expect(post).to.exist;
         expect(post.content).to.equal('1')
     });
