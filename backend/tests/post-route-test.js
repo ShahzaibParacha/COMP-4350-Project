@@ -281,9 +281,8 @@ describe('Post routes', function () {
 
       it('should not find the post with a newly generated id', async function() {
         const { token } = (await setup(10, 2)).res.data.data;
-        const new_id = new mongoose.mongo.ObjectID;
 
-        await axios({
+        const res = await axios({
             method: "get",
             url: `http://localhost:4350/api/post/get_post_by_ID`,
             headers: {
@@ -291,13 +290,11 @@ describe('Post routes', function () {
                 withCredentials: true,
               },
             data: {
-                post_id: new_id,
+                post_id: new mongoose.mongo.ObjectID,
             },
         });
 
-        const post = await Post.findById(new_id);
-
-        expect(post).to.not.exist;
+        expect(res.data.data).to.not.exist;
     });
 
     it('should not find the post with the wrong id type', async function() {
