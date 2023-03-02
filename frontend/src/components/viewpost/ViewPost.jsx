@@ -14,22 +14,27 @@ function ViewPost() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4350/api/user/profile`, {
-        params: { user_id: userId, postID },
+      .get(`http://localhost:4350/api/post/get_post_by_ID`, {
+        params: { user_id: userId, post_ID: postID },
         headers: {
           Authorization: token,
           withCredentials: true,
         },
       })
       .then((r) => {
+        // eslint-disable-next-line no-console
+        console.log(r.data);
         setPost(r.data.data.post);
       })
       // eslint-disable-next-line no-console
       .catch((e) => console.error(e, userId));
   }, []);
 
+  // eslint-disable-next-line no-console
+  console.log(post);
+
   const postData = {
-    postID: "101",
+    postID: "6400e5124d00ab9cfa260998",
     authorName: "FirstName LastName",
     authorOccupation: "Occupation",
     text: `# Fugiat 

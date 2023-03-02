@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function WidePost() {
   const navigate = useNavigate();
   const postData = {
-    postID: "101",
+    postID: "6400e5124d00ab9cfa260998",
     authorName: "FirstName LastName",
     authorOccupation: "Occupation",
     text:
