@@ -20,10 +20,16 @@ async function cancelSubscription(creatorId, audienceId) {
     return await Subscriber.cancelSubscribeRelation(creatorId, audienceId)
 }
 
+async function isSubscribed(creatorId, audienceId) {
+    let result = await Subscriber.getSubscription(creatorId, audienceId)
+    return result !== undefined && result !== null
+}
+
 module.exports = {
     getUserAudiencePage,
     getUserFollowingPage,
     turnOnOrOffNotification,
     subscribeCreator,
-    cancelSubscription
+    cancelSubscription,
+    isSubscribed
 }

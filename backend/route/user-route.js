@@ -12,5 +12,6 @@ router.get("/subscription/getFollowing", userController.getMyFollowing)
 router.get("/subscription/getAudience", userController.getMyAudience)
 router.get("/subscription/setNotification", userController.setNotification)
 router.get("/subscription/cancel", userMiddleware.unsubscriptionValidation, userController.cancelSubscription)
+router.get("/subscription/isSubscribed", userController.isSubscribed)
 
 module.exports = router

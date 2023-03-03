@@ -57,7 +57,7 @@ async function cancelSubscribeRelation(creatorId, audienceId){
 
 async function getSubscription(creatorId, audienceId){
     if(ParamValidation.isValidObjectId(audienceId) === false || ParamValidation.isValidObjectId(creatorId) === false)
-        return false
+        return null
 
     return await Subscriber.findOne({creator_id: creatorId, audience_id: audienceId})
 }
