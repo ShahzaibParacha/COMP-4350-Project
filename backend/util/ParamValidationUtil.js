@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const userModel = require("../model/user-model")
 
 function isValidObjectId(id) {
     return mongoose.Types.ObjectId.isValid(id);
@@ -23,7 +24,13 @@ function isValidEmail(email) {
     return validRegex.test(email)
 }
 
+async function isRegisteredUserId(id) {
+    let result = await userModel.getUserById(id)
+    return result !== undefined && result !== null
+}
+
 exports.isValidObjectId = isValidObjectId
 exports.isValidUsername = isValidUsername
 exports.isValidPassword = isValidPassword
 exports.isValidEmail = isValidEmail
+exports.isRegisteredUserId = isRegisteredUserId

@@ -1,4 +1,5 @@
 const userService = require("../service/user-service")
+const subscriberService = require("../service/subscriber-service")
 const Result = require("../util/Result")
 
 function login(req, res) {
@@ -89,6 +90,60 @@ function updatePassword(req, res) {
     }))
 }
 
+function subscribeUser(req, res) {
+    subscriberService.subscribeCreator(req.body.creator_id, req.body.user_id).then((result => {
+        if (result === true) {
+            res.json(Result.success(null))
+        } else {
+            res.json(Result.fail('Fail to subscribe'))
+        }
+    }))
+}
+
+function getMyFollowing(req, res) {
+    let pageNum = parseInt(req.query.page_number)
+    let pageSize = parseInt(req.query.page_size)
+    subscriberService.getUserFollowingPage(req.query.user_id, pageNum, pageSize).then(result => {
+        if (result) {
+            res.json(Result.success(result))
+        } else {
+            res.json('Cannot find following list')
+        }
+    })
+}
+
+function getMyAudience(req, res) {
+    let pageNum = parseInt(req.query.page_number)
+    let pageSize = parseInt(req.query.page_size)
+    subscriberService.getUserAudiencePage(req.query.user_id, pageNum, pageSize).then(result => {
+        if (result) {
+            res.json(Result.success(result))
+        } else {
+            res.json(Result.fail('Cannot get audience list'))
+        }
+    })
+}
+
+function cancelSubscription(req, res) {
+    subscriberService.cancelSubscription(req.query.creator_id, req.query.user_id).then(result => {
+        if (result === true) {
+            res.json(Result.success(null))
+        } else {
+            res.json(Result.fail('Fail to cancel subscription'))
+        }
+    })
+}
+
+function setNotification(req, res) {
+    subscriberService.turnOnOrOffNotification(req.query.creator_id, req.query.user_id, req.query.set_notification).then(result => {
+        if (result === true) {
+            res.json(Result.success(null))
+        } else {
+            res.json(Result.fail('Fail to update notification'))
+        }
+    })
+}
+
 exports.login = login
 exports.signup = signup
 exports.getUserProfile = getUserProfile
@@ -96,3 +151,8 @@ exports.updateUserProfile = updateUserProfile
 exports.removeAccount = removeAccount
 exports.updateUsername = updateUsername
 exports.updatePassword = updatePassword
+exports.subscribeUser = subscribeUser
+exports.getMyFollowing = getMyFollowing
+exports.getMyAudience = getMyAudience
+exports.cancelSubscription = cancelSubscription
+exports.setNotification = setNotification

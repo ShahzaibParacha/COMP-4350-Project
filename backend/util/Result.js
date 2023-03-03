@@ -44,6 +44,26 @@ class Result {
     static invalidPassword() {
         return new Result(ResultCode.INVALID_PASSWORD.code, ResultCode.INVALID_EMAIL.desc, null)
     }
+
+    static invalidAudienceId(){
+        return new Result(ResultCode.INVALID_AUDIENCE_ID.code, ResultCode.INVALID_AUDIENCE_ID.desc, null)
+    }
+
+    static invalidCreatorId(){
+        return new Result(ResultCode.INVALID_CREATOR_ID.code, ResultCode.INVALID_CREATOR_ID.desc, null)
+    }
+
+    static alreadySubscribe(){
+        return new Result(ResultCode.ALREADY_SUBSCRIBE.code, ResultCode.ALREADY_SUBSCRIBE.desc, null)
+    }
+
+    static notSubscribe(){
+        return new Result(ResultCode.NOT_SUBSCRIBE.code, ResultCode.NOT_SUBSCRIBE.desc, null)
+    }
+
+    static idsConflict(){
+        return new Result(ResultCode.ID_CONFLICT.code, ResultCode.ID_CONFLICT.desc, null)
+    }
 }
 
 module.exports = Result

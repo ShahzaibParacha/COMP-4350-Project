@@ -51,8 +51,15 @@ async function cancelSubscribeRelation(creatorId, audienceId){
     if(ParamValidation.isValidObjectId(audienceId) === false || ParamValidation.isValidObjectId(creatorId) === false)
         return false
 
-    let result = await Subscriber.remove({creator_id: creatorId, audience_id: audienceId})
+    let result = await Subscriber.deleteOne({creator_id: creatorId, audience_id: audienceId})
     return result.ok === 1
 }
 
-module.exports = {getAudiencePageByUserId, getCreatorPageByUserId, subscribeUser, cancelSubscribeRelation, updateIsNotification}
+async function getSubscription(creatorId, audienceId){
+    if(ParamValidation.isValidObjectId(audienceId) === false || ParamValidation.isValidObjectId(creatorId) === false)
+        return false
+
+    return await Subscriber.findOne({creator_id: creatorId, audience_id: audienceId})
+}
+
+module.exports = {getAudiencePageByUserId, getCreatorPageByUserId, subscribeUser, cancelSubscribeRelation, updateIsNotification, getSubscription}

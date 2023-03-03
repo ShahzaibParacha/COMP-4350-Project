@@ -16,7 +16,7 @@ async function getJwt(email, password) {
             email: user.email
         }
 
-        const token = jwt.sign(tokenObj, process.env.PASSPORT_SECRET)
+        const token = jwt.sign(tokenObj, "thisisasecret")
         return {
             token: "JWT " + token,
             id: user._id
