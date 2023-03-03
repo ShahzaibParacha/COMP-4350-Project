@@ -26,6 +26,7 @@ function Comment() {
       .then((r) => {
         /* eslint-disable */
         const id = r.data.data[r.data.data.length - 1]._id;
+        console.log(id);
         setPost(r.data.data[r.data.data.length - 1]._id);
         /* eslint-enable */
 
