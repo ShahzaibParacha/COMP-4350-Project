@@ -82,7 +82,9 @@ function Comment() {
           }
         });
       });
+  }, [hasWrittenComment]);
 
+  useEffect(() => {
     // generate QR code
     if (qrCode === null) {
       // change this later since we are sharing posts and not profiles
@@ -91,11 +93,21 @@ function Comment() {
         { type: "svg" },
         (err, svg) => {
           if (err) throw err;
-          updateQRCode(svg);
+
+          // a simple sanitizer for the svg
+          // can probably add more checks
+          if (
+            !svg.includes("script") &&
+            svg.includes("<svg") &&
+            svg.split("<").length - 1 === 4 &&
+            svg.split(">").length - 1 === 4
+          ) {
+            updateQRCode(svg);
+          }
         }
       );
     }
-  }, [hasWrittenComment]);
+  }, []);
 
   function changeOrdering() {
     const temp = [...comments];
@@ -229,10 +241,14 @@ function Comment() {
               </div>
               {/* eslint-disable */}
               <div className="flex justify-center">
-                <div
-                  dangerouslySetInnerHTML={{ __html: qrCode }}
-                  className="w-1/2 h-1/2"
-                />
+                {qrCode !== null ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: qrCode }}
+                    className="w-1/2 h-1/2"
+                  />
+                ) : (
+                  "Cannot generate QR code!"
+                )}
               </div>
               {/* eslint-enable */}
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">

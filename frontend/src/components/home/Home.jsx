@@ -15,7 +15,7 @@ function Home() {
   function handleLogout() {
     dispatch({ type: "CLEAR", payload: "" });
     sessionStorage.clear();
-    navigate("/login", { state: null });
+    navigate("../login", { state: null });
   }
 
   return (

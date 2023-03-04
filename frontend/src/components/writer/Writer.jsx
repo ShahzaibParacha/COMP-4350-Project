@@ -89,7 +89,7 @@ function Writer() {
       .then((r) => {
         if (r.data.msg === "success") {
           dispatch({ type: "CLEAR", payload: "" });
-          navigate("../login");
+          navigate("../login", { state: null });
         }
       })
       // eslint-disable-next-line no-console
