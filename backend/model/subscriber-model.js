@@ -1,7 +1,7 @@
 const Subscriber = require('../schema/subscriber-schema')
 const ParamValidation = require("../util/ParamValidationUtil")
 
-// get all a user's subscribers
+// get a user's subscribers page
 async function getAudiencePageByUserId(userId, pageNum, pageSize) {
     if (ParamValidation.isValidObjectId(userId) === false)
         return null
@@ -11,6 +11,14 @@ async function getAudiencePageByUserId(userId, pageNum, pageSize) {
         skip: pageNum * pageSize,
         limit: pageSize
     })
+}
+
+// get all user's audience
+async function getAllAudienceByUserId(userId){
+    if (ParamValidation.isValidObjectId(userId) === false)
+        return null
+
+    return await Subscriber.find({creator_id: userId})
 }
 
 async function getCreatorPageByUserId(userId, pageNum, pageSize) {
@@ -62,4 +70,4 @@ async function getSubscription(creatorId, audienceId){
     return await Subscriber.findOne({creator_id: creatorId, audience_id: audienceId})
 }
 
-module.exports = {getAudiencePageByUserId, getCreatorPageByUserId, subscribeUser, cancelSubscribeRelation, updateIsNotification, getSubscription}
+module.exports = {getAudiencePageByUserId, getCreatorPageByUserId, subscribeUser, cancelSubscribeRelation, updateIsNotification, getSubscription,getAllAudienceByUserId}
