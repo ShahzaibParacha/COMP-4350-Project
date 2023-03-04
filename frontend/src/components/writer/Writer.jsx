@@ -511,7 +511,6 @@ function Writer() {
             </div>
           </div>
         </div>
-
         <div className="bg-gray-200 w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
           <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4">
             <div className="flex justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">

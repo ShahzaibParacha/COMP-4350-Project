@@ -1,10 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 // TODO: This is a placeholder, we will not be hardcoding anything
 function WidePost() {
+  const navigate = useNavigate();
   const postData = {
-    name: "FirstName LastName",
-    occupation: "Occupation",
+    postID: "6400e5124d00ab9cfa260998",
+    authorName: "FirstName LastName",
+    authorOccupation: "Occupation",
     text:
       "                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim\n" +
       "                incididunt cillum culpa consequat. Excepteur qui ipsum aliquip\n" +
@@ -13,18 +16,24 @@ function WidePost() {
       "                reprehenderit deserunt qui eu.",
   };
 
+  const handlePostClick = () => {
+    navigate(`/post/${postData.postID}`);
+  };
+
   return (
     <button
       type="button"
       className="overflow-hidden text-left font-base bg-white m-6 shadow px-6 sm:rounded-m"
+      onClick={handlePostClick}
+      id={postData.postID}
     >
       <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
         <div className="px-4 py-2 col-start-1 col-end-2 sm:px-6">
           <h3 className="text-lg font-base font-medium leading-6 text-gray-900">
-            {postData.name}
+            {postData.authorName}
           </h3>
           <p className="mt-1 font-base max-w-2xl text-sm text-gray-500">
-            {postData.occupation}
+            {postData.authorOccupation}
           </p>
           <p className="mt-1 border-t font-base max-w-2xl text-sm text-gray-500">
             11 likes
