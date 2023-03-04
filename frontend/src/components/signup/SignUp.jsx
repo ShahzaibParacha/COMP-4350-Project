@@ -50,7 +50,7 @@ function SignUp() {
         console.log(res.data.msg);
         if (res.data.msg === "success") {
           setLoginStatus("success");
-          navigate("../login");
+          navigate("../login", { state: null });
         } else {
           setLoginStatus("failure");
         }
