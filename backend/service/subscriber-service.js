@@ -1,7 +1,10 @@
 const Subscriber = require("../model/subscriber-model")
 
-async function getUserAudiencePage(userId, pageNum, pageSize) {
-    return await Subscriber.getAudiencePageByUserId(userId, pageNum, pageSize)
+async function getUserAudiences(userId, pageNum, pageSize) {
+    if (pageNum === undefined || pageNum === null || pageSize === undefined || pageSize === null || isNaN(pageSize) || isNaN(pageNum))
+        return await Subscriber.getAllAudienceByUserId(userId)
+    else
+        return await Subscriber.getAudiencePageByUserId(userId, pageNum, pageSize)
 }
 
 async function getUserFollowingPage(userId, pageNum, pageSize) {
@@ -30,7 +33,7 @@ async function getSubscription(creatorId, audienceId) {
 }
 
 module.exports = {
-    getUserAudiencePage,
+    getUserAudiences,
     getUserFollowingPage,
     turnOnOrOffNotification,
     subscribeCreator,
