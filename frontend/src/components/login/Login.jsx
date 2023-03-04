@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthContext from "../../hooks/useAuthContext";
 
@@ -8,6 +8,7 @@ function Login() {
   const [password, setPassword] = useState();
   const [loginStatus, setLoginStatus] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { dispatch } = useAuthContext();
 
@@ -44,7 +45,12 @@ function Login() {
           );
 
           setLoginStatus("success");
-          navigate("../");
+
+          if (location.state !== null) {
+            navigate(`..${location.state}`);
+          } else {
+            navigate("../");
+          }
         } else {
           setLoginStatus("failure");
         }
