@@ -25,11 +25,16 @@ async function isSubscribed(creatorId, audienceId) {
     return result !== undefined && result !== null
 }
 
+async function getSubscription(creatorId, audienceId) {
+    return Subscriber.getSubscription(creatorId, audienceId)
+}
+
 module.exports = {
     getUserAudiencePage,
     getUserFollowingPage,
     turnOnOrOffNotification,
     subscribeCreator,
     cancelSubscription,
-    isSubscribed
+    isSubscribed,
+    getSubscription
 }
