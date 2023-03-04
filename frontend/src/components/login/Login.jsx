@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthContext from "../../hooks/useAuthContext";
 
@@ -8,6 +8,7 @@ function Login() {
   const [password, setPassword] = useState();
   const [loginStatus, setLoginStatus] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { dispatch } = useAuthContext();
 
@@ -30,12 +31,26 @@ function Login() {
         console.error(error);
       })
       .then((res) => {
-        // eslint-disable-next-line no-console
         if (res.data.msg === "success") {
+          // need to do this to rerender App.js
           dispatch({ type: "SET_USER_ID", payload: res.data.data.id });
           dispatch({ type: "SET_TOKEN", payload: res.data.data.token });
+
+          sessionStorage.setItem(
+            "session",
+            JSON.stringify({
+              userId: res.data.data.id,
+              token: res.data.data.token,
+            })
+          );
+
           setLoginStatus("success");
-          navigate("../");
+
+          if (location.state !== null) {
+            navigate(`..${location.state}`);
+          } else {
+            navigate("../");
+          }
         } else {
           setLoginStatus("failure");
         }

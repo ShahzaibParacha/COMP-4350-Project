@@ -39,6 +39,23 @@ const updatePostContent = async (req, res) => {
     })
 }
 
+const getPostByID = async (req, res) => {
+    const{ post_id } = req.body
+    console.log(post_id)
+
+    if(!mongoose.Types.ObjectId.isValid(post_id)){
+        return res.json(Result.invalidPostId())
+    }
+
+    await postService.getPostByID(post_id)
+    .then((result) => {
+        res.json(Result.success(result))
+    })
+    .catch((err) => {
+        res.json(Result.fail(err))
+    })
+}
+
 //it must be done by the user who owns the post
 const removePostByID = async (req, res) => {
     const { post_id } = req.body
@@ -78,7 +95,6 @@ const getRecentPost = async (req, res) => {
 //TODO: implement pagination
 const getAllPostsFromUser = async (req, res) => {
     const { user_id } = req.body
-    console.log(user_id)
 
     // const page = parseInt(req.query.page) || numberPages
     // const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage
@@ -102,7 +118,8 @@ const getAllPostsFromUser = async (req, res) => {
 
 module.exports = {
     createPost, 
-    updatePostContent, 
+    updatePostContent,
+    getPostByID,
     removePostByID, 
     getRecentPost, 
     getAllPostsFromUser

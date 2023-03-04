@@ -1,12 +1,16 @@
 const Post = require('../schema/post-schema');
 
 //get all posts
-//returns the documents
 const getAllPosts = async () => {
     return await Post.find({}); 
 }
 
 //get a page of posts
+//page_size - the number of posts to send
+//page_number - 
+//if page_number = 0, then send the ten latest posts
+//if page_number = 1, then send the next ten latest posts
+//...
 const getPageOfPosts = async (page_number, page_size) => {
    let query = await Post.find({}
       , null

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
+import { Route, Navigate, Routes, useLocation } from "react-router-dom";
 import Home from "./components/home/Home";
 import Navbar from "./components/navbar/Navbar";
 import Writer from "./components/writer/Writer";
@@ -13,38 +13,64 @@ import "./App.css";
 import useAuthContext from "./hooks/useAuthContext";
 
 function App() {
+  // using the context will make this rerender if there's a change to the state
+  // using session storage will allow us to save the state even after refresh
   const { userId } = useAuthContext();
+  const session = JSON.parse(sessionStorage.getItem("session"));
+  const location = useLocation();
 
   return (
-    <BrowserRouter>
-      {userId != null ? <Navbar /> : null}
-      <Routes>
+    {userId != null || session != null ? <Navbar /> : null}
+    <Routes>
+      <Route
+        exact
+        path="/"
+        element={
+          userId != null || session != null ? (
+            <Home />
+          ) : (
+            <Navigate to="/login" state={location.pathname} />
+          )
+        }
+      />
+      <Route
+        exact
+        path="/writer/:id"
+        element={
+          userId != null || session != null ? (
+            <Writer />
+          ) : (
+            <Navigate to="/login" state={location.pathname} />
+          )
+        }
+      />
+      <Route
+        exact
+        path="/writer/:id/write"
+        element={
+          userId != null || session != null ? (
+            <CreatePost />
+          ) : (
+            <Navigate to="/login" state={location.pathname} />
+          )
+        }
+      />
         <Route
-          exact
-          path="/"
-          element={userId != null ? <Home /> : <Navigate to="/login" />}
-        />
-        <Route
-          exact
-          path="/writer/:id"
-          element={userId != null ? <Writer /> : <Navigate to="/login" />}
-        />
-        <Route
-          exact
-          path="/writer/:id/write"
-          element={userId != null ? <CreatePost /> : <Navigate to="/login" />}
-        />
-        <Route
-          exact
-          path="/post/:id"
-          element={userId != null ? <ViewPost /> : <Navigate to="/login" />}
-        />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/signup" element={<SignUp />} />
-        <Route exact path="/404" element={<Error />} />
-        <Route path="*" element={<Navigate to="/404" />} />
-      </Routes>
-    </BrowserRouter>
+        exact
+        path="/post/:id"
+        element={
+          userId != null || session != null ? (
+            <ViewPost />
+          ) : (
+            <Navigate to="/login" state={location.pathname} />
+          )
+        }
+      />
+      <Route exact path="/login" element={<Login />} />
+      <Route exact path="/signup" element={<SignUp />} />
+      <Route exact path="/404" element={<Error />} />
+      <Route path="*" element={<Navigate to="/404" />} />
+    </Routes>
   );
 }
 

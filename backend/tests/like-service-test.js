@@ -5,8 +5,6 @@ const services = require('../service/likes-service');
 const expect = require('chai').expect;
 require("dotenv").config();
 
-const useRealDatabase = false;
-
 /* generateLikes
  *
  * Purpose: Generates a number of likes documents
@@ -46,7 +44,7 @@ const generateLikes = async (numPosts, numUsers, numLikes) => {
         //the last user will like the last post
         for (i = 0; i < numLikes; i++) {
 
-            if (useRealDatabase) {
+            if (process.env.TEST_TYPE === "INTEGRATION") {
                 await Like.create({ post_id: postIDs[postIdx], user_id: userIDs[userIdx] });
             }
             else {
@@ -93,7 +91,7 @@ describe('Like services and model', function () {
     //clear out the posts array if using fake 
     //otherwise, connect to database and drop the table
     beforeEach(async () => {
-        if (useRealDatabase) {
+        if (process.env.TEST_TYPE === "INTEGRATION") {
             mongoose
                 .connect(process.env.MONGODB_CONNECTION, {
                     useNewUrlParser: true,
@@ -112,7 +110,7 @@ describe('Like services and model', function () {
 
     //get rid of all stubs
     afterEach(async () => {
-        if (useRealDatabase) {
+        if (process.env.TEST_TYPE === "INTEGRATION") {
             await mongoose.disconnect();
         }
         else {
