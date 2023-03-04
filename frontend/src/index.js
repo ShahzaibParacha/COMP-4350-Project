@@ -5,18 +5,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { AuthContextProvider } from "./context/AuthContext";
-import Navbar from "./components/navbar/Navbar";
-import useAuthContext from "./hooks/useAuthContext";
-
-const { userId } = useAuthContext();
-const session = JSON.parse(sessionStorage.getItem("session"));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
     <AuthContextProvider>
       <BrowserRouter>
-        {userId !== null || session !== null ? <Navbar /> : null}
         <App />
       </BrowserRouter>
     </AuthContextProvider>
