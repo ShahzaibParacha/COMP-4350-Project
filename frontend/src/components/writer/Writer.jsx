@@ -11,7 +11,6 @@ import {
 } from "../../util/messages";
 
 function Writer() {
-  // const [page, setPage] = useState("profile");
   const navigate = useNavigate();
 
   const [changeUsername, isChangingUsername] = useState(false);
@@ -24,6 +23,8 @@ function Writer() {
   const [password, setPassword] = useState("Loading...");
   const [bio, setBio] = useState("Loading...");
   const [affiliation, setAffiliation] = useState("Loading...");
+
+  const [hasSubscribed, changeHasSubscribed] = useState(false);
 
   const { dispatch } = useAuthContext();
   const { id } = useParams(); // userId is the id of the user who logged in; id is the id of the user whose profile is being rendered
@@ -49,15 +50,22 @@ function Writer() {
       })
       // eslint-disable-next-line no-console
       .catch((e) => console.error(e, username));
-  }, []);
 
-  // function handlePageChange() {
-  //   if (page === "profile") {
-  //     setPage("preferences");
-  //   } else if (page === "preferences") {
-  //     setPage("profile");
-  //   }
-  // }
+    axios({
+      method: "get",
+      params: {
+        user_id: userId,
+        creator_id: id,
+      },
+      url: `http://localhost:4350/api/user/subscription/isSubscribed`,
+      headers: {
+        Authorization: token,
+        withCredentials: true,
+      },
+    }).then((s) => {
+      changeHasSubscribed(s.data.data);
+    });
+  }, []);
 
   function showDeleteModal() {
     document.getElementById("delete_modal").style.display = "block";
@@ -81,7 +89,7 @@ function Writer() {
       .then((r) => {
         if (r.data.msg === "success") {
           dispatch({ type: "CLEAR", payload: "" });
-          navigate("../login");
+          navigate("../login", { state: null });
         }
       })
       // eslint-disable-next-line no-console
@@ -379,55 +387,43 @@ function Writer() {
     }
   }
 
-  // function renderPreferences() {
-  //   return (
-  //     <div>
-  //       <div className="grid-rows-1 h-48">
-  //         <div className="row-start-1 col-start-2 col-span-4 row-end-5 h-screen">
-  //           <h1 className="mt-8 text-2xl font-bold ml-12 text-center text-simple font-base tracking-tight text-black-800 sm:text-5xl">
-  //             {`${username}'s`} Preferences
-  //           </h1>
-  //         </div>
-  //       </div>
-  //       <div className="grid grid-rows-4 grid-cols-6 gap-4">
-  //         <div className="row-start-1 justify-items-center row-end-5 bg-black-600 row-span-2 h-screen">
-  //           <button
-  //             id="preferences"
-  //             type="button"
-  //             className=" bg-base-100 w-9/12 text-center text-simple border-neutral border-2 hover:bg-neutral hover:text-white px-5 py-3.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-  //             onClick={handlePageChange}
-  //           >
-  //             Return to Profile
-  //           </button>
-  //         </div>
-  //         <div className="row-start-1 col-start-2 col-span-4 row-end-5 h-screen">
-  //           <div className="grid-column-1">
-  //             <h1 className="mt-4 pl-4 text-2xl text-left font-bold border-b pb-4 tracking-tight text-simple sm:text-5xl">
-  //               Delete Account
-  //             </h1>
-  //             <div className="flex justify-left">
-  //               <p className="w-6/12 pl-4 text-left pt-4">
-  //                 If you would like to delete your account, click on the button
-  //                 on the right. We store none of your data when you leave. Once
-  //                 deleted, the only way back is to create a new account.
-  //               </p>
-  //               <div className="w-6/12 flex justify-center">
-  //                 <button
-  //                   className="rounded-md bg-neutral px-5 py-3.5 text-sm mt-6 font-semibold text-white shadow-sm hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-  //                   type="button"
-  //                   onClick={handleDeletion}
-  //                 >
-  //                   Delete Account
-  //                 </button>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-  //         <div className="row-start-1 row-end-5 h-screen" />
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  function subscribe() {
+    if (!hasSubscribed) {
+      axios({
+        method: "post",
+        url: `http://localhost:4350/api/user/subscription/followNewUser`,
+        headers: {
+          Authorization: token,
+          withCredentials: true,
+        },
+        data: {
+          user_id: userId,
+          creator_id: id,
+        },
+      }).then((s) => {
+        if (s.data.code !== 40011) {
+          changeHasSubscribed(!hasSubscribed);
+        }
+      });
+    } else {
+      axios({
+        method: "get",
+        params: {
+          user_id: userId,
+          creator_id: id,
+        },
+        url: `http://localhost:4350/api/user/subscription/cancel`,
+        headers: {
+          Authorization: token,
+          withCredentials: true,
+        },
+      }).then((s) => {
+        if (s.data.code !== 40011) {
+          changeHasSubscribed(!hasSubscribed);
+        }
+      });
+    }
+  }
 
   // return a string of *'s of the same length as the password
   function getStarString(s) {
@@ -441,6 +437,17 @@ function Writer() {
   }
 
   function renderProfile() {
+    const classHasNotSubscribed =
+      "rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-fit";
+    const classHasSubscribed =
+      "rounded-md hover:bg-indigo-900 bg-black text-white p-2 h-fit";
+
+    // not for the buttons themselves but for the div that contains them
+    const classForEditProfile =
+      "flex justify-start items-center col-start-1 col-end-3 row-start-6 row-end-7";
+    const classForSubscribe =
+      "flex justify-end items-center col-start-1 col-end-3 row-start-6 row-end-7";
+
     return (
       <div className="w-screen">
         <div
@@ -504,7 +511,6 @@ function Writer() {
             </div>
           </div>
         </div>
-
         <div className="bg-gray-200 w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
           <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4">
             <div className="flex justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
@@ -632,8 +638,14 @@ function Writer() {
                 <p id="bio_message" className="opacity-0 text-xs" />
               </div>
             </div>
-            <div className="flex justify-between items-center col-start-1 col-end-3 row-start-6 row-end-7">
-              {id === userId && (
+            <div
+              // need to flip this later
+              className={
+                id !== userId ? classForEditProfile : classForSubscribe
+              }
+            >
+              {/* need to flip this later */}
+              {id !== userId && (
                 <button
                   type="button"
                   className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-fit"
@@ -642,13 +654,15 @@ function Writer() {
                   {!changeDetails ? "Edit Profile" : "Finish Editing"}
                 </button>
               )}
-              {id !== userId && (
+              {id === userId && (
                 <button
                   type="button"
-                  className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-fit"
-                  onClick={switchUsername}
+                  className={
+                    hasSubscribed ? classHasSubscribed : classHasNotSubscribed
+                  }
+                  onClick={subscribe}
                 >
-                  Subscribe
+                  {!hasSubscribed ? "Subscribe" : "Subscribed"}
                 </button>
               )}
             </div>
@@ -818,200 +832,9 @@ function Writer() {
         </div>
       </div>
     );
-
-    // return <div className="w-screen bg-gray">Hello World</div>;
-    // return (
-    //   <div>
-    //     <div className="grid-rows-1 h-48">
-    //       <div>
-    //         <h1 className="mt-8 text-2xl font-bold ml-12 text-center text-simple font-base tracking-tight text-black-800 sm:text-5xl">
-    //           {username}
-    //           {"'s "}
-    //           Profile
-    //         </h1>
-    //       </div>
-    //     </div>
-    //     <div className="grid grid-rows-4 grid-cols-6 gap-4">
-    //       <div className="row-start-1 justify-items-center row-end-5 bg-black-600 row-span-2 h-screen">
-    //         <Link
-    //           to={`../writer/${userId}
-    //         )}/write`}
-    //           type="button"
-    //           className=" bg-base-100 w-9/12 text-center text-simple border-neutral border-2 hover:bg-neutral hover:text-white px-5 py-3.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-    //         >
-    //           Create a post
-    //         </Link>
-    //         <button
-    //           id="preferences"
-    //           type="button"
-    //           className=" bg-base-100 w-9/12 text-center border-t-0 text-simple border-neutral border-2 hover:bg-neutral hover:text-white px-5 py-3.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-    //           onClick={handlePageChange}
-    //         >
-    //           Manage Preferences
-    //         </button>
-    //       </div>
-    //       <div className="row-start-1 col-start-2 col-span-4 row-end-5 h-screen">
-    //         <div className="grid-column-1">
-    //           {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-    //           <img
-    //             className="rounded-full m-auto w-1/6"
-    //             src="/sample_profile.jpg"
-    //             alt="A sample profile picture"
-    //           />
-    //           <form className="grid grid-cols-3 gap-4">
-    //             <h1 className="col-start-1 col-end-4 mt-4 text-2xl text-center font-bold border-b pb-4 tracking-tight text-simple sm:text-5xl">
-    //               Account Details
-    //             </h1>
-    //             <div className="text-right">Username</div>
-    //             {!changeUsername ? (
-    //               <div>{username}</div>
-    //             ) : (
-    //               <input
-    //                 type="text"
-    //                 placeholder={username}
-    //                 id="username_input"
-    //               />
-    //             )}
-    //             <div>
-    //               <button
-    //                 type="button"
-    //                 className="hover:border-b-2 hover:border-black"
-    //                 onClick={switchUsername}
-    //               >
-    //                 <svg
-    //                   xmlns="http://www.w3.org/2000/svg"
-    //                   fill="none"
-    //                   viewBox="0 0 24 24"
-    //                   strokeWidth="1.5"
-    //                   stroke="currentColor"
-    //                   className="w-6 h-6"
-    //                 >
-    //                   <path
-    //                     strokeLinecap="round"
-    //                     strokeLinejoin="round"
-    //                     d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-    //                   />
-    //                 </svg>
-    //               </button>
-    //             </div>
-    //             <div className="text-right">Password</div>
-    //             {!changePassword ? (
-    //               <div>*******</div>
-    //             ) : (
-    //               <input type="password" id="password_input" />
-    //             )}
-    //             <div>
-    //               <button
-    //                 type="button"
-    //                 className="hover:border-b-2 hover:border-black"
-    //                 onClick={switchPassword}
-    //               >
-    //                 <svg
-    //                   xmlns="http://www.w3.org/2000/svg"
-    //                   fill="none"
-    //                   viewBox="0 0 24 24"
-    //                   strokeWidth="1.5"
-    //                   stroke="currentColor"
-    //                   className="w-6 h-6"
-    //                 >
-    //                   <path
-    //                     strokeLinecap="round"
-    //                     strokeLinejoin="round"
-    //                     d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-    //                   />
-    //                 </svg>
-    //               </button>
-    //             </div>
-    //           </form>
-    //           <h1 className="mt-4 text-2xl pt-20 text-center font-bold border-b pb-4 tracking-tight text-simple sm:text-5xl">
-    //             Bio
-    //             <button
-    //               type="button"
-    //               className="hover:border-b-2 hover:border-black ml-4"
-    //               onClick={switchBio}
-    //             >
-    //               <svg
-    //                 xmlns="http://www.w3.org/2000/svg"
-    //                 fill="none"
-    //                 viewBox="0 0 24 24"
-    //                 strokeWidth="1.5"
-    //                 stroke="currentColor"
-    //                 className="w-6 h-6"
-    //               >
-    //                 <path
-    //                   strokeLinecap="round"
-    //                   strokeLinejoin="round"
-    //                   d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-    //                 />
-    //               </svg>
-    //             </button>
-    //           </h1>
-    //           <div className="flex justify-center">
-    //             {!changeBio ? (
-    //               <p className="w-[40rem] text-center pt-4">{bio}</p>
-    //             ) : (
-    //               <textarea
-    //                 className="mt-4"
-    //                 id="bio_input"
-    //                 rows="4"
-    //                 cols="50"
-    //                 placeholder={bio}
-    //               />
-    //             )}
-    //           </div>
-    //           <h1 className="mt-4 text-2xl pt-20 text-center font-bold border-b pb-4 tracking-tight text-simple sm:text-5xl">
-    //             Affiliation
-    //             <button
-    //               type="button"
-    //               className="hover:border-b-2 hover:border-black ml-4"
-    //               onClick={switchAffiliation}
-    //             >
-    //               <svg
-    //                 xmlns="http://www.w3.org/2000/svg"
-    //                 fill="none"
-    //                 viewBox="0 0 24 24"
-    //                 strokeWidth="1.5"
-    //                 stroke="currentColor"
-    //                 className="w-6 h-6"
-    //               >
-    //                 <path
-    //                   strokeLinecap="round"
-    //                   strokeLinejoin="round"
-    //                   d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-    //                 />
-    //               </svg>
-    //             </button>
-    //           </h1>
-    //           <div className="flex justify-center">
-    //             {!changeAffiliation ? (
-    //               <p className="w-[40rem] text-center pt-4">{affiliation}</p>
-    //             ) : (
-    //               <input
-    //                 type="text"
-    //                 placeholder={affiliation}
-    //                 id="affiliation_input"
-    //               />
-    //             )}
-    //           </div>
-    //         </div>
-    //         <h1 className="mt-4 text-2xl pt-20 text-center font-bold border-b pb-4 tracking-tight text-simple sm:text-5xl">
-    //           Recommendations
-    //         </h1>
-    //         <div className="flex w-[40rem] pt-4 justify-center">
-    //           <ul className="list-disc">
-    //             <li>one</li>
-    //             <li>two</li>
-    //           </ul>
-    //         </div>
-    //       </div>
-    //       <div className="row-start-1 row-end-5 h-screen" />
-    //     </div>
-    //   </div>
-    // );
   }
 
   return renderProfile();
-  // <div>{page === "profile" ? renderProfile() : renderPreferences()}</div>
 }
 
 export default Writer;

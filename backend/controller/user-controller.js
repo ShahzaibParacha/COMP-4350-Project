@@ -115,7 +115,7 @@ function getMyFollowing(req, res) {
 function getMyAudience(req, res) {
     let pageNum = parseInt(req.query.page_number)
     let pageSize = parseInt(req.query.page_size)
-    subscriberService.getUserAudiencePage(req.query.user_id, pageNum, pageSize).then(result => {
+    subscriberService.getUserAudiences(req.query.user_id, pageNum, pageSize).then(result => {
         if (result) {
             res.json(Result.success(result))
         } else {
@@ -145,7 +145,13 @@ function setNotification(req, res) {
 }
 
 function isSubscribed(req, res) {
-    subscriberService.isSubscribed(req.query.creator_id, req.query.audience_id).then(result => {
+    subscriberService.isSubscribed(req.query.creator_id, req.query.user_id).then(result => {
+        res.json(Result.success(result))
+    })
+}
+
+function getSubscription(req, res) {
+    subscriberService.getSubscription(req.query.creator_id, req.query.user_id).then(result => {
         res.json(Result.success(result))
     })
 }
@@ -163,3 +169,4 @@ exports.getMyAudience = getMyAudience
 exports.cancelSubscription = cancelSubscription
 exports.setNotification = setNotification
 exports.isSubscribed = isSubscribed
+exports.getSubscription = getSubscription

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import QRCode from "qrcode";
 import { showMessage, success, failure } from "../../util/messages";
 
 function Comment() {
@@ -12,6 +15,8 @@ function Comment() {
   const [postId, setPost] = useState(null);
   const [numLikes, updateLikes] = useState(null);
   const [comments, updateComments] = useState(null);
+
+  const [qrCode, updateQRCode] = useState(null);
 
   const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
@@ -80,6 +85,31 @@ function Comment() {
         });
       });
   }, [hasWrittenComment]);
+
+  useEffect(() => {
+    // generate QR code
+    if (qrCode === null) {
+      // change this later since we are sharing posts and not profiles
+      QRCode.toString(
+        `http://localhost:3000/writer/${userId}`,
+        { type: "svg" },
+        (err, svg) => {
+          if (err) throw err;
+
+          // a simple sanitizer for the svg
+          // can probably add more checks
+          if (
+            !svg.includes("script") &&
+            svg.includes("<svg") &&
+            svg.split("<").length - 1 === 4 &&
+            svg.split(">").length - 1 === 4
+          ) {
+            updateQRCode(svg);
+          }
+        }
+      );
+    }
+  }, []);
 
   function changeOrdering() {
     const temp = [...comments];
@@ -175,13 +205,70 @@ function Comment() {
     isWritingComment(!writingComment);
   }
 
+  function showQRCodeModal() {
+    document.getElementById("qr_code_modal").style.display = "block";
+  }
+
+  function hideQRCodeModal() {
+    document.getElementById("qr_code_modal").style.display = "none";
+  }
+
   const buttonClicked = "w-6 h-6 fill-blue-400 hover:fill-blue-800";
   const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none";
 
   return (
     <div>
+      <div
+        className="relative z-10 hidden"
+        aria-labelledby="modal-title"
+        role="dialog"
+        aria-modal="true"
+        id="qr_code_modal"
+      >
+        <div className="fixed inset-0 transition-opacity" />
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <div className="pt-5 pb-4">
+                <div className="flex justify-center">
+                  <div className="mt-3 flex justify-center">
+                    <h2
+                      className="text-3xl font-bold text-gray-900"
+                      id="modal-title"
+                    >
+                      Share this post!
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              {/* eslint-disable */}
+              <div className="flex justify-center">
+                {qrCode !== null ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: qrCode }}
+                    className="w-1/2 h-1/2"
+                  />
+                ) : (
+                  "Cannot generate QR code!"
+                )}
+              </div>
+              {/* eslint-enable */}
+              <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button
+                  type="button"
+                  className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  onClick={hideQRCodeModal}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="flex">
-        <div className="basis-1/2 flex border-r-2 border-black justify-center">
+        <div className="basis-1/3 flex border-r-2 border-black justify-center">
           <div className="flex">
             <button type="button" onClick={likePost}>
               <svg
@@ -205,7 +292,7 @@ function Comment() {
             </p>
           </div>
         </div>
-        <div className="basis-1/2 flex justify-center">
+        <div className="basis-1/3 flex border-r-2 border-black justify-center">
           <div className="flex">
             <button type="button" onClick={writeComment}>
               <svg
@@ -223,6 +310,27 @@ function Comment() {
               </svg>
             </button>
             <p className="ml-2">Comment</p>
+          </div>
+        </div>
+        <div className="basis-1/3 flex justify-center">
+          <div className="flex">
+            <button type="button" onClick={showQRCodeModal}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 hover:stroke-green-400"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3"
+                />
+              </svg>
+            </button>
+            <p className="ml-2">Share</p>
           </div>
         </div>
       </div>
