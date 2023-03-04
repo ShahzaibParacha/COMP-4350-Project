@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import Home from "./components/home/Home";
-// import Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Writer from "./components/writer/Writer";
 import Error from "./components/error/Error";
 import Login from "./components/login/Login";
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* {userId != null ? <Navbar /> : null} */}
+      {userId != null ? <Navbar /> : null}
       <Routes>
         <Route
           exact
