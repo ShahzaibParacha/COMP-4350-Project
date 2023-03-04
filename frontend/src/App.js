@@ -20,7 +20,6 @@ function App() {
   const location = useLocation();
 
   return (
-    {userId != null || session != null ? <Navbar /> : null}
     <Routes>
       <Route
         exact
@@ -55,7 +54,7 @@ function App() {
           )
         }
       />
-        <Route
+      <Route
         exact
         path="/post/:id"
         element={
