@@ -5,6 +5,11 @@ on:
     branches: ["master", "develop"]
   pull_request:
     branches: ["master", "develop"]
+env:
+  PORT: 4350
+  MONGODB_CONNECTION: ${{ secrets.MONGODB_CONNECTION }}
+  PASSPORT_SECRET: ${{ secrets.PASSPORT_SECRET }}
+  TEST_TYPE: UNIT
     
 jobs:
   run_tests:
