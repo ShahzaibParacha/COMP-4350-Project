@@ -1,6 +1,7 @@
 const postService = require("../service/post-service")
 const Result = require("../util/Result")
 const mongoose = require("mongoose")
+const { noticer: sendEmailToSubscribers } = require("../util/notification")
 
 const numberPages = 1 //default number of pages to show
 const numberPostsPerPage = 5 //default number of posts to present on each page
@@ -8,6 +9,7 @@ const numberPostsPerPage = 5 //default number of posts to present on each page
 const createPost = async (req, res) => {
     const{content, user_id} = req.body
     console.log(user_id, content)
+    let post_id
 
     if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.json(Result.invalidUserId())
@@ -15,11 +17,29 @@ const createPost = async (req, res) => {
 
     await postService.createPost(user_id, content)
     .then((result) => {
+        post_id = 1// JSON.parse(result)
         res.json(Result.success(result))
     })
     .catch((err) => {
         res.json(Result.fail(err))
     })
+
+    console.log( post_id )
+
+    //set message to the subscribers' emails
+    if(res.data != null){
+        post_id = res.data._id
+
+        console.log("This is the newly created post id: " + post_id)
+
+        await noticer(user_id, post_id)
+        .then((result) => {
+            res.json(Result.success(result))
+        })
+        .catch((err) => {
+            res.json(Result.failNotified(err))
+        })
+    }
 }
 
 const updatePostContent = async (req, res) => {

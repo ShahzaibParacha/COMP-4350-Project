@@ -39,7 +39,10 @@ const countPostsFromUser = async (user_id) => {
  //create a new post
  //returns the new document
  const createPost = async (user_id, content, image) => {
-    return await Post.create({user_id, content, image});
+    return await Post.create({user_id, content, image})
+    .then(savedPost => {
+      return savedPost;
+   });
  }
 
  //remove a post by id

@@ -19,6 +19,7 @@ class ResultCode{
     static ALREADY_SUBSCRIBE = new ResultCode(40009, 'The user has already subscribe the creator')
     static NOT_SUBSCRIBE = new ResultCode(40010, 'The user hasn\'t subscribe this creator')
     static ID_CONFLICT = new ResultCode(40011, 'Input ids are duplicate')
+    static FAIL_NOTIFICATION = new ResultCode(40012, 'Fail to send notifications to subscribers')
     static FAIL = new ResultCode(40000, 'fail');
 }
 
