@@ -1,22 +1,7 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
-import useAuthContext from "../../hooks/useAuthContext";
 import WidePost from "../widepost/WidePost";
 
 function Home() {
-  const { dispatch } = useAuthContext();
-  const navigate = useNavigate();
-  const { userId } = JSON.parse(sessionStorage.getItem("session"));
-
-  function handleHomeClick() {
-    navigate("/");
-  }
-
-  function handleLogout() {
-    dispatch({ type: "CLEAR", payload: "" });
-    sessionStorage.clear();
-    navigate("../login", { state: null });
-  }
   return (
     <div>
       <div className="grid grid-rows-4 grid-cols-6 gap-4">

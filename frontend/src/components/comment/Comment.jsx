@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import QRCode from "qrcode";
 import { showMessage, success, failure } from "../../util/messages";
 
