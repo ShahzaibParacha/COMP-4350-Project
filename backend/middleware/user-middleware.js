@@ -152,5 +152,26 @@ function unsubscriptionValidation(req, res, next) {
     })
 }
 
-module.exports = {userIdValidation, emailValidation, passwordValidation, audienceIdValidation, creatorIdValidation, subscriptionValidation, unsubscriptionValidation}
+function setNotificationValidation(req, res, next) {
+    let creatorId = req.query.creator_id
+    let audienceId = req.query.user_id
+    let setting = req.query.set_notification;
+
+    console.log(`creator is is ${creatorId}, audience id is ${audienceId}, settings is ${setting}`)
+
+    if(creatorId === audienceId){
+        res.json(Result.idsConflict())
+        return
+    }
+
+    subscriberModel.getSubscription(creatorId, audienceId).then((result) => {
+        if(result === undefined || result === null) {
+            res.json(Result.notSubscribe())
+        } else {
+            next()
+        }
+    })
+}
+
+module.exports = {userIdValidation, emailValidation, passwordValidation, audienceIdValidation, creatorIdValidation, subscriptionValidation, unsubscriptionValidation, setNotificationValidation}
 module.exports.all = [userIdValidation, emailValidation, passwordValidation, audienceIdValidation, creatorIdValidation]

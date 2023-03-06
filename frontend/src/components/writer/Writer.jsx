@@ -407,19 +407,19 @@ function Writer() {
   function enableNotif() {
     axios({
       method: "post",
+      params: {
+        user_id: userId,
+        creator_id: id,
+        set_notification: !hasEnabledNotif,
+      },
       url: `http://localhost:4350/api/user/subscription/setNotification`,
       headers: {
         Authorization: token,
         withCredentials: true,
       },
-      data: {
-        user_id: userId,
-        creator_id: id,
-        set_notification: !hasEnabledNotif,
-      },
     }).then((s) => {
       // need to flip this
-      if (s.data.code === 40000) {
+      if (s.data.code === 40011) {
         changeHasEnabledNotif(!hasEnabledNotif);
       }
     });
