@@ -1,10 +1,12 @@
 // import React, { useEffect, useState } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactMarkdown from "react-markdown";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import remarkGfm from "remark-gfm";
 import Comment from "../comment/Comment";
+import useAuthContext from "../../hooks/useAuthContext";
+import { fromContextToSession, fromSessionToContext } from "../../util/state";
 // import axios from "axios";
 // import { useParams } from "react-router-dom";
 // import useAuthContext from "../../hooks/useAuthContext";
@@ -13,6 +15,8 @@ function ViewPost() {
   // const [post, setPost] = useState();
   // const { userId, token } = useAuthContext();
   // const { postID } = useParams();
+  const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
+  const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
   // useEffect(() => {
   //   axios
@@ -34,6 +38,14 @@ function ViewPost() {
 
   // eslint-disable-next-line no-console
   // console.log(post);
+
+  useEffect(() => {
+    fromContextToSession(contextId, contextToken);
+  }, [contextId]);
+
+  useEffect(() => {
+    fromSessionToContext(userId, token, dispatch);
+  }, []);
 
   const postData = {
     postID: "6400e5124d00ab9cfa260998",

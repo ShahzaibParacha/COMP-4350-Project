@@ -8,6 +8,7 @@ import {
   success,
   failure,
 } from "../../util/messages";
+import { fromContextToSession, fromSessionToContext } from "../../util/state";
 
 function Writer() {
   const navigate = useNavigate();
@@ -26,11 +27,13 @@ function Writer() {
   const [hasSubscribed, changeHasSubscribed] = useState(false);
   const [hasEnabledNotif, changeHasEnabledNotif] = useState(false);
 
-  const { dispatch } = useAuthContext();
+  const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
   const { id } = useParams(); // userId is the id of the user who logged in; id is the id of the user whose profile is being rendered
   const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
   useEffect(() => {
+    fromSessionToContext(userId, token, dispatch);
+
     axios
       .get(`http://localhost:4350/api/user/profile`, {
         params: {
@@ -83,6 +86,10 @@ function Writer() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    fromContextToSession(contextId, contextToken);
+  }, [contextId]);
 
   function showDeleteModal() {
     document.getElementById("delete_modal").style.display = "block";

@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
+import { fromContextToSession, fromSessionToContext } from "../../util/state";
 
 function CreatePost() {
   const [post, createPost] = useState("Start writing...");
-  const { userId, token } = useAuthContext();
+  const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
+  const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fromContextToSession(contextId, contextToken);
+  }, [contextId]);
+
+  useEffect(() => {
+    fromSessionToContext(userId, token, dispatch);
+  });
 
   const handlePostCreation = (e) => {
     e.preventDefault();

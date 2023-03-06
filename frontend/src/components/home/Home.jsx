@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import WidePost from "../widepost/WidePost";
+import useAuthContext from "../../hooks/useAuthContext";
+import { fromContextToSession, fromSessionToContext } from "../../util/state";
 
 function Home() {
+  const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
+  const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
+
+  useEffect(() => {
+    fromContextToSession(contextId, contextToken);
+  }, [contextId]);
+
+  useEffect(() => {
+    fromSessionToContext(userId, token, dispatch);
+  }, []);
+
   return (
     <div>
       <div className="grid grid-rows-4 grid-cols-6 gap-4">
