@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
-import Comment from "../comment/Comment";
 import {
   hideMessage,
   showMessage,
@@ -25,6 +24,7 @@ function Writer() {
   const [affiliation, setAffiliation] = useState("Loading...");
 
   const [hasSubscribed, changeHasSubscribed] = useState(false);
+  const [hasEnabledNotif, changeHasEnabledNotif] = useState(false);
 
   const { dispatch } = useAuthContext();
   const { id } = useParams(); // userId is the id of the user who logged in; id is the id of the user whose profile is being rendered
@@ -401,7 +401,7 @@ function Writer() {
           creator_id: id,
         },
       }).then((s) => {
-        if (s.data.code !== 40011) {
+        if (s.data.code === 40011) {
           changeHasSubscribed(!hasSubscribed);
         }
       });
@@ -418,7 +418,7 @@ function Writer() {
           withCredentials: true,
         },
       }).then((s) => {
-        if (s.data.code !== 40011) {
+        if (s.data.code === 40011) {
           changeHasSubscribed(!hasSubscribed);
         }
       });
@@ -828,7 +828,6 @@ function Writer() {
               </form>
             </div>
           )}
-          <Comment />
         </div>
       </div>
     );

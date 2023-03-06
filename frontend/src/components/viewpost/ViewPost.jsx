@@ -4,6 +4,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import remarkGfm from "remark-gfm";
+import Comment from "../comment/Comment";
 // import axios from "axios";
 // import { useParams } from "react-router-dom";
 // import useAuthContext from "../../hooks/useAuthContext";
@@ -71,6 +72,7 @@ function ViewPost() {
                   children={markdown}
                   remarkPlugins={[remarkGfm]}
                 />
+                <Comment id={postData.postID} />
               </div>
             </div>
           </div>
