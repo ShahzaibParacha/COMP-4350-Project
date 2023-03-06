@@ -7,6 +7,12 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    strategy:
+        matrix:
+          node-version: [16.15.1]
         
     steps:
       - uses: actions/checkout@v3
