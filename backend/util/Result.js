@@ -65,7 +65,7 @@ class Result {
         return new Result(ResultCode.ID_CONFLICT.code, ResultCode.ID_CONFLICT.desc, null)
     }
 
-    static failNotified(){
+    static failNotify(){
         return new Result(ResultCode.FAIL_NOTIFICATION.code, ResultCode.FAIL_NOTIFICATION.desc, null )
     }
 }
