@@ -27,10 +27,10 @@ jobs:
       - name: Installing Nodejs dependencies
         run: npm install
       - name: Log on to Docker
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_NAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: weiyu0203@qq.com
+          password: weigu0203.
       - name: Build and push to Dockerhub
         uses: docker/build-push-action@v4
         with:
