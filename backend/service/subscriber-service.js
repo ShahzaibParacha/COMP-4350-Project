@@ -1,3 +1,7 @@
+const userService = require("../service/user-service")
+const Result = require("../util/Result")
+const noticer = require("../util/notification")
+
 const Subscriber = require("../model/subscriber-model")
 
 async function getUserAudiences(userId, pageNum, pageSize) {
@@ -5,6 +9,31 @@ async function getUserAudiences(userId, pageNum, pageSize) {
         return await Subscriber.getAllAudienceByUserId(userId)
     else
         return await Subscriber.getAudiencePageByUserId(userId, pageNum, pageSize)
+}
+
+//TODO: right now the post_id is not used
+async function noticefyAudiences(user_id, post_id, content){
+    try{
+        const creator = await userService.getUserInfo(user_id)
+        const subscribers = await getUserAudiences(user_id)
+        console.log("The number of audiences for the user is: " + subscribers.length)
+
+        if(subscribers.length != 0){
+            const content_trunc = content.substr(0, 200) + '...';
+            const subject = 'New post from your subscribed CASTr ' + creator['username'] + "!"
+
+            for( let subscriber of subscribers){
+                console.log(subscriber)
+                const receive_state = subscriber.receive_notification
+                if( receive_state ){
+                    const audience = await userService.getUserInfo(subscriber.audience_id)
+                    noticer.sendEmailToSubscriber( audience.email, subject, content_trunc )
+                }
+            }
+        }
+    }catch(err){
+        console.log("Cannot noticefy the subscribers: " + err)
+    }
 }
 
 async function getUserFollowingPage(userId, pageNum, pageSize) {
@@ -34,6 +63,7 @@ async function getSubscription(creatorId, audienceId) {
 
 module.exports = {
     getUserAudiences,
+    noticefyAudiences,
     getUserFollowingPage,
     turnOnOrOffNotification,
     subscribeCreator,

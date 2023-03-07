@@ -17,11 +17,11 @@ let transporter = nodemailer.createTransport({
 });
 
 // send email to all subscribers
-const sendEmailToAllSubscribers = async (subscriberEmails, subject, message) => {
+const sendEmailToSubscriber = async (subscriberEmail, subject, message) => {
   // create email message
   let emailMessage = {
       from: from_email,
-      to: subscriberEmails,
+      to: subscriberEmail,
       subject: subject,
       text: message,
       //html:
@@ -29,27 +29,14 @@ const sendEmailToAllSubscribers = async (subscriberEmails, subject, message) => 
 
   await transporter.sendMail(emailMessage)
   .then((result)=>{
-    console.log(`Email sent to ${subscriberEmails}:`);
+    console.log(`Email sent to ${subscriberEmail}:`);
   })
   .catch((err)=>{
-    console.log(err)
+    console.log("Cannot send the email: " + err)
   })
-
-  // // send email one by one
-  // for (let email of subscriberEmails ) {
-  //     console.log("start to send email...")
-  //     await ses.sendEmail(params).promise()
-  //     .then((result)=>{
-  //       console.log(`Email sent to ${email}:`);
-  //     })
-  //     .catch((err)=>{
-  //       console.log(err)
-  //     })
-      
-  //   }
-  // await transporter.sendMail(emailMessage);
 };
 
+//AWS SES BACKUP:
 // const AWS = require('aws-sdk');
 // set AWS region
 // AWS.config.update({region: 'us-east-2'});
@@ -101,5 +88,5 @@ const sendEmailToAllSubscribers = async (subscriberEmails, subject, message) => 
 //   };
 
 module.exports = {
-    sendEmailToAllSubscribers,
+    sendEmailToSubscriber,
 };

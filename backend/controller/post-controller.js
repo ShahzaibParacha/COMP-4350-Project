@@ -11,7 +11,7 @@ const noticer = require("../util/notification")
 const createPost = async (req, res) => {
     const{content, user_id} = req.body
     console.log(user_id, content)
-    let post_id;
+    let post_id
 
     if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.json(Result.invalidUserId())
@@ -19,42 +19,17 @@ const createPost = async (req, res) => {
 
     await postService.createPost(user_id, content)
     .then((result) => {
-        res.json(Result.success(result))
         post_id = result['_id']
+        if(!mongoose.Types.ObjectId.isValid(post_id)){
+            return res.json(Result.invalidPostId())
+        }
+        res.json(Result.success(result))
     })
     .catch((err) => {
         res.json(Result.fail(err))
     })
 
-    if(!mongoose.Types.ObjectId.isValid(post_id)){
-        return res.json(Result.invalidPostId())
-    }
-
-    //get all the audiences and push notification to their emails
-    await subscribeService.getUserAudiences(user_id)
-    .then((subscribers) => {
-        console.log("The number of audiences for the user is: " + subscribers.length)
-
-        if(subscribers.length != 0){
-            const subscribers_emails = [];// for test: ['someone_email@gmail.com'];
-            subscribers.map(subscriber =>subscribers_emails.push(subscriber.email));
-
-            //get the user's name and write the email
-            userService.getUserInfo(user_id)
-            .then((user) => {    
-                const subject = 'New post from your subscribed CASTr ' + user['username'] + "!";
-                const content_trunc = content.substr(0, 200) + '...';
-                noticer.sendEmailToAllSubscribers( subscribers_emails, subject, content_trunc );
-            })
-            .catch((err) => {
-                console.log(Result.invalidUserId("Cannot get the user info!"))
-            });
-        }
-
-    })
-    .catch((err) => {
-        console.log(Result.fail("Cannot get the audiences for the user!"))
-    })
+    subscribeService.noticefyAudiences(user_id, post_id, content)
 }
 
 const updatePostContent = async (req, res) => {
