@@ -1,13 +1,17 @@
 const postService = require("../service/post-service")
+const subscribeService = require("../service/subscriber-service")
+const userService = require('../service/user-service')
 const Result = require("../util/Result")
 const mongoose = require("mongoose")
+const noticer = require("../util/notification")
 
-const numberPages = 1 //default number of pages to show
-const numberPostsPerPage = 5 //default number of posts to present on each page
+//const numberPages = 1 //default number of pages to show
+//const numberPostsPerPage = 5 //default number of posts to present on each page
 
 const createPost = async (req, res) => {
     const{content, user_id} = req.body
     console.log(user_id, content)
+    let post_id
 
     if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.json(Result.invalidUserId())
@@ -15,11 +19,17 @@ const createPost = async (req, res) => {
 
     await postService.createPost(user_id, content)
     .then((result) => {
+        post_id = result['_id']
+        if(!mongoose.Types.ObjectId.isValid(post_id)){
+            return res.json(Result.invalidPostId())
+        }
         res.json(Result.success(result))
     })
     .catch((err) => {
         res.json(Result.fail(err))
     })
+
+    subscribeService.noticefyAudiences(user_id, post_id, content)
 }
 
 const updatePostContent = async (req, res) => {

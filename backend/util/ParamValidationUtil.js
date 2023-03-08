@@ -17,7 +17,7 @@ function isValidPassword(password) {
 }
 
 function isValidEmail(email) {
-    if (!(typeof email === "string" && email.length >= 8 && email.length <= 20))
+    if (!(typeof email === "string" && email.length >= 8 && email.length <= 50))
         return false
 
     let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
