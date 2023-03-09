@@ -7,7 +7,7 @@ const Result = require("../util/Result")
 const getUserInfo  = require("../service/user-service").getUserInfo;
 
 const getCommentsFromPost = (req, res) => {
-    const post_id = req.body.post_id; //BUG fixed from "query"
+    const post_id = req.body.post_id;
     //console.log(post_id);
 
     if (!mongoose.Types.ObjectId.isValid(post_id)) {
