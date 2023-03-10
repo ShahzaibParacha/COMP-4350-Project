@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
-import Comment from "../comment/Comment";
 import {
   hideMessage,
   showMessage,
   success,
   failure,
 } from "../../util/messages";
+import { fromContextToSession, fromSessionToContext } from "../../util/state";
 
 function Writer() {
   const navigate = useNavigate();
@@ -25,12 +25,15 @@ function Writer() {
   const [affiliation, setAffiliation] = useState("Loading...");
 
   const [hasSubscribed, changeHasSubscribed] = useState(false);
+  const [hasEnabledNotif, changeHasEnabledNotif] = useState(false);
 
-  const { dispatch } = useAuthContext();
+  const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
   const { id } = useParams(); // userId is the id of the user who logged in; id is the id of the user whose profile is being rendered
   const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
   useEffect(() => {
+    fromSessionToContext(userId, token, dispatch);
+
     axios
       .get(`http://localhost:4350/api/user/profile`, {
         params: {
@@ -65,7 +68,28 @@ function Writer() {
     }).then((s) => {
       changeHasSubscribed(s.data.data);
     });
+
+    axios({
+      method: "get",
+      params: {
+        user_id: userId,
+        creator_id: id,
+      },
+      url: `http://localhost:4350/api/user/subscription/getSubscription`,
+      headers: {
+        Authorization: token,
+        withCredentials: true,
+      },
+    }).then((s) => {
+      if (s.data.data !== null) {
+        changeHasEnabledNotif(s.data.data.receive_notification);
+      }
+    });
   }, []);
+
+  useEffect(() => {
+    fromContextToSession(contextId, contextToken);
+  }, [contextId]);
 
   function showDeleteModal() {
     document.getElementById("delete_modal").style.display = "block";
@@ -387,6 +411,27 @@ function Writer() {
     }
   }
 
+  function enableNotif() {
+    axios({
+      method: "post",
+      params: {
+        user_id: userId,
+        creator_id: id,
+        set_notification: !hasEnabledNotif,
+      },
+      url: `http://localhost:4350/api/user/subscription/setNotification`,
+      headers: {
+        Authorization: token,
+        withCredentials: true,
+      },
+    }).then((s) => {
+      // need to flip this
+      if (s.data.code === 40011) {
+        changeHasEnabledNotif(!hasEnabledNotif);
+      }
+    });
+  }
+
   function subscribe() {
     if (!hasSubscribed) {
       axios({
@@ -401,7 +446,8 @@ function Writer() {
           creator_id: id,
         },
       }).then((s) => {
-        if (s.data.code !== 40011) {
+        // need to flip this
+        if (s.data.code === 40011) {
           changeHasSubscribed(!hasSubscribed);
         }
       });
@@ -418,8 +464,10 @@ function Writer() {
           withCredentials: true,
         },
       }).then((s) => {
-        if (s.data.code !== 40011) {
+        // need to flip this
+        if (s.data.code === 40011) {
           changeHasSubscribed(!hasSubscribed);
+          changeHasEnabledNotif(false);
         }
       });
     }
@@ -438,15 +486,15 @@ function Writer() {
 
   function renderProfile() {
     const classHasNotSubscribed =
-      "rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-fit";
+      "hover:bg-indigo-700 bg-neutral text-white p-2 h-full";
     const classHasSubscribed =
-      "rounded-md hover:bg-indigo-900 bg-black text-white p-2 h-fit";
+      "hover:bg-indigo-900 bg-black text-white p-2 h-full";
 
     // not for the buttons themselves but for the div that contains them
     const classForEditProfile =
-      "flex justify-start items-center col-start-1 col-end-3 row-start-6 row-end-7";
+      "flex justify-start items-center col-start-1 col-end-3 row-start-6 row-end-7 py-4";
     const classForSubscribe =
-      "flex justify-end items-center col-start-1 col-end-3 row-start-6 row-end-7";
+      "flex justify-end items-center col-start-1 col-end-3 row-start-6 row-end-7 py-4";
 
     return (
       <div className="w-screen">
@@ -648,7 +696,7 @@ function Writer() {
               {id !== userId && (
                 <button
                   type="button"
-                  className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-fit"
+                  className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-full"
                   onClick={switchMode}
                 >
                   {!changeDetails ? "Edit Profile" : "Finish Editing"}
@@ -658,11 +706,52 @@ function Writer() {
                 <button
                   type="button"
                   className={
-                    hasSubscribed ? classHasSubscribed : classHasNotSubscribed
+                    hasSubscribed
+                      ? `${classHasSubscribed} rounded-l-md`
+                      : `${classHasNotSubscribed} rounded-md`
                   }
                   onClick={subscribe}
                 >
                   {!hasSubscribed ? "Subscribe" : "Subscribed"}
+                </button>
+              )}
+              {hasSubscribed && (
+                <button
+                  type="button"
+                  onClick={enableNotif}
+                  className={`${classHasSubscribed} rounded-r-md`}
+                >
+                  {hasEnabledNotif ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.0"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.0"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9.143 17.082a24.248 24.248 0 003.844.148m-3.844-.148a23.856 23.856 0 01-5.455-1.31 8.964 8.964 0 002.3-5.542m3.155 6.852a3 3 0 005.667 1.97m1.965-2.277L21 21m-4.225-4.225a23.81 23.81 0 003.536-1.003A8.967 8.967 0 0118 9.75V9A6 6 0 006.53 6.53m10.245 10.245L6.53 6.53M3 3l3.53 3.53"
+                      />
+                    </svg>
+                  )}
                 </button>
               )}
             </div>
@@ -828,7 +917,6 @@ function Writer() {
               </form>
             </div>
           )}
-          <Comment />
         </div>
       </div>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthContext from "../../hooks/useAuthContext";
@@ -11,6 +11,11 @@ function Login() {
   const location = useLocation();
 
   const { dispatch } = useAuthContext();
+
+  useEffect(() => {
+    dispatch({ type: "CLEAR", payload: "" });
+    sessionStorage.clear();
+  }, []);
 
   const handleEmailAddress = (e) => {
     e.preventDefault();

@@ -15,9 +15,19 @@ import Navbar from "./components/navbar/Navbar";
 function App() {
   // using the context will make this rerender if there's a change to the state
   // using session storage will allow us to save the state even after refresh
-  const { userId } = useAuthContext();
+  const { userId, token } = useAuthContext();
   const session = JSON.parse(sessionStorage.getItem("session"));
   const location = useLocation();
+
+  if (userId && token && !session) {
+    sessionStorage.setItem(
+      "session",
+      JSON.stringify({
+        userId,
+        token,
+      })
+    );
+  }
 
   return (
     <div>

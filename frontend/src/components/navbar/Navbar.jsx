@@ -14,7 +14,8 @@ function classNames(...classes) {
 
 function Navbar() {
   // eslint-disable-next-line no-unused-vars
-  const { userId, dispatch } = useAuthContext();
+  const { userId } = JSON.parse(sessionStorage.getItem("session"));
+  const { dispatch } = useAuthContext();
   const navigate = useNavigate();
   const leftNavigation = [
     { name: "Home", href: "/", current: true },
@@ -32,6 +33,7 @@ function Navbar() {
 
   function logout() {
     dispatch({ type: "CLEAR", payload: "" });
+    sessionStorage.clear();
   }
 
   const handleNavClick = (e, item) => {

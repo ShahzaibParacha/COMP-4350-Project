@@ -4,15 +4,15 @@ import axios from "axios";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import QRCode from "qrcode";
+import PropTypes from "prop-types";
 import { showMessage, success, failure } from "../../util/messages";
 
-function Comment() {
+function Comment({ id }) {
   const [hasLiked, changeHasLiked] = useState(false);
   const [writingComment, isWritingComment] = useState(false);
   const [hasWrittenComment, changeHasWrittenComment] = useState(false);
   const [oldestFirst, changeSortOrder] = useState(true);
 
-  const [postId, setPost] = useState(null);
   const [numLikes, updateLikes] = useState(null);
   const [comments, updateComments] = useState(null);
 
@@ -21,69 +21,55 @@ function Comment() {
   const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4350/api/post/get_recent_posts`, {
-        headers: {
-          Authorization: token,
-          withCredentials: true,
-        },
-      })
-      .then((r) => {
-        /* eslint-disable */
-        const id = r.data.data[r.data.data.length - 1]._id;
-        setPost(r.data.data[r.data.data.length - 1]._id);
-        /* eslint-enable */
+    // want to know if the user liked the post to display the like button appropriately
+    axios({
+      method: "get",
+      params: {
+        user_id: userId,
+        post_id: id,
+      },
+      url: `http://localhost:4350/api/like/userLikedPost`,
+      headers: {
+        Authorization: token,
+        withCredentials: true,
+      },
+    }).then((s) => {
+      changeHasLiked(s.data.data);
+    });
 
-        // want to know if the user liked the post to display the like button appropriately
-        axios({
-          method: "get",
-          params: {
-            user_id: userId,
-            post_id: id,
-          },
-          url: `http://localhost:4350/api/like/userLikedPost`,
-          headers: {
-            Authorization: token,
-            withCredentials: true,
-          },
-        }).then((s) => {
-          changeHasLiked(s.data.data);
-        });
+    // get the number of likes a post has to display
+    axios({
+      method: "get",
+      params: {
+        post_id: id,
+      },
+      url: `http://localhost:4350/api/like/getNumLikes`,
+      headers: {
+        Authorization: token,
+        withCredentials: true,
+      },
+    }).then((s) => {
+      updateLikes(s.data.data);
+    });
 
-        // get the number of likes a post has to display
-        axios({
-          method: "get",
-          params: {
-            post_id: id,
-          },
-          url: `http://localhost:4350/api/like/getNumLikes`,
-          headers: {
-            Authorization: token,
-            withCredentials: true,
-          },
-        }).then((s) => {
-          updateLikes(s.data.data);
-        });
-
-        // get the comments of the post
-        axios({
-          method: "get",
-          params: {
-            post_id: id,
-          },
-          url: `http://localhost:4350/api/comment/getCommentsFromPost`,
-          headers: {
-            Authorization: token,
-            withCredentials: true,
-          },
-        }).then((s) => {
-          if (oldestFirst) {
-            updateComments(s.data.data);
-          } else {
-            updateComments(s.data.data.reverse());
-          }
-        });
-      });
+    // get the comments of the post
+    axios({
+      method: "get",
+      params: {
+        post_id: id,
+      },
+      url: `http://localhost:4350/api/comment/getCommentsFromPost`,
+      headers: {
+        Authorization: token,
+        withCredentials: true,
+      },
+    }).then((s) => {
+      if (oldestFirst) {
+        updateComments(s.data.data);
+      } else {
+        updateComments(s.data.data.reverse());
+      }
+    });
   }, [hasWrittenComment]);
 
   useEffect(() => {
@@ -91,7 +77,7 @@ function Comment() {
     if (qrCode === null) {
       // change this later since we are sharing posts and not profiles
       QRCode.toString(
-        `http://localhost:3000/writer/${userId}`,
+        `http://localhost:3000/post/${userId}`,
         { type: "svg" },
         (err, svg) => {
           if (err) throw err;
@@ -128,7 +114,7 @@ function Comment() {
           withCredentials: true,
         },
         data: {
-          post_id: postId,
+          post_id: id,
           user_id: userId,
         },
       }).then(() => {
@@ -144,7 +130,7 @@ function Comment() {
           withCredentials: true,
         },
         data: {
-          post_id: postId,
+          post_id: id,
           user_id: userId,
         },
       }).then(() => {
@@ -166,7 +152,7 @@ function Comment() {
       if (commentInput.value.trim().length > 0) {
         const newComment = {
           user_id: userId,
-          post_id: postId,
+          post_id: id,
           content: commentInput.value.trim(),
         };
 
@@ -217,7 +203,7 @@ function Comment() {
   const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none";
 
   return (
-    <div>
+    <div className="mt-16">
       <div
         className="relative z-10 hidden"
         aria-labelledby="modal-title"
@@ -397,3 +383,9 @@ function Comment() {
 }
 
 export default Comment;
+
+Comment.propTypes = {
+  // can keep this since it is up to preference according to the doc
+  // eslint-disable-next-line
+  id: PropTypes.any,
+};
