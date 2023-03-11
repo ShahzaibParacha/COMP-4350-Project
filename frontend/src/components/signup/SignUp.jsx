@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import useAuthContext from "../../hooks/useAuthContext";
 
 function SignUp() {
   const [username, setUsername] = useState();
@@ -8,6 +9,13 @@ function SignUp() {
   const [password, setPassword] = useState();
   const [loginStatus, setLoginStatus] = useState("");
   const navigate = useNavigate();
+
+  const { dispatch } = useAuthContext();
+
+  useEffect(() => {
+    // sessionStorage.clear();
+    // dispatch({ type: "CLEAR", payload: "" });
+  }, []);
 
   const handleUsername = (e) => {
     e.preventDefault();

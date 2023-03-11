@@ -19,6 +19,8 @@ function App() {
   const session = JSON.parse(sessionStorage.getItem("session"));
   const location = useLocation();
 
+  console.log(location.pathname, session);
+
   if (userId && token && !session) {
     sessionStorage.setItem(
       "session",

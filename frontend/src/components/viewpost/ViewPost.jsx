@@ -60,11 +60,11 @@ function ViewPost() {
   const markdown = `Just a link: https://reactjs.com.`;
 
   return (
-    <div className="bg-base-100">
+    <div className="bg-base-100 h-fit min-h-screen pb-16">
       <div className="grid grid-rows-4 grid-cols-6 gap-4">
-        <div className="row-start-1 row-end-5 bg-black-600 row-span-2 h-screen" />
-        <div className="row-start-1 col-start-2 bg-base-100 col-span-4 row-end-5 h-screen">
-          <div className="grid-column-1 h-screen pt-48">
+        <div className="row-start-1 row-end-5 bg-black-600 row-span-2" />
+        <div className="row-start-1 col-start-2 bg-base-100 col-span-4 row-end-5">
+          <div className="grid-column-1 pt-48">
             <div className="container pt-4">
               <div>
                 <h1>ViewPost</h1>

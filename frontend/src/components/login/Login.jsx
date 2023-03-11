@@ -13,8 +13,8 @@ function Login() {
   const { dispatch } = useAuthContext();
 
   useEffect(() => {
-    dispatch({ type: "CLEAR", payload: "" });
-    sessionStorage.clear();
+    // sessionStorage.clear();
+    // dispatch({ type: "CLEAR", payload: "" });
   }, []);
 
   const handleEmailAddress = (e) => {
