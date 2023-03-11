@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Like = require('../schema/likes-schema');
+const Like = require('../../schema/likes-schema');
 const expect = require('chai').expect;
 
 describe('Like schema', function () {

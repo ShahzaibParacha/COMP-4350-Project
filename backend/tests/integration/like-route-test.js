@@ -1,6 +1,6 @@
 const express = require("express");
-const Like = require('../schema/likes-schema');
-const User = require('../schema/user-schema');
+const Like = require('../../schema/likes-schema');
+const User = require('../../schema/user-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 const axios = require('axios');
@@ -8,10 +8,10 @@ require("dotenv").config();
 
 const cors = require('cors')
 const bodyParser = require('body-parser');
-const apiRouter = require("../route/api-route")
+const apiRouter = require("../../route/api-route")
 const passport = require("passport");
-const { post } = require("../route/api-route");
-require("../util/passport")(passport)
+const { post } = require("../../route/api-route");
+require("../../util/passport")(passport)
 
 const username = 'completelyNewUsername';
 const email = 'goodBoi@email.com';
