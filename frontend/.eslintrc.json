@@ -3,9 +3,9 @@
     "browser": true,
     "es2021": true
   },
-//  "editor.codeActionsOnSave": {
-//    "source.fixAll.eslint": true
-//  },
+ "editor.codeActionsOnSave": {
+   "source.fixAll.eslint": true
+ },
   "extends": [
     "plugin:react/recommended",
     "airbnb",
