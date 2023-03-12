@@ -32,8 +32,8 @@ function Navbar() {
   ];
 
   function logout() {
-    dispatch({ type: "CLEAR", payload: "" });
     sessionStorage.clear();
+    dispatch({ type: "CLEAR", payload: "" });
   }
 
   const handleNavClick = (e, item) => {

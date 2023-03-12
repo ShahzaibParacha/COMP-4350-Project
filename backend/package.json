@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha --timeout 15000 ./tests/*.js",
+    "unit": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/*.js",
+    "integration": "nyc mocha --timeout 15000 ./tests/integration/*.js ./tests/*.js",
+    "all": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/integration/*.js ./tests/*.js",
     "start": "nodemon index.js"
   },
   "repository": {

@@ -77,7 +77,7 @@ function Comment({ id }) {
     if (qrCode === null) {
       // change this later since we are sharing posts and not profiles
       QRCode.toString(
-        `http://localhost:3000/post/${userId}`,
+        `http://localhost:3000/post/${id}`,
         { type: "svg" },
         (err, svg) => {
           if (err) throw err;
@@ -199,11 +199,11 @@ function Comment({ id }) {
     document.getElementById("qr_code_modal").style.display = "none";
   }
 
-  const buttonClicked = "w-6 h-6 fill-blue-400 hover:fill-blue-800";
+  const buttonClicked = "w-6 h-6 fill-purple-600 hover:fill-purple-900";
   const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none";
 
   return (
-    <div className="mt-16">
+    <div className="pt-16">
       <div
         className="relative z-10 hidden"
         aria-labelledby="modal-title"
@@ -303,16 +303,15 @@ function Comment({ id }) {
             <button type="button" onClick={showQRCodeModal}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-6 h-6 hover:stroke-green-400"
+                className={buttonNotClicked}
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3"
+                  d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
                 />
               </svg>
             </button>
@@ -323,7 +322,10 @@ function Comment({ id }) {
       {writingComment && (
         <div className="mt-4">
           <p>What&apos;s on your mind?</p>
-          <textarea className="resize-none w-full h-32" id="comment_input" />
+          <textarea
+            className="resize-none w-full h-32 rounded-lg"
+            id="comment_input"
+          />
           <div className="flex justify-end">
             <button
               type="button"

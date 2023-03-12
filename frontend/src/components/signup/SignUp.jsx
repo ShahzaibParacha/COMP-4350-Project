@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { fromContextToSession } from "../../util/state";
 
 function SignUp() {
   const [username, setUsername] = useState();
@@ -8,6 +9,10 @@ function SignUp() {
   const [password, setPassword] = useState();
   const [loginStatus, setLoginStatus] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fromContextToSession(null, null);
+  }, []);
 
   const handleUsername = (e) => {
     e.preventDefault();
@@ -134,8 +139,16 @@ function SignUp() {
           <div>{loginStatus === "success" ? renderSuccess() : null}</div>
           <div>{loginStatus === "failure" ? renderFailure() : null}</div>
           <div className="text-center">
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Already have an account? <a href="../login">Log in</a>
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={() => {
+                navigate("../login");
+              }}
+              className="hover:text-green-600"
+            >
+              Log in
+            </button>
           </div>
         </form>
       </div>

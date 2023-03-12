@@ -485,11 +485,6 @@ function Writer() {
   }
 
   function renderProfile() {
-    const classHasNotSubscribed =
-      "hover:bg-indigo-700 bg-neutral text-white p-2 h-full";
-    const classHasSubscribed =
-      "hover:bg-indigo-900 bg-black text-white p-2 h-full";
-
     // not for the buttons themselves but for the div that contains them
     const classForEditProfile =
       "flex justify-start items-center col-start-1 col-end-3 row-start-6 row-end-7 py-4";
@@ -497,7 +492,7 @@ function Writer() {
       "flex justify-end items-center col-start-1 col-end-3 row-start-6 row-end-7 py-4";
 
     return (
-      <div className="w-screen">
+      <div className="w-screen bg-base-100">
         <div
           className="relative z-10 hidden"
           aria-labelledby="modal-title"
@@ -559,7 +554,8 @@ function Writer() {
             </div>
           </div>
         </div>
-        <div className="bg-gray-200 w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
+
+        <div className="w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
           <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4">
             <div className="flex justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
               <img
@@ -689,11 +685,11 @@ function Writer() {
             <div
               // need to flip this later
               className={
-                id !== userId ? classForEditProfile : classForSubscribe
+                id === userId ? classForEditProfile : classForSubscribe
               }
             >
               {/* need to flip this later */}
-              {id !== userId && (
+              {id === userId && (
                 <button
                   type="button"
                   className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-full"
@@ -702,13 +698,13 @@ function Writer() {
                   {!changeDetails ? "Edit Profile" : "Finish Editing"}
                 </button>
               )}
-              {id === userId && (
+              {id !== userId && (
                 <button
                   type="button"
                   className={
                     hasSubscribed
-                      ? `${classHasSubscribed} rounded-l-md`
-                      : `${classHasNotSubscribed} rounded-md`
+                      ? "hover:bg-indigo-700 bg-neutral text-white p-2 h-full rounded-l-md"
+                      : "hover:bg-indigo-700 bg-neutral text-white p-2 h-full rounded-md"
                   }
                   onClick={subscribe}
                 >
@@ -719,7 +715,7 @@ function Writer() {
                 <button
                   type="button"
                   onClick={enableNotif}
-                  className={`${classHasSubscribed} rounded-r-md`}
+                  className="hover:bg-indigo-700 bg-neutral text-white p-2 h-full rounded-r-md"
                 >
                   {hasEnabledNotif ? (
                     <svg

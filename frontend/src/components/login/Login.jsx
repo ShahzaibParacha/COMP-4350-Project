@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthContext from "../../hooks/useAuthContext";
+import { fromContextToSession } from "../../util/state";
 
 function Login() {
   const [email, setEmail] = useState();
@@ -13,8 +14,7 @@ function Login() {
   const { dispatch } = useAuthContext();
 
   useEffect(() => {
-    dispatch({ type: "CLEAR", payload: "" });
-    sessionStorage.clear();
+    fromContextToSession(null, null);
   }, []);
 
   const handleEmailAddress = (e) => {
@@ -131,11 +131,16 @@ function Login() {
           <div>{loginStatus === "success" ? renderSuccess() : null}</div>
           <div>{loginStatus === "failure" ? renderFailure() : null}</div>
           <div className="text-center">
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Don't have an account?{" "}
-            <a className="hover:text-green-600" href="../signup">
+            Don&apos;t have an account?{" "}
+            <button
+              type="button"
+              onClick={() => {
+                navigate("../signup");
+              }}
+              className="hover:text-green-600"
+            >
               Sign up
-            </a>
+            </button>
           </div>
         </form>
       </div>

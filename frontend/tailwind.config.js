@@ -24,7 +24,7 @@ module.exports = {
         error: "#EB4228",
       },
       fontFamily: {
-        base: ["Inknut Antiqua", "serif"],
+        base: ["Quicksand", "sans-serif"],
       },
     },
   },
