@@ -18,40 +18,42 @@
 
 ### Being able to interact with posts
 
+1. Go to "http://localhost:3000/login"
+
 1. Log in
 
    - For email, enter "user100@mail.com"
    - For password, enter "User12345"
 
-2. Click on any of the posts that appear on the Home page
+1. Click on any of the posts that appear on the Home page
 
    - Should send you to another page that shows the detailed post
 
-3. Click on the Like button
+1. Click on the Like button
 
    - The button should be filled afterwards
    - The number of likes should increase by 1
 
-4. Click on the Like button again
+1. Click on the Like button again
 
    - The button should not be filled afterwards
    - The number of likes should decrease by 1
 
-5. Click on the Comment button
+1. Click on the Comment button
 
    - The button should be filled afterwards
    - A textbox should show up below
 
-6. Type anything you want in the textbox and click the Submit button
+1. Type anything you want in the textbox and click the Submit button
 
    - The comment you wrote should appear at the
      very bottom
 
-7. Click the dropdown and select "Newest first"
+1. Click the dropdown and select "Newest first"
 
    - The comment you wrote should now be at the very top
 
-8. Click the Logout button on the top right
+1. Click the Logout button on the top right
 
 ### Being able to share the post via a QR code
 

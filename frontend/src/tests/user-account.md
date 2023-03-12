@@ -39,8 +39,6 @@
 
 ### Being able to manage user profile
 
-1. Go to "http://localhost:3000/login"
-
 2. Log in
 
    - For email, enter "theGOAT69@mail.com"
