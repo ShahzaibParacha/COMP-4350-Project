@@ -10,7 +10,6 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const apiRouter = require("../../route/api-route")
 const passport = require("passport");
-const { post } = require("../../route/api-route");
 require("../../util/passport")(passport)
 
 const username = 'completelyNewUsername';
@@ -171,7 +170,7 @@ const testInvalidIDs = async (res, req, route, valid_post, valid_user, codes) =>
 
 describe('Like routes', function () {
 
-    beforeEach(async () => {
+    before(async () => {
         const app = express();
 
         mongoose
@@ -192,7 +191,7 @@ describe('Like routes', function () {
         })
     });
 
-    afterEach(async () => {
+    after(async () => {
         await mongoose.disconnect();
         server.close();
     });

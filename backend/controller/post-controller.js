@@ -19,10 +19,10 @@ const createPost = async (req, res) => {
 
     await postService.createPost(user_id, content)
     .then((result) => {
-        post_id = result['_id']
-        if(!mongoose.Types.ObjectId.isValid(post_id)){
-            return res.json(Result.invalidPostId())
-        }
+        // post_id = result['_id']
+        // if(!mongoose.Types.ObjectId.isValid(post_id)){
+        //     return res.json(Result.invalidPostId())
+        // }
         res.json(Result.success(result))
     })
     .catch((err) => {
@@ -96,9 +96,6 @@ const getRecentPost = async (req, res) => {
     // .limit(numberPostsPerPage)
     .then((result) => {
         res.json(Result.success(result))
-    })
-    .catch((err) => {
-        res.json(Result.fail(err))
     })
 }
 
