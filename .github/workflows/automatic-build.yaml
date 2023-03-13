@@ -1,10 +1,10 @@
-name: docker-build
+name: automatic-build
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "develop"]
   pull_request:
-    branches: ["master"]
+    branches: ["master", "develop"]
     
 jobs:
   run_tests:
