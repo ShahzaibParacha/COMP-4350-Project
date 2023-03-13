@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthContext from "../../hooks/useAuthContext";
-import { fromContextToSession } from "../../util/state";
+import { clearListener } from "../../util/state";
 
 function Login() {
   const [email, setEmail] = useState();
@@ -14,7 +14,7 @@ function Login() {
   const { dispatch } = useAuthContext();
 
   useEffect(() => {
-    fromContextToSession(null, null);
+    clearListener();
   }, []);
 
   const handleEmailAddress = (e) => {

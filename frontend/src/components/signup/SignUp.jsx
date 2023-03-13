@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { fromContextToSession } from "../../util/state";
+import { clearListener } from "../../util/state";
 
 function SignUp() {
   const [username, setUsername] = useState();
@@ -11,7 +11,7 @@ function SignUp() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fromContextToSession(null, null);
+    clearListener();
   }, []);
 
   const handleUsername = (e) => {

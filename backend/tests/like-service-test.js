@@ -88,9 +88,7 @@ let likes = []; //fake database
 
 describe('Like services and model', function () {
 
-    //clear out the posts array if using fake 
-    //otherwise, connect to database and drop the table
-    beforeEach(async () => {
+    before(async () => {
         if (process.env.TEST_TYPE === "INTEGRATION") {
             mongoose
                 .connect(process.env.MONGODB_CONNECTION, {
@@ -99,17 +97,22 @@ describe('Like services and model', function () {
                 })
                 .then(() => { console.log("Success to connect mongodb") })
                 .catch(() => { console.log("Fail to connect mongodb") });
+        }
+        else {
+            setFakeDatabase();
+        }
+    })
 
+    beforeEach(async () => {
+        if (process.env.TEST_TYPE === "INTEGRATION") {
             await Like.deleteMany({});
         }
         else {
             likes = [];
-            setFakeDatabase();
         }
     });
 
-    //get rid of all stubs
-    afterEach(async () => {
+    after(async () => {
         if (process.env.TEST_TYPE === "INTEGRATION") {
             await mongoose.disconnect();
         }

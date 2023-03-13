@@ -16,26 +16,28 @@ let id;
 let token;
 
 function moveToSession() {
-  sessionStorage.setItem(
-    "session",
-    JSON.stringify({
-      userId: id,
-      token,
-    })
-  );
+  if (id && token) {
+    sessionStorage.setItem(
+      "session",
+      JSON.stringify({
+        userId: id,
+        token,
+      })
+    );
+  }
 }
 
 // the second parameter of the hook this is in must be [contextId]
-// needs to be called when first rendering free routes (pass null to both parameters); the second parameter of useEffect can just be []
 function fromContextToSession(contextId, contextToken) {
   id = contextId;
   token = contextToken;
 
-  if (id && token) {
-    window.addEventListener("beforeunload", moveToSession);
-  } else {
-    window.removeEventListener("beforeunload", moveToSession);
-  }
+  window.addEventListener("beforeunload", moveToSession);
 }
 
-export { fromContextToSession, fromSessionToContext };
+// this function needs to be called by every free route upon first render
+function clearListener() {
+  window.removeEventListener("beforeunload", moveToSession);
+}
+
+export { fromContextToSession, fromSessionToContext, clearListener };
