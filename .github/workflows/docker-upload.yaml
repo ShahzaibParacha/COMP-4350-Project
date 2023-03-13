@@ -36,6 +36,6 @@ jobs:
       - name: Build and push to Dockerhub
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./frontend
           push: true
           tags: theogschool/castr:1.0
