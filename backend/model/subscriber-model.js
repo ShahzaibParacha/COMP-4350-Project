@@ -3,9 +3,6 @@ const ParamValidation = require("../util/ParamValidationUtil")
 
 // get a user's subscribers page
 async function getAudiencePageByUserId(userId, pageNum, pageSize) {
-    if (ParamValidation.isValidObjectId(userId) === false)
-        return null
-
     return await Subscriber.find({creator_id: userId}, null, {
         sort: {subscription_date: -1},
         skip: pageNum * pageSize,
@@ -15,9 +12,6 @@ async function getAudiencePageByUserId(userId, pageNum, pageSize) {
 
 // get all user's audience
 async function getAllAudienceByUserId(userId){
-    if (ParamValidation.isValidObjectId(userId) === false)
-        return null
-
     return await Subscriber.find({creator_id: userId})
 }
 

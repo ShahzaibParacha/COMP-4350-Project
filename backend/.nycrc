@@ -1,6 +1,7 @@
 {
   "exclude": [
     "util/*",
-    "tests/*"
+    "tests/*",
+    "middleware/*"
   ]
 }

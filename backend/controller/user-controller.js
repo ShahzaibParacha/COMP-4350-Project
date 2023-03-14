@@ -135,8 +135,7 @@ function cancelSubscription(req, res) {
 }
 
 function setNotification(req, res) {
-    console.log(req.query.creator_id + " === " + req.query.user_id);
-    subscriberService.turnOnOrOffNotification(req.query.creator_id, req.query.user_id, req.query.set_notification).then(result => {
+    subscriberService.turnOnOrOffNotification(req.body.creator_id, req.body.user_id, req.body.set_notification).then(result => {
         if (result === true) {
             res.json(Result.success(null))
         } else {
