@@ -25,25 +25,6 @@ const createPost = async (req, res) => {
     }catch(err){
         res.json(Result.fail(err))
     }
-
-    // await postService.createPost(user_id, content)
-    // .then((result) => {
-    //     // post_id = result['_id']
-    //     // if(!mongoose.Types.ObjectId.isValid(post_id)){
-    //     //     return res.json(Result.invalidPostId())
-    //     // }
-    //     res.json(Result.success(result))
-    // })
-    // .catch((err) => {
-    // })
-
-    // //two req res do not seem correct
-    // await subscribeService.noticefyAudiences(user_id, post_id, content);
-    // .then((result)=>{
-    //     res.json(Result.success(result))
-    // }).catch((err) => {
-    //     res.json(Result.fail(err))
-    // })
 }
 
 const updatePostContent = async (req, res) => {
@@ -64,7 +45,7 @@ const updatePostContent = async (req, res) => {
 }
 
 const getPostByID = async (req, res) => {
-    const{ post_id } = req.body
+    const{ post_id } = req.query
     console.log(post_id)
 
     if(!mongoose.Types.ObjectId.isValid(post_id)){
@@ -82,7 +63,7 @@ const getPostByID = async (req, res) => {
 
 //it must be done by the user who owns the post
 const removePostByID = async (req, res) => {
-    const { post_id } = req.body
+    const { post_id } = req.query
     console.log(post_id)
 
     if(!mongoose.Types.ObjectId.isValid(post_id)){
@@ -115,7 +96,7 @@ const getRecentPost = async (req, res) => {
 
 //TODO: implement pagination
 const getAllPostsFromUser = async (req, res) => {
-    const { user_id } = req.body
+    const { user_id } = req.query
 
     // const page = parseInt(req.query.page) || numberPages
     // const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage
