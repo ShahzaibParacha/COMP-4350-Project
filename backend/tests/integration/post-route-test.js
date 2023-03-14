@@ -69,7 +69,7 @@ const setup = async (numPosts, numUsers) => {
 
 describe('Post routes', function () {
 
-    before(async () => {
+    beforeAll(async () => {
         const app = express();
 
         mongoose
@@ -90,7 +90,7 @@ describe('Post routes', function () {
         })
     });
 
-    after(async () => {
+    afterAll(async () => {
         await mongoose.disconnect();
         server.close();
     });
@@ -147,7 +147,7 @@ describe('Post routes', function () {
                     Authorization: token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     user_id: id,
                 },
               });
@@ -167,7 +167,7 @@ describe('Post routes', function () {
                     Authorization: token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     user_id: new mongoose.mongo.ObjectID,
                 },
               });
@@ -187,12 +187,12 @@ describe('Post routes', function () {
                     Authorization: token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     user_id: 20,
                 },
               });
 
-            expect(res.data.code).to.equal(40000);
+            expect(res.data.code).to.equal(40002);
         });
 
         it('should not succeed', async function() {
@@ -205,7 +205,7 @@ describe('Post routes', function () {
                     Authorization: token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     user_id: '20',
                 },
               });
@@ -223,7 +223,7 @@ describe('Post routes', function () {
                     Authorization: token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     user_id: id,
                 },
               });
@@ -249,7 +249,7 @@ describe('Post routes', function () {
                 Authorization: res.data.data.token,
                 withCredentials: true,
               },
-            data: {
+            params: {
                 post_id: postIDs[1],
             },
           });
@@ -271,7 +271,7 @@ describe('Post routes', function () {
                   Authorization: token,
                   withCredentials: true,
                 },
-              data: {
+              params: {
                   post_id: "20",
               },
             });
@@ -289,7 +289,7 @@ describe('Post routes', function () {
                 Authorization: token,
                 withCredentials: true,
               },
-            data: {
+            params: {
                 post_id: new mongoose.mongo.ObjectID,
             },
         });
@@ -307,12 +307,12 @@ describe('Post routes', function () {
                   Authorization: token,
                   withCredentials: true,
                 },
-              data: {
+              params: {
                   post_id: 2,
               },
             });
 
-          expect(res.data.code).to.equal(40000);
+          expect(res.data.code).to.equal(40003);
       });
   });
 
@@ -411,7 +411,7 @@ describe('Post routes', function () {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     post_id: postIDs[1],
                 },
               });
@@ -435,7 +435,7 @@ describe('Post routes', function () {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     post_id: new mongoose.mongo.ObjectID,
                 },
               });
@@ -459,7 +459,7 @@ describe('Post routes', function () {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     post_id: '20',
                 },
               });
@@ -477,12 +477,12 @@ describe('Post routes', function () {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     post_id: 20,
                 },
               });
 
-            expect(response.data.code).to.equal(40000);
+            expect(response.data.code).to.equal(40003);
         });
      });
 
