@@ -11,25 +11,39 @@ const noticer = require("../util/notification")
 const createPost = async (req, res) => {
     const{content, user_id} = req.body
     console.log(user_id, content)
-    let post_id
 
     if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.json(Result.invalidUserId())
     }
 
-    await postService.createPost(user_id, content)
-    .then((result) => {
-        // post_id = result['_id']
-        // if(!mongoose.Types.ObjectId.isValid(post_id)){
-        //     return res.json(Result.invalidPostId())
-        // }
-        res.json(Result.success(result))
-    })
-    .catch((err) => {
-        res.json(Result.fail(err))
-    })
+    try{
+        const postResult = await postService.createPost(user_id, content);
+        const trunc_content = content.substring(0, 200);
+        const subscribeResult = await subscribeService.noticefyAudiences(user_id, postResult['_id'], trunc_content);
 
-    subscribeService.noticefyAudiences(user_id, post_id, content)
+        res.json(Result.success({postResult, subscribeResult}))
+    }catch(err){
+        res.json(Result.fail(err))
+    }
+
+    // await postService.createPost(user_id, content)
+    // .then((result) => {
+    //     // post_id = result['_id']
+    //     // if(!mongoose.Types.ObjectId.isValid(post_id)){
+    //     //     return res.json(Result.invalidPostId())
+    //     // }
+    //     res.json(Result.success(result))
+    // })
+    // .catch((err) => {
+    // })
+
+    // //two req res do not seem correct
+    // await subscribeService.noticefyAudiences(user_id, post_id, content);
+    // .then((result)=>{
+    //     res.json(Result.success(result))
+    // }).catch((err) => {
+    //     res.json(Result.fail(err))
+    // })
 }
 
 const updatePostContent = async (req, res) => {
