@@ -17,20 +17,27 @@ async function noticefyAudiences(user_id, post_id, content){
     const subscribers = await getUserAudiences(user_id)
     console.log("The number of audiences for the user is: " + subscribers.length)
 
-    if(subscribers.length != 0){
-        const subject = 'New post from your subscribed CASTr ' + creator['username'] + "!"
-        //const url = '?'
-        const content_trunc = content.substr(0, 200) + '...';
+    try{
+        if(subscribers.length != 0){
+            const subject = 'New post from your subscribed CASTr ' + creator['username'] + "!"
+            //const url = '?'
+            const content_trunc = content.substr(0, 200) + '...';
 
-        for( let subscriber of subscribers){
-            console.log(subscriber)
-            const receive_state = subscriber.receive_notification
-            if( receive_state ){
-                const audience = await userService.getUserInfo(subscriber.audience_id)
-                noticer.sendEmailToSubscriber( audience.email, subject, content_trunc )
+            for( let subscriber of subscribers){
+                console.log(subscriber)
+                const receive_state = subscriber.receive_notification
+                if( receive_state ){
+                    const audience = await userService.getUserInfo(subscriber.audience_id)
+                    noticer.sendEmailToSubscriber( audience.email, subject, content_trunc )
+                }
             }
+            return {"subscription-msg": "Successfully sent the notifications to the subsribers!"}
+        }else{
+            return {"subscription-msg": "There is no subscribers for this user!"}
         }
-    }   
+    }catch{
+        return {"subscription-msg": "Fail to notify the subscribers"}
+    }
 }
 
 async function getUserFollowingPage(userId, pageNum, pageSize) {
