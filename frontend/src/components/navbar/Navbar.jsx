@@ -18,8 +18,8 @@ function Navbar() {
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
   const leftNavigation = [
-    { name: "Home", href: "/", current: true },
-    { name: "Suggested", href: "/", current: false },
+    { name: "Home", href: "/", current: false },
+    // { name: "Suggested", href: "/", current: false },
   ];
 
   const rightNavigation = [
@@ -39,13 +39,19 @@ function Navbar() {
   const handleNavClick = (e, item) => {
     e.preventDefault();
 
-    // leftNavigation.forEach((navItem) => {
-    //   if (navItem.includes(item.name)) {
-    //     navItem.current = true;
-    //   }
+    // const navigationItems = [...leftNavigation, ...rightNavigation];
+    //
+    // const navItem = navigationItems.find((o) => o.name === item.name);
+    //
+    // console.log(navItem);
+    // navItem.current = true;
+    //
+    // // eslint-disable-next-line array-callback-return
+    // navigationItems.forEach((nav) => {
+    //   // eslint-disable-next-line no-param-reassign
+    //   nav.current = false;
     // });
-    // eslint-disable-next-line no-console
-    console.log(item.href);
+
     if (item.href === "/login") {
       logout();
     }
@@ -95,7 +101,7 @@ function Navbar() {
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
                           "px-3 py-2 rounded-md text-sm font-medium"
                         )}
-                        aria-current={item.current ? "page" : undefined}
+                        aria-current={item.current ? "page" : ""}
                       >
                         {item.name}
                       </button>
@@ -113,7 +119,23 @@ function Navbar() {
                 {/*    alt="" */}
                 {/*  /> */}
                 {/* </div> */}
-
+                {window.location.pathname === `/writer/${userId}` && (
+                  <button
+                    type="button"
+                    key="write"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      console.log(window.location.pathname);
+                      navigate(`/writer/${userId}/write`);
+                    }}
+                    className={classNames(
+                      "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "px-3 py-2 rounded-md text-sm font-medium"
+                    )}
+                  >
+                    Write
+                  </button>
+                )}
                 {rightNavigation.map((item) => (
                   <button
                     type="button"
@@ -125,7 +147,7 @@ function Navbar() {
                         : "text-gray-300 hover:bg-gray-700 hover:text-white",
                       "px-3 py-2 rounded-md text-sm font-medium"
                     )}
-                    aria-current={item.current ? "page" : undefined}
+                    aria-current={item.current ? "page" : ""}
                   >
                     {item.name}
                   </button>
@@ -147,7 +169,7 @@ function Navbar() {
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
                     "block px-3 py-2 rounded-md text-base font-medium"
                   )}
-                  aria-current={item.current ? "page" : undefined}
+                  aria-current={item.current ? "page" : ""}
                 >
                   {item.name}
                 </Disclosure.Button>

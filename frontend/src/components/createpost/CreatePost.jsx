@@ -19,7 +19,7 @@ function CreatePost() {
 
   useEffect(() => {
     fromSessionToContext(userId, token, dispatch);
-  });
+  }, []);
 
   const handlePostCreation = (e) => {
     e.preventDefault();

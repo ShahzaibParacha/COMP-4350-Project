@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "@uiw/react-md-editor": "^3.20.5",
-    "react-markdown": "^8.0.5"
+    "react-markdown": "^8.0.5",
+    "rehype-react": "^7.1.2"
   }
 }
