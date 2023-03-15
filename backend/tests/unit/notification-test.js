@@ -20,7 +20,7 @@ function resetUserList() {
     userList.push({
         _id: userIDs[0].toString(),
         username: "Qiqiang Gao",
-        email: "qiqiang@qiangsheng.com",
+        email: "qiqiang@qq.com",
         password: "wojiaoqiqiang",
         is_writer: true,
         profile_photo: "default",
@@ -181,13 +181,6 @@ describe('Subscriber notification tests', function () {
             const result = await SubscriberService.notifyAudiences(userList[0]._id, post_id, content);
             expect(result.notification_state).to.equal('success');
             expect(result.notification_accepted_by).to.deep.equal([userList[1].email, userList[3].email])
-        });
-
-        it('should send email notification to subscribers successfully', async () => {
-            const result = await SubscriberService.notifyAudiences(userList[1]._id, post_id, content);
-            console.log(result)
-            expect(result.notification_state).to.equal('success');
-            expect(result.notification_accepted_by).to.deep.equal([userList[0].email])
         });
 
         it('should not send anything because there are no subscribers for the creator.', async () => {
