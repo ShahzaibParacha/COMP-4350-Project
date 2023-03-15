@@ -35,9 +35,4 @@ function fromContextToSession(contextId, contextToken) {
   window.addEventListener("beforeunload", moveToSession);
 }
 
-// this function needs to be called by every free route upon first render
-function clearListener() {
-  window.removeEventListener("beforeunload", moveToSession);
-}
-
-export { fromContextToSession, fromSessionToContext, clearListener };
+export { fromContextToSession, fromSessionToContext };

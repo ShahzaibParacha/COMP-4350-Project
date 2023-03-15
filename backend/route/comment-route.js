@@ -1,4 +1,3 @@
-const express = require("express");
 const { getCommentsFromPost, createComment } = require("../controller/comment-controller")
 const router = require("express").Router();
 

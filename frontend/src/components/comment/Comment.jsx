@@ -356,8 +356,12 @@ function Comment({ id }) {
               <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4 bg-white">
                 <div className="basis-1/6 lg:basis-1/12 flex justify-center">
                   <img
-                    className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
-                    src="/sample_profile.jpg"
+                    className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
+                    src={
+                      comment.profile_photo === null
+                        ? "/sample_profile.jpg"
+                        : comment.profile_photo
+                    }
                     alt="Profile"
                   />
                 </div>

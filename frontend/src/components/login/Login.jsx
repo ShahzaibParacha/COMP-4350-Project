@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuthContext from "../../hooks/useAuthContext";
-import { clearListener } from "../../util/state";
 
 function Login() {
   const [email, setEmail] = useState();
@@ -14,7 +13,8 @@ function Login() {
   const { dispatch } = useAuthContext();
 
   useEffect(() => {
-    clearListener();
+    sessionStorage.clear();
+    dispatch({ type: "CLEAR", payload: "" });
   }, []);
 
   const handleEmailAddress = (e) => {
