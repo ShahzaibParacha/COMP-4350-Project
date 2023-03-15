@@ -64,6 +64,10 @@ function Comment({ id }) {
         withCredentials: true,
       },
     }).then((s) => {
+      // eslint-disable-next-line no-console
+      console.log(`comment for post: ${id}`);
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify(s.data));
       if (oldestFirst) {
         updateComments(s.data.data);
       } else {
@@ -353,7 +357,10 @@ function Comment({ id }) {
         <div>
           {comments &&
             comments.map((comment) => (
-              <div className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4 bg-white">
+              <div
+                key={comment.comment_date}
+                className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4 bg-white"
+              >
                 <div className="basis-1/6 lg:basis-1/12 flex justify-center">
                   <img
                     className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
