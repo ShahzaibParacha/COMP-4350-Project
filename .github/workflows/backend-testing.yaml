@@ -10,6 +10,8 @@ env:
   MONGODB_CONNECTION: ${{ secrets.MONGODB_CONNECTION }}
   PASSPORT_SECRET: ${{ secrets.PASSPORT_SECRET }}
   TEST_TYPE: UNIT
+  NOTICE_EMAIL_ADDRESS: comp4350.troubleshootr@gmail.com
+  NOTICE_EMAIL_PASSWORD: opmwfmphqomlkmlq
     
 jobs:
   run_tests:
@@ -29,5 +31,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Installing Nodejs dependencies
         run: npm install
-      - name: Run test cases
-        run: npm test
+      - name: Run unit tests
+        run: npm unit
+      - name: Run integration tests
+        run: npm integration
+      - name: Run all tests
+        run: npm all
