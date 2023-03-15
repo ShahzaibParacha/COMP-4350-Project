@@ -1,6 +1,8 @@
 const express = require("express");
 const Post = require('../../schema/post-schema');
 const User = require('../../schema/user-schema');
+const Subscribe = require('../../schema/subscriber-schema')
+const subscribeService = require('../../service/subscriber-service')
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 const axios = require('axios');
@@ -53,6 +55,16 @@ const setup = async (numPosts, numUsers) => {
     //creates an account
     await User.findOneAndDelete({email});
     await User.create({username, email, password, _id: userIDs[0]}); 
+
+    //create a subscribe
+    await Subscribe.deleteMany({creator_id: userIDs[0]});
+    await Subscribe.deleteMany({audience_id: userIDs[0]});
+    await Subscribe.create(new Subscribe({     
+      creator_id: userIDs[1],
+      audience_id: userIDs[0],
+      subscription_date: Date.now(),
+      receive_notification: true
+    }));
 
     //login
     const res = await axios({
@@ -232,9 +244,70 @@ describe('Post routes', function () {
             expect(res.data.data).to.exist;
             expect(res.data.data.length).to.equal(5);
             for (let i = 0; i < res.data.data.length; i++) {
-                expect(res.data.data[i].content % 2).to.equal(0);
+                expect(res.data.data[i].post.content % 2).to.equal(0);
             }
         });
+    });
+
+    describe('GET request to get_subscribed_posts', function() {
+
+      it('should return nothing', async function() {
+        const { id, token } = (await setup(0, 1)).res.data.data;
+
+        const res = await axios({
+            method: "get",
+            url: `http://localhost:4350/api/post/get_subscribed_posts`,
+            headers: {
+                Authorization: token,
+                withCredentials: true,
+              },
+            params: {
+                user_id: id,
+            },
+          });
+
+        expect(res.data.msg).to.equal('success');
+        expect(res.data.data).to.exist;
+        expect(res.data.data.length).to.equal(0);
+      });
+
+      it('should return nothing', async function() {
+          const { token } = (await setup(10, 3)).res.data.data;
+
+          const res = await axios({
+              method: "get",
+              url: `http://localhost:4350/api/post/get_subscribed_posts`,
+              headers: {
+                  Authorization: token,
+                  withCredentials: true,
+                },
+              params: {
+                  user_id: new mongoose.mongo.ObjectID,
+              },
+            });
+
+          expect(res.data.msg).to.equal('success');
+          expect(res.data.data).to.exist;
+          expect(res.data.data.length).to.equal(0);
+      });
+
+      it('should not succeed', async function() {
+          const { token } = (await setup(10, 3)).res.data.data;
+
+          const res = await axios({
+              method: "get",
+              url: `http://localhost:4350/api/post/get_subscribed_posts`,
+              headers: {
+                  Authorization: token,
+                  withCredentials: true,
+                },
+              params: {
+                  user_id: 20,
+              },
+            });
+
+          expect(res.data.code).to.equal(40002);
+      });
     });
 
     describe('GET request to get_post_by_ID', function() {
@@ -254,7 +327,7 @@ describe('Post routes', function () {
             },
           });
 
-        const post = result.data.data
+        const post = result.data.data.post
 
         expect(result.data.msg).to.equal('success');
         expect(post).to.exist;

@@ -55,7 +55,7 @@ const getPostByID = async (req, res) => {
   try {
     const post = await postService.getPostByID(post_id);
     const result = await getPostsInfo([post]);
-    res.json(Result.success(result));
+    res.json(Result.success(result[0]));
   } catch (err) {
     res.json(Result.fail(err));
   }
@@ -161,9 +161,9 @@ async function getPostsInfo(posts){
         const likes = await likeService.getNumLikes(post._id);
         if( user !== null ){
             result.push({
-                post:post, username: 
-                user.username, affiliation: 
-                user.affiliation, 
+                post, 
+                username: user.username,
+                affiliation: user.affiliation, 
                 profile_photo: user.profile_photo, 
                 numberLikes: likes
             });
