@@ -13,14 +13,15 @@ async function getUserAudiences(userId, pageNum, pageSize) {
 
 //TODO: right now the post_id is not used
 async function noticefyAudiences(user_id, post_id, content){
-    try{
-        const creator = await userService.getUserInfo(user_id)
-        const subscribers = await getUserAudiences(user_id)
-        console.log("The number of audiences for the user is: " + subscribers.length)
+    const creator = await userService.getUserInfo(user_id)
+    const subscribers = await getUserAudiences(user_id)
+    console.log("The number of audiences for the user is: " + subscribers.length)
 
+    try{
         if(subscribers.length != 0){
-            const content_trunc = content.substr(0, 200) + '...';
             const subject = 'New post from your subscribed CASTr ' + creator['username'] + "!"
+            //const url = '?'
+            const content_trunc = content.substr(0, 200) + '...';
 
             for( let subscriber of subscribers){
                 console.log(subscriber)
@@ -30,9 +31,12 @@ async function noticefyAudiences(user_id, post_id, content){
                     noticer.sendEmailToSubscriber( audience.email, subject, content_trunc )
                 }
             }
+            return {"subscription-msg": "Successfully sent the notifications to the subsribers!"}
+        }else{
+            return {"subscription-msg": "There is no subscribers for this user!"}
         }
-    }catch(err){
-        console.log("Cannot noticefy the subscribers: " + err)
+    }catch{
+        return {"subscription-msg": "Fail to notify the subscribers"}
     }
 }
 

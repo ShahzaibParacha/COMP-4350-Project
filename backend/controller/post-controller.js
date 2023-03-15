@@ -1,35 +1,25 @@
 const postService = require("../service/post-service")
 const subscribeService = require("../service/subscriber-service")
 const userService = require('../service/user-service')
+const likeService = require('../service/likes-service')
 const Result = require("../util/Result")
 const mongoose = require("mongoose")
-const noticer = require("../util/notification")
-
-//const numberPages = 1 //default number of pages to show
-//const numberPostsPerPage = 5 //default number of posts to present on each page
 
 const createPost = async (req, res) => {
     const{content, user_id} = req.body
     console.log(user_id, content)
-    let post_id
 
     if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.json(Result.invalidUserId())
     }
 
-    await postService.createPost(user_id, content)
-    .then((result) => {
-        // post_id = result['_id']
-        // if(!mongoose.Types.ObjectId.isValid(post_id)){
-        //     return res.json(Result.invalidPostId())
-        // }
-        res.json(Result.success(result))
-    })
-    .catch((err) => {
+    try{
+        const postResult = await postService.createPost(user_id, content);
+        const subscribeResult = await subscribeService.noticefyAudiences(user_id, postResult['_id'], content);
+        res.json(Result.success( [postResult, subscribeResult] ))
+    }catch(err){
         res.json(Result.fail(err))
-    })
-
-    subscribeService.noticefyAudiences(user_id, post_id, content)
+    }
 }
 
 const updatePostContent = async (req, res) => {
@@ -50,25 +40,25 @@ const updatePostContent = async (req, res) => {
 }
 
 const getPostByID = async (req, res) => {
-    const{ post_id } = req.body
+    const{ post_id } = req.query
     console.log(post_id)
 
     if(!mongoose.Types.ObjectId.isValid(post_id)){
         return res.json(Result.invalidPostId())
     }
 
-    await postService.getPostByID(post_id)
-    .then((result) => {
+    try{
+        const post = await postService.getPostByID(post_id)
+        const result = await getPostsInfo( [post] )
         res.json(Result.success(result))
-    })
-    .catch((err) => {
+    }catch(err){
         res.json(Result.fail(err))
-    })
+    }
 }
 
 //it must be done by the user who owns the post
 const removePostByID = async (req, res) => {
-    const { post_id } = req.body
+    const { post_id } = req.query
     console.log(post_id)
 
     if(!mongoose.Types.ObjectId.isValid(post_id)){
@@ -84,43 +74,43 @@ const removePostByID = async (req, res) => {
     })
 }
 
-//TODO: implement pigination
 const getRecentPost = async (req, res) => {
-    // const page = parseInt(req.query.page) || numberPages
-    // const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage
-    // const startInd = (page - 1) * postsPerPage
-
-    await postService.getAllPosts()
-    // .sort({post_date: -1})
-    // .skip(startInd)
-    // .limit(numberPostsPerPage)
-    .then((result) => {
+    try{
+        const posts = await postService.getAllPosts()
+        const result = await getPostsInfo(posts)
         res.json(Result.success(result))
-    })
+    }catch(err){
+        res.json(Result.fail(err))
+    }
 }
 
-//TODO: implement pagination
 const getAllPostsFromUser = async (req, res) => {
-    const { user_id } = req.body
-
-    // const page = parseInt(req.query.page) || numberPages
-    // const postsPerPage = parseInt(req.query.perPage) || numberPostsPerPage
-    // const startInd = (page - 1) * postsPerPage
+    const { user_id } = req.query
 
     if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.json(Result.invalidUserId())
     }
-    
-    await postService.getAllPostsFromUser(user_id)
-    // .sort({post_date: -1})
-    // .skip(startInd)
-    // .limit(numberPostsPerPage)
-    .then((result) => {
+
+    try{
+        const posts = await postService.getAllPostsFromUser(user_id)
+        const result = await getPostsInfo(posts)
         res.json(Result.success(result))
-    })
-    .catch((err) => {
+    }catch(err){
         res.json(Result.fail(err))
-    })
+    }
+}
+
+async function getPostsInfo(posts){
+    let result = []
+    for( let post of posts){
+        const user = await userService.getUserInfo(post.user_id)
+        const likes = await likeService.getNumLikes(post._id)
+        if( user !== null ){
+            result.push({username: user.username, affiliation: user.affiliation, 
+                profile_photo: user.profile_photo, numberLikes: likes})
+        }
+    }
+    return result
 }
 
 module.exports = {
