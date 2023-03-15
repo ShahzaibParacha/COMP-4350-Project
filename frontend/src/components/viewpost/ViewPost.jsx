@@ -28,8 +28,7 @@ function ViewPost() {
       })
       .then((r) => {
         // eslint-disable-next-line no-console
-        console.log(r.data.data.content);
-        setPost(r.data.data.content);
+        setPost(r.data.data[0].post.content);
       })
       // eslint-disable-next-line no-console
       .catch((e) => console.error(e, userId));

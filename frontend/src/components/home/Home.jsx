@@ -17,25 +17,25 @@ function Home() {
 
   const feedButtonClick = (e) => {
     e.preventDefault();
-    if (e.target.id === "feed") {
-      e.target.classList.remove("bg-purple-100", "text-gray-800");
-      e.target.classList.add("bg-neutral", "text-white");
-      document
-        .getElementById("subscribed")
-        .classList.add("bg-purple-100", "text-gray-800");
-      document
-        .getElementById("subscribed")
-        .classList.remove("bg-neutral", "text-white");
-    } else if (e.target.id === "subscribed") {
-      e.target.classList.remove("bg-purple-100", "text-gray-800");
-      e.target.classList.add("bg-neutral", "text-white");
-      document
-        .getElementById("feed")
-        .classList.add("bg-purple-100", "text-gray-800");
-      document
-        .getElementById("feed")
-        .classList.remove("bg-neutral", "text-white");
-    }
+    // if (e.target.id === "feed") {
+    //   e.target.classList.remove("bg-purple-100", "text-gray-800");
+    //   e.target.classList.add("bg-neutral", "text-white");
+    //   document
+    //     .getElementById("subscribed")
+    //     .classList.add("bg-purple-100", "text-gray-800");
+    //   document
+    //     .getElementById("subscribed")
+    //     .classList.remove("bg-neutral", "text-white");
+    // } else if (e.target.id === "subscribed") {
+    //   e.target.classList.remove("bg-purple-100", "text-gray-800");
+    //   e.target.classList.add("bg-neutral", "text-white");
+    //   document
+    //     .getElementById("feed")
+    //     .classList.add("bg-purple-100", "text-gray-800");
+    //   document
+    //     .getElementById("feed")
+    //     .classList.remove("bg-neutral", "text-white");
+    // }
   };
 
   return (
@@ -48,18 +48,18 @@ function Home() {
               type="button"
               onClick={feedButtonClick}
               id="feed"
-              className="w-64 h-12 bg-neutral text-white rounded-full font-bold py-2 px-4 rounded-r"
+              className="w-64 h-12 bg-neutral text-white rounded-full font-bold py-2 px-4 rounded-x"
             >
               Feed
             </button>
-            <button
-              type="button"
-              onClick={feedButtonClick}
-              id="subscribed"
-              className="bg-purple-100 w-64 h-12 hover:bg-neutral hover:text-white rounded-full text-gray-800 font-bold py-2 px-4 rounded-l"
-            >
-              Subscribed
-            </button>
+            {/* <button */}
+            {/*  type="button" */}
+            {/*  onClick={feedButtonClick} */}
+            {/*  id="subscribed" */}
+            {/*  className="bg-purple-100 w-64 h-12 hover:bg-neutral hover:text-white rounded-full text-gray-800 font-bold py-2 px-4 rounded-l" */}
+            {/* > */}
+            {/*  Subscribed */}
+            {/* </button> */}
           </div>
           <div className="grid-column-1" />
           <WidePost />
