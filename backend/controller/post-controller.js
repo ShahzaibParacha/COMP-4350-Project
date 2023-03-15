@@ -106,7 +106,8 @@ async function getPostsInfo(posts){
         const user = await userService.getUserInfo(post.user_id)
         const likes = await likeService.getNumLikes(post._id)
         if( user !== null ){
-            result.push({username: user.username, affiliation: user.affiliation, numberLikes: likes})
+            result.push({username: user.username, affiliation: user.affiliation, 
+                profile_photo: user.profile_photo, numberLikes: likes})
         }
     }
     return result
