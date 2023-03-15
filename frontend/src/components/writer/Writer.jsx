@@ -381,36 +381,36 @@ function Writer() {
       }).then((result) => {
         axios({
           method: "post",
-          url: `http://localhost:4350/api/aws/delete_image`,
+          url: `http://localhost:4350/api/user/profile`,
           headers: {
             Authorization: token,
             withCredentials: true,
           },
-          data: { image },
-        }).finally(() => {
+          data: {
+            user_id: userId,
+            profile_photo: result.data.data.imageUrl,
+            is_writer: true,
+            affiliation,
+            bio,
+          },
+        }).then(() => {
           axios({
             method: "post",
-            url: `http://localhost:4350/api/user/profile`,
+            url: `http://localhost:4350/api/aws/delete_image`,
             headers: {
               Authorization: token,
               withCredentials: true,
             },
-            data: {
-              user_id: userId,
-              profile_photo: result.data.data.imageUrl,
-              is_writer: true,
-              affiliation,
-              bio,
-            },
-          }).then(() => {
-            showMessage(
-              document.getElementById("image_message"),
-              "Successfully updated!",
-              success,
-              false
-            );
-            setImage(result.data.data.imageUrl);
+            data: { image },
           });
+
+          showMessage(
+            document.getElementById("image_message"),
+            "Successfully updated!",
+            success,
+            false
+          );
+          setImage(result.data.data.imageUrl);
         });
       });
     }
@@ -626,7 +626,7 @@ function Writer() {
           <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4">
             <div className="flex flex-col justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
               <img
-                className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] mb-4 text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white"
+                className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] mb-4 object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white"
                 src={image === null ? "/sample_profile.jpg" : image}
                 alt="Profile"
               />
