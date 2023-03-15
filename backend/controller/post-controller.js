@@ -15,7 +15,7 @@ const createPost = async (req, res) => {
 
     try{
         const postResult = await postService.createPost(user_id, content);
-        const subscribeResult = await subscribeService.noticefyAudiences(user_id, postResult['_id'], content);
+        const subscribeResult = await subscribeService.notifyAudiences(user_id, postResult['_id'], content);
         res.json(Result.success( [postResult, subscribeResult] ))
     }catch(err){
         res.json(Result.fail(err))
