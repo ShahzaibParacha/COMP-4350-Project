@@ -27,7 +27,7 @@ jobs:
       - name: Installing Nodejs dependencies
         run: npm install
       - name: Start the backend
-        run: npm start
+        run: npm run start
       - name: Log on to Docker
         uses: docker/login-action@v2
         with: 
