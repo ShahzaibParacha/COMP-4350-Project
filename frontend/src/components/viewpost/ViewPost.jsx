@@ -84,7 +84,7 @@ function ViewPost() {
                   children={markdown}
                   remarkPlugins={[remarkGfm]}
                 />
-                <Comment id={postData.postID} />
+                <Comment id="640fe39477eebd456489e247" />
               </div>
             </div>
           </div>
