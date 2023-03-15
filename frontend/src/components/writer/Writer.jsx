@@ -364,7 +364,6 @@ function Writer() {
   function switchImage(e) {
     e.preventDefault();
     const imageInput = document.getElementById("image_input");
-    console.log(imageInput.files);
 
     if (changeImage) {
       const imageFormData = new FormData();
