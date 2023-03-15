@@ -35,11 +35,12 @@ function Writer() {
 
   useEffect(() => {
     fromSessionToContext(userId, token, dispatch);
+    console.log(`id got: ${id}`);
 
     axios
       .get(`http://localhost:4350/api/user/profile`, {
         params: {
-          user_id: userId,
+          user_id: id,
         },
         headers: {
           Authorization: token,
