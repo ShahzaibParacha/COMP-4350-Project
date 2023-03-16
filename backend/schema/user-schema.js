@@ -52,12 +52,11 @@ const userSchema = new Schema({
 		default: null
 	},
 
-	// TODO: create something to store image and video
-	profile_photo: {
-		type: String,
-		required: true,
-		default: 'a link to default profile photo'
-	},
+    profile_photo: {
+        type: String,
+        required: true,
+        default: '',
+    },
 
 	bio: {
 		type: String,

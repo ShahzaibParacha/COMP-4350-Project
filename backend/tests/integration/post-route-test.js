@@ -33,50 +33,50 @@ let server;
  * res - the response returned by logging in
  */
 const setup = async (numPosts, numUsers) => {
-	const userIDs = [];
-	const postIDs = [];
-	let i = 0;
+    let userIDs = [];
+    let postIDs = [];
+    let i = 0;
 
-	await Post.deleteMany({});
+    await Post.deleteMany({});
 
-	// generate user ids
-	for (i = 0; i < numUsers; i++) {
-		userIDs.push(new mongoose.mongo.ObjectID());
-	}
+    //generate user ids
+    for (i = 0; i < numUsers; i++) {
+        userIDs.push(new mongoose.mongo.ObjectID);
+    }
 
-	// generate random posts created by numUsers users
-	for (i = 0; i < numPosts; i++) {
-		postIDs.push(new mongoose.mongo.ObjectID());
-		const attrib = { _id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i, post_date: new Date(i * 1000000) };
-		await Post.create(attrib);
-	}
+    //generate random posts created by numUsers users
+    for (i = 0; i < numPosts; i++) {
+        postIDs.push(new mongoose.mongo.ObjectID);
+        const attrib = {_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i, post_date: new Date(i * 1000000)};
+        await Post.create(attrib);
+    }
 
-	// creates an account
-	await User.findOneAndDelete({ email });
-	await User.create({ username, email, password, _id: userIDs[0] });
+    //creates an account
+    await User.findOneAndDelete({email});
+    await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
 
-	// create a subscribe
-	await Subscribe.deleteMany({ creator_id: userIDs[0] });
-	await Subscribe.deleteMany({ audience_id: userIDs[0] });
-	await Subscribe.create(new Subscribe({
-		creator_id: userIDs[1],
-		audience_id: userIDs[0],
-		subscription_date: Date.now(),
-		receive_notification: true
-	}));
+    //create a subscribe
+    await Subscribe.deleteMany({creator_id: userIDs[0]});
+    await Subscribe.deleteMany({audience_id: userIDs[0]});
+    await Subscribe.create(new Subscribe({     
+      creator_id: userIDs[1],
+      audience_id: userIDs[0],
+      subscription_date: Date.now(),
+      receive_notification: true
+    }));
 
-	// login
-	const res = await axios({
-		method: 'post',
-		url: 'http://localhost:4350/api/free/user/login',
-		data: {
-			email,
-			password
-		}
-	});
+    //login
+    const res = await axios({
+        method: "post",
+        url: `http://localhost:4350/api/free/user/login`,
+        data: {
+          email,
+          password,
+        },
+      });
 
-	return { postIDs, userIDs, res };
-};
+    return { postIDs, userIDs, res };
+}
 
 describe('Post routes', function () {
 	before(async () => {

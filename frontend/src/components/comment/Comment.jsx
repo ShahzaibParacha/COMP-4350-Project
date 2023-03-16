@@ -259,7 +259,7 @@ function Comment({ id }) {
 
       <div className="flex">
         <div className="basis-1/3 flex border-r-2 border-black justify-center">
-          <div className="flex">
+          <div className="flex flex-col items-center md:flex-row">
             <button type="button" onClick={likePost}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -283,7 +283,7 @@ function Comment({ id }) {
           </div>
         </div>
         <div className="basis-1/3 flex border-r-2 border-black justify-center">
-          <div className="flex">
+          <div className="flex flex-col items-center md:flex-row">
             <button type="button" onClick={writeComment}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -299,11 +299,11 @@ function Comment({ id }) {
                 />
               </svg>
             </button>
-            <p className="ml-2">Comment</p>
+            <p className="mx-2">Comment</p>
           </div>
         </div>
         <div className="basis-1/3 flex justify-center">
-          <div className="flex">
+          <div className="flex flex-col items-center md:flex-row">
             <button type="button" onClick={showQRCodeModal}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -359,9 +359,9 @@ function Comment({ id }) {
             comments.map((comment) => (
               <div
                 key={comment.comment_date}
-                className="flex gap-2 border-black rounded-2xl border-2 p-4 mt-4 bg-white"
+                className="grid grid-cols-6 gap-2 border-black rounded-2xl border-2 p-4 mt-4 bg-white"
               >
-                <div className="basis-1/6 lg:basis-1/12 flex justify-center">
+                <div className="col-start-1 col-end-1 hidden md:col-end-2 md:flex justify-center">
                   <img
                     className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
                     src={
@@ -372,20 +372,18 @@ function Comment({ id }) {
                     alt="Profile"
                   />
                 </div>
-                <div className="basis-5/6 lg:basis-11/12">
-                  <div className="mb-2 flex justify-between">
+                <div className="col-start-1 col-end-7 md:col-start-2">
+                  <div className="mb-2 flex flex-col md:flex-row justify-between">
                     <p className="font-bold leading-4 text-[1rem]">
                       {comment.username}
                     </p>
-                    <p className="leading-4 text-[1rem]">
+                    <p className="leading-4 text-[1rem] mt-2 md:mt-0">
                       {formatDistanceToNow(new Date(comment.comment_date), {
                         addSuffix: true,
                       })}
                     </p>
                   </div>
-                  <div>
-                    <p>{comment.content}</p>
-                  </div>
+                  <p className="overflow-x-auto py-2">{comment.content}</p>
                 </div>
               </div>
             ))}

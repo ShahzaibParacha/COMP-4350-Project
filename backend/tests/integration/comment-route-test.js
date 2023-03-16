@@ -34,52 +34,48 @@ let server;
  * res - the response returned by logging in
  */
 const setup = async (numComments, numPosts, numUsers) => {
-	const commentIDs = [];
-	const postIDs = [];
-	const userIDs = [];
-	let i = 0;
+    let commentIDs = [];
+    let postIDs = [];
+    let userIDs = [];
+    let i = 0;
 
-	await Comment.deleteMany({});
+    await Comment.deleteMany({});
 
-	// creates an user id to leave comments
-	for (i = 0; i < numUsers; i++) {
-		userIDs.push(new mongoose.mongo.ObjectID());
-	}
-	// userID = new mongoose.mongo.ObjectID;
+    //creates an user id to leave comments
+    for (i = 0; i < numUsers; i++){
+        userIDs.push(new mongoose.mongo.ObjectID);
+    }
+    //userID = new mongoose.mongo.ObjectID;
 
-	// generate post ids
-	for (i = 0; i < numPosts; i++) {
-		postIDs.push(new mongoose.mongo.ObjectID());
-	}
+    //generate post ids
+    for (i = 0; i < numPosts; i++) {
+        postIDs.push(new mongoose.mongo.ObjectID);
+    }
 
-	// generate random comments to numPosts posts
-	for (i = 0; i < numComments; i++) {
-		commentIDs.push(new mongoose.mongo.ObjectID());
-		const attrib = {
-			_id: commentIDs[i],
-			post_id: postIDs[i % numPosts],
-			user_id: userIDs[i % numUsers],
-			content: i,
-			comment_date: new Date(i * 1000000)
-		};
-		await Comment.create(attrib);
-	}
+    //generate random comments to numPosts posts
+    for (i = 0; i < numComments; i++) {
+        commentIDs.push(new mongoose.mongo.ObjectID);
+        const attrib = {_id: commentIDs[i], post_id: postIDs[i % numPosts],
+            user_id: userIDs[i % numUsers], content: i, comment_date: new Date(i * 1000000)};
+        await Comment.create(attrib);
+    }
 
-	await User.findOneAndDelete({ email });
-	await User.create({ username, email, password, _id: userIDs[0] });
+ 
+    await User.findOneAndDelete({email});
+    await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
 
-	// login
-	const res = await axios({
-		method: 'post',
-		url: 'http://localhost:4350/api/free/user/login',
-		data: {
-			email,
-			password
-		}
-	});
+    //login
+    const res = await axios({
+        method: "post",
+        url: `http://localhost:4350/api/free/user/login`,
+        data: {
+          email,
+          password,
+        },
+      });
 
-	return { commentIDs, postIDs, userIDs, res };
-};
+    return { commentIDs, postIDs, userIDs, res };
+}
 
 describe('Comment routes', function () {
 	before(async () => {

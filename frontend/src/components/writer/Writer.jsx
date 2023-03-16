@@ -411,7 +411,8 @@ function Writer() {
             document.getElementById("image_message"),
             "Successfully updated!",
             success,
-            false
+            false,
+            "center"
           );
           setImage(result.data.data.imageUrl);
         });
@@ -623,8 +624,8 @@ function Writer() {
         </div>
 
         <div className="w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
-          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full">
-            <div className="flex flex-col justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
+          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full gap-2">
+            <div className="flex flex-col items-center col-start-1 col-end-2 row-start-1 row-end-4">
               <img
                 className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] mb-4 object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white"
                 src={image === "" ? "/sample_profile.jpg" : image}
@@ -648,8 +649,13 @@ function Writer() {
                 </button>
               )}
               {changeDetails && changeImage && (
-                <div className="flex justify-center mb-2">
-                  <input type="file" accept="image/*" id="image_input" />
+                <div className="flex flex-col items-center md:flex-row mb-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="image_input"
+                    className="w-full"
+                  />
                   <button type="button" onClick={switchImage}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -668,14 +674,14 @@ function Writer() {
                   </button>
                 </div>
               )}
-              <p id="image_message" className="row-span-1 opacity-0 text-xs" />
+              <p id="image_message" className="opacity-0 text-xs" />
             </div>
             <div className="flex justify-center items-center col-start-1 col-end-2 row-start-4 row-end-5">
-              <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip">
+              <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip py-2">
                 {username}
               </h1>
             </div>
-            <div className="grid grid-rows-9 col-start-2 col-end-3 row-span-5 gap-2">
+            <div className="col-start-2 col-end-3 row-span-5 gap-2">
               <div className="flex justify-between row-span-1">
                 <div className="flex items-center">
                   <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 mr-1">
@@ -719,7 +725,7 @@ function Writer() {
               </div>
               <div className="row-span-1">
                 {!changeAffiliation ? (
-                  <p className="overflow-x-auto overflow-y-clip">
+                  <p className="overflow-x-auto overflow-y-clip py-2">
                     {affiliation}
                   </p>
                 ) : (
@@ -776,7 +782,7 @@ function Writer() {
               </div>
               <div className="row-span-4 h-60">
                 {!changeBio ? (
-                  <p className="overflow-auto h-fit max-h-[83%]">{bio}</p>
+                  <p className="overflow-auto h-fit max-h-[83%] py-2">{bio}</p>
                 ) : (
                   <textarea
                     className="rounded-md h-5/6 w-full resize-none p-1"

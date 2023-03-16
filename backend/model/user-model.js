@@ -1,31 +1,33 @@
-const User = require('../schema/user-schema');
-const ParamValidation = require('../util/ParamValidationUtil');
+const User = require("../schema/user-schema")
+const ParamValidation = require("../util/ParamValidationUtil")
 
-async function createNewUser (userInfo) {
-	if (!ParamValidation.isValidUsername(userInfo.username) || !ParamValidation.isValidPassword(userInfo.password) ||
-        !ParamValidation.isValidEmail(userInfo.email)) { return false; }
+async function createNewUser(userInfo) {
+    if (!ParamValidation.isValidUsername(userInfo.username) || !ParamValidation.isValidPassword(userInfo.password)
+        || !ParamValidation.isValidEmail(userInfo.email))
+        return false
 
-	if (await getUserByEmail(userInfo.email)) {
-		return false;
-	}
+    if (await getUserByEmail(userInfo.email)) {
+        return false
+    }
 
-	if (await getUserByUsername(userInfo.username)) {
-		return false;
-	}
-	// username, email, password, birthday, is_writer, registration_date, last_login_date, bio,affiliation
-	const user = new User({
-		username: userInfo.username,
-		password: userInfo.password,
-		email: userInfo.email,
-		is_writer: userInfo.isWriter,
-		registration_date: Date.now(),
-		last_login_date: null,
-		bio: null,
-		affiliation: null
-	});
+    if (await getUserByUsername(userInfo.username)) {
+        return false
+    }
+    // username, email, password, birthday, is_writer, registration_date, last_login_date, bio,affiliation
+    const user = new User({
+        username: userInfo.username,
+        password: userInfo.password,
+        email: userInfo.email,
+        is_writer: userInfo.isWriter,
+        registration_date: Date.now(),
+        last_login_date: null,
+        bio: null,
+        affiliation: null,
+        profile_photo: "/sample_profile.jpg"
+    });
 
-	const result = await User.create(user);
-	return result !== null;
+    let result = await User.create(user)
+    return result !== null
 }
 
 async function getUserById (id) {

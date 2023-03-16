@@ -33,59 +33,60 @@ let server;
  * res - the response returned by logging in
  */
 const setup = async (numPosts, numUsers, numLikes) => {
-	const postIDs = [];
-	const userIDs = [];
-	let i = 0; let userIdx = 0; let postIdx = 0;
+    let postIDs = [];
+    let userIDs = [];
+    let i = 0, userIdx = 0, postIdx = 0;
 
-	if (numLikes <= numPosts * numUsers) {
-		await Like.deleteMany({});
+    if (numLikes <= numPosts * numUsers) {
 
-		// generate user ids
-		for (i = 0; i < numUsers; i++) {
-			userIDs.push(new mongoose.mongo.ObjectID());
-		}
+        await Like.deleteMany({});
 
-		// generate random posts created by numUsers users
-		for (i = 0; i < numPosts; i++) {
-			postIDs.push(new mongoose.mongo.ObjectID());
-		}
+        //generate user ids
+        for (i = 0; i < numUsers; i++) {
+            userIDs.push(new mongoose.mongo.ObjectID);
+        }
 
-		// the first user will like the first post
-		// the second user will like the first post
-		// ...
-		// the last user will like the first post
-		// the first user will like the second post
-		// ...
-		// the last user will like the last post
-		for (i = 0; i < numLikes; i++) {
-			await Like.create({ post_id: postIDs[postIdx], user_id: userIDs[userIdx] });
+        //generate random posts created by numUsers users
+        for (i = 0; i < numPosts; i++) {
+            postIDs.push(new mongoose.mongo.ObjectID);
+        }
 
-			userIdx++;
-			if (userIdx >= numUsers) {
-				userIdx = 0;
-				postIdx = (postIdx + 1) % numPosts;
-			}
-		}
-	}
+        //the first user will like the first post
+        //the second user will like the first post
+        //...
+        //the last user will like the first post
+        //the first user will like the second post
+        //...
+        //the last user will like the last post
+        for (i = 0; i < numLikes; i++) {
+            await Like.create({ post_id: postIDs[postIdx], user_id: userIDs[userIdx] });
 
-	// creates an account
-	await User.findOneAndDelete({ email });
-	await User.create({ username, email, password, _id: userIDs[0] });
+            userIdx++;
+            if (userIdx >= numUsers) {
+                userIdx = 0;
+                postIdx = (postIdx + 1) % numPosts;
+            }
+        }
+    }
 
-	// login
-	const res = await axios({
-		method: 'post',
-		url: 'http://localhost:4350/api/free/user/login',
-		data: {
-			email,
-			password
-		}
-	});
+    //creates an account
+    await User.findOneAndDelete({email});
+    await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
 
-	return { postIDs, userIDs, res };
-};
+    //login
+    const res = await axios({
+        method: "post",
+        url: `http://localhost:4350/api/free/user/login`,
+        data: {
+          email,
+          password,
+        },
+      });
 
-// this function will send four requests of type req to route and verify the codes in the response
+    return { postIDs, userIDs, res };
+}
+
+//this function will send four requests of type req to route and verify the codes in the response
 //
 // the first two requests will have an invalid user_id but valid post_id
 // the last two requests will have a valid user_id but invalid post_id
