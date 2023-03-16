@@ -137,7 +137,7 @@
    - For email, enter "theGOAT69@mail.com"
    - For password, enter "User12345"
 
-7. Click on any of the posts that appear on the Home page
+7. Click on a post created by "user" ("user" is the username)
 
    - This should send you to another page where the entire post is visible
 
