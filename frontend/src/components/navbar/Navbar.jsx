@@ -17,12 +17,10 @@ function Navbar() {
   const { userId } = JSON.parse(sessionStorage.getItem("session"));
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
-  const leftNavigation = [
-    { name: "Home", href: "/", current: false },
-    // { name: "Suggested", href: "/", current: false },
-  ];
+  const leftNavigation = [{ name: "Home", href: "/", current: false }];
 
   const rightNavigation = [
+    { name: "Write", href: `/writer/${userId}/write`, current: false },
     { name: "Profile", href: `/writer/${userId}`, current: false },
     {
       name: "Logout",
@@ -119,23 +117,6 @@ function Navbar() {
                 {/*    alt="" */}
                 {/*  /> */}
                 {/* </div> */}
-                {window.location.pathname === `/writer/${userId}` && (
-                  <button
-                    type="button"
-                    key="write"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      console.log(window.location.pathname);
-                      navigate(`/writer/${userId}/write`);
-                    }}
-                    className={classNames(
-                      "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "px-3 py-2 rounded-md text-sm font-medium"
-                    )}
-                  >
-                    Write
-                  </button>
-                )}
                 {rightNavigation.map((item) => (
                   <button
                     type="button"

@@ -114,6 +114,7 @@ describe('Like services and model', function () {
 
     after(async () => {
         if (process.env.TEST_TYPE === "INTEGRATION") {
+            await Like.deleteMany({});
             await mongoose.disconnect();
         }
         else {
