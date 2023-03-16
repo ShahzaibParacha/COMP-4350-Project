@@ -7,7 +7,7 @@ const subscriberSchema = mongoose.Schema({
 		validate: (audience_id) => {
 			return ParamValidation.isValidObjectId(audience_id);
 		},
-		require: true
+		required: true
 	},
 
 	creator_id: { // the users you subscribe to
@@ -15,13 +15,13 @@ const subscriberSchema = mongoose.Schema({
 		validate: (creator_id) => {
 			return ParamValidation.isValidObjectId(creator_id);
 		},
-		require: true
+		required: true
 	},
 
 	subscription_date: {
 		type: Date,
 		default: Date.now(),
-		require: true
+		required: true
 	},
 
 	receive_notification: {
@@ -30,7 +30,7 @@ const subscriberSchema = mongoose.Schema({
 		validate: (receive_notification) => {
 			return typeof receive_notification === 'boolean';
 		},
-		require: true
+		required: true
 	}
 });
 

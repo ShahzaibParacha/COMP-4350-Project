@@ -52,11 +52,11 @@ const userSchema = new Schema({
 		default: null
 	},
 
-    profile_photo: {
-        type: String,
-        required: true,
-        default: '',
-    },
+	profile_photo: {
+		type: String,
+		required: true,
+		default: '',
+	},
 
 	bio: {
 		type: String,
