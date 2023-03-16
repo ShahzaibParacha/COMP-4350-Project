@@ -37,7 +37,10 @@ function WidePost() {
   return (
     <div>
       {posts.map((post) => (
-        <div className="w-full my-4 rounded-2xl text-left border font-base bg-gray-50 shadow-xl">
+        <div
+          key={post.post._id}
+          className="w-full my-4 rounded-2xl text-left border font-base bg-gray-50 shadow-xl"
+        >
           <div className="bg-gray-50 rounded-2xl py-4 sm:grid sm:grid-cols-6 sm:gap-4">
             <div className="flex justify-center items-center">
               <div className="col-span-1">
@@ -78,7 +81,6 @@ function WidePost() {
               type="button"
               onClick={() => handlePostClick(post.post._id)}
               className="border-l border-neutral px-4 py-2 col-start-2 col-span-5 sm:px-6"
-              key={post.post._id}
             >
               <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                 <dd className="mt-1 text-left text-sm font-base text-gray-900 sm:col-span-6 sm:mt-0">
