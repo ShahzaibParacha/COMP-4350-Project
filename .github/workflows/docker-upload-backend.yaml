@@ -10,6 +10,7 @@ env:
   TEST_TYPE: UNIT
   NOTICE_EMAIL_ADDRESS: comp4350.troubleshootr@gmail.com
   NOTICE_EMAIL_PASSWORD: opmwfmphqomlkmlq
+  VERSION_NUMBER: 1.0
     
 jobs:
   upload:
@@ -41,4 +42,4 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: theogschool/castr-backend:1.0
+          tags: theogschool/castr-backend:${{ env.VERSION_NUMBER }}
