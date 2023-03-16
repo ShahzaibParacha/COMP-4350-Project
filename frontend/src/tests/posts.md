@@ -64,6 +64,8 @@
 
 2. Click on any of the posts that appear on the Home page
 
+   - This should send you to another page where the entire post is visible
+
 3. Click on the Share button
 
    - A modal should show up with a QR code

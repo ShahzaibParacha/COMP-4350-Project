@@ -71,42 +71,91 @@
    - The text you typed should appear below "Bio"
    - The Checkmark icon should now be a Pen icon
 
-9. Click on the Pen icon on the same line as "Username"
+9. Click on the Pen icon under your profile photo
 
    - The icon should now be a Checkmark
 
-10. Type "theGOAT70" in the textbox and click the Checkmark icon
+10. Click on the button that shows up, select an image, and click the Checkmark icon
+
+    - The profile photo should be the file you chose
+    - The Checkmark icon should now be a Pen icon
+
+11. Click on the Pen icon on the same line as "Username"
+
+    - The icon should now be a Checkmark
+
+12. Type "theGOAT70" in the textbox and click the Checkmark icon
 
     - Your new username should be updated
     - You should see your new username under your profile picture as well as to the right of "Username"
     - The Checkmark icon should now be a Pen icon
 
-11. Click on the Pen icon on the same line as "Password"
+13. Click on the Pen icon on the same line as "Password"
 
     - The icon should now be a Checkmark
     - Three textboxes should appear
 
-12. Fill the texboxes and click the Checkmark icon
+14. Fill the texboxes and click the Checkmark icon
 
     - For old password, enter "User12345"
     - For new password, enter "Password5"
     - For the third textbox, enter "Password5"
     - After clicking the Checkmark icon, the icon should be a Checkmark
 
-13. Click the Logout button on the top right
+15. Click the Logout button on the top right
 
-14. Log in
+16. Log in
 
     - For email, enter "theGOAT69@mail.com"
     - For password, enter "User12345"
     - Should fail
 
-15. Log in again
+17. Log in again
 
     - For email, enter "theGOAT69@mail.com"
     - For password, enter "Password5"
 
-16. Click the Logout button on the top right
+18. Click the Logout button on the top right
+
+### Being able to manage preferences
+
+2. Log in
+
+   - For email, enter "user5@mail.com"
+   - For password, enter "User12345"
+
+3. Click on the "Write" button on the nav bar
+
+   - This will send you to a page where there is a markdown editor
+
+4. Click the Submit button
+
+5. Click the Logout button on the top right
+
+6. Log in
+
+   - For email, enter "theGOAT69@mail.com"
+   - For password, enter "User12345"
+
+7. Click on any of the posts that appear on the Home page
+
+   - This should send you to another page where the entire post is visible
+
+8. Click on the profile photo of the user who created the post
+
+   - This will send you to a page that is awfully similar to your profile page
+   - The difference is that this is the profile page of the user who created the post
+
+9. Click on the Subscribe button on the right
+
+   - The text should now be "Subscribed" instead of "Subscribe"
+   - A "slashed" bell icon should show up as well
+
+10. Click on the "slashed" bell icon
+
+    - The icon should now be just a bell
+
+11. Click the Logout button on the top right
 
 ### Being able to delete an account
 
