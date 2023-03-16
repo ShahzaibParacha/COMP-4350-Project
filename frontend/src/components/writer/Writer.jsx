@@ -13,6 +13,8 @@ import { fromContextToSession, fromSessionToContext } from "../../util/state";
 function Writer() {
   const navigate = useNavigate();
 
+  const loading = "Loading...";
+
   const [changeUsername, isChangingUsername] = useState(false);
   const [changePassword, isChangingPassword] = useState(false);
   const [changeBio, isChangingBio] = useState(false);
@@ -20,10 +22,10 @@ function Writer() {
   const [changeImage, isChangingImage] = useState(false);
   const [changeDetails, isChangingDetails] = useState(false);
 
-  const [username, setUsername] = useState("Loading...");
-  const [password, setPassword] = useState("Loading...");
-  const [bio, setBio] = useState("Loading...");
-  const [affiliation, setAffiliation] = useState("Loading...");
+  const [username, setUsername] = useState(loading);
+  const [password, setPassword] = useState(loading);
+  const [bio, setBio] = useState(loading);
+  const [affiliation, setAffiliation] = useState(loading);
   const [image, setImage] = useState(null);
 
   const [hasSubscribed, changeHasSubscribed] = useState(false);
@@ -364,7 +366,6 @@ function Writer() {
   function switchImage(e) {
     e.preventDefault();
     const imageInput = document.getElementById("image_input");
-    console.log(imageInput.files);
 
     if (changeImage) {
       const imageFormData = new FormData();
@@ -624,7 +625,7 @@ function Writer() {
         </div>
 
         <div className="w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
-          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4">
+          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4 w-full">
             <div className="flex flex-col justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
               <img
                 className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] mb-4 object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white"
@@ -718,9 +719,11 @@ function Writer() {
                   )}
                 </div>
               </div>
-              <div className="row-span-1">
+              <div className="row-span-1 ">
                 {!changeAffiliation ? (
-                  affiliation
+                  <p className="overflow-auto h-fit max-h-[83%]">
+                    {affiliation}
+                  </p>
                 ) : (
                   <input
                     type="text"
@@ -732,7 +735,7 @@ function Writer() {
               </div>
               <p
                 id="affiliation_message"
-                className="row-span-1 opacity-0 text-xs"
+                className="row-span-1 opacity-0 text-xs w-full"
               />
               <div className="flex items-center row-span-1">
                 <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 mr-1">
@@ -775,9 +778,7 @@ function Writer() {
               </div>
               <div className="row-span-4 h-60">
                 {!changeBio ? (
-                  <p className="overflow-y-auto w-full h-fit max-h-[83%]">
-                    {bio}
-                  </p>
+                  <p className="overflow-auto h-fit max-h-[83%]">{bio}</p>
                 ) : (
                   <textarea
                     className="rounded-md h-5/6 w-full resize-none p-1"

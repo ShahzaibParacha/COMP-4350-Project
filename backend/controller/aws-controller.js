@@ -41,12 +41,14 @@ const deleteImage = (req, res) => {
 
 const uploadImage = (req, res) => {
   const name = randomImageName();
+  const buffer = req.file.buffer;
+  const mimetype = req.file.mimetype;
 
   const params = {
     Bucket: bucketName,
     Key: name,
-    Body: req.file.buffer,
-    ContentType: req.file.mimetype,
+    Body: buffer,
+    ContentType: mimetype,
   };
 
   const command = new PutObjectCommand(params);

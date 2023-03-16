@@ -84,6 +84,7 @@ const getRecentPost = async (req, res) => {
   try {
     const posts = await postService.getAllPosts();
     const result = await getPostsInfo(posts);
+
     res.json(Result.success(result));
   } catch (err) {
     res.json(Result.fail(err));
