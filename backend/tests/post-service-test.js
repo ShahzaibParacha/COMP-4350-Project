@@ -136,6 +136,7 @@ describe('Post services and model', function () {
 
     after(async () => {
         if (process.env.TEST_TYPE === 'INTEGRATION') {
+            await Post.deleteMany({});
             await mongoose.disconnect();
         }
         else {

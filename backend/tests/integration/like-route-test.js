@@ -192,6 +192,7 @@ describe('Like routes', function () {
     });
 
     after(async () => {
+        await Like.deleteMany({});
         await mongoose.disconnect();
         server.close();
     });

@@ -26,7 +26,7 @@ function Writer() {
   const [password, setPassword] = useState(loading);
   const [bio, setBio] = useState(loading);
   const [affiliation, setAffiliation] = useState(loading);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   const [hasSubscribed, changeHasSubscribed] = useState(false);
   const [hasEnabledNotif, changeHasEnabledNotif] = useState(false);
@@ -94,7 +94,7 @@ function Writer() {
         changeHasEnabledNotif(s.data.data.receive_notification);
       }
     });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     fromContextToSession(contextId, contextToken);
@@ -495,8 +495,7 @@ function Writer() {
         withCredentials: true,
       },
     }).then((s) => {
-      // need to flip this
-      if (s.data.code === 40011) {
+      if (s.data.code !== 40011) {
         changeHasEnabledNotif(!hasEnabledNotif);
       }
     });
@@ -516,8 +515,7 @@ function Writer() {
           creator_id: id,
         },
       }).then((s) => {
-        // need to flip this
-        if (s.data.code === 40011) {
+        if (s.data.code !== 40011) {
           changeHasSubscribed(!hasSubscribed);
         }
       });
@@ -534,8 +532,7 @@ function Writer() {
           withCredentials: true,
         },
       }).then((s) => {
-        // need to flip this
-        if (s.data.code === 40011) {
+        if (s.data.code !== 40011) {
           changeHasSubscribed(!hasSubscribed);
           changeHasEnabledNotif(false);
         }
@@ -626,11 +623,11 @@ function Writer() {
         </div>
 
         <div className="w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
-          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4 w-full">
+          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full">
             <div className="flex flex-col justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
               <img
                 className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] mb-4 object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white"
-                src={image === null ? "/sample_profile.jpg" : image}
+                src={image === "" ? "/sample_profile.jpg" : image}
                 alt="Profile"
               />
               {changeDetails && !changeImage && (
@@ -720,9 +717,9 @@ function Writer() {
                   )}
                 </div>
               </div>
-              <div className="row-span-1 ">
+              <div className="row-span-1">
                 {!changeAffiliation ? (
-                  <p className="overflow-auto h-fit max-h-[83%]">
+                  <p className="overflow-x-auto overflow-y-clip">
                     {affiliation}
                   </p>
                 ) : (
@@ -792,12 +789,10 @@ function Writer() {
               </div>
             </div>
             <div
-              // need to flip this later
               className={
                 id === userId ? classForEditProfile : classForSubscribe
               }
             >
-              {/* need to flip this later */}
               {id === userId && (
                 <button
                   type="button"
@@ -820,7 +815,7 @@ function Writer() {
                   {!hasSubscribed ? "Subscribe" : "Subscribed"}
                 </button>
               )}
-              {hasSubscribed && (
+              {hasSubscribed && id !== userId && (
                 <button
                   type="button"
                   onClick={enableNotif}
