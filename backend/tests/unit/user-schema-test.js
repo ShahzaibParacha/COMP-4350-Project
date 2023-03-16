@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const User = require('../../schema/user-schema');
-const Post = require("../../schema/post-schema");
 const expect = require('chai').expect;
 
 describe('User schema', function () {

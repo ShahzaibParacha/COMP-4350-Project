@@ -139,41 +139,41 @@ async function getPostsInfo(posts) {
 
 //get posts from subscribed channels
 const getSubscribedPosts = async (req, res) => {
-  const { user_id, start, size } = req.query;
+    const { user_id, start, size } = req.query;
 
-  if(!mongoose.Types.ObjectId.isValid(user_id)){
-      return res.json(Result.invalidUserId());
-  }
+    if(!mongoose.Types.ObjectId.isValid(user_id)){
+        return res.json(Result.invalidUserId());
+    }
 
-  try{
-      const subscribes = await subscribeService.getUserFollowingPage(user_id, start, size);
-      const creators = [...new Set(subscribes.map( subscribe => subscribe.creator_id ))];
-      let all_posts = [];
-      let all_result = [];
+    try{
+        const subscribes = await subscribeService.getUserFollowingPage(user_id, start, size);
+        const creators = [...new Set(subscribes.map( subscribe => subscribe.creator_id ))];
+        let all_posts = [];
+        let all_result = [];
 
-      for(let creator of creators){
-          const posts = await postService.getAllPostsFromUser(creator);
-          const result = await getPostsInfo(posts);
-          all_posts.extend(posts);
-          all_result.extend(result);
-      }
-      
-      res.json(Result.success(all_result));
-  }catch(err){
-      res.json(Result.fail(err));
-  }
+        for(let creator of creators){
+            const posts = await postService.getAllPostsFromUser(creator);
+            const result = await getPostsInfo(posts);
+            all_posts.extend(posts);
+            all_result.extend(result);
+        }
+        
+        res.json(Result.success(all_result));
+    }catch(err){
+        res.json(Result.fail(err));
+    }
 }
 
 Array.prototype.extend = function (array) {
-  array.forEach(item => this.push(item));
+    array.forEach(item => this.push(item));
 }
 
 module.exports = {
-  createPost,
-  updatePostContent,
-  getPostByID,
-  removePostByID,
-  getRecentPost,
-  getAllPostsFromUser,
-  getSubscribedPosts
-};
+    createPost, 
+    updatePostContent,
+    getPostByID,
+    removePostByID, 
+    getRecentPost, 
+    getAllPostsFromUser,
+    getSubscribedPosts,
+}
