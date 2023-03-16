@@ -2,16 +2,15 @@ name: docker-upload-frontend
 
 on:
   push:
-    branches: ["master", "develop"]
-  pull_request:
-    branches: ["master", "develop"]
+    branches: ["master"]
 env:
   PORT: 4350
   MONGODB_CONNECTION: ${{ secrets.MONGODB_CONNECTION }}
   PASSPORT_SECRET: ${{ secrets.PASSPORT_SECRET }}
   TEST_TYPE: UNIT
-  NOTICE_EMAIL_ADDRESS: comp4350.troubleshootr@gmail.com
-  NOTICE_EMAIL_PASSWORD: opmwfmphqomlkmlq
+  NOTICE_EMAIL_ADDRESS: ${{ secrets.NOTICE_EMAIL_ADDRESS }}
+  NOTICE_EMAIL_PASSWORD: ${{ secrets.NOTICE_EMAIL_PASSWORD }}
+  VERSION_NUMBER: 1.0
     
 jobs:
   upload:
@@ -45,4 +44,4 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: theogschool/castr-frontend:1.0
+          tags: theogschool/castr-frontend:${{ env.VERSION_NUMBER }}

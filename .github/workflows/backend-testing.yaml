@@ -10,8 +10,8 @@ env:
   MONGODB_CONNECTION: ${{ secrets.MONGODB_CONNECTION }}
   PASSPORT_SECRET: ${{ secrets.PASSPORT_SECRET }}
   TEST_TYPE: UNIT
-  NOTICE_EMAIL_ADDRESS: comp4350.troubleshootr@gmail.com
-  NOTICE_EMAIL_PASSWORD: opmwfmphqomlkmlq
+  NOTICE_EMAIL_ADDRESS: ${{ secrets.NOTICE_EMAIL_ADDRESS }}
+  NOTICE_EMAIL_PASSWORD: ${{ secrets.NOTICE_EMAIL_PASSWORD }}
     
 jobs:
   run_tests:
