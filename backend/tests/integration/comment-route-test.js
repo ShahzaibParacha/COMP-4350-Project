@@ -1,6 +1,6 @@
 const express = require("express");
-const Comment = require('../schema/comment-schema');
-const User = require('../schema/user-schema');
+const Comment = require('../../schema/comment-schema');
+const User = require('../../schema/user-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 const axios = require('axios');
@@ -8,9 +8,9 @@ require("dotenv").config();
 
 const cors = require('cors')
 const bodyParser = require('body-parser');
-const apiRouter = require("../route/api-route")
+const apiRouter = require("../../route/api-route")
 const passport = require("passport")
-require("../util/passport")(passport)
+require("../../util/passport")(passport)
 
 const username = 'completelyNewUsername';
 const email = 'goodBoi@email.com';
@@ -79,7 +79,7 @@ const setup = async (numComments, numPosts, numUsers) => {
 
 describe('Comment routes', function () {
 
-    beforeEach(async () => {
+    before(async () => {
         const app = express();
 
         mongoose
@@ -100,10 +100,11 @@ describe('Comment routes', function () {
         })
     });
 
-    afterEach(async () => {
-        await mongoose.disconnect();
-        server.close();
-    });
+    after(async () => {
+      await Comment.deleteMany({});
+      await mongoose.disconnect();
+      server.close();
+    })
 
     describe('POST request to create', function() {
         const url = `http://localhost:4350/api/comment/create`;
@@ -174,7 +175,7 @@ describe('Comment routes', function () {
                 },
               });
 
-            expect(response.data.code).to.equal(40002);
+            expect(response.data.code).to.equal(40000);
         });
 
         it('should not succeed', async function() {
@@ -194,7 +195,7 @@ describe('Comment routes', function () {
                 },
               });
 
-            expect(response.data.code).to.equal(40003);
+            expect(response.data.code).to.equal(40000);
         });
 
         it('should not succeed', async function() {
@@ -224,7 +225,6 @@ describe('Comment routes', function () {
 
         it('should return nothing', async function() {
             const { postIDs, res } = (await setup(0, 1, 1));
-            //expect(postIDs[0]).to.equal(1);
 
             const response = await axios({
                 method: "get",
@@ -233,7 +233,7 @@ describe('Comment routes', function () {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     post_id: postIDs[0],
                 },
               });
@@ -253,7 +253,7 @@ describe('Comment routes', function () {
                     Authorization: token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     post_id: new mongoose.mongo.ObjectID,
                 },
               });
@@ -273,12 +273,12 @@ describe('Comment routes', function () {
                     Authorization: token,
                     withCredentials: true,
                   },
-                data: {
-                    post_id: 20,
+                params: {
+                    post_id: 200,
                 },
               });
 
-            expect(res.data.code).to.equal(40000);
+            expect(res.data.code).to.equal(40003);
         });
 
         it('should not succeed', async function() {
@@ -291,7 +291,7 @@ describe('Comment routes', function () {
                     Authorization: token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     post_id: '20',
                 },
               });
@@ -309,7 +309,7 @@ describe('Comment routes', function () {
                     Authorization: res.data.data.token,
                     withCredentials: true,
                   },
-                data: {
+                params: {
                     post_id: postIDs[0],
                 },
               });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { clearListener } from "../../util/state";
+import useAuthContext from "../../hooks/useAuthContext";
 
 function SignUp() {
   const [username, setUsername] = useState();
@@ -9,9 +9,11 @@ function SignUp() {
   const [password, setPassword] = useState();
   const [loginStatus, setLoginStatus] = useState("");
   const navigate = useNavigate();
+  const { dispatch } = useAuthContext();
 
   useEffect(() => {
-    clearListener();
+    sessionStorage.clear();
+    dispatch({ type: "CLEAR", payload: "" });
   }, []);
 
   const handleUsername = (e) => {

@@ -1,43 +1,41 @@
 // import React, { useEffect, useState } from "react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactMarkdown from "react-markdown";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import remarkGfm from "remark-gfm";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../comment/Comment";
 import useAuthContext from "../../hooks/useAuthContext";
 import { fromContextToSession, fromSessionToContext } from "../../util/state";
-// import axios from "axios";
-// import { useParams } from "react-router-dom";
-// import useAuthContext from "../../hooks/useAuthContext";
 
 function ViewPost() {
-  // const [post, setPost] = useState();
-  // const { userId, token } = useAuthContext();
-  // const { postID } = useParams();
+  const [profile, setProfile] = useState();
+  const [photo, setPhoto] = useState();
+  const [post, setPost] = useState();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
   const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:4350/api/post/get_post_by_ID`, {
-  //       params: { user_id: userId, post_ID: postID },
-  //       headers: {
-  //         Authorization: token,
-  //         withCredentials: true,
-  //       },
-  //     })
-  //     .then((r) => {
-  //       // eslint-disable-next-line no-console
-  //       console.log(r.data);
-  //       setPost(r.data.data.post);
-  //     })
-  //     // eslint-disable-next-line no-console
-  //     .catch((e) => console.error(e, userId));
-  // }, []);
-
-  // eslint-disable-next-line no-console
-  // console.log(post);
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    axios
+      .get(`http://localhost:4350/api/post/get_post_by_ID`, {
+        params: { post_id: id },
+        headers: {
+          Authorization: token,
+          withCredentials: true,
+        },
+      })
+      .then((r) => {
+        setProfile(r.data.data[0].post.user_id);
+        setPhoto(r.data.data[0].profile_photo);
+        setPost(r.data.data[0].post.content);
+      })
+      .catch((e) => console.error(e, userId));
+  }, []);
 
   useEffect(() => {
     fromContextToSession(contextId, contextToken);
@@ -47,44 +45,34 @@ function ViewPost() {
     fromSessionToContext(userId, token, dispatch);
   }, []);
 
-  const postData = {
-    postID: "6400e5124d00ab9cfa260998",
-    authorName: "FirstName LastName",
-    authorOccupation: "Occupation",
-    text: `# Fugiat 
-    
-    ipsum **ipsum** deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat.
-    Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident.
-    Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.`,
+  const profileClick = () => {
+    navigate(`/writer/${profile}`);
   };
-  const markdown = `Just a link: https://reactjs.com.`;
 
   return (
     <div className="bg-base-100 h-fit min-h-screen pb-16">
-      <div className="grid grid-rows-4 grid-cols-6 gap-4">
+      <div className="grid grid-rows-4 grid-cols-8 gap-4">
         <div className="row-start-1 row-end-5 bg-black-600 row-span-2" />
-        <div className="row-start-1 col-start-2 bg-base-100 col-span-4 row-end-5">
+        <div className="row-start-1 col-start-3 bg-base-100 col-span-4 row-end-5">
           <div className="grid-column-1 pt-48">
-            <div className="container pt-4">
+            <div className="pt-2">
+              <div className="flex pb-4 items-center">
+                <button type="button" onClick={profileClick}>
+                  <div className="flex justify-center">
+                    <img
+                      className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
+                      src={photo === null ? "/sample_profile.jpg" : photo}
+                      alt="Profile"
+                    />
+                  </div>
+                </button>
+                <h2 className="ml-4">User posted</h2>
+              </div>
               <div>
-                <h1>ViewPost</h1>
-                <ReactMarkdown
-                  /* eslint-disable-next-line react/no-children-prop */
-                  children={postData.text}
-                  remarkPlugins={[remarkGfm]}
-                />
-                {/* <ReactMarkdown */}
-                {/*  /* eslint-disable-next-line react/no-children-prop */}
-                {/*  children={post.text} */}
-                {/*  remarkPlugins={[remarkGfm]} */}
-                {/* /> */}
-                <ReactMarkdown>*React-Markdown* is **Awesome**</ReactMarkdown>
-                <ReactMarkdown
-                  /* eslint-disable-next-line react/no-children-prop */
-                  children={markdown}
-                  remarkPlugins={[remarkGfm]}
-                />
-                <Comment id={postData.postID} />
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {post}
+                </ReactMarkdown>
+                <Comment id={id} />
               </div>
             </div>
           </div>

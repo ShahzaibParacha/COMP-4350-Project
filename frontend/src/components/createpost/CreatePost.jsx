@@ -19,7 +19,7 @@ function CreatePost() {
 
   useEffect(() => {
     fromSessionToContext(userId, token, dispatch);
-  });
+  }, []);
 
   const handlePostCreation = (e) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ function CreatePost() {
               </button>
             </div>
 
-            <div className="container pt-4">
+            <div className="pt-4">
               <MDEditor
                 value={post}
                 className="h-screen"

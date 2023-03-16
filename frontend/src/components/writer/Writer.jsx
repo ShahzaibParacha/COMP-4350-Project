@@ -13,16 +13,20 @@ import { fromContextToSession, fromSessionToContext } from "../../util/state";
 function Writer() {
   const navigate = useNavigate();
 
+  const loading = "Loading...";
+
   const [changeUsername, isChangingUsername] = useState(false);
   const [changePassword, isChangingPassword] = useState(false);
   const [changeBio, isChangingBio] = useState(false);
   const [changeAffiliation, isChangingAffiliation] = useState(false);
+  const [changeImage, isChangingImage] = useState(false);
   const [changeDetails, isChangingDetails] = useState(false);
 
-  const [username, setUsername] = useState("Loading...");
-  const [password, setPassword] = useState("Loading...");
-  const [bio, setBio] = useState("Loading...");
-  const [affiliation, setAffiliation] = useState("Loading...");
+  const [username, setUsername] = useState(loading);
+  const [password, setPassword] = useState(loading);
+  const [bio, setBio] = useState(loading);
+  const [affiliation, setAffiliation] = useState(loading);
+  const [image, setImage] = useState("");
 
   const [hasSubscribed, changeHasSubscribed] = useState(false);
   const [hasEnabledNotif, changeHasEnabledNotif] = useState(false);
@@ -33,11 +37,12 @@ function Writer() {
 
   useEffect(() => {
     fromSessionToContext(userId, token, dispatch);
+    console.log(`id got: ${id}`);
 
     axios
       .get(`http://localhost:4350/api/user/profile`, {
         params: {
-          user_id: userId,
+          user_id: id,
         },
         headers: {
           Authorization: token,
@@ -50,6 +55,10 @@ function Writer() {
         setPassword(r.data.data.password);
         setBio(r.data.data.bio);
         setAffiliation(r.data.data.affiliation);
+
+        if (r.data.data.profile_photo.trim().length !== 0) {
+          setImage(r.data.data.profile_photo);
+        }
       })
       // eslint-disable-next-line no-console
       .catch((e) => console.error(e, username));
@@ -85,7 +94,7 @@ function Writer() {
         changeHasEnabledNotif(s.data.data.receive_notification);
       }
     });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     fromContextToSession(contextId, contextToken);
@@ -127,24 +136,28 @@ function Writer() {
     isChangingPassword(false);
     isChangingUsername(false);
     isChangingAffiliation(false);
-    isChangingBio(false);
+    isChangingImage(false);
 
     const usernameMsg = document.getElementById("username_message");
     const passwordMsg = document.getElementById("password_message");
     const bioMsg = document.getElementById("bio_message");
     const affiliationMsg = document.getElementById("affiliation_message");
+    const imgMsg = document.getElementById("image_message");
 
     if (usernameMsg !== null) {
-      hideMessage(document.getElementById("username_message"));
+      hideMessage(usernameMsg);
     }
     if (passwordMsg !== null) {
-      hideMessage(document.getElementById("password_message"));
+      hideMessage(passwordMsg);
     }
     if (bioMsg !== null) {
-      hideMessage(document.getElementById("bio_message"));
+      hideMessage(bioMsg);
     }
     if (affiliationMsg !== null) {
-      hideMessage(document.getElementById("affiliation_message"));
+      hideMessage(affiliationMsg);
+    }
+    if (imgMsg !== null) {
+      hideMessage(imgMsg);
     }
   }
 
@@ -318,7 +331,7 @@ function Writer() {
         },
         data: {
           user_id: userId,
-          profile_photo: "",
+          profile_photo: image,
           is_writer: true,
           affiliation,
           bio: bioInput.value.trim(),
@@ -351,6 +364,63 @@ function Writer() {
     isChangingBio(!changeBio);
   }
 
+  function switchImage(e) {
+    e.preventDefault();
+    const imageInput = document.getElementById("image_input");
+
+    if (changeImage) {
+      const imageFormData = new FormData();
+      imageFormData.append("image", imageInput.files[0]);
+
+      axios({
+        method: "post",
+        url: `http://localhost:4350/api/aws/upload_image`,
+        headers: {
+          Authorization: token,
+          withCredentials: true,
+          "Content-Type": "multipart/form-data",
+        },
+        data: imageFormData,
+      }).then((result) => {
+        axios({
+          method: "post",
+          url: `http://localhost:4350/api/user/profile`,
+          headers: {
+            Authorization: token,
+            withCredentials: true,
+          },
+          data: {
+            user_id: userId,
+            profile_photo: result.data.data.imageUrl,
+            is_writer: true,
+            affiliation,
+            bio,
+          },
+        }).then(() => {
+          axios({
+            method: "post",
+            url: `http://localhost:4350/api/aws/delete_image`,
+            headers: {
+              Authorization: token,
+              withCredentials: true,
+            },
+            data: { image },
+          });
+
+          showMessage(
+            document.getElementById("image_message"),
+            "Successfully updated!",
+            success,
+            false
+          );
+          setImage(result.data.data.imageUrl);
+        });
+      });
+    }
+
+    isChangingImage(!changeImage);
+  }
+
   function switchAffiliation(e) {
     e.preventDefault();
     const affiliationInput = document.getElementById("affiliation_input");
@@ -376,7 +446,7 @@ function Writer() {
           },
           data: {
             user_id: userId,
-            profile_photo: "",
+            profile_photo: image,
             is_writer: true,
             affiliation: affiliationInput.value.trim(),
             bio,
@@ -425,8 +495,7 @@ function Writer() {
         withCredentials: true,
       },
     }).then((s) => {
-      // need to flip this
-      if (s.data.code === 40011) {
+      if (s.data.code !== 40011) {
         changeHasEnabledNotif(!hasEnabledNotif);
       }
     });
@@ -446,8 +515,7 @@ function Writer() {
           creator_id: id,
         },
       }).then((s) => {
-        // need to flip this
-        if (s.data.code === 40011) {
+        if (s.data.code !== 40011) {
           changeHasSubscribed(!hasSubscribed);
         }
       });
@@ -464,8 +532,7 @@ function Writer() {
           withCredentials: true,
         },
       }).then((s) => {
-        // need to flip this
-        if (s.data.code === 40011) {
+        if (s.data.code !== 40011) {
           changeHasSubscribed(!hasSubscribed);
           changeHasEnabledNotif(false);
         }
@@ -556,13 +623,52 @@ function Writer() {
         </div>
 
         <div className="w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
-          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-black border-b-2 pt-8 pb-4">
-            <div className="flex justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
+          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full">
+            <div className="flex flex-col justify-center items-center col-start-1 col-end-2 row-start-1 row-end-4">
               <img
-                className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)]"
-                src="/sample_profile.jpg"
+                className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] mb-4 object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white"
+                src={image === "" ? "/sample_profile.jpg" : image}
                 alt="Profile"
               />
+              {changeDetails && !changeImage && (
+                <button type="button" onClick={switchImage} className="mb-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6 fill-none hover:fill-black"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                    />
+                  </svg>
+                </button>
+              )}
+              {changeDetails && changeImage && (
+                <div className="flex justify-center mb-2">
+                  <input type="file" accept="image/*" id="image_input" />
+                  <button type="button" onClick={switchImage}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6 hover:stroke-green-500"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 12.75l6 6 9-13.5"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              )}
+              <p id="image_message" className="row-span-1 opacity-0 text-xs" />
             </div>
             <div className="flex justify-center items-center col-start-1 col-end-2 row-start-4 row-end-5">
               <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip">
@@ -613,7 +719,9 @@ function Writer() {
               </div>
               <div className="row-span-1">
                 {!changeAffiliation ? (
-                  affiliation
+                  <p className="overflow-x-auto overflow-y-clip">
+                    {affiliation}
+                  </p>
                 ) : (
                   <input
                     type="text"
@@ -625,7 +733,7 @@ function Writer() {
               </div>
               <p
                 id="affiliation_message"
-                className="row-span-1 opacity-0 text-xs"
+                className="row-span-1 opacity-0 text-xs w-full"
               />
               <div className="flex items-center row-span-1">
                 <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 mr-1">
@@ -668,9 +776,7 @@ function Writer() {
               </div>
               <div className="row-span-4 h-60">
                 {!changeBio ? (
-                  <p className="overflow-y-auto w-full h-fit max-h-[83%]">
-                    {bio}
-                  </p>
+                  <p className="overflow-auto h-fit max-h-[83%]">{bio}</p>
                 ) : (
                   <textarea
                     className="rounded-md h-5/6 w-full resize-none p-1"
@@ -683,12 +789,10 @@ function Writer() {
               </div>
             </div>
             <div
-              // need to flip this later
               className={
                 id === userId ? classForEditProfile : classForSubscribe
               }
             >
-              {/* need to flip this later */}
               {id === userId && (
                 <button
                   type="button"
@@ -711,7 +815,7 @@ function Writer() {
                   {!hasSubscribed ? "Subscribe" : "Subscribed"}
                 </button>
               )}
-              {hasSubscribed && (
+              {hasSubscribed && id !== userId && (
                 <button
                   type="button"
                   onClick={enableNotif}
@@ -753,7 +857,7 @@ function Writer() {
             </div>
           </div>
           {changeDetails && (
-            <div className="w-full">
+            <div className="w-full pb-16">
               <form>
                 <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900 mb-4">
                   Account Details
