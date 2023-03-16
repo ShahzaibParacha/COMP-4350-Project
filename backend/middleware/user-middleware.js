@@ -153,9 +153,9 @@ function unsubscriptionValidation(req, res, next) {
 }
 
 function setNotificationValidation(req, res, next) {
-    let creatorId = req.query.creator_id
-    let audienceId = req.query.user_id
-    let setting = req.query.set_notification;
+    let creatorId = req.body.creator_id
+    let audienceId = req.body.user_id
+    let setting = req.body.set_notification
 
     console.log(`creator is is ${creatorId}, audience id is ${audienceId}, settings is ${setting}`)
 

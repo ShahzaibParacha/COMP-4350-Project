@@ -12,31 +12,31 @@ async function getUserAudiences(userId, pageNum, pageSize) {
 }
 
 //TODO: right now the post_id is not used
-async function noticefyAudiences(user_id, post_id, content){
-    const creator = await userService.getUserInfo(user_id)
-    const subscribers = await getUserAudiences(user_id)
-    console.log("The number of audiences for the user is: " + subscribers.length)
+async function notifyAudiences(user_id, post_id, content){
+    const creator = await userService.getUserInfo(user_id);
+    const subscribers = await getUserAudiences(user_id);
+    console.log("The number of audiences for the user is: " + subscribers.length);
 
     try{
+        let audience_emails = [];
+
         if(subscribers.length != 0){
-            const subject = 'New post from your subscribed CASTr ' + creator['username'] + "!"
+            const subject = 'New post from your subscribed CASTr ' + creator['username'] + "!";
             //const url = '?'
             const content_trunc = content.substr(0, 200) + '...';
 
             for( let subscriber of subscribers){
-                console.log("-------------------- " + subscriber)
-                const receive_state = subscriber.receive_notification
+                const receive_state = subscriber.receive_notification;
                 if( receive_state ){
-                    const audience = await userService.getUserInfo(subscriber.audience_id)
-                    noticer.sendEmailToSubscriber( audience.email, subject, content_trunc )
+                    const audience = await userService.getUserInfo(subscriber.audience_id);
+                    const result = await noticer.sendEmailToSubscriber( audience.email, subject, content_trunc );
+                    audience_emails.push(result[0]);
                 }
             }
-            return {"subscription-msg": "Successfully sent the notifications to the subsribers!"}
-        }else{
-            return {"subscription-msg": "There is no subscribers for this user!"}
         }
+        return { "notification_state": "success", "notification_accepted_by": audience_emails};
     }catch{
-        return {"subscription-msg": "Fail to notify the subscribers"}
+        return Result.failNotify();
     }
 }
 
@@ -67,7 +67,7 @@ async function getSubscription(creatorId, audienceId) {
 
 module.exports = {
     getUserAudiences,
-    noticefyAudiences,
+    notifyAudiences,
     getUserFollowingPage,
     turnOnOrOffNotification,
     subscribeCreator,
