@@ -35,5 +35,8 @@ jobs:
         run: npm run unit
       - name: Run integration tests
         run: npm run integration
+        env: 
+          TEST_TYPE: INTEGRATION
+          
       - name: Run all tests
         run: npm run all
