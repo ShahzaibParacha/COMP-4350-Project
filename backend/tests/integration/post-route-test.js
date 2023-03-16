@@ -54,7 +54,7 @@ const setup = async (numPosts, numUsers) => {
 
     //creates an account
     await User.findOneAndDelete({email});
-    await User.create({username, email, password, _id: userIDs[0]}); 
+    await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
 
     //create a subscribe
     await Subscribe.deleteMany({creator_id: userIDs[0]});

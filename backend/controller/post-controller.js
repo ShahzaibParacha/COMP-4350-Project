@@ -109,19 +109,32 @@ const getAllPostsFromUser = async (req, res) => {
 
 async function getPostsInfo(posts) {
   const result = [];
-  for (const post of posts) {
-    const user = await userService.getUserInfo(post.user_id);
-    const likes = await likeService.getNumLikes(post._id);
-    if (user !== null) {
-      result.push({
-        post,
-        username: user.username,
-        affiliation: user.affiliation,
-        profile_photo: user.profile_photo,
-        numberLikes: likes,
-      });
-    }
+  const userPromises = [];
+  const likePromises = [];
+
+  for (let i = 0; i < posts.length; i++) {
+    let post = posts[i];
+
+    userPromises.push(userService.getUserInfo(post.user_id));
+    likePromises.push(likeService.getNumLikes(post._id));
   }
+
+  const users = await Promise.all(userPromises);
+  const likes = await Promise.all(likePromises);
+
+  for (let i = 0; i < posts.length; i+=1) {
+    let post = posts[i];
+      
+    result.push({
+        post, 
+        username: users[i].username,
+        affiliation: users[i].affiliation,
+        profile_photo: users[i].profile_photo,
+        numberLikes: likes[i],
+      });
+  }
+
+  return result;
 }
 
 //get posts from subscribed channels
@@ -153,24 +166,6 @@ const getSubscribedPosts = async (req, res) => {
 
 Array.prototype.extend = function (array) {
     array.forEach(item => this.push(item));
-  }
-
-async function getPostsInfo(posts){
-    let result = [];
-    for( let post of posts){
-        const user = await userService.getUserInfo(post.user_id);
-        const likes = await likeService.getNumLikes(post._id);
-        if( user !== null ){
-            result.push({
-                post, 
-                username: user.username,
-                affiliation: user.affiliation, 
-                profile_photo: user.profile_photo, 
-                numberLikes: likes
-            });
-        }
-    }
-    return result;
 }
 
 module.exports = {

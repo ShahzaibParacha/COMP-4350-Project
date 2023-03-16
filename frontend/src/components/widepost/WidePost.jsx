@@ -66,7 +66,7 @@ function WidePost() {
                     : post.username}
                 </h3>
                 <p className="mt-1 overflow-hidden font-base max-w-2xl text-sm text-gray-500">
-                  {post.affiliation.length > 10
+                  {post.affiliation && post.affiliation.length > 10
                     ? `${post.affiliation.substring(0, 10)}...`
                     : post.affiliation}
                 </p>

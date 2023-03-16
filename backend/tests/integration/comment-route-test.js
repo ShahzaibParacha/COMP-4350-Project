@@ -62,7 +62,7 @@ const setup = async (numComments, numPosts, numUsers) => {
 
  
     await User.findOneAndDelete({email});
-    await User.create({username, email, password, _id: userIDs[0]}); 
+    await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
 
     //login
     const res = await axios({
