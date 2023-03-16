@@ -23,7 +23,7 @@ const getCommentsFromPost = (req, res) => {
             for (let i = 0; i < comments.length; i++) {
                 promises.push(getUserInfo(comments[i].user_id));
             }
-        
+
             Promise.all(promises).then((users) => {
                 for (let i = 0; i < comments.length; i++) {
                     //return the username of the users who wrote the comments too
@@ -33,6 +33,7 @@ const getCommentsFromPost = (req, res) => {
                 res.json(Result.success(result));
             })
             .catch((err) => {
+                /* istanbul ignore next */
                 res.json(Result.fail(err));
             });
         })

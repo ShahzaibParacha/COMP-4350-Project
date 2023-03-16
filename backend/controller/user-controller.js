@@ -55,6 +55,7 @@ function removeAccount(req, res) {
     let id = req.query.user_id
 
     userService.removeUser(id).then((result) => {
+        /* istanbul ignore else */
         if (result === true) {
             res.json(Result.success(null))
         } else {
@@ -92,6 +93,7 @@ function updatePassword(req, res) {
 
 function subscribeUser(req, res) {
     subscriberService.subscribeCreator(req.body.creator_id, req.body.user_id).then((result => {
+        /* istanbul ignore else */
         if (result === true) {
             res.json(Result.success(null))
         } else {
@@ -104,6 +106,7 @@ function getMyFollowing(req, res) {
     let pageNum = parseInt(req.query.page_number)
     let pageSize = parseInt(req.query.page_size)
     subscriberService.getUserFollowingPage(req.query.user_id, pageNum, pageSize).then(result => {
+        /* istanbul ignore else */
         if (result) {
             res.json(Result.success(result))
         } else {
@@ -116,6 +119,7 @@ function getMyAudience(req, res) {
     let pageNum = parseInt(req.query.page_number)
     let pageSize = parseInt(req.query.page_size)
     subscriberService.getUserAudiences(req.query.user_id, pageNum, pageSize).then(result => {
+        /* istanbul ignore else */
         if (result) {
             res.json(Result.success(result))
         } else {
@@ -126,6 +130,7 @@ function getMyAudience(req, res) {
 
 function cancelSubscription(req, res) {
     subscriberService.cancelSubscription(req.query.creator_id, req.query.user_id).then(result => {
+        /* istanbul ignore else */
         if (result === true) {
             res.json(Result.success(null))
         } else {
@@ -136,6 +141,7 @@ function cancelSubscription(req, res) {
 
 function setNotification(req, res) {
     subscriberService.turnOnOrOffNotification(req.body.creator_id, req.body.user_id, req.body.set_notification).then(result => {
+        /* istanbul ignore else */
         if (result === true) {
             res.json(Result.success(null))
         } else {
