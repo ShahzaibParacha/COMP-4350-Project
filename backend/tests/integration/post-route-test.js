@@ -91,6 +91,7 @@ describe('Post routes', function () {
     });
 
     after(async () => {
+        await Post.deleteMany({});
         await mongoose.disconnect();
         server.close();
     });
@@ -232,7 +233,7 @@ describe('Post routes', function () {
             expect(res.data.data).to.exist;
             expect(res.data.data.length).to.equal(5);
             for (let i = 0; i < res.data.data.length; i++) {
-                expect(res.data.data[i].content % 2).to.equal(0);
+                expect(res.data.data[i].post.content % 2).to.equal(0);
             }
         });
     });
@@ -254,7 +255,7 @@ describe('Post routes', function () {
             },
           });
 
-        const post = result.data.data
+        const post = result.data.data[0].post;
 
         expect(result.data.msg).to.equal('success');
         expect(post).to.exist;

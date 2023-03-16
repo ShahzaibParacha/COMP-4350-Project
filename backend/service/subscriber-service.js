@@ -24,7 +24,7 @@ async function noticefyAudiences(user_id, post_id, content){
             const content_trunc = content.substr(0, 200) + '...';
 
             for( let subscriber of subscribers){
-                console.log(subscriber)
+                console.log("-------------------- " + subscriber)
                 const receive_state = subscriber.receive_notification
                 if( receive_state ){
                     const audience = await userService.getUserInfo(subscriber.audience_id)
