@@ -103,6 +103,7 @@ describe('Post routes', function () {
     });
 
     after(async () => {
+        await Post.deleteMany({});
         await mongoose.disconnect();
         server.close();
     });
@@ -327,7 +328,7 @@ describe('Post routes', function () {
             },
           });
 
-        const post = result.data.data.post
+        const post = result.data.data[0].post;
 
         expect(result.data.msg).to.equal('success');
         expect(post).to.exist;

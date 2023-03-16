@@ -79,7 +79,7 @@ const setup = async (numComments, numPosts, numUsers) => {
 
 describe('Comment routes', function () {
 
-    beforeEach(async () => {
+    before(async () => {
         const app = express();
 
         mongoose
@@ -100,10 +100,11 @@ describe('Comment routes', function () {
         })
     });
 
-    afterEach(async () => {
-        await mongoose.disconnect();
-        server.close();
-    });
+    after(async () => {
+      await Comment.deleteMany({});
+      await mongoose.disconnect();
+      server.close();
+    })
 
     describe('POST request to create', function() {
         const url = `http://localhost:4350/api/comment/create`;

@@ -6,6 +6,7 @@
   "scripts": {
     "unit": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/*.js",
     "integration": "nyc mocha --timeout 15000 ./tests/integration/*.js ./tests/*.js",
+    "test": "nyc mocha --timeout 15000 ./tests/integration/comment-route-test.js",
     "all": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/integration/*.js ./tests/*.js",
     "start": "nodemon index.js"
   },
@@ -28,6 +29,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "form-data": "^4.0.0",
     "jsonwebtoken": "^9.0.0",
     "mocha": "^10.2.0",
     "mongoose": "^5.10.0",

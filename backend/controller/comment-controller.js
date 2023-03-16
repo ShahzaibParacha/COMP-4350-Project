@@ -52,12 +52,12 @@ const createComment = (req, res) => {
 
   console.log(post_id, user_id, content);
 
-  // if (!mongoose.Types.ObjectId.isValid(post_id)) {
-  //   return res.json(Result.invalidPostId());
-  // }
-  // if (!mongoose.Types.ObjectId.isValid(user_id)) {
-  //   return res.json(Result.invalidUserId());
-  // }
+  if (!mongoose.Types.ObjectId.isValid(post_id)) {
+    return res.json(Result.invalidPostId());
+  }
+  if (!mongoose.Types.ObjectId.isValid(user_id)) {
+    return res.json(Result.invalidUserId());
+  }
 
   createCommentService(post_id, user_id, content, Date.now())
     .then((result) => {
