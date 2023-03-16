@@ -37,10 +37,10 @@ function WidePost() {
   return (
     <div>
       {posts.map((post) => (
-        <div className="overflow-hidden w-full rounded-lg text-left border font-base bg-gray-50 m-6 shadow-xl sm:rounded-m">
-          <div className="bg-gray-50 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+        <div className="w-full rounded-lg text-left border font-base bg-gray-50 shadow-xl sm:rounded-m">
+          <div className="bg-gray-50 py-5 sm:grid sm:grid-cols-6 sm:gap-4">
             <div className="flex justify-center items-center">
-              <div className=" col-start-1 col-end-2">
+              <div className="col-span-1">
                 <button
                   type="button"
                   onClick={() => profileClick(post.post.user_id)}
@@ -58,10 +58,14 @@ function WidePost() {
                   </div>
                 </button>
                 <h3 className="text-lg font-base font-medium leading-6 text-gray-900">
-                  {post.username}
+                  {post.username.length > 10
+                    ? `${post.username.substring(0, 10)}...`
+                    : post.username}
                 </h3>
-                <p className="mt-1 font-base max-w-2xl text-sm text-gray-500">
-                  {post.affiliation}
+                <p className="mt-1 overflow-hidden font-base max-w-2xl text-sm text-gray-500">
+                  {post.affiliation.length > 10
+                    ? `${post.affiliation.substring(0, 10)}...`
+                    : post.affiliation}
                 </p>
                 <p className="mt-1 border-t font-base max-w-2xl text-sm text-gray-500">
                   {post.numberLikes === 1
