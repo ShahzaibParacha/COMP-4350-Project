@@ -1,178 +1,176 @@
-const userService = require("../service/user-service")
-const subscriberService = require("../service/subscriber-service")
-const Result = require("../util/Result")
+const userService = require('../service/user-service');
+const subscriberService = require('../service/subscriber-service');
+const Result = require('../util/Result');
 
-function login(req, res) {
-    let {email, password} = req.body
-    userService.getJwt(email, password)
-        .then((result) => {
-            if (result === null) {
-                res.json(Result.fail("User or Password do not correct"))
-            } else {
-                res.json(Result.success(result))
-            }
-        })
+function login (req, res) {
+	const { email, password } = req.body;
+	userService.getJwt(email, password)
+		.then((result) => {
+			if (result === null) {
+				res.json(Result.fail('User or Password do not correct'));
+			} else {
+				res.json(Result.success(result));
+			}
+		});
 }
 
-function signup(req, res) {
-    let {username, email, password} = req.body
-    let isWriter = req.body.is_writer
-    userService.signup({email, password, username, isWriter})
-        .then((result) => {
-            if (result) {
-                res.json(Result.success(null))
-            } else {
-                res.json(Result.failSignup())
-            }
-
-        })
+function signup (req, res) {
+	const { username, email, password } = req.body;
+	const isWriter = req.body.is_writer;
+	userService.signup({ email, password, username, isWriter })
+		.then((result) => {
+			if (result) {
+				res.json(Result.success(null));
+			} else {
+				res.json(Result.failSignup());
+			}
+		});
 }
 
-function getUserProfile(req, res) {
-    let id = req.query.user_id
-    userService.getUserInfo(id).then((user) => {
-        if (user) {
-            res.json(Result.success(user))
-        } else {
-            res.json(Result.fail("Cannot find user by given user_id"))
-        }
-    })
+function getUserProfile (req, res) {
+	const id = req.query.user_id;
+	userService.getUserInfo(id).then((user) => {
+		if (user) {
+			res.json(Result.success(user));
+		} else {
+			res.json(Result.fail('Cannot find user by given user_id'));
+		}
+	});
 }
 
-function updateUserProfile(req, res) {
+function updateUserProfile (req, res) {
+	const id = req.body.user_id;
+	const profilePhoto = req.body.profile_photo;
+	const isWriter = req.body.is_writer;
+	const { affiliation, bio } = req.body;
 
-    let id = req.body.user_id
-    let profilePhoto = req.body.profile_photo
-    let isWriter = req.body.is_writer
-    let {affiliation, bio} = req.body
-
-    userService.updateUserInfo({id, profilePhoto, isWriter, affiliation, bio}).then((result) => {
-        (result === true) ? res.json(Result.success(null)) : res.json(Result.failUpdate())
-    })
+	userService.updateUserInfo({ id, profilePhoto, isWriter, affiliation, bio }).then((result) => {
+		(result === true) ? res.json(Result.success(null)) : res.json(Result.failUpdate());
+	});
 }
 
-function removeAccount(req, res) {
-    let id = req.query.user_id
+function removeAccount (req, res) {
+	const id = req.query.user_id;
 
-    userService.removeUser(id).then((result) => {
-        /* istanbul ignore else */
-        if (result === true) {
-            res.json(Result.success(null))
-        } else {
-            res.json(Result.fail("Cannot remove user by given user_id, or the user_id doesn't exist"))
-        }
-    })
+	userService.removeUser(id).then((result) => {
+		/* istanbul ignore else */
+		if (result === true) {
+			res.json(Result.success(null));
+		} else {
+			res.json(Result.fail('Cannot remove user by given user_id, or the user_id doesn\'t exist'));
+		}
+	});
 }
 
-function updateUsername(req, res) {
-    let id = req.body.user_id
+function updateUsername (req, res) {
+	const id = req.body.user_id;
 
-    let newUsername = req.body.new_username
+	const newUsername = req.body.new_username;
 
-    userService.updateUsername({id, newUsername}).then((result => {
-        if (result === true) {
-            res.json(Result.success(null))
-        } else {
-            res.json(Result.failUpdate())
-        }
-    }))
+	userService.updateUsername({ id, newUsername }).then(result => {
+		if (result === true) {
+			res.json(Result.success(null));
+		} else {
+			res.json(Result.failUpdate());
+		}
+	});
 }
 
-function updatePassword(req, res) {
-    let id = req.body.user_id
-    let newPassword = req.body.new_password
+function updatePassword (req, res) {
+	const id = req.body.user_id;
+	const newPassword = req.body.new_password;
 
-    userService.updatePassword({id, newPassword}).then((result => {
-        if (result === true) {
-            res.json(Result.success(null))
-        } else {
-            res.json(Result.fail("Fail to update password by given user_id"))
-        }
-    }))
+	userService.updatePassword({ id, newPassword }).then(result => {
+		if (result === true) {
+			res.json(Result.success(null));
+		} else {
+			res.json(Result.fail('Fail to update password by given user_id'));
+		}
+	});
 }
 
-function subscribeUser(req, res) {
-    subscriberService.subscribeCreator(req.body.creator_id, req.body.user_id).then((result => {
-        /* istanbul ignore else */
-        if (result === true) {
-            res.json(Result.success(null))
-        } else {
-            res.json(Result.fail('Fail to subscribe'))
-        }
-    }))
+function subscribeUser (req, res) {
+	subscriberService.subscribeCreator(req.body.creator_id, req.body.user_id).then(result => {
+		/* istanbul ignore else */
+		if (result === true) {
+			res.json(Result.success(null));
+		} else {
+			res.json(Result.fail('Fail to subscribe'));
+		}
+	});
 }
 
-function getMyFollowing(req, res) {
-    let pageNum = parseInt(req.query.page_number)
-    let pageSize = parseInt(req.query.page_size)
-    subscriberService.getUserFollowingPage(req.query.user_id, pageNum, pageSize).then(result => {
-        /* istanbul ignore else */
-        if (result) {
-            res.json(Result.success(result))
-        } else {
-            res.json('Cannot find following list')
-        }
-    })
+function getMyFollowing (req, res) {
+	const pageNum = parseInt(req.query.page_number);
+	const pageSize = parseInt(req.query.page_size);
+	subscriberService.getUserFollowingPage(req.query.user_id, pageNum, pageSize).then(result => {
+		/* istanbul ignore else */
+		if (result) {
+			res.json(Result.success(result));
+		} else {
+			res.json('Cannot find following list');
+		}
+	});
 }
 
-function getMyAudience(req, res) {
-    let pageNum = parseInt(req.query.page_number)
-    let pageSize = parseInt(req.query.page_size)
-    subscriberService.getUserAudiences(req.query.user_id, pageNum, pageSize).then(result => {
-        /* istanbul ignore else */
-        if (result) {
-            res.json(Result.success(result))
-        } else {
-            res.json(Result.fail('Cannot get audience list'))
-        }
-    })
+function getMyAudience (req, res) {
+	const pageNum = parseInt(req.query.page_number);
+	const pageSize = parseInt(req.query.page_size);
+	subscriberService.getUserAudiences(req.query.user_id, pageNum, pageSize).then(result => {
+		/* istanbul ignore else */
+		if (result) {
+			res.json(Result.success(result));
+		} else {
+			res.json(Result.fail('Cannot get audience list'));
+		}
+	});
 }
 
-function cancelSubscription(req, res) {
-    subscriberService.cancelSubscription(req.query.creator_id, req.query.user_id).then(result => {
-        /* istanbul ignore else */
-        if (result === true) {
-            res.json(Result.success(null))
-        } else {
-            res.json(Result.fail('Fail to cancel subscription'))
-        }
-    })
+function cancelSubscription (req, res) {
+	subscriberService.cancelSubscription(req.query.creator_id, req.query.user_id).then(result => {
+		/* istanbul ignore else */
+		if (result === true) {
+			res.json(Result.success(null));
+		} else {
+			res.json(Result.fail('Fail to cancel subscription'));
+		}
+	});
 }
 
-function setNotification(req, res) {
-    subscriberService.turnOnOrOffNotification(req.body.creator_id, req.body.user_id, req.body.set_notification).then(result => {
-        /* istanbul ignore else */
-        if (result === true) {
-            res.json(Result.success(null))
-        } else {
-            res.json(Result.fail('Fail to update notification'))
-        }
-    })
+function setNotification (req, res) {
+	subscriberService.turnOnOrOffNotification(req.body.creator_id, req.body.user_id, req.body.set_notification).then(result => {
+		/* istanbul ignore else */
+		if (result === true) {
+			res.json(Result.success(null));
+		} else {
+			res.json(Result.fail('Fail to update notification'));
+		}
+	});
 }
 
-function isSubscribed(req, res) {
-    subscriberService.isSubscribed(req.query.creator_id, req.query.user_id).then(result => {
-        res.json(Result.success(result))
-    })
+function isSubscribed (req, res) {
+	subscriberService.isSubscribed(req.query.creator_id, req.query.user_id).then(result => {
+		res.json(Result.success(result));
+	});
 }
 
-function getSubscription(req, res) {
-    subscriberService.getSubscription(req.query.creator_id, req.query.user_id).then(result => {
-        res.json(Result.success(result))
-    })
+function getSubscription (req, res) {
+	subscriberService.getSubscription(req.query.creator_id, req.query.user_id).then(result => {
+		res.json(Result.success(result));
+	});
 }
 
-exports.login = login
-exports.signup = signup
-exports.getUserProfile = getUserProfile
-exports.updateUserProfile = updateUserProfile
-exports.removeAccount = removeAccount
-exports.updateUsername = updateUsername
-exports.updatePassword = updatePassword
-exports.subscribeUser = subscribeUser
-exports.getMyFollowing = getMyFollowing
-exports.getMyAudience = getMyAudience
-exports.cancelSubscription = cancelSubscription
-exports.setNotification = setNotification
-exports.isSubscribed = isSubscribed
-exports.getSubscription = getSubscription
+exports.login = login;
+exports.signup = signup;
+exports.getUserProfile = getUserProfile;
+exports.updateUserProfile = updateUserProfile;
+exports.removeAccount = removeAccount;
+exports.updateUsername = updateUsername;
+exports.updatePassword = updatePassword;
+exports.subscribeUser = subscribeUser;
+exports.getMyFollowing = getMyFollowing;
+exports.getMyAudience = getMyAudience;
+exports.cancelSubscription = cancelSubscription;
+exports.setNotification = setNotification;
+exports.isSubscribed = isSubscribed;
+exports.getSubscription = getSubscription;
