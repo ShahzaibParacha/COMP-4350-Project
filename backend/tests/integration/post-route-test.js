@@ -69,7 +69,7 @@ const setup = async (numPosts, numUsers) => {
 
 describe('Post routes', function () {
 
-    beforeAll(async () => {
+    before(async () => {
         const app = express();
 
         mongoose
@@ -90,7 +90,7 @@ describe('Post routes', function () {
         })
     });
 
-    afterAll(async () => {
+    after(async () => {
         await mongoose.disconnect();
         server.close();
     });
