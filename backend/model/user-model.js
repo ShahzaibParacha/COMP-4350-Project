@@ -22,7 +22,8 @@ async function createNewUser(userInfo) {
         registration_date: Date.now(),
         last_login_date: null,
         bio: null,
-        affiliation: null
+        affiliation: null,
+        profile_photo: "/sample_profile.jpg"
     });
 
     let result = await User.create(user)
