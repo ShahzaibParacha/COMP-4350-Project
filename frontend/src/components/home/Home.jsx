@@ -63,7 +63,6 @@ function Home() {
           </div>
           <div className="grid-column-1" />
           <WidePost />
-          <WidePost />
         </div>
         <div className="row-start-1 row-end-5 h-screen" />
       </div>

@@ -37,7 +37,7 @@ function WidePost() {
   return (
     <div>
       {posts.map((post) => (
-        <div className="overflow-hidden w-full rounded-lg text-left font-base bg-gray-50 m-6 shadow-2xl sm:rounded-m">
+        <div className="overflow-hidden w-full rounded-lg text-left border font-base bg-gray-50 m-6 shadow-xl sm:rounded-m">
           <div className="bg-gray-50 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
             <div className="flex justify-center items-center">
               <div className=" col-start-1 col-end-2">
