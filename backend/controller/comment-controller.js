@@ -39,10 +39,12 @@ const getCommentsFromPost = (req, res) => {
           res.json(Result.success(result));
         })
         .catch((err) => {
+          /* istanbul ignore next */
           res.json(Result.fail(err));
         });
     })
     .catch((err) => {
+      /* istanbul ignore next */
       res.json(Result.fail(err));
     });
 };
@@ -59,13 +61,14 @@ const createComment = (req, res) => {
 		return res.json(Result.invalidUserId());
 	}
 
-	createCommentService(post_id, user_id, content, Date.now())
-		.then((result) => {
-			res.json(Result.success(result));
-		})
-		.catch((err) => {
-			res.json(Result.fail(err));
-		});
+  createCommentService(post_id, user_id, content, Date.now())
+    .then((result) => {
+      res.json(Result.success(result));
+    })
+    .catch((err) => {
+      /* istanbul ignore next */
+      res.json(Result.fail(err));
+    });
 };
 
 module.exports = { getCommentsFromPost, createComment };

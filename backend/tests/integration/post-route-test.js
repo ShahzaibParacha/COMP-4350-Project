@@ -1,6 +1,7 @@
 const express = require('express');
 const Post = require('../../schema/post-schema');
 const User = require('../../schema/user-schema');
+const Like = require('../../schema/likes-schema')
 const Subscribe = require('../../schema/subscriber-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
@@ -14,7 +15,9 @@ const passport = require('passport');
 require('../../util/passport')(passport);
 
 const username = 'completelyNewUsername';
+const username2 = 'goodone';
 const email = 'goodBoi@email.com';
+const email2 = 'anotherEmail@email.com';
 const password = 'Password5';
 
 let server;
@@ -38,10 +41,11 @@ const setup = async (numPosts, numUsers) => {
     let i = 0;
 
     await Post.deleteMany({});
+	await Like.deleteMany({});
 
     //generate user ids
     for (i = 0; i < numUsers; i++) {
-        userIDs.push(new mongoose.mongo.ObjectID);
+		userIDs.push(new mongoose.mongo.ObjectID );	
     }
 
     //generate random posts created by numUsers users
@@ -49,6 +53,7 @@ const setup = async (numPosts, numUsers) => {
         postIDs.push(new mongoose.mongo.ObjectID);
         const attrib = {_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i, post_date: new Date(i * 1000000)};
         await Post.create(attrib);
+		await Like.create({post_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers]});
     }
 
     //creates an account
@@ -56,24 +61,37 @@ const setup = async (numPosts, numUsers) => {
     await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
 
     //create a subscribe
-    await Subscribe.deleteMany({creator_id: userIDs[0]});
-    await Subscribe.deleteMany({audience_id: userIDs[0]});
-    await Subscribe.create(new Subscribe({     
-      creator_id: userIDs[1],
-      audience_id: userIDs[0],
-      subscription_date: Date.now(),
-      receive_notification: true
-    }));
+	if(userIDs.length >= 2){
+		await User.findOneAndDelete({email: email2});
+		await User.create({username: username2, email: email2, password: password, _id: userIDs[1], profile_photo: "/sample_profile.jpg"}); 
 
-    //login
-    const res = await axios({
-        method: "post",
-        url: `http://localhost:4350/api/free/user/login`,
-        data: {
-          email,
-          password,
-        },
-      });
+		await Subscribe.deleteMany({creator_id: userIDs[0]});
+		await Subscribe.deleteMany({audience_id: userIDs[0]});
+
+		await Subscribe.create(new Subscribe({     
+      	creator_id: userIDs[1],
+      	audience_id: userIDs[0],
+      	subscription_date: Date.now(),
+      	receive_notification: true
+		}));
+
+		await Subscribe.create(new Subscribe({     
+      	creator_id: userIDs[0],
+      	audience_id: userIDs[1],
+      	subscription_date: Date.now(),
+      	receive_notification: true
+		}));
+	}
+
+	//login
+	const res = await axios({
+		method: "post",
+		url: `http://localhost:4350/api/free/user/login`,
+		data: {
+			email,
+			password,
+		},
+	});
 
     return { postIDs, userIDs, res };
 }
@@ -304,6 +322,24 @@ describe('Post routes', function () {
 			});
 
 			expect(res.data.code).to.equal(40002);
+		});
+
+		it('should succeed', async function () {
+			const { id, token } = (await setup(10, 2)).res.data.data;
+			
+			const response = await axios({
+				method: 'get',
+				url: 'http://localhost:4350/api/post/get_subscribed_posts',
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				params: {
+					user_id: id
+				}
+			});
+
+			expect(response.data.code).to.equal(20000);
 		});
 	});
 
@@ -557,7 +593,7 @@ describe('Post routes', function () {
 		it('should return a post', async function () {
 			const { userIDs, res } = (await setup(0, 1));
 
-			await axios({
+			const response = await axios({
 				method: 'post',
 				url: 'http://localhost:4350/api/post/create',
 				headers: {
@@ -575,6 +611,7 @@ describe('Post routes', function () {
 			expect(posts).to.exist;
 			expect(posts.length).to.equal(1);
 			expect(posts[0].content).to.equal('69');
+			expect(response.data.data[1].notification_state).to.equal('success');
 		});
 
 		it('should return three posts', async function () {

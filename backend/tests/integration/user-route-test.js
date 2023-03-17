@@ -16,13 +16,12 @@ require('../../util/passport')(passport);
 let server;
 const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZTVkMzFlNDQyM2MxMDNjYmM3M2M2MiIsImVtYWlsIjoic3VudzFAbXl1bWFuaXRvYmEuY2EiLCJpYXQiOjE2NzYzMTkzNTN9.1qrLb7SDdVyEIQqJOSrohZtXeguhMcsQNkMTDV_TAlM';
 let weiyu = {
-	_id: null,
-	username: 'weiyu',
-	password: 'Password123.',
-	email: 'weiyu@gmail.com',
-	is_writer: false,
-	profile_photo: '/sample_profile.jpg'
-};
+    _id: null,
+    username: 'weiyu',
+    password: 'Password123.',
+    email: 'weiyu@gmail.com',
+    is_writer: false,
+}
 
 let tom = {
 	_id: null,
