@@ -8,6 +8,7 @@ function animationEnd(e) {
 // element - the element you want to make appear and disappear
 // color - color of the form '#RRGGBB'
 // persists - if false, the message will disappear after some time; if true, it will stay there until hideMessage is called
+// align - how to align the text in the html element
 function showMessage(element, message, color, persists, align = "left") {
   element.innerHTML = message;
   element.style.color = color;
