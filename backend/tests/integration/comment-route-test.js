@@ -197,7 +197,6 @@ describe('Comment routes', function () {
 
 			expect(response.data.code).to.equal(40002);
 		});
-
 	});
 
 	describe('GET request to get_comments_from_post', function () {
