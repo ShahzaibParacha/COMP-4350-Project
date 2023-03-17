@@ -372,6 +372,7 @@ function Writer() {
       const imageFormData = new FormData();
       imageFormData.append("image", imageInput.files[0]);
 
+      // upload the image to the cloud
       axios({
         method: "post",
         url: `http://localhost:4350/api/aws/upload_image`,
@@ -382,6 +383,7 @@ function Writer() {
         },
         data: imageFormData,
       }).then((result) => {
+        // if the upload was successful, update the database
         axios({
           method: "post",
           url: `http://localhost:4350/api/user/profile`,
@@ -397,6 +399,7 @@ function Writer() {
             bio,
           },
         }).then(() => {
+          // delete the image to not crowd our bucket
           axios({
             method: "post",
             url: `http://localhost:4350/api/aws/delete_image`,
@@ -483,9 +486,10 @@ function Writer() {
   }
 
   function enableNotif() {
+    console.log(userId, id);
     axios({
       method: "post",
-      params: {
+      data: {
         user_id: userId,
         creator_id: id,
         set_notification: !hasEnabledNotif,

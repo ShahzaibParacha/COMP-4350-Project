@@ -157,7 +157,7 @@ function setNotificationValidation(req, res, next) {
     let audienceId = req.body.user_id
     let setting = req.body.set_notification
 
-    console.log(`creator is is ${creatorId}, audience id is ${audienceId}, settings is ${setting}`)
+    console.log(`in setNotification creator is is ${creatorId}, audience id is ${audienceId}, settings is ${setting}`)
 
     if(creatorId === audienceId){
         res.json(Result.idsConflict())

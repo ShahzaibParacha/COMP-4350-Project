@@ -26,7 +26,7 @@ const getCommentsFromPost = (req, res) => {
       Promise.all(promises)
         .then((users) => {
           for (let i = 0; i < comments.length; i++) {
-            // return the username of the users who wrote the comments too
+            // return the username of the users who wrote the comments too as well as the profile photo
             result.push({
               username: users[i].username,
               user_id: comments[i].user_id,
