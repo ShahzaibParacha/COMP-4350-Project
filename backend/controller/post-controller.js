@@ -15,7 +15,7 @@ const createPost = async (req, res) => {
 
   try {
     const postResult = await postService.createPost(user_id, content);
-    const subscribeResult = await subscribeService.noticefyAudiences(
+    const subscribeResult = await subscribeService.notifyAudiences(
       user_id,
       postResult._id,
       content
