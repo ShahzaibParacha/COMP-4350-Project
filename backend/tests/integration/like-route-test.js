@@ -1,16 +1,16 @@
-const express = require("express");
+const express = require('express');
 const Like = require('../../schema/likes-schema');
 const User = require('../../schema/user-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 const axios = require('axios');
-require("dotenv").config();
+require('dotenv').config();
 
-const cors = require('cors')
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const apiRouter = require("../../route/api-route")
-const passport = require("passport");
-require("../../util/passport")(passport)
+const apiRouter = require('../../route/api-route');
+const passport = require('passport');
+require('../../util/passport')(passport);
 
 const username = 'completelyNewUsername';
 const email = 'goodBoi@email.com';
@@ -25,7 +25,7 @@ let server;
  * numPosts - the number of posts to create
  * numUsers - the number of users who created the posts
  * numLikes - the number of likes to be made
- * 
+ *
  * Output:
  * Returns an object with three properties:
  * posts - the posts created
@@ -88,444 +88,440 @@ const setup = async (numPosts, numUsers, numLikes) => {
 
 //this function will send four requests of type req to route and verify the codes in the response
 //
-//the first two requests will have an invalid user_id but valid post_id
-//the last two requests will have a valid user_id but invalid post_id
+// the first two requests will have an invalid user_id but valid post_id
+// the last two requests will have a valid user_id but invalid post_id
 const testInvalidIDs = async (res, req, route, valid_post, valid_user, codes) => {
-    let resp = await axios({
-        method: req,
-        params: {
-          user_id: 20,
-          post_id: valid_post
-        },
-        url: route,
-        headers: {
-            Authorization: res.data.data.token,
-            withCredentials: true,
-          },
-        data: {
-            user_id: 20,
-            post_id: valid_post
-        }
-      });
+	let resp = await axios({
+		method: req,
+		params: {
+			user_id: 20,
+			post_id: valid_post
+		},
+		url: route,
+		headers: {
+			Authorization: res.data.data.token,
+			withCredentials: true
+		},
+		data: {
+			user_id: 20,
+			post_id: valid_post
+		}
+	});
 
-    expect(resp.data.code).to.equal(codes[0]);
+	expect(resp.data.code).to.equal(codes[0]);
 
-    resp = await axios({
-        method: req,
-        params: {
-          user_id: '20',
-          post_id: valid_post
-        },
-        url: route,
-        headers: {
-            Authorization: res.data.data.token,
-            withCredentials: true,
-          },
-        data: {
-            user_id: '20',
-            post_id: valid_post
-        }
-      });
+	resp = await axios({
+		method: req,
+		params: {
+			user_id: '20',
+			post_id: valid_post
+		},
+		url: route,
+		headers: {
+			Authorization: res.data.data.token,
+			withCredentials: true
+		},
+		data: {
+			user_id: '20',
+			post_id: valid_post
+		}
+	});
 
-    expect(resp.data.code).to.equal(codes[1]);
+	expect(resp.data.code).to.equal(codes[1]);
 
-    resp = await axios({
-        method: req,
-        params: {
-          user_id: valid_user,
-          post_id: 20
-          },
-        url: route,
-        headers: {
-            Authorization: res.data.data.token,
-            withCredentials: true,
-          },
-        data: {
-            user_id: valid_user,
-            post_id: 20
-        }
-      });
+	resp = await axios({
+		method: req,
+		params: {
+			user_id: valid_user,
+			post_id: 20
+		},
+		url: route,
+		headers: {
+			Authorization: res.data.data.token,
+			withCredentials: true
+		},
+		data: {
+			user_id: valid_user,
+			post_id: 20
+		}
+	});
 
-    expect(resp.data.code).to.equal(codes[2]);
+	expect(resp.data.code).to.equal(codes[2]);
 
-    resp = await axios({
-        method: req,
-        params: {
-          user_id: valid_user,
-          post_id: '20'
-          },
-        url: route,
-        headers: {
-            Authorization: res.data.data.token,
-            withCredentials: true,
-          },
-        data: {
-            user_id: valid_user,
-            post_id: '20'
-        }
-      });
+	resp = await axios({
+		method: req,
+		params: {
+			user_id: valid_user,
+			post_id: '20'
+		},
+		url: route,
+		headers: {
+			Authorization: res.data.data.token,
+			withCredentials: true
+		},
+		data: {
+			user_id: valid_user,
+			post_id: '20'
+		}
+	});
 
-    expect(resp.data.code).to.equal(codes[3]);
-}
+	expect(resp.data.code).to.equal(codes[3]);
+};
 
 describe('Like routes', function () {
+	before(async () => {
+		const app = express();
 
-    before(async () => {
-        const app = express();
+		mongoose
+			.connect(process.env.MONGODB_CONNECTION, {
+				useNewUrlParser: true,
+				useUnifiedTopology: true
+			})
+			.then(() => { console.log('Success to connect mongodb'); })
+			.catch(() => { console.log('Fail to connect mongodb'); });
 
-        mongoose
-        .connect(process.env.MONGODB_CONNECTION, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,})
-            .then(() => {console.log("Success to connect mongodb");})
-            .catch(() => {console.log("Fail to connect mongodb")});
+		app.use(bodyParser.json({ extended: true }));
+		app.use(bodyParser.urlencoded({ extended: true }));
+		app.use(cors());
 
-        app.use(bodyParser.json({extended: true}));
-        app.use(bodyParser.urlencoded({extended: true}));
-        app.use(cors())
-            
-        app.use("/api", apiRouter)
-            
-        server = app.listen(process.env.PORT, () => {
-            console.log(`Comp4350 backend is listening on port ${process.env.PORT}`)
-        })
-    });
+		app.use('/api', apiRouter);
 
-    after(async () => {
-        await Like.deleteMany({});
-        await mongoose.disconnect();
-        server.close();
-    });
+		server = app.listen(process.env.PORT, () => {
+			console.log(`Comp4350 backend is listening on port ${process.env.PORT}`);
+		});
+	});
 
-    describe('GET request to getNumLikes', function() {
+	after(async () => {
+		await Like.deleteMany({});
+		await mongoose.disconnect();
+		server.close();
+	});
 
-        it('should return 0', async function() {
-            const { postIDs, res } = (await setup(1, 1, 0));
+	describe('GET request to getNumLikes', function () {
+		it('should return 0', async function () {
+			const { postIDs, res } = (await setup(1, 1, 0));
 
-            const resp = await axios({
-                method: "get",
-                params: {
-                  post_id: postIDs[0],
-                },
-                url: `http://localhost:4350/api/like/getNumLikes`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },      
-              });
+			const resp = await axios({
+				method: 'get',
+				params: {
+					post_id: postIDs[0]
+				},
+				url: 'http://localhost:4350/api/like/getNumLikes',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				}
+			});
 
-            expect(resp.data.msg).to.equal('success');
-            expect(resp.data.data).to.exist;
-            expect(resp.data.data).to.equal(0);
-        });
+			expect(resp.data.msg).to.equal('success');
+			expect(resp.data.data).to.exist;
+			expect(resp.data.data).to.equal(0);
+		});
 
-        it('should return 5', async function() {
-            const { postIDs, res } = (await setup(1, 5, 5));
+		it('should return 5', async function () {
+			const { postIDs, res } = (await setup(1, 5, 5));
 
-            const resp = await axios({
-                method: "get",
-                params: {
-                  post_id: postIDs[0],
-                },
-                url: `http://localhost:4350/api/like/getNumLikes`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-              });
+			const resp = await axios({
+				method: 'get',
+				params: {
+					post_id: postIDs[0]
+				},
+				url: 'http://localhost:4350/api/like/getNumLikes',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				}
+			});
 
-            expect(resp.data.msg).to.equal('success');
-            expect(resp.data.data).to.exist;
-            expect(resp.data.data).to.equal(5);
-        });
+			expect(resp.data.msg).to.equal('success');
+			expect(resp.data.data).to.exist;
+			expect(resp.data.data).to.equal(5);
+		});
 
-        it('should return 5', async function() {
-            const { postIDs, res } = (await setup(2, 5, 7));
+		it('should return 5', async function () {
+			const { postIDs, res } = (await setup(2, 5, 7));
 
-            const resp = await axios({
-                method: "get",
-                params: {
-                  post_id: postIDs[1],
-                },
-                url: `http://localhost:4350/api/like/getNumLikes`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-              });
+			const resp = await axios({
+				method: 'get',
+				params: {
+					post_id: postIDs[1]
+				},
+				url: 'http://localhost:4350/api/like/getNumLikes',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				}
+			});
 
-            expect(resp.data.msg).to.equal('success');
-            expect(resp.data.data).to.exist;
-            expect(resp.data.data).to.equal(2);
-        });
+			expect(resp.data.msg).to.equal('success');
+			expect(resp.data.data).to.exist;
+			expect(resp.data.data).to.equal(2);
+		});
 
-        it('should not succeed', async function() {
-            const { res } = (await setup(1, 1, 1));
+		it('should not succeed', async function () {
+			const { res } = (await setup(1, 1, 1));
 
-            const resp = await axios({
-                method: "get",
-                params: {
-                  post_id: 20,
-                },
-                url: `http://localhost:4350/api/like/getNumLikes`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-              });
+			const resp = await axios({
+				method: 'get',
+				params: {
+					post_id: 20
+				},
+				url: 'http://localhost:4350/api/like/getNumLikes',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				}
+			});
 
-            expect(resp.data.code).to.equal(40003);
-        });
+			expect(resp.data.code).to.equal(40003);
+		});
 
-        it('should not succeed', async function() {
-            const { res } = (await setup(1, 1, 1));
+		it('should not succeed', async function () {
+			const { res } = (await setup(1, 1, 1));
 
-            const resp = await axios({
-                method: "get",
-                params: {
-                  post_id: '20',
-                },
-                url: `http://localhost:4350/api/like/getNumLikes`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-              });
+			const resp = await axios({
+				method: 'get',
+				params: {
+					post_id: '20'
+				},
+				url: 'http://localhost:4350/api/like/getNumLikes',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				}
+			});
 
-            expect(resp.data.code).to.equal(40003);
-        });
-    });
+			expect(resp.data.code).to.equal(40003);
+		});
+	});
 
-    describe('GET request to userLikedPost', function() {
+	describe('GET request to userLikedPost', function () {
+		it('should return false', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 1, 0));
 
-        it('should return false', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 1, 0));
+			const resp = await axios({
+				method: 'get',
+				params: {
+					user_id: userIDs[0],
+					post_id: postIDs[0]
+				},
+				url: 'http://localhost:4350/api/like/userLikedPost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				}
+			});
 
-            const resp = await axios({
-                method: "get",
-                params: {
-                  user_id: userIDs[0],
-                  post_id: postIDs[0]
-                  },
-                url: `http://localhost:4350/api/like/userLikedPost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-              });
+			expect(resp.data.msg).to.equal('success');
+			expect(resp.data.data).to.exist;
+			expect(resp.data.data).to.equal(false);
+		});
 
-            expect(resp.data.msg).to.equal('success');
-            expect(resp.data.data).to.exist;
-            expect(resp.data.data).to.equal(false);
-        });
+		it('should return true', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 1, 1));
 
-        it('should return true', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 1, 1));
+			const resp = await axios({
+				method: 'get',
+				params: {
+					user_id: userIDs[0],
+					post_id: postIDs[0]
+				},
+				url: 'http://localhost:4350/api/like/userLikedPost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				}
+			});
 
-            const resp = await axios({
-                method: "get",
-                params: {
-                  user_id: userIDs[0],
-                  post_id: postIDs[0]
-                  },
-                url: `http://localhost:4350/api/like/userLikedPost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-              });
+			expect(resp.data.msg).to.equal('success');
+			expect(resp.data.data).to.exist;
+			expect(resp.data.data).to.equal(true);
+		});
 
-            expect(resp.data.msg).to.equal('success');
-            expect(resp.data.data).to.exist;
-            expect(resp.data.data).to.equal(true);
-        });
+		it('should not succeed', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 1, 1));
 
-        it('should not succeed', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 1, 1));
+			await testInvalidIDs(res, 'get', 'http://localhost:4350/api/like/userLikedPost', postIDs[0], userIDs[0], [40002, 40002, 40003, 40003]);
+		});
+	});
 
-            await testInvalidIDs(res, 'get', `http://localhost:4350/api/like/userLikedPost`, postIDs[0], userIDs[0], [40002, 40002, 40003, 40003]);
-        });
-    });
+	describe('POST request to likePost', function () {
+		it('number of likes should be 2', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 2, 0));
 
-    describe('POST request to likePost', function() {
+			let num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(0);
 
-        it('number of likes should be 2', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 2, 0));
+			let resp = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/like/likePost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					user_id: userIDs[0],
+					post_id: postIDs[0]
+				}
+			});
 
-            let num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(0);
+			expect(resp.data.msg).to.equal('success');
+			num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(1);
 
-            let resp = await axios({
-                method: "post",
-                url: `http://localhost:4350/api/like/likePost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    user_id: userIDs[0],
-                    post_id: postIDs[0]
-                }
-              });
+			resp = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/like/likePost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					user_id: userIDs[1],
+					post_id: postIDs[0]
+				}
+			});
 
-            expect(resp.data.msg).to.equal('success');
-            num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(1);
+			expect(resp.data.msg).to.equal('success');
+			num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(2);
+		});
 
-            resp = await axios({
-                method: "post",
-                url: `http://localhost:4350/api/like/likePost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    user_id: userIDs[1],
-                    post_id: postIDs[0]
-                }
-              });
+		it('number of likes should be 1', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 1, 0));
 
-            expect(resp.data.msg).to.equal('success');
-            num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(2);
-        });
+			let num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(0);
 
-        it('number of likes should be 1', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 1, 0));
+			let resp = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/like/likePost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					user_id: userIDs[0],
+					post_id: postIDs[0]
+				}
+			});
 
-            let num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(0);
+			expect(resp.data.msg).to.equal('success');
+			num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(1);
 
-            let resp = await axios({
-                method: "post",
-                url: `http://localhost:4350/api/like/likePost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    user_id: userIDs[0],
-                    post_id: postIDs[0]
-                }
-              });
+			resp = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/like/likePost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					user_id: userIDs[0],
+					post_id: postIDs[0]
+				}
+			});
 
-            expect(resp.data.msg).to.equal('success');
-            num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(1);
+			expect(resp.data.msg).to.equal('success');
+			num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(1);
+		});
 
-            resp = await axios({
-                method: "post",
-                url: `http://localhost:4350/api/like/likePost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    user_id: userIDs[0],
-                    post_id: postIDs[0]
-                }
-              });
+		it('should not succeed', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 1, 0));
 
-            expect(resp.data.msg).to.equal('success');
-            num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(1);
-        });
+			await testInvalidIDs(res, 'post', 'http://localhost:4350/api/like/likePost', postIDs[0], userIDs[0], [40000, 40002, 40000, 40003]);
+		});
+	});
 
-        it('should not succeed', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 1, 0));
+	describe('POST request to unlikePost', function () {
+		it('number of likes should be 0', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 1, 1));
 
-            await testInvalidIDs(res, 'post', `http://localhost:4350/api/like/likePost`, postIDs[0], userIDs[0], [40000, 40002, 40000, 40003]);
-        });
-    });
+			let num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(1);
 
-    describe('POST request to unlikePost', function() {
+			let resp = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/like/unlikePost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					user_id: userIDs[0],
+					post_id: postIDs[0]
+				}
+			});
 
-        it('number of likes should be 0', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 1, 1));
+			expect(resp.data.msg).to.equal('success');
+			num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(0);
 
-            let num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(1);
+			resp = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/like/unlikePost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					user_id: userIDs[0],
+					post_id: postIDs[0]
+				}
+			});
 
-            let resp = await axios({
-                method: "post",
-                url: `http://localhost:4350/api/like/unlikePost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    user_id: userIDs[0],
-                    post_id: postIDs[0]
-                }
-              });
+			expect(resp.data.msg).to.equal('success');
+			num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(0);
+		});
 
-            expect(resp.data.msg).to.equal('success');
-            num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(0);
+		it('number of likes should be 0', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 2, 2));
 
-            resp = await axios({
-                method: "post",
-                url: `http://localhost:4350/api/like/unlikePost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    user_id: userIDs[0],
-                    post_id: postIDs[0]
-                }
-              });
+			let num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(2);
 
-            expect(resp.data.msg).to.equal('success');
-            num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(0);
-        });
+			let resp = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/like/unlikePost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					user_id: userIDs[0],
+					post_id: postIDs[0]
+				}
+			});
 
-        it('number of likes should be 0', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 2, 2));
+			expect(resp.data.msg).to.equal('success');
+			num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(1);
 
-            let num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(2);
+			resp = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/like/unlikePost',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					user_id: userIDs[1],
+					post_id: postIDs[0]
+				}
+			});
 
-            let resp = await axios({
-                method: "post",
-                url: `http://localhost:4350/api/like/unlikePost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    user_id: userIDs[0],
-                    post_id: postIDs[0]
-                }
-              });
+			expect(resp.data.msg).to.equal('success');
+			num_likes = await Like.countDocuments({ post_id: postIDs[0] });
+			expect(num_likes).to.equal(0);
+		});
 
-            expect(resp.data.msg).to.equal('success');
-            num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(1);
+		it('should not succeed', async function () {
+			const { userIDs, postIDs, res } = (await setup(1, 1, 0));
 
-            resp = await axios({
-                method: "post",
-                url: `http://localhost:4350/api/like/unlikePost`,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    user_id: userIDs[1],
-                    post_id: postIDs[0]
-                }
-              });
-
-            expect(resp.data.msg).to.equal('success');
-            num_likes = await Like.countDocuments({post_id: postIDs[0]});
-            expect(num_likes).to.equal(0);
-        });
-
-        it('should not succeed', async function() {
-            const { userIDs, postIDs, res } = (await setup(1, 1, 0));
-
-            await testInvalidIDs(res, 'post', `http://localhost:4350/api/like/unlikePost`, postIDs[0], userIDs[0], [40000, 40002, 40000, 40003]);
-        });
-    });
+			await testInvalidIDs(res, 'post', 'http://localhost:4350/api/like/unlikePost', postIDs[0], userIDs[0], [40000, 40002, 40000, 40003]);
+		});
+	});
 });
