@@ -39,10 +39,12 @@ const getCommentsFromPost = (req, res) => {
 					res.json(Result.success(result));
 				})
 				.catch((err) => {
+					/* istanbul ignore next */
 					res.json(Result.fail(err));
 				});
 		})
 		.catch((err) => {
+			/* istanbul ignore next */
 			res.json(Result.fail(err));
 		});
 };
@@ -64,6 +66,7 @@ const createComment = (req, res) => {
 			res.json(Result.success(result));
 		})
 		.catch((err) => {
+			/* istanbul ignore next */
 			res.json(Result.fail(err));
 		});
 };

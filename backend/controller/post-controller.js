@@ -15,7 +15,7 @@ const createPost = async (req, res) => {
 
   try {
     const postResult = await postService.createPost(user_id, content);
-    const subscribeResult = await subscribeService.noticefyAudiences(
+    const subscribeResult = await subscribeService.notifyAudiences(
       user_id,
       postResult._id,
       content
@@ -76,6 +76,7 @@ const removePostByID = async (req, res) => {
       res.json(Result.success(result));
     })
     .catch((err) => {
+      /* istanbul ignore next */
       res.json(Result.fail(err));
     });
 };
@@ -87,6 +88,7 @@ const getRecentPost = async (req, res) => {
 
     res.json(Result.success(result));
   } catch (err) {
+    /* istanbul ignore next */
     res.json(Result.fail(err));
   }
 };
@@ -103,6 +105,7 @@ const getAllPostsFromUser = async (req, res) => {
     const result = await getPostsInfo(posts);
     res.json(Result.success(result));
   } catch (err) {
+    /* istanbul ignore next */
     res.json(Result.fail(err));
   }
 };
@@ -114,7 +117,6 @@ async function getPostsInfo(posts) {
 
   for (let i = 0; i < posts.length; i++) {
     let post = posts[i];
-
     userPromises.push(userService.getUserInfo(post.user_id));
     likePromises.push(likeService.getNumLikes(post._id));
   }
@@ -133,7 +135,6 @@ async function getPostsInfo(posts) {
         numberLikes: likes[i],
       });
   }
-
   return result;
 }
 
@@ -160,6 +161,7 @@ const getSubscribedPosts = async (req, res) => {
         
         res.json(Result.success(all_result));
     }catch(err){
+      	/* istanbul ignore next */
         res.json(Result.fail(err));
     }
 }

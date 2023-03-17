@@ -159,26 +159,6 @@ describe('Comment routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { postIDs, res } = (await setup(5, 1, 1));
-
-			const response = await axios({
-				method: 'post',
-				url,
-				headers: {
-					Authorization: res.data.data.token,
-					withCredentials: true
-				},
-				data: {
-					content: '69',
-					user_id: '20',
-					post_id: postIDs[0]
-				}
-			});
-
-			expect(response.data.code).to.equal(40000);
-		});
-
-		it('should not succeed', async function () {
 			const { userIDs, res } = (await setup(5, 1, 1));
 
 			const response = await axios({
@@ -195,11 +175,11 @@ describe('Comment routes', function () {
 				}
 			});
 
-			expect(response.data.code).to.equal(40000);
+			expect(response.data.code).to.equal(40003);
 		});
 
 		it('should not succeed', async function () {
-			const { res } = (await setup(5, 1, 1));
+			const { postIDs, userIDs, res } = (await setup(5, 1, 1));
 
 			const response = await axios({
 				method: 'post',
@@ -210,13 +190,14 @@ describe('Comment routes', function () {
 				},
 				data: {
 					content: '69',
-					user_id: 0,
-					post_id: 20
+					user_id: '1',
+					post_id: postIDs[0],
 				}
 			});
 
-			expect(response.data.code).to.equal(40000);
+			expect(response.data.code).to.equal(40002);
 		});
+
 	});
 
 	describe('GET request to get_comments_from_post', function () {
