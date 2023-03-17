@@ -1,16 +1,16 @@
-const express = require("express");
+const express = require('express');
 const Comment = require('../../schema/comment-schema');
 const User = require('../../schema/user-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 const axios = require('axios');
-require("dotenv").config();
+require('dotenv').config();
 
-const cors = require('cors')
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const apiRouter = require("../../route/api-route")
-const passport = require("passport")
-require("../../util/passport")(passport)
+const apiRouter = require('../../route/api-route');
+const passport = require('passport');
+require('../../util/passport')(passport);
 
 const username = 'completelyNewUsername';
 const email = 'goodBoi@email.com';
@@ -25,7 +25,7 @@ let server;
  * numUsers - the number users who leave comments
  * numComments - the number of comments
  * numPosts - the number of post created
- * 
+ *
  * Output:
  * Returns an object with three properties:
  * comments - the comments created
@@ -78,7 +78,6 @@ const setup = async (numComments, numPosts, numUsers) => {
 }
 
 describe('Comment routes', function () {
-
     before(async () => {
         const app = express();
 
@@ -323,5 +322,4 @@ describe('Comment routes', function () {
         });
 
     });
-
 });

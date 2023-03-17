@@ -1,28 +1,28 @@
 const Like = require('../schema/likes-schema');
 
-//get the number of likes of a post
+// get the number of likes of a post
 const getNumLikes = async (post_id) => {
-    return await Like.countDocuments({post_id});
-}
+	return await Like.countDocuments({ post_id });
+};
 
-//determine if the user has liked a post
+// determine if the user has liked a post
 const userLikedPost = async (post_id, user_id) => {
-    return (await Like.countDocuments({post_id, user_id})) > 0;
-}
+	return (await Like.countDocuments({ post_id, user_id })) > 0;
+};
 
-//like a post
+// like a post
 const likePost = async (post_id, user_id) => {
-    return await Like.create({post_id, user_id});
-}
+	return await Like.create({ post_id, user_id });
+};
 
-//unlike a post
+// unlike a post
 const unlikePost = async (post_id, user_id) => {
-    return await Like.findOneAndDelete({post_id, user_id}, {useFindAndModify: false});
-}
+	return await Like.findOneAndDelete({ post_id, user_id }, { useFindAndModify: false });
+};
 
- module.exports = {
-    getNumLikes,
-    userLikedPost,
-    likePost,
-    unlikePost,
- };
+module.exports = {
+	getNumLikes,
+	userLikedPost,
+	likePost,
+	unlikePost
+};

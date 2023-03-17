@@ -1,4 +1,4 @@
- const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 // const subscribeService = require('../service/subscriber-service')
 require('dotenv').config();
 
@@ -21,24 +21,24 @@ let transporter = nodemailer.createTransport({
 
 // send email to all subscribers
 const sendEmailToSubscriber = async (subscriberEmail, subject, message) => {
-  // create email message
-  let emailMessage = {
-      from: from_email,
-      to: subscriberEmail,
-      subject: subject,
-      text: message,
-      //html:
-  };
+	// create email message
+	const emailMessage = {
+		from: from_email,
+		to: subscriberEmail,
+		subject,
+		text: message
+		// html:
+	};
 
-  try {
-    const result = await transporter.sendMail(emailMessage);
-    //console.log("Email sent to: " + result.accepted);
-    return result.accepted;
-  } catch (err) {
-    console.log("Cannot send the email: " + err);
-  }
+	try {
+		const result = await transporter.sendMail(emailMessage);
+		// console.log("Email sent to: " + result.accepted);
+		return result.accepted;
+	} catch (err) {
+		console.log('Cannot send the email: ' + err);
+	}
 };
 
 module.exports = {
-    sendEmailToSubscriber,
+	sendEmailToSubscriber
 };
