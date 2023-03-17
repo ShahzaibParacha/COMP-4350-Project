@@ -374,7 +374,7 @@ function Comment({ id }) {
                 </div>
                 <div className="col-start-1 col-end-7 md:col-start-2">
                   <div className="mb-2 flex flex-col md:flex-row justify-between">
-                    <p className="font-bold leading-4 text-[1rem]">
+                    <p className="overflow-x-auto overflow-y-clip font-bold leading-4 text-[1rem]">
                       {comment.username}
                     </p>
                     <p className="leading-4 text-[1rem] mt-2 md:mt-0">

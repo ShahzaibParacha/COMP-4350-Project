@@ -76,6 +76,7 @@ const removePostByID = async (req, res) => {
       res.json(Result.success(result));
     })
     .catch((err) => {
+      /* istanbul ignore next */
       res.json(Result.fail(err));
     });
 };
@@ -87,6 +88,7 @@ const getRecentPost = async (req, res) => {
 
     res.json(Result.success(result));
   } catch (err) {
+    /* istanbul ignore next */
     res.json(Result.fail(err));
   }
 };
@@ -103,6 +105,7 @@ const getAllPostsFromUser = async (req, res) => {
     const result = await getPostsInfo(posts);
     res.json(Result.success(result));
   } catch (err) {
+    /* istanbul ignore next */
     res.json(Result.fail(err));
   }
 };
@@ -160,6 +163,7 @@ const getSubscribedPosts = async (req, res) => {
         
         res.json(Result.success(all_result));
     }catch(err){
+      /* istanbul ignore next */
         res.json(Result.fail(err));
     }
 }

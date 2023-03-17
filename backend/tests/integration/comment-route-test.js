@@ -1,16 +1,16 @@
-const express = require("express");
+const express = require('express');
 const Comment = require('../../schema/comment-schema');
 const User = require('../../schema/user-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 const axios = require('axios');
-require("dotenv").config();
+require('dotenv').config();
 
-const cors = require('cors')
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const apiRouter = require("../../route/api-route")
-const passport = require("passport")
-require("../../util/passport")(passport)
+const apiRouter = require('../../route/api-route');
+const passport = require('passport');
+require('../../util/passport')(passport);
 
 const username = 'completelyNewUsername';
 const email = 'goodBoi@email.com';
@@ -25,7 +25,7 @@ let server;
  * numUsers - the number users who leave comments
  * numComments - the number of comments
  * numPosts - the number of post created
- * 
+ *
  * Output:
  * Returns an object with three properties:
  * comments - the comments created
@@ -78,250 +78,228 @@ const setup = async (numComments, numPosts, numUsers) => {
 }
 
 describe('Comment routes', function () {
+	before(async () => {
+		const app = express();
 
-    before(async () => {
-        const app = express();
+		mongoose
+			.connect(process.env.MONGODB_CONNECTION, {
+				useNewUrlParser: true,
+				useUnifiedTopology: true
+			})
+			.then(() => { console.log('Success to connect mongodb'); })
+			.catch(() => { console.log('Fail to connect mongodb'); });
 
-        mongoose
-        .connect(process.env.MONGODB_CONNECTION, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,})
-            .then(() => {console.log("Success to connect mongodb");})
-            .catch(() => {console.log("Fail to connect mongodb")});
+		app.use(bodyParser.json({ extended: true }));
+		app.use(bodyParser.urlencoded({ extended: true }));
+		app.use(cors());
 
-        app.use(bodyParser.json({extended: true}));
-        app.use(bodyParser.urlencoded({extended: true}));
-        app.use(cors())
-            
-        app.use("/api", apiRouter)
-            
-        server = app.listen(process.env.PORT, () => {
-            console.log(`Comp4350 backend is listening on port ${process.env.PORT}`)
-        })
-    });
+		app.use('/api', apiRouter);
 
-    after(async () => {
-      await Comment.deleteMany({});
-      await mongoose.disconnect();
-      server.close();
-    })
+		server = app.listen(process.env.PORT, () => {
+			console.log(`Comp4350 backend is listening on port ${process.env.PORT}`);
+		});
+	});
 
-    describe('POST request to create', function() {
-        const url = `http://localhost:4350/api/comment/create`;
+	after(async () => {
+		await Comment.deleteMany({});
+		await mongoose.disconnect();
+		server.close();
+	});
 
-        it('should return a comment', async function() {
-            const { postIDs, userIDs, res } = (await setup(0, 1, 2)); //no comments, one post, two users
+	describe('POST request to create', function () {
+		const url = 'http://localhost:4350/api/comment/create';
 
-            await axios({
-                method: "post",
-                url: url,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    content: '699',
-                    post_id: postIDs[0], //to which post the comment is
-                    user_id: userIDs[0], //who creates the comment
-                },
-              });
+		it('should return a comment', async function () {
+			const { postIDs, userIDs, res } = (await setup(0, 1, 2)); // no comments, one post, two users
 
-            const comments = await Comment.find({user_id: userIDs[0], post_id: postIDs[0]});
+			await axios({
+				method: 'post',
+				url,
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '699',
+					post_id: postIDs[0], // to which post the comment is
+					user_id: userIDs[0] // who creates the comment
+				}
+			});
 
-            expect(comments).to.exist;
-            expect(comments.length).to.equal(1);
-            expect(comments[0].content).to.equal('699');
-        });
+			const comments = await Comment.find({ user_id: userIDs[0], post_id: postIDs[0] });
 
-        it('should return two comments', async function() {
-            const { postIDs, userIDs, res } = (await setup(4, 2, 2));
+			expect(comments).to.exist;
+			expect(comments.length).to.equal(1);
+			expect(comments[0].content).to.equal('699');
+		});
 
-            await axios({
-                method: "post",
-                url: url,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    content: '@#!',
-                    post_id: postIDs[0],
-                    user_id: userIDs[0],
-                },
-              });
+		it('should return two comments', async function () {
+			const { postIDs, userIDs, res } = (await setup(4, 2, 2));
 
-            const comments = await Comment.find({user_id: userIDs[0] });
-            expect(comments).to.exist;
-            expect(comments.length).to.equal(3);
-            expect(comments[0].content).to.equal('0');
-            expect(comments[1].content).to.equal('2');
-            expect(comments[2].content).to.equal('@#!');
-        });
+			await axios({
+				method: 'post',
+				url,
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '@#!',
+					post_id: postIDs[0],
+					user_id: userIDs[0]
+				}
+			});
 
-        it('should not succeed', async function() {
-            const { postIDs, res } = (await setup(5, 1, 1));
+			const comments = await Comment.find({ user_id: userIDs[0] });
+			expect(comments).to.exist;
+			expect(comments.length).to.equal(3);
+			expect(comments[0].content).to.equal('0');
+			expect(comments[1].content).to.equal('2');
+			expect(comments[2].content).to.equal('@#!');
+		});
 
-            const response = await axios({
-                method: "post",
-                url: url,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    content: '69',
-                    user_id: '20',
-                    post_id:  postIDs[0],
-                },
-              });
+		it('should not succeed', async function () {
+			const { userIDs, res } = (await setup(5, 1, 1));
 
-            expect(response.data.code).to.equal(40002);
-        });
+			const response = await axios({
+				method: 'post',
+				url,
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '69',
+					user_id: userIDs[0],
+					post_id: '20'
+				}
+			});
 
-        it('should not succeed', async function() {
-            const { userIDs, res } = (await setup(5, 1, 1));
+			expect(response.data.code).to.equal(40003);
+		});
 
-            const response = await axios({
-                method: "post",
-                url: url,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    content: '69',
-                    user_id: userIDs[0],
-                    post_id: '20',
-                },
-              });
+		it('should not succeed', async function () {
+			const { postIDs, userIDs, res } = (await setup(5, 1, 1));
 
-            expect(response.data.code).to.equal(40003);
-        });
+			const response = await axios({
+				method: 'post',
+				url,
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '69',
+					user_id: '1',
+					post_id: postIDs[0],
+				}
+			});
 
-        it('should not succeed', async function() {
-            const { res } = (await setup(5, 1, 1));
+			expect(response.data.code).to.equal(40002);
+		});
 
-            const response = await axios({
-                method: "post",
-                url: url,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                data: {
-                    content: '69',
-                    user_id: 0,
-                    post_id: 20,
-                },
-              });
+	});
 
-            expect(response.data.code).to.equal(40000);
-        });
+	describe('GET request to get_comments_from_post', function () {
+		const url = 'http://localhost:4350/api/comment/getCommentsFromPost';
 
-     });
-    
-    describe('GET request to get_comments_from_post', function() {
-        let url = `http://localhost:4350/api/comment/getCommentsFromPost`
+		it('should return nothing', async function () {
+			const { postIDs, res } = (await setup(0, 1, 1));
 
-        it('should return nothing', async function() {
-            const { postIDs, res } = (await setup(0, 1, 1));
+			const response = await axios({
+				method: 'get',
+				url,
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				params: {
+					post_id: postIDs[0]
+				}
+			});
 
-            const response = await axios({
-                method: "get",
-                url: url,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                params: {
-                    post_id: postIDs[0],
-                },
-              });
+			expect(response.data.msg).to.equal('success');
+			expect(response.data.data).to.exist;
+			expect(response.data.data.length).to.equal(0);
+		});
 
-            expect(response.data.msg).to.equal('success');
-            expect(response.data.data).to.exist;
-            expect(response.data.data.length).to.equal(0);
-        });
+		it('should return nothing', async function () {
+			const { token } = (await setup(10, 3, 2)).res.data.data;
 
-        it('should return nothing', async function() {
-            const { token } = (await setup(10, 3, 2)).res.data.data;
+			const res = await axios({
+				method: 'get',
+				url,
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				params: {
+					post_id: new mongoose.mongo.ObjectID()
+				}
+			});
 
-            const res = await axios({
-                method: "get",
-                url: url,
-                headers: {
-                    Authorization: token,
-                    withCredentials: true,
-                  },
-                params: {
-                    post_id: new mongoose.mongo.ObjectID,
-                },
-              });
+			expect(res.data.msg).to.equal('success');
+			expect(res.data.data).to.exist;
+			expect(res.data.data.length).to.equal(0);
+		});
 
-            expect(res.data.msg).to.equal('success');
-            expect(res.data.data).to.exist;
-            expect(res.data.data.length).to.equal(0);
-        });
+		it('should not succeed', async function () {
+			const { token } = (await setup(10, 3, 5)).res.data.data;
 
-        it('should not succeed', async function() {
-            const { token } = (await setup(10, 3, 5)).res.data.data;
+			const res = await axios({
+				method: 'get',
+				url,
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				params: {
+					post_id: 200
+				}
+			});
 
-            const res = await axios({
-                method: "get",
-                url: url,
-                headers: {
-                    Authorization: token,
-                    withCredentials: true,
-                  },
-                params: {
-                    post_id: 200,
-                },
-              });
+			expect(res.data.code).to.equal(40003);
+		});
 
-            expect(res.data.code).to.equal(40003);
-        });
+		it('should not succeed', async function () {
+			const { token } = (await setup(10, 3, 3)).res.data.data;
 
-        it('should not succeed', async function() {
-            const { token } = (await setup(10, 3, 3)).res.data.data;
+			const res = await axios({
+				method: 'get',
+				url,
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				params: {
+					post_id: '20'
+				}
+			});
 
-            const res = await axios({
-                method: "get",
-                url: url,
-                headers: {
-                    Authorization: token,
-                    withCredentials: true,
-                  },
-                params: {
-                    post_id: '20',
-                },
-              });
+			expect(res.data.code).to.equal(40003);
+		});
 
-            expect(res.data.code).to.equal(40003);
-        });
+		it('should return all comments with even content', async function () {
+			const { postIDs, res } = (await setup(10, 2, 2));
 
-        it('should return all comments with even content', async function() {
-            const { postIDs, res } = (await setup(10, 2, 2));
+			const response = await axios({
+				method: 'get',
+				url,
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				params: {
+					post_id: postIDs[0]
+				}
+			});
 
-            const response = await axios({
-                method: "get",
-                url: url,
-                headers: {
-                    Authorization: res.data.data.token,
-                    withCredentials: true,
-                  },
-                params: {
-                    post_id: postIDs[0],
-                },
-              });
-
-            expect(response.data.msg).to.equal('success');
-            expect(response.data.data).to.exist;
-            expect(response.data.data.length).to.equal(5);
-            for (let i = 0; i < response.data.data.length; i++) {
-                expect(response.data.data[i].content % 2).to.equal(0);
-            }
-        });
-
-    });
-
+			expect(response.data.msg).to.equal('success');
+			expect(response.data.data).to.exist;
+			expect(response.data.data.length).to.equal(5);
+			for (let i = 0; i < response.data.data.length; i++) {
+				expect(response.data.data[i].content % 2).to.equal(0);
+			}
+		});
+	});
 });

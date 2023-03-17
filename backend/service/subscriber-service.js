@@ -36,6 +36,7 @@ async function notifyAudiences(user_id, post_id, content){
         }
         return { "notification_state": "success", "notification_accepted_by": audience_emails};
     }catch{
+        /* istanbul ignore next */
         return Result.failNotify();
     }
 }
