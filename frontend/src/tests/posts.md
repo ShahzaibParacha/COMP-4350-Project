@@ -16,6 +16,34 @@
 
 ### Note: These tests must be done in order
 
+### Creating and Viewing a Post
+1. Go to `http://localhost:3000/login`
+
+2. Log in
+
+   - For email, enter `user5@mail.com`
+   - For password, enter `User12345`
+
+3. Navigate to the `Write` option in the Navbar
+
+4. Create a post using the Markdown editor
+
+5. When done, to finalize click on `Submit`
+   * After submitting, you will be redirected to your `profile`
+
+6. Now navigate to the home screen using the `Home` tab in the Navbar
+
+7. You should now be able to view the post you created in the Home feed
+
+8. Click on the Text of the Post
+   * This should redirect you to a page dedicated to the Post
+
+9. Read the post and interact with it as you wish
+
+10. When done, click the Logout button on the top right to end your session
+
+
+
 ### Being able to interact with posts
 
 1. Go to "http://localhost:3000/login"
