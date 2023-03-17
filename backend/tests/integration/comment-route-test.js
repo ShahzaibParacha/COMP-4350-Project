@@ -175,7 +175,7 @@ describe('Comment routes', function () {
                 },
               });
 
-            expect(response.data.code).to.equal(40000);
+            expect(response.data.code).to.equal(40002);
         });
 
         it('should not succeed', async function() {
@@ -195,7 +195,7 @@ describe('Comment routes', function () {
                 },
               });
 
-            expect(response.data.code).to.equal(40000);
+            expect(response.data.code).to.equal(40003);
         });
 
         it('should not succeed', async function() {

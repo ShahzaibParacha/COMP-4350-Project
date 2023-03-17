@@ -21,7 +21,6 @@ let weiyu = {
     password: 'Password123.',
     email: 'weiyu@gmail.com',
     is_writer: false,
-
 }
 
 let tom = {
@@ -44,7 +43,8 @@ async function resetDatabase() {
         registration_date: Date.now(),
         last_login_date: null,
         bio: null,
-        affiliation: null
+        affiliation: null,
+        profile_photo: "/sample_profile.jpg"
     }))
 
     await UserSchema.create(new UserSchema({
@@ -55,7 +55,8 @@ async function resetDatabase() {
         registration_date: Date.now(),
         last_login_date: null,
         bio: null,
-        affiliation: null
+        affiliation: null,
+        profile_photo: "/sample_profile.jpg"
     }))
 
     weiyu = await UserSchema.findOne({username: weiyu.username})
