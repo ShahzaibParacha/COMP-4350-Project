@@ -6,7 +6,7 @@
   "scripts": {
     "unit": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/*.js",
     "integration": "nyc mocha --timeout 15000 ./tests/integration/*.js ./tests/*.js",
-    "test": "nyc mocha --timeout 15000 ./tests/integration/comment-route-test.js",
+    "test": "nyc mocha --timeout 15000 ./tests/integration/aws-controller-test.js",
     "all": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/integration/*.js ./tests/*.js",
     "start": "nodemon index.js"
   },
