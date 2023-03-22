@@ -38,7 +38,7 @@ async function resetDatabase () {
 
 async function connectDatabase () {
 	mongoose
-		.connect(process.env.MONGODB_CONNECTION, {
+		.connect(process.env.TEST_MONGODB_CONNECTION, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true
 		});

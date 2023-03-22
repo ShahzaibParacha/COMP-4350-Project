@@ -6,17 +6,17 @@ const from_email = process.env.NOTICE_EMAIL_ADDRESS;
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    //host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // use TLS
-    auth: {
-        user: process.env.NOTICE_EMAIL_ADDRESS,
-        pass: process.env.NOTICE_EMAIL_PASSWORD
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
+	service: 'gmail',
+	//host: 'smtp.gmail.com',
+	port: 465,
+	secure: true, // use TLS
+	auth: {
+		user: process.env.NOTICE_EMAIL_ADDRESS,
+		pass: process.env.NOTICE_EMAIL_PASSWORD
+	},
+	tls: {
+		rejectUnauthorized: false
+	}
 });
 
 // send email to all subscribers

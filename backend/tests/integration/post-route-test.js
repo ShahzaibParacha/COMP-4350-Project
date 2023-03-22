@@ -1,7 +1,7 @@
 const express = require('express');
 const Post = require('../../schema/post-schema');
 const User = require('../../schema/user-schema');
-const Like = require('../../schema/likes-schema')
+const Like = require('../../schema/likes-schema');
 const Subscribe = require('../../schema/subscriber-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
@@ -36,80 +36,95 @@ let server;
  * res - the response returned by logging in
  */
 const setup = async (numPosts, numUsers) => {
-    let userIDs = [];
-    let postIDs = [];
-    let i = 0;
+	let userIDs = [];
+	let postIDs = [];
+	let i = 0;
 
-    await Post.deleteMany({});
+	await Post.deleteMany({});
 	await Like.deleteMany({});
 
-    //generate user ids
-    for (i = 0; i < numUsers; i++) {
-		userIDs.push(new mongoose.mongo.ObjectID );	
-    }
+	//generate user ids
+	for (i = 0; i < numUsers; i++) {
+		userIDs.push(new mongoose.mongo.ObjectID);
+	}
 
-    //generate random posts created by numUsers users
-    for (i = 0; i < numPosts; i++) {
-        postIDs.push(new mongoose.mongo.ObjectID);
-        const attrib = {_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i, post_date: new Date(i * 1000000)};
-        await Post.create(attrib);
+	//generate random posts created by numUsers users
+	for (i = 0; i < numPosts; i++) {
+		postIDs.push(new mongoose.mongo.ObjectID);
+		const attrib = {
+			_id: postIDs[postIDs.length - 1],
+			user_id: userIDs[i % numUsers],
+			content: i,
+			post_date: new Date(i * 1000000)
+		};
+		await Post.create(attrib);
 		await Like.create({post_id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers]});
-    }
+	}
 
-    //creates an account
-    await User.findOneAndDelete({email});
-    await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
+	//creates an account
+	await User.findOneAndDelete({email});
+	await User.create({username, email, password, _id: userIDs[0], profile_photo: '/sample_profile.jpg'});
 
-    //create a subscribe
-	if(userIDs.length >= 2){
+	//create a subscribe
+	if (userIDs.length >= 2) {
 		await User.findOneAndDelete({email: email2});
-		await User.create({username: username2, email: email2, password: password, _id: userIDs[1], profile_photo: "/sample_profile.jpg"}); 
+		await User.create({
+			username: username2,
+			email: email2,
+			password: password,
+			_id: userIDs[1],
+			profile_photo: '/sample_profile.jpg'
+		});
 
 		await Subscribe.deleteMany({creator_id: userIDs[0]});
 		await Subscribe.deleteMany({audience_id: userIDs[0]});
 
-		await Subscribe.create(new Subscribe({     
-      	creator_id: userIDs[1],
-      	audience_id: userIDs[0],
-      	subscription_date: Date.now(),
-      	receive_notification: true
+		await Subscribe.create(new Subscribe({
+			creator_id: userIDs[1],
+			audience_id: userIDs[0],
+			subscription_date: Date.now(),
+			receive_notification: true
 		}));
 
-		await Subscribe.create(new Subscribe({     
-      	creator_id: userIDs[0],
-      	audience_id: userIDs[1],
-      	subscription_date: Date.now(),
-      	receive_notification: true
+		await Subscribe.create(new Subscribe({
+			creator_id: userIDs[0],
+			audience_id: userIDs[1],
+			subscription_date: Date.now(),
+			receive_notification: true
 		}));
 	}
 
 	//login
 	const res = await axios({
-		method: "post",
-		url: `http://localhost:4350/api/free/user/login`,
+		method: 'post',
+		url: 'http://localhost:4350/api/free/user/login',
 		data: {
 			email,
 			password,
 		},
 	});
 
-    return { postIDs, userIDs, res };
-}
+	return {postIDs, userIDs, res};
+};
 
 describe('Post routes', function () {
 	before(async () => {
 		const app = express();
 
 		mongoose
-			.connect(process.env.MONGODB_CONNECTION, {
+			.connect(process.env.TEST_MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})
-			.then(() => { console.log('Success to connect mongodb'); })
-			.catch(() => { console.log('Fail to connect mongodb'); });
+			.then(() => {
+				console.log('Success to connect mongodb');
+			})
+			.catch(() => {
+				console.log('Fail to connect mongodb');
+			});
 
-		app.use(bodyParser.json({ extended: true }));
-		app.use(bodyParser.urlencoded({ extended: true }));
+		app.use(bodyParser.json({extended: true}));
+		app.use(bodyParser.urlencoded({extended: true}));
 		app.use(cors());
 
 		app.use('/api', apiRouter);
@@ -166,7 +181,7 @@ describe('Post routes', function () {
 
 	describe('GET request to get_user_posts', function () {
 		it('should return nothing', async function () {
-			const { id, token } = (await setup(0, 1)).res.data.data;
+			const {id, token} = (await setup(0, 1)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -186,7 +201,7 @@ describe('Post routes', function () {
 		});
 
 		it('should return nothing', async function () {
-			const { token } = (await setup(10, 3)).res.data.data;
+			const {token} = (await setup(10, 3)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -206,7 +221,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { token } = (await setup(10, 3)).res.data.data;
+			const {token} = (await setup(10, 3)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -224,7 +239,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { token } = (await setup(10, 3)).res.data.data;
+			const {token} = (await setup(10, 3)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -242,7 +257,7 @@ describe('Post routes', function () {
 		});
 
 		it('should return all posts with even content', async function () {
-			const { id, token } = (await setup(10, 2)).res.data.data;
+			const {id, token} = (await setup(10, 2)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -267,7 +282,7 @@ describe('Post routes', function () {
 
 	describe('GET request to get_subscribed_posts', function () {
 		it('should return nothing', async function () {
-			const { id, token } = (await setup(0, 1)).res.data.data;
+			const {id, token} = (await setup(0, 1)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -287,7 +302,7 @@ describe('Post routes', function () {
 		});
 
 		it('should return nothing', async function () {
-			const { token } = (await setup(10, 3)).res.data.data;
+			const {token} = (await setup(10, 3)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -307,7 +322,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { token } = (await setup(10, 3)).res.data.data;
+			const {token} = (await setup(10, 3)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -325,8 +340,8 @@ describe('Post routes', function () {
 		});
 
 		it('should succeed', async function () {
-			const { id, token } = (await setup(10, 2)).res.data.data;
-			
+			const {id, token} = (await setup(10, 2)).res.data.data;
+
 			const response = await axios({
 				method: 'get',
 				url: 'http://localhost:4350/api/post/get_subscribed_posts',
@@ -345,7 +360,7 @@ describe('Post routes', function () {
 
 	describe('GET request to get_post_by_ID', function () {
 		it('should return the post with content of "1"', async function () {
-			const { postIDs, res } = (await setup(10, 1));
+			const {postIDs, res} = (await setup(10, 1));
 
 			const result = await axios({
 				method: 'get',
@@ -367,7 +382,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not find the post with an id of "20"', async function () {
-			const { token } = (await setup(10, 2)).res.data.data;
+			const {token} = (await setup(10, 2)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -385,7 +400,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not find the post with a newly generated id', async function () {
-			const { token } = (await setup(10, 2)).res.data.data;
+			const {token} = (await setup(10, 2)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -403,7 +418,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not find the post with the wrong id type', async function () {
-			const { token } = (await setup(10, 2)).res.data.data;
+			const {token} = (await setup(10, 2)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -423,7 +438,7 @@ describe('Post routes', function () {
 
 	describe('POST request to update', function () {
 		it('should update content from 0 to 69', async function () {
-			const { postIDs, res } = (await setup(10, 1));
+			const {postIDs, res} = (await setup(10, 1));
 
 			await axios({
 				method: 'post',
@@ -445,7 +460,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not update anything', async function () {
-			const { token } = (await setup(10, 2)).res.data.data;
+			const {token} = (await setup(10, 2)).res.data.data;
 
 			await axios({
 				method: 'post',
@@ -467,7 +482,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { token } = (await setup(10, 2)).res.data.data;
+			const {token} = (await setup(10, 2)).res.data.data;
 
 			const res = await axios({
 				method: 'post',
@@ -485,7 +500,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { token } = (await setup(10, 2)).res.data.data;
+			const {token} = (await setup(10, 2)).res.data.data;
 
 			const res = await axios({
 				method: 'post',
@@ -505,7 +520,7 @@ describe('Post routes', function () {
 
 	describe('DELETE request to update', function () {
 		it('should return 9 posts instead of 10', async function () {
-			const { postIDs, res } = (await setup(10, 1));
+			const {postIDs, res} = (await setup(10, 1));
 
 			await axios({
 				method: 'delete',
@@ -529,7 +544,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not delete anything', async function () {
-			const { res } = (await setup(10, 1));
+			const {res} = (await setup(10, 1));
 
 			await axios({
 				method: 'delete',
@@ -553,7 +568,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { res } = (await setup(10, 1));
+			const {res} = (await setup(10, 1));
 
 			const response = await axios({
 				method: 'delete',
@@ -571,7 +586,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { res } = (await setup(10, 1));
+			const {res} = (await setup(10, 1));
 
 			const response = await axios({
 				method: 'delete',
@@ -591,7 +606,7 @@ describe('Post routes', function () {
 
 	describe('POST request to create', function () {
 		it('should return a post', async function () {
-			const { userIDs, res } = (await setup(0, 1));
+			const {userIDs, res} = (await setup(0, 1));
 
 			const response = await axios({
 				method: 'post',
@@ -606,7 +621,7 @@ describe('Post routes', function () {
 				}
 			});
 
-			const posts = await Post.find({ user_id: userIDs[0] });
+			const posts = await Post.find({user_id: userIDs[0]});
 
 			expect(posts).to.exist;
 			expect(posts.length).to.equal(1);
@@ -615,7 +630,7 @@ describe('Post routes', function () {
 		});
 
 		it('should return three posts', async function () {
-			const { userIDs, res } = (await setup(4, 2));
+			const {userIDs, res} = (await setup(4, 2));
 
 			await axios({
 				method: 'post',
@@ -630,7 +645,7 @@ describe('Post routes', function () {
 				}
 			});
 
-			const posts = await Post.find({ user_id: userIDs[0] });
+			const posts = await Post.find({user_id: userIDs[0]});
 
 			expect(posts).to.exist;
 			expect(posts.length).to.equal(3);
@@ -640,7 +655,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { res } = (await setup(5, 1));
+			const {res} = (await setup(5, 1));
 
 			const response = await axios({
 				method: 'post',
@@ -659,7 +674,7 @@ describe('Post routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { res } = (await setup(5, 1));
+			const {res} = (await setup(5, 1));
 
 			const response = await axios({
 				method: 'post',
