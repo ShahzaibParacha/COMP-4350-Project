@@ -13,7 +13,7 @@ env:
   NOTICE_EMAIL_ADDRESS: ${{ secrets.NOTICE_EMAIL_ADDRESS }}
   NOTICE_EMAIL_PASSWORD: ${{ secrets.NOTICE_EMAIL_PASSWORD }}
   TEST_MONGODB_CONNECTION: ${{ secrets.TEST_MONGODB_CONNECTION }}
-
+    
 jobs:
   run_tests:
     runs-on: ubuntu-latest

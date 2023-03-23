@@ -149,7 +149,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_recent_posts',
+				url: 'http://localhost:4350/api/post/getRecentPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -166,7 +166,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_recent_posts',
+				url: 'http://localhost:4350/api/post/getRecentPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -185,7 +185,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_user_posts',
+				url: 'http://localhost:4350/api/post/getUserPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -205,7 +205,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_user_posts',
+				url: 'http://localhost:4350/api/post/getUserPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -225,7 +225,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_user_posts',
+				url: 'http://localhost:4350/api/post/getUserPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -243,7 +243,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_user_posts',
+				url: 'http://localhost:4350/api/post/getUserPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -261,7 +261,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_user_posts',
+				url: 'http://localhost:4350/api/post/getUserPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -286,7 +286,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_subscribed_posts',
+				url: 'http://localhost:4350/api/post/getSubscribedPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -306,7 +306,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_subscribed_posts',
+				url: 'http://localhost:4350/api/post/getSubscribedPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -326,7 +326,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_subscribed_posts',
+				url: 'http://localhost:4350/api/post/getSubscribedPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -344,7 +344,7 @@ describe('Post routes', function () {
 
 			const response = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_subscribed_posts',
+				url: 'http://localhost:4350/api/post/getSubscribedPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -364,7 +364,7 @@ describe('Post routes', function () {
 
 			const result = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_post_by_ID',
+				url: 'http://localhost:4350/api/post/getPostByID',
 				headers: {
 					Authorization: res.data.data.token,
 					withCredentials: true
@@ -386,7 +386,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_post_by_ID',
+				url: 'http://localhost:4350/api/post/getPostByID',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -404,7 +404,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_post_by_ID',
+				url: 'http://localhost:4350/api/post/getPostByID',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -422,7 +422,7 @@ describe('Post routes', function () {
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/get_post_by_ID',
+				url: 'http://localhost:4350/api/post/getPostByID',
 				headers: {
 					Authorization: token,
 					withCredentials: true

@@ -6,8 +6,8 @@ const storage = multer.memoryStorage(); // store in memory and not on disk
 const upload = multer({storage: storage});
 
 // will intercept the request and store the image sent in req.file
-router.post('/upload_image', upload.single('image'), uploadImage);
+router.post('/uploadImage', upload.single('image'), uploadImage);
 
-router.post('/delete_image', deleteImage);
+router.post('/deleteImage', deleteImage);
 
 module.exports = router;
