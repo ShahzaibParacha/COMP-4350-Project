@@ -5,13 +5,14 @@ on:
   pull_request:
     branches: ["master", "develop"]
 jobs:
-  name: Set up environment
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v3
-      with:
-        # Disabling shallow clone is recommended by sonar-cloud
-        fetch-depth: 0
+  run-sonarcloud:
+    name: Set up environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # Disabling shallow clone is recommended by sonar-cloud
+          fetch-depth: 0
         
       - name: Scan with Sonarcloud
       - uses: SonarSource/sonarcloud-github-action@master
