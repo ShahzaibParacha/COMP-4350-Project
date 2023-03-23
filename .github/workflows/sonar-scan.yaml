@@ -6,16 +6,15 @@ on:
     branches: ["master", "develop"]
 jobs:
   run-sonarcloud:
-    name: Set up environment
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          # Disabling shallow clone is recommended by sonar-cloud
-          fetch-depth: 0
+    - uses: actions/checkout@v3
+      with:
+        # Disabling shallow clone is recommended by sonar-cloud
+        fetch-depth: 0
         
-      - name: Scan with Sonarcloud
-      - uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: Scan with Sonarcloud
+    - uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
