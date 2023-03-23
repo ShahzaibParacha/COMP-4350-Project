@@ -145,6 +145,7 @@ function setFakeDatabase() {
 }
 
 async function connectDatabase() {
+	console.log('The url is ' + process.env.TEST_MONGODB_CONNECTION);
 	await mongoose
 		.connect(process.env.TEST_MONGODB_CONNECTION, {
 			useNewUrlParser: true,
