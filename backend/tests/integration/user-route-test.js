@@ -259,7 +259,7 @@ describe('User routes', function () {
 				params: {
 					user_id: weiyu._id
 				},
-				url: 'http://localhost:4350/api/user/delete_account',
+				url: 'http://localhost:4350/api/user/deleteAccount',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -275,7 +275,7 @@ describe('User routes', function () {
 				params: {
 					user_id: 'abc'
 				},
-				url: 'http://localhost:4350/api/user/delete_account',
+				url: 'http://localhost:4350/api/user/deleteAccount',
 				headers: {
 					Authorization: token,
 					withCredentials: true

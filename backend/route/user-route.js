@@ -4,7 +4,7 @@ const userMiddleware = require('../middleware/user-middleware');
 
 router.get('/profile', userController.getUserProfile);
 router.post('/profile', userController.updateUserProfile);
-router.get('/delete_account', userController.removeAccount);
+router.get('/deleteAccount', userController.removeAccount);
 router.post('/username', userController.updateUsername);
 router.post('/password', userController.updatePassword);
 router.post('/subscription/followNewUser', userMiddleware.subscriptionValidation, userController.subscribeUser);
