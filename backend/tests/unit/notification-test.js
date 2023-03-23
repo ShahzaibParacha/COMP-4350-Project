@@ -9,7 +9,7 @@ require('dotenv').config();
 let userList = [];
 const post_id = new mongoose.mongo.ObjectID();
 
-function resetUserList () {
+function resetUserList() {
 	userList = [];
 	let userIDs = [];
 
@@ -59,7 +59,7 @@ function resetUserList () {
 	});
 }
 
-function setFakeDatabase () {
+function setFakeDatabase() {
 	sinon.stub(User, 'findOne').callsFake((param) => {
 		if (param.hasOwnProperty('username')) {
 			const a = userList.find(user => user.username === param.username);
@@ -76,7 +76,9 @@ function setFakeDatabase () {
 	});
 
 	sinon.stub(User, 'updateOne').callsFake((condition, update) => {
-		if (condition._id === undefined || condition._id === null) { return { ok: 0 }; }
+		if (condition._id === undefined || condition._id === null) {
+			return {ok: 0};
+		}
 
 		const user = userList.find(user => user._id === condition._id);
 
@@ -93,10 +95,10 @@ function setFakeDatabase () {
 				user.affiliation = update.affiliation;
 			}
 
-			return { ok: 1 };
+			return {ok: 1};
 		}
 
-		return { ok: 0 };
+		return {ok: 0};
 	});
 
 	sinon.stub(User, 'create').callsFake(() => {
@@ -106,12 +108,12 @@ function setFakeDatabase () {
 
 	sinon.stub(User, 'remove').callsFake((param) => {
 		userList = userList.filter(user => user._id !== param._id);
-		return { ok: 1 };
+		return {ok: 1};
 	});
 
 	// setup subscribes
-	SubscriberSchema.deleteMany({ creator_id: userList[0]._id });
-	SubscriberSchema.deleteMany({ audience_id: userList[0]._id });
+	SubscriberSchema.deleteMany({creator_id: userList[0]._id});
+	SubscriberSchema.deleteMany({audience_id: userList[0]._id});
 
 	SubscriberSchema.create(new SubscriberSchema({
 		creator_id: userList[0]._id,
@@ -142,8 +144,8 @@ function setFakeDatabase () {
 	}));
 }
 
-async function connectDatabase () {
-	mongoose
+async function connectDatabase() {
+	await mongoose
 		.connect(process.env.TEST_MONGODB_CONNECTION, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true
@@ -165,8 +167,8 @@ describe('Subscriber notification tests', function () {
 	});
 
 	after(async () => {
-		await SubscriberSchema.deleteMany({ creator_id: userList[0]._id });
-		await SubscriberSchema.deleteMany({ audience_id: userList[0]._id });
+		await SubscriberSchema.deleteMany({creator_id: userList[0]._id});
+		await SubscriberSchema.deleteMany({audience_id: userList[0]._id});
 		await mongoose.disconnect();
 	});
 
