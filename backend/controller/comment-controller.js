@@ -23,30 +23,30 @@ const getCommentsFromPost = (req, res) => {
 				promises.push(getUserInfo(comments[i].user_id));
 			}
 
-      Promise.all(promises)
-        .then((users) => {
-          for (let i = 0; i < comments.length; i++) {
-            // return the username of the users who wrote the comments too as well as the profile photo
-            result.push({
-              username: users[i].username,
-              user_id: comments[i].user_id,
-              post_id: comments[i].post_id,
-              content: comments[i].content,
-              comment_date: comments[i].comment_date,
-              profile_photo: users[i].profile_photo,
-            });
-          }
-          res.json(Result.success(result));
-        })
-        .catch((err) => {
-          /* istanbul ignore next */
-          res.json(Result.fail(err));
-        });
-    })
-    .catch((err) => {
-      /* istanbul ignore next */
-      res.json(Result.fail(err));
-    });
+			Promise.all(promises)
+				.then((users) => {
+					for (let i = 0; i < comments.length; i++) {
+						// return the username of the users who wrote the comments too as well as the profile photo
+						result.push({
+							username: users[i].username,
+							user_id: comments[i].user_id,
+							post_id: comments[i].post_id,
+							content: comments[i].content,
+							comment_date: comments[i].comment_date,
+							profile_photo: users[i].profile_photo,
+						});
+					}
+					res.json(Result.success(result));
+				})
+				.catch((err) => {
+					/* istanbul ignore next */
+					res.json(Result.fail(err));
+				});
+		})
+		.catch((err) => {
+			/* istanbul ignore next */
+			res.json(Result.fail(err));
+		});
 };
 
 const createComment = (req, res) => {
@@ -61,14 +61,14 @@ const createComment = (req, res) => {
 		return res.json(Result.invalidUserId());
 	}
 
-  createCommentService(post_id, user_id, content, Date.now())
-    .then((result) => {
-      res.json(Result.success(result));
-    })
-    .catch((err) => {
-      /* istanbul ignore next */
-      res.json(Result.fail(err));
-    });
+	createCommentService(post_id, user_id, content, Date.now())
+		.then((result) => {
+			res.json(Result.success(result));
+		})
+		.catch((err) => {
+			/* istanbul ignore next */
+			res.json(Result.fail(err));
+		});
 };
 
 module.exports = { getCommentsFromPost, createComment };

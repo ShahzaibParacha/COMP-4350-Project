@@ -8,9 +8,9 @@ require('dotenv').config();
 const creatorID = new mongoose.mongo.ObjectID();
 const audienceID = new mongoose.mongo.ObjectID();
 
-async function resetDatabase () {
-	await SubscriberSchema.deleteMany({ creator_id: creatorID });
-	await SubscriberSchema.deleteMany({ audience_id: audienceID });
+async function resetDatabase() {
+	await SubscriberSchema.deleteMany({creator_id: creatorID});
+	await SubscriberSchema.deleteMany({audience_id: audienceID});
 
 	for (let i = 0; i < 10; i++) {
 		await SubscriberSchema.create(new Subscriber({
@@ -36,9 +36,9 @@ async function resetDatabase () {
 	}));
 }
 
-async function connectDatabase () {
-	mongoose
-		.connect(process.env.MONGODB_CONNECTION, {
+async function connectDatabase() {
+	await mongoose
+		.connect(process.env.TEST_MONGODB_CONNECTION, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true
 		});
@@ -54,8 +54,8 @@ describe('Subscriber services and model', function () {
 	});
 
 	after(async () => {
-		await SubscriberSchema.deleteMany({ creator_id: creatorID });
-		await SubscriberSchema.deleteMany({ audience_id: audienceID });
+		await SubscriberSchema.deleteMany({creator_id: creatorID});
+		await SubscriberSchema.deleteMany({audience_id: audienceID});
 		await mongoose.disconnect();
 	});
 
@@ -168,7 +168,7 @@ describe('Subscriber services and model', function () {
 
 		it('should return nothing', async function () {
 			const result = await SubscriberService.getSubscription(creatorID, new mongoose.mongo.ObjectID());
-			!expect(result).to.not.exist;
+			expect(result).to.not.exist;
 		});
 
 		it('should return nothing', async function () {

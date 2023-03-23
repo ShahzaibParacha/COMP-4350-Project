@@ -87,7 +87,7 @@ describe('Like services and model', function () {
 	before(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
 			mongoose
-				.connect(process.env.MONGODB_CONNECTION, {
+				.connect(process.env.TEST_MONGODB_CONNECTION, {
 					useNewUrlParser: true,
 					useUnifiedTopology: true
 				})

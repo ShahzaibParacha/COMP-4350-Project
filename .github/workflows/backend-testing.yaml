@@ -21,9 +21,9 @@ jobs:
       run:
         working-directory: ./backend
     strategy:
-        matrix:
-          node-version: [16.15.1]
-        
+      matrix:
+        node-version: [16.15.1]
+
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -36,8 +36,8 @@ jobs:
         run: npm run unit
       - name: Run integration tests
         run: npm run integration
-        env: 
+        env:
           TEST_TYPE: INTEGRATION
-          
+
       - name: Run all tests
         run: npm run all

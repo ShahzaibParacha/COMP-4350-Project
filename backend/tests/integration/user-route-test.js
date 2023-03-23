@@ -14,14 +14,14 @@ const passport = require('passport');
 require('../../util/passport')(passport);
 
 let server;
-const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZTVkMzFlNDQyM2MxMDNjYmM3M2M2MiIsImVtYWlsIjoic3VudzFAbXl1bWFuaXRvYmEuY2EiLCJpYXQiOjE2NzYzMTkzNTN9.1qrLb7SDdVyEIQqJOSrohZtXeguhMcsQNkMTDV_TAlM';
+const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWI0ZjM5MDY5NzIxNjQzNTZiMDUxMyIsImVtYWlsIjoiZGVhbkBlbWFpcXd3bC5jb20iLCJpYXQiOjE2Nzk1MTE5NjZ9.-_SLqEilsyXx6uAmpcbDy_Mgmk-eraPA0pdBpSQzdm0';
 let weiyu = {
-    _id: null,
-    username: 'weiyu',
-    password: 'Password123.',
-    email: 'weiyu@gmail.com',
-    is_writer: false,
-}
+	_id: null,
+	username: 'weiyu',
+	password: 'Password123.',
+	email: 'weiyu@gmail.com',
+	is_writer: false,
+};
 
 let tom = {
 	_id: null,
@@ -32,9 +32,9 @@ let tom = {
 	profile_photo: '/sample_profile.jpg'
 };
 
-async function resetDatabase () {
-	await UserSchema.deleteOne({ username: weiyu.username });
-	await UserSchema.deleteOne({ username: tom.username });
+async function resetDatabase() {
+	await UserSchema.deleteOne({username: weiyu.username});
+	await UserSchema.deleteOne({username: tom.username});
 
 	await UserSchema.create(new UserSchema({
 		username: weiyu.username,
@@ -60,8 +60,8 @@ async function resetDatabase () {
 		profile_photo: '/sample_profile.jpg'
 	}));
 
-	weiyu = await UserSchema.findOne({ username: weiyu.username });
-	tom = await UserSchema.findOne({ username: tom.username });
+	weiyu = await UserSchema.findOne({username: weiyu.username});
+	tom = await UserSchema.findOne({username: tom.username});
 
 	await SubscriberSchema.create(new SubscriberSchema({
 		creator_id: weiyu._id,
@@ -76,13 +76,13 @@ describe('User routes', function () {
 		const app = express();
 
 		mongoose
-			.connect(process.env.MONGODB_CONNECTION, {
+			.connect(process.env.TEST_MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			});
 
-		app.use(bodyParser.json({ extended: true }));
-		app.use(bodyParser.urlencoded({ extended: true }));
+		app.use(bodyParser.json({extended: true}));
+		app.use(bodyParser.urlencoded({extended: true}));
 		app.use(cors());
 
 		app.use('/api', apiRouter);
@@ -95,8 +95,8 @@ describe('User routes', function () {
 	});
 
 	after(async () => {
-		await UserSchema.deleteOne({ username: weiyu.username });
-		await UserSchema.deleteOne({ username: tom.username });
+		await UserSchema.deleteOne({username: weiyu.username});
+		await UserSchema.deleteOne({username: tom.username});
 
 		await mongoose.disconnect();
 		server.close();
@@ -119,7 +119,7 @@ describe('User routes', function () {
 			});
 
 			expect(resp.data.code).to.equal(20000);
-			await UserSchema.deleteOne({ username: 'Helloworld' });
+			await UserSchema.deleteOne({username: 'Helloworld'});
 		});
 
 		it('should fail, user already signup', async function () {
@@ -302,7 +302,7 @@ describe('User routes', function () {
 			});
 
 			expect(resp.data.code).to.equal(Result.SUCCESS.code);
-			await UserSchema.deleteOne({ username: 'weiyuSun' });
+			await UserSchema.deleteOne({username: 'weiyuSun'});
 		});
 
 		it('should fail, new_username invalid', async function () {
@@ -376,7 +376,7 @@ describe('User routes', function () {
 			});
 
 			expect(resp.data.code).to.equal(Result.SUCCESS.code);
-			await SubscriberSchema.deleteOne({ creator_id: creatorId, audience_id: weiyu._id });
+			await SubscriberSchema.deleteOne({creator_id: creatorId, audience_id: weiyu._id});
 		});
 
 		it('should fail, creator_id invalid', async function () {
@@ -423,7 +423,7 @@ describe('User routes', function () {
 			});
 
 			expect(resp.data.data.length).to.equal(5);
-			await SubscriberSchema.deleteMany({ creator_id: weiyu._id });
+			await SubscriberSchema.deleteMany({creator_id: weiyu._id});
 		});
 
 		it('should fail, input parameter valid', async function () {
@@ -471,7 +471,7 @@ describe('User routes', function () {
 			});
 
 			expect(resp.data.data.length).to.equal(5);
-			await SubscriberSchema.deleteMany({ audience_id: weiyu._id });
+			await SubscriberSchema.deleteMany({audience_id: weiyu._id});
 		});
 
 		it('should fail, input user_id invalid', async function () {
