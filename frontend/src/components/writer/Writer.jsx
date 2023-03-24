@@ -370,56 +370,59 @@ function Writer() {
 
     if (changeImage) {
       const imageFormData = new FormData();
-      imageFormData.append("image", imageInput.files[0]);
 
-      // upload the image to the cloud
-      axios({
-        method: "post",
-        url: `http://localhost:4350/api/aws/upload_image`,
-        headers: {
-          Authorization: token,
-          withCredentials: true,
-          "Content-Type": "multipart/form-data",
-        },
-        data: imageFormData,
-      }).then((result) => {
-        // if the upload was successful, update the database
+      if (imageInput && imageInput.files[0]) {
+        imageFormData.append("image", imageInput.files[0]);
+
+        // upload the image to the cloud
         axios({
           method: "post",
-          url: `http://localhost:4350/api/user/profile`,
+          url: `http://localhost:4350/api/aws/upload_image`,
           headers: {
             Authorization: token,
             withCredentials: true,
+            "Content-Type": "multipart/form-data",
           },
-          data: {
-            user_id: userId,
-            profile_photo: result.data.data.imageUrl,
-            is_writer: true,
-            affiliation,
-            bio,
-          },
-        }).then(() => {
-          // delete the image to not crowd our bucket
+          data: imageFormData,
+        }).then((result) => {
+          // if the upload was successful, update the database
           axios({
             method: "post",
-            url: `http://localhost:4350/api/aws/delete_image`,
+            url: `http://localhost:4350/api/user/profile`,
             headers: {
               Authorization: token,
               withCredentials: true,
             },
-            data: { image },
-          });
+            data: {
+              user_id: userId,
+              profile_photo: result.data.data.imageUrl,
+              is_writer: true,
+              affiliation,
+              bio,
+            },
+          }).then(() => {
+            // delete the image to not crowd our bucket
+            axios({
+              method: "post",
+              url: `http://localhost:4350/api/aws/delete_image`,
+              headers: {
+                Authorization: token,
+                withCredentials: true,
+              },
+              data: { image },
+            });
 
-          showMessage(
-            document.getElementById("image_message"),
-            "Successfully updated!",
-            success,
-            false,
-            "center"
-          );
-          setImage(result.data.data.imageUrl);
+            showMessage(
+              document.getElementById("image_message"),
+              "Successfully updated!",
+              success,
+              false,
+              "center"
+            );
+            setImage(result.data.data.imageUrl);
+          });
         });
-      });
+      }
     }
 
     isChangingImage(!changeImage);
@@ -557,11 +560,9 @@ function Writer() {
   }
 
   function renderProfile() {
-    // not for the buttons themselves but for the div that contains them
-    const classForEditProfile =
-      "flex justify-start items-center col-start-1 col-end-3 row-start-6 row-end-7 py-4";
-    const classForSubscribe =
-      "flex justify-end items-center col-start-1 col-end-3 row-start-6 row-end-7 py-4";
+    const classForEditBio =
+      "flex flex-col items-start w-full border-gray-400 border-b-2 pb-4";
+    const classForBio = "flex flex-col items-start w-full";
 
     return (
       <div className="w-screen bg-base-100">
@@ -628,15 +629,15 @@ function Writer() {
         </div>
 
         <div className="w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
-          <div className="m-auto grid grid-cols-2 grid-rows-6 mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full gap-2">
-            <div className="flex flex-col items-center col-start-1 col-end-2 row-start-1 row-end-4">
+          <div className="m-auto mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full flex">
+            <div className="flex flex-col items-center w-6/12 p-2 gap-1">
               <img
-                className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] mb-4 object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white"
+                className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white mb-4"
                 src={image === "" ? "/sample_profile.jpg" : image}
                 alt="Profile"
               />
               {changeDetails && !changeImage && (
-                <button type="button" onClick={switchImage} className="mb-2">
+                <button type="button" onClick={switchImage}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -653,7 +654,7 @@ function Writer() {
                 </button>
               )}
               {changeDetails && changeImage && (
-                <div className="flex flex-col items-center md:flex-row mb-2">
+                <div className="flex flex-col items-center md:flex-row">
                   <input
                     type="file"
                     accept="image/*"
@@ -679,15 +680,80 @@ function Writer() {
                 </div>
               )}
               <p id="image_message" className="opacity-0 text-xs" />
+              <div className="flex justify-center items-center w-full">
+                <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip py-2">
+                  {username}
+                </h1>
+              </div>
             </div>
-            <div className="flex justify-center items-center col-start-1 col-end-2 row-start-4 row-end-5">
-              <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip py-2">
-                {username}
-              </h1>
-            </div>
-            <div className="col-start-2 col-end-3 row-span-5 gap-2">
-              <div className="flex justify-between row-span-1">
-                <div className="flex items-center">
+            <div className="flex flex-col w-6/12 p-2 gap-1">
+              <div className="flex justify-end">
+                {id === userId && (
+                  <button
+                    type="button"
+                    className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 w-fit mb-4"
+                    onClick={switchMode}
+                  >
+                    {!changeDetails ? "Edit Profile" : "Finish Editing"}
+                  </button>
+                )}
+                <div className="flex justify-end">
+                  {id !== userId && (
+                    <button
+                      type="button"
+                      className={
+                        hasSubscribed
+                          ? "hover:bg-indigo-700 bg-neutral text-white p-2 rounded-l-md mb-4"
+                          : "hover:bg-indigo-700 bg-neutral text-white p-2 rounded-md mb-4"
+                      }
+                      onClick={subscribe}
+                    >
+                      {!hasSubscribed ? "Subscribe" : "Subscribed"}
+                    </button>
+                  )}
+                  {hasSubscribed && id !== userId && (
+                    <button
+                      type="button"
+                      onClick={enableNotif}
+                      className="hover:bg-indigo-700 bg-neutral text-white p-2 h-full rounded-r-md"
+                    >
+                      {hasEnabledNotif ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.0"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.0"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9.143 17.082a24.248 24.248 0 003.844.148m-3.844-.148a23.856 23.856 0 01-5.455-1.31 8.964 8.964 0 002.3-5.542m3.155 6.852a3 3 0 005.667 1.97m1.965-2.277L21 21m-4.225-4.225a23.81 23.81 0 003.536-1.003A8.967 8.967 0 0118 9.75V9A6 6 0 006.53 6.53m10.245 10.245L6.53 6.53M3 3l3.53 3.53"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col items-start w-full">
+                <div className="flex">
                   <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 mr-1">
                     Affiliation
                   </h1>
@@ -726,307 +792,222 @@ function Writer() {
                     </button>
                   )}
                 </div>
+                <div className="w-full">
+                  {!changeAffiliation ? (
+                    <p className="overflow-x-auto overflow-y-clip py-2">
+                      {affiliation}
+                    </p>
+                  ) : (
+                    <textarea
+                      className="rounded-md text-md p-1 w-full resize-none h-[36px] p-1"
+                      id="affiliation_input"
+                      defaultValue={affiliation}
+                    />
+                  )}
+                </div>
+                <p
+                  id="affiliation_message"
+                  className="row-span-1 opacity-0 text-xs w-full"
+                />
               </div>
-              <div className="row-span-1">
-                {!changeAffiliation ? (
-                  <p className="overflow-x-auto overflow-y-clip py-2">
-                    {affiliation}
-                  </p>
-                ) : (
-                  <input
-                    type="text"
-                    id="affiliation_input"
-                    className="rounded-md text-md p-1 w-full"
-                    placeholder={affiliation}
-                  />
-                )}
-              </div>
-              <p
-                id="affiliation_message"
-                className="row-span-1 opacity-0 text-xs w-full"
-              />
-              <div className="flex items-center row-span-1">
-                <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 mr-1">
-                  Bio
-                </h1>
-                {changeDetails && (
-                  <button type="button" onClick={switchBio}>
-                    {!changeBio ? (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-6 h-6 fill-none hover:fill-black"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                        />
-                      </svg>
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-6 h-6 hover:stroke-green-500"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M4.5 12.75l6 6 9-13.5"
-                        />
-                      </svg>
-                    )}
-                  </button>
-                )}
-              </div>
-              <div className="row-span-4 h-60">
+              <div className={changeDetails ? classForEditBio : classForBio}>
+                <div className="flex w-full">
+                  <h1 className="text-center text-2xl font-bold tracking-tight text-gray-900 mr-1">
+                    Bio
+                  </h1>
+                  {changeDetails && (
+                    <button type="button" onClick={switchBio}>
+                      {!changeBio ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6 fill-none hover:fill-black"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6 hover:stroke-green-500"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4.5 12.75l6 6 9-13.5"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  )}
+                </div>
                 {!changeBio ? (
-                  <p className="overflow-auto h-fit max-h-[83%] py-2">{bio}</p>
+                  <p className="w-full overflow-auto py-2">{bio}</p>
                 ) : (
                   <textarea
-                    className="rounded-md h-5/6 w-full resize-none p-1"
+                    className="w-full h-[169px] rounded-md resize-none p-1"
                     id="bio_input"
-                  >
-                    {bio}
-                  </textarea>
+                    defaultValue={bio}
+                  />
                 )}
                 <p id="bio_message" className="opacity-0 text-xs" />
               </div>
-            </div>
-            <div
-              className={
-                id === userId ? classForEditProfile : classForSubscribe
-              }
-            >
-              {id === userId && (
-                <button
-                  type="button"
-                  className="rounded-md hover:bg-indigo-700 bg-neutral text-white p-2 h-full"
-                  onClick={switchMode}
-                >
-                  {!changeDetails ? "Edit Profile" : "Finish Editing"}
-                </button>
-              )}
-              {id !== userId && (
-                <button
-                  type="button"
-                  className={
-                    hasSubscribed
-                      ? "hover:bg-indigo-700 bg-neutral text-white p-2 h-full rounded-l-md"
-                      : "hover:bg-indigo-700 bg-neutral text-white p-2 h-full rounded-md"
-                  }
-                  onClick={subscribe}
-                >
-                  {!hasSubscribed ? "Subscribe" : "Subscribed"}
-                </button>
-              )}
-              {hasSubscribed && id !== userId && (
-                <button
-                  type="button"
-                  onClick={enableNotif}
-                  className="hover:bg-indigo-700 bg-neutral text-white p-2 h-full rounded-r-md"
-                >
-                  {hasEnabledNotif ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.0"
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.0"
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9.143 17.082a24.248 24.248 0 003.844.148m-3.844-.148a23.856 23.856 0 01-5.455-1.31 8.964 8.964 0 002.3-5.542m3.155 6.852a3 3 0 005.667 1.97m1.965-2.277L21 21m-4.225-4.225a23.81 23.81 0 003.536-1.003A8.967 8.967 0 0118 9.75V9A6 6 0 006.53 6.53m10.245 10.245L6.53 6.53M3 3l3.53 3.53"
-                      />
-                    </svg>
-                  )}
-                </button>
-              )}
-            </div>
-          </div>
-          {changeDetails && (
-            <div className="w-full pb-16">
-              <form>
-                <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900 mb-4">
-                  Account Details
-                </h2>
-                <div className="mb-8">
-                  <div className="flex justify-center items-start gap-4 mb-2">
-                    <div className="basis-1/5 flex justify-end">
-                      <p className="font-bold">Username:</p>
-                    </div>
-                    <div className="basis-1/3 flex flex-col">
+              {changeDetails && (
+                <div className="w-full">
+                  <form>
+                    <h2 className="text-start text-2xl font-bold tracking-tight text-gray-900 my-2">
+                      Account Details
+                    </h2>
+                    <div className="flex flex-col justify-start gap-1">
+                      <div className="flex">
+                        <h3 className="font-bold text-lg mr-1">Username</h3>
+                        {changeDetails && (
+                          <button type="button" onClick={switchUsername}>
+                            {!changeUsername ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-6 h-6 fill-none hover:fill-black"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                                />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-6 h-6 hover:stroke-green-500"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M4.5 12.75l6 6 9-13.5"
+                                />
+                              </svg>
+                            )}
+                          </button>
+                        )}
+                      </div>
                       {!changeUsername ? (
-                        <p>{username}</p>
+                        <p className="overflow-auto w-full py-2">{username}</p>
                       ) : (
                         <input
                           type="text"
                           id="username_input"
-                          className="rounded-md text-sm p-1"
+                          className="w-full rounded-md text-sm p-1"
                           placeholder={username}
                         />
                       )}
                       <p id="username_message" className="opacity-0 text-xs" />
-                    </div>
-                    <div className="basis-1/5">
-                      {changeDetails && (
-                        <button type="button" onClick={switchUsername}>
-                          {!changeUsername ? (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="w-6 h-6 fill-none hover:fill-black"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                              />
-                            </svg>
-                          ) : (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="w-6 h-6 hover:stroke-green-500"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M4.5 12.75l6 6 9-13.5"
-                              />
-                            </svg>
-                          )}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-start gap-4">
-                    <div className="basis-1/5 flex justify-end items-center">
-                      <p className="font-bold text-right">
-                        {!changePassword ? "Password:" : "Old Password"}
-                      </p>
-                    </div>
-                    {!changePassword ? (
-                      <p className="basis-1/3">{getStarString(password)}</p>
-                    ) : (
-                      <input
-                        type="password"
-                        id="old_password_input"
-                        className="rounded-md text-sm p-1 basis-1/3"
-                      />
-                    )}
-                    {changeDetails && (
-                      <div className="basis-1/5">
-                        <button type="button" onClick={switchPassword}>
-                          {!changePassword ? (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="w-6 h-6 fill-none hover:fill-black"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                              />
-                            </svg>
-                          ) : (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="w-6 h-6 hover:stroke-green-500"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M4.5 12.75l6 6 9-13.5"
-                              />
-                            </svg>
-                          )}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  {changePassword && (
-                    <div className="flex justify-center items-start gap-4 my-2">
-                      <div className="basis-1/5 flex justify-end items-center">
-                        <p className="font-bold text-right">New Password</p>
-                      </div>
-                      <input
-                        type="password"
-                        id="new_password_input"
-                        className="rounded-md text-sm p-1 basis-1/3"
-                      />
-                      <div className="basis-1/5" />
-                    </div>
-                  )}
-                  {changePassword && (
-                    <div className="flex justify-center items-start gap-4">
-                      <div className="basis-1/5 flex justify-end items-center">
-                        <p className="font-bold text-right">
-                          Confirm New Password
+                      <div className="flex">
+                        <p className="font-bold text-lg mr-1">
+                          {!changePassword ? "Password" : "Old Password"}
                         </p>
+                        {changeDetails && (
+                          <button type="button" onClick={switchPassword}>
+                            {!changePassword ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-6 h-6 fill-none hover:fill-black"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                                />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-6 h-6 hover:stroke-green-500"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M4.5 12.75l6 6 9-13.5"
+                                />
+                              </svg>
+                            )}
+                          </button>
+                        )}
                       </div>
-                      <input
-                        type="password"
-                        id="confirm_new_password_input"
-                        className="rounded-md text-sm p-1 basis-1/3"
-                      />
-                      <div className="basis-1/5" />
-                    </div>
-                  )}
-                  <div className="flex justify-center gap-4">
-                    <div className="basis-1/5" />
-                    <div className="basis-1/3 flex justify-left">
+                      <div className="flex justify-between">
+                        {!changePassword ? (
+                          <p className="w-full overflow-auto py-2">
+                            {getStarString(password)}
+                          </p>
+                        ) : (
+                          <input
+                            type="password"
+                            id="old_password_input"
+                            className="rounded-md text-sm p-1 w-full"
+                          />
+                        )}
+                      </div>
+                      {changePassword && (
+                        <div>
+                          <h3 className="font-bold text-lg mr-1">
+                            New Password
+                          </h3>
+                          <input
+                            type="password"
+                            id="new_password_input"
+                            className="rounded-md text-sm p-1 w-full"
+                          />
+                        </div>
+                      )}
+                      {changePassword && (
+                        <div>
+                          <h3 className="font-bold text-lg mr-1">
+                            Confirm New Password
+                          </h3>
+                          <input
+                            type="password"
+                            id="confirm_new_password_input"
+                            className="rounded-md text-sm p-1 w-full"
+                          />
+                        </div>
+                      )}
                       <p id="password_message" className="opacity-0 text-xs" />
+                      <div className="flex justify-end">
+                        <button
+                          type="button"
+                          className="rounded-md hover:bg-red-900 bg-red-500 text-white p-2 mt-16"
+                          onClick={showDeleteModal}
+                        >
+                          Delete Account
+                        </button>
+                      </div>
                     </div>
-                    <div className="basis-1/5" />
-                  </div>
+                  </form>
                 </div>
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    className="rounded-md hover:bg-red-900 bg-red-500 text-white p-2"
-                    onClick={showDeleteModal}
-                  >
-                    Delete Account
-                  </button>
-                </div>
-              </form>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     );

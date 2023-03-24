@@ -14,6 +14,7 @@ function ViewPost() {
   const [profile, setProfile] = useState();
   const [photo, setPhoto] = useState();
   const [post, setPost] = useState();
+  const [username, setUsername] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
   const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
@@ -30,6 +31,7 @@ function ViewPost() {
         },
       })
       .then((r) => {
+        setUsername(r.data.data[0].username);
         setProfile(r.data.data[0].post.user_id);
         setPhoto(r.data.data[0].profile_photo);
         setPost(r.data.data[0].post.content);
@@ -66,7 +68,7 @@ function ViewPost() {
                     />
                   </div>
                 </button>
-                <h2 className="ml-4">User posted</h2>
+                <h2 className="ml-4">{username} posted</h2>
               </div>
               <div>
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
