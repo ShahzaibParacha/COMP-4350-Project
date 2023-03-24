@@ -106,7 +106,25 @@ function getMyFollowing (req, res) {
 	subscriberService.getUserFollowingPage(req.query.user_id, pageNum, pageSize).then(result => {
 		/* istanbul ignore else */
 		if (result) {
-			res.json(Result.success(result));
+			const promises = [];
+			const output = [];
+
+			for (const item of result) {
+				promises.push(userService.getUserInfo(item.creator_id));
+			}
+
+			// get important subscription information as well as the username
+			// and profile photo of the user I am subscribed to
+			Promise.all(promises).then((data) => {
+				for (let i = 0; i < result.length; i++) {
+					output.push({username: data[i].username, 
+						profile_photo: data[i].profile_photo,
+						creator_id: result[i].creator_id,
+					receive_notification: result[i].receive_notification });
+				}
+
+				res.json(Result.success(output));
+			});
 		} else {
 			res.json('Cannot find following list');
 		}

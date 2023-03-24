@@ -9,6 +9,7 @@ import {
   failure,
 } from "../../util/messages";
 import { fromContextToSession, fromSessionToContext } from "../../util/state";
+import Subscribed from "../subscribed/subscribed";
 
 function Writer() {
   const navigate = useNavigate();
@@ -685,6 +686,7 @@ function Writer() {
                   {username}
                 </h1>
               </div>
+              <Subscribed id={id} />
             </div>
             <div className="flex flex-col w-6/12 p-2 gap-1">
               <div className="flex justify-end">
@@ -715,7 +717,7 @@ function Writer() {
                     <button
                       type="button"
                       onClick={enableNotif}
-                      className="hover:bg-indigo-700 bg-neutral text-white p-2 h-full rounded-r-md"
+                      className="hover:bg-indigo-700 bg-neutral text-white h-[40px] p-2 rounded-r-md"
                     >
                       {hasEnabledNotif ? (
                         <svg
