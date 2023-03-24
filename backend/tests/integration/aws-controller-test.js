@@ -61,7 +61,7 @@ describe('AWS controller', function () {
 		it('there should not be an error.txt', async function () {
             let result;
 
-            await uploadImage(req = {err: false, key: 'error.txt'}, res = { json: (data) => data = {}});
+            await uploadImage(req = {err: false, key: 'error.txt'}, res = { json: (data) => result = data});
             await deleteImage(req = {err: false, key: 'error.txt'}, res = { json: (data) => result = data });
 
             expect(result.code).to.equal(20000);
@@ -71,7 +71,7 @@ describe('AWS controller', function () {
         it('there should be an other_error.txt', async function () {
             let result;
 
-            await uploadImage(req = {err: false, key: 'other_error.txt'}, res = { json: (data) => data = {}});
+            await uploadImage(req = {err: false, key: 'other_error.txt'}, res = { json: (data) => result = data});
             await deleteImage(req = {err: true, key: 'other_error.txt'}, res = { json: (data) => result = data });
 
             expect(result.code).to.equal(40000);
