@@ -526,6 +526,7 @@ function Writer() {
       }).then((s) => {
         if (s.data.code !== 40011) {
           changeHasSubscribed(!hasSubscribed);
+          changeHasEnabledNotif(true);
         }
       });
     } else {
@@ -681,7 +682,7 @@ function Writer() {
                 </div>
               )}
               <p id="image_message" className="opacity-0 text-xs" />
-              <div className="flex justify-center items-center w-full">
+              <div className="flex justify-center items-center w-full border-gray-400 border-b-2 pb-4">
                 <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip py-2">
                   {username}
                 </h1>
@@ -699,14 +700,14 @@ function Writer() {
                     {!changeDetails ? "Edit Profile" : "Finish Editing"}
                   </button>
                 )}
-                <div className="flex justify-end">
+                <div className="flex justify-end mb-4">
                   {id !== userId && (
                     <button
                       type="button"
                       className={
                         hasSubscribed
-                          ? "hover:bg-indigo-700 bg-neutral text-white p-2 rounded-l-md mb-4"
-                          : "hover:bg-indigo-700 bg-neutral text-white p-2 rounded-md mb-4"
+                          ? "hover:bg-indigo-700 bg-neutral text-white p-2 h-[40px] rounded-l-md"
+                          : "hover:bg-indigo-700 bg-neutral text-white p-2 h-[40px] rounded-md"
                       }
                       onClick={subscribe}
                     >

@@ -120,7 +120,7 @@ function getMyFollowing (req, res) {
 					output.push({username: data[i].username, 
 						profile_photo: data[i].profile_photo,
 						creator_id: result[i].creator_id,
-					receive_notification: result[i].receive_notification });
+					receive_notification: result[i].receive_notification});
 				}
 
 				res.json(Result.success(output));
