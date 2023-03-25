@@ -21,7 +21,13 @@ const postSchema = mongoose.Schema({
 		type: Date,
 		required: true,
 		default: Date.now()
-	}
+	},
+
+	// keywords: { //the keywords extracted from the content
+	// 	type: [String],
+	// 	required: true,
+	// 	default: []
+	// },
 });
 
 module.exports = mongoose.model('Post', postSchema);

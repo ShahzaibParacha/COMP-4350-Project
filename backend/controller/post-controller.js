@@ -15,7 +15,7 @@ const createPost = async (req, res) => {
 
 	try {
 		const postResult = await postService.createPost(user_id, content);
-		const subscribeResult = await subscribeService.notifyAudiences(
+		const subscribeResult = subscribeService.notifyAudiences(
 			user_id,
 			postResult._id,
 			content
@@ -85,7 +85,6 @@ const getRecentPost = async (req, res) => {
 	try {
 		const posts = await postService.getAllPosts();
 		const result = await getPostsInfo(posts);
-
 		res.json(Result.success(result));
 	} catch (err) {
 		/* istanbul ignore next */
@@ -127,14 +126,15 @@ async function getPostsInfo(posts) {
 
 	for (let i = 0; i < posts.length; i+=1) {
 		let post = posts[i];
-      
-		result.push({
-			post, 
-			username: users[i].username,
-			affiliation: users[i].affiliation,
-			profile_photo: users[i].profile_photo,
-			numberLikes: likes[i],
-		});
+        if (users[i] !== null){
+			result.push({
+				post, 
+				username: users[i].username,
+				affiliation: users[i].affiliation,
+				profile_photo: users[i].profile_photo,
+				numberLikes: likes[i],
+			});
+		}
 	}
 
 	return result;
@@ -172,6 +172,24 @@ Array.prototype.extend = function (array) {
 	array.forEach(item => this.push(item));
 };
 
+const getRecommendatedPosts = async(req, res) => {
+	const { post_id } = req.query;
+	console.log("the post id is: " + post_id)
+
+	if (!mongoose.Types.ObjectId.isValid(post_id)) {
+		return res.json(Result.invalidPostId());
+	}
+
+	try {
+		const result = await postService.getRecommendatedPosts(post_id);
+		console.log("The rec result is: " + result)
+		res.json(Result.success(result));
+	} catch (err) {
+		/* istanbul ignore next */
+		res.json(Result.fail(err));
+	}
+};
+
 module.exports = {
 	createPost, 
 	updatePostContent,
@@ -180,4 +198,5 @@ module.exports = {
 	getRecentPost, 
 	getAllPostsFromUser,
 	getSubscribedPosts,
+	getRecommendatedPosts,
 };

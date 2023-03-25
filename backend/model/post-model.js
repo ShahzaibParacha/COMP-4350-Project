@@ -1,5 +1,40 @@
 const Post = require('../schema/post-schema');
 
+const getRecommendatedPosts = async (post_id) => {
+	const numSimilarPosts = 5;
+	Post.findById(post_id, (err, post) => {
+		if (err) {
+			console.error(err);
+			return;
+		}
+
+		console.log("The original content: " + post.content);
+		//try to find similar posts
+		Post.aggregate([
+			{
+				"$search": {
+					"index": 'searchPost',
+					moreLikeThis: {
+						like:{
+							"content": post.content,
+							}
+					}
+				}
+			},
+			{ "$limit": numSimilarPosts}
+		]).exec((err, result) => {
+			if (err) {
+			  console.error(err);
+			  return;
+			}
+			console.log("The similar posts are:")
+			console.log( result )
+			
+			return result
+		});
+	});
+};
+
 // get all posts
 const getAllPosts = async () => {
 	return await Post.find({});
@@ -38,8 +73,8 @@ const countPostsFromUser = async (user_id) => {
 
 // create a new post
 // returns the new document
-const createPost = async (user_id, content, image) => {
-	return await Post.create({ user_id, content, image });
+const createPost = async (user_id, content, title, image) => {
+	return await Post.create({ user_id, content, title, image });
 };
 
 // remove a post by id
@@ -69,5 +104,6 @@ module.exports = {
 	removePostByID,
 	removeAllPostsFromUser,
 	updateContent,
-	countPostsFromUser
+	countPostsFromUser,
+	getRecommendatedPosts
 };
