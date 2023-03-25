@@ -3,8 +3,9 @@ const { PythonShell } = require('python-shell');
 const path = require('path');
 
 async function extractKeywords(content) {
-    const options = {
-      scriptPath: 'C:/work/COMP-4350-Project/backend/util/',
+  try{
+      const options = {
+      scriptPath: __dirname,
       args: [content],
       pythonPath: path.join('C://Users//52252//anaconda3//python'),
       pythonOptions: ['-u'],
@@ -13,8 +14,13 @@ async function extractKeywords(content) {
     };
 
     const result = await PythonShell.run('extract-keywords.py', options);
-    //console.log(result[0]);
-    return result[0]
+    console.log("result " + JSON.parse(result[0]));
+    return JSON.parse(result[0]);
+  }catch(err){
+    console.log("keybert error: " + err)
+    return null;
+  }
+
 }
 
  module.exports = { extractKeywords };

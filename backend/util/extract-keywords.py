@@ -1,5 +1,6 @@
 from keybert import KeyBERT
 import sys
+import json
 
 def extract_keywords(content):
     kw_model = KeyBERT()
@@ -12,5 +13,5 @@ if __name__ == '__main__':
     result = list(dict(keywords).keys())
     if len(result) > 3:
         result = result[:3]
-    print(result)
+    print(json.dumps(result))
     sys.exit(0)

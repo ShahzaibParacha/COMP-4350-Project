@@ -18,7 +18,7 @@ const createPost = async (req, res) => {
 	}
 
 	try {
-		const keywords = await extractEngine.extractKeywords(content)
+		const keywords = await extractEngine.extractKeywords(content);
 		const postResult = await postService.createPost(user_id, content, keywords);
 		const subscribeResult = subscribeService.notifyAudiences(
 			user_id,
