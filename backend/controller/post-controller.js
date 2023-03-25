@@ -19,10 +19,6 @@ const createPost = async (req, res) => {
 
 	try {
 		const keywords = await extractEngine.extractKeywords(content)
-		console.log("The keywords returned to controller are: ")
-		console.log(keywords)
-		//const keywords = []
-
 		const postResult = await postService.createPost(user_id, content, keywords);
 		const subscribeResult = subscribeService.notifyAudiences(
 			user_id,
