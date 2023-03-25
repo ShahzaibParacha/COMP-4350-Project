@@ -14,6 +14,7 @@ const Post = require('./service/post-service');
 const Like = require('./service/likes-service');
 const fs = require('fs');
 require('./util/passport')(passport);
+const extractEngine = require('./util/recommendation-engine');
 
 const app = express();
 mongoose
@@ -96,7 +97,7 @@ app.get('/getTestData', async (req, res) => {
 	}
 
 
-	// get fake posts from fakePosts.txt
+	// // get fake posts from fakePosts.txt
 	let allText = fs.readFileSync('./fakePosts.txt', 'utf8');
 	fakePostsLib = allText.split('\n');
 
@@ -106,7 +107,10 @@ app.get('/getTestData', async (req, res) => {
 	while (fakePostsLib.length !== 0) {
 		let content = fakePostsLib.pop();
 		let creatorIndex = Math.floor(Math.random() * creatorSize);
-		let post = await Post.createPost(creatorList[creatorIndex]._id, content, null);
+		const keywords = await extractEngine.extractKeywords(content);
+		//console.log("The keywords:")
+		//console.log(keywords)
+		let post = await Post.createPost(creatorList[creatorIndex]._id, content, keywords, null);
 		postList.push(post);
 	}
 

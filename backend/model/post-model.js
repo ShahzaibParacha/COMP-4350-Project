@@ -16,6 +16,7 @@ const getRecommendatedPosts = async (post_id) => {
 							"moreLikeThis": {
 								like:{
 									"content": post.content,
+									"keywords": post.keywords,
 								}
 							}
 					  	}],
@@ -77,8 +78,8 @@ const countPostsFromUser = async (user_id) => {
 
 // create a new post
 // returns the new document
-const createPost = async (user_id, content, title, image) => {
-	return await Post.create({ user_id, content, title, image });
+const createPost = async (user_id, content, keywords, image) => {
+	return await Post.create({ user_id, content, keywords, image });
 };
 
 // remove a post by id
@@ -95,8 +96,8 @@ const removeAllPostsFromUser = async (user_id) => {
 
 // update the content of a post
 // returns the object updated
-const updateContent = async (id, content) => {
-	return await Post.findOneAndUpdate({ _id: id }, { content }, { useFindAndModify: false });
+const updateContent = async (id, content, keywords) => {
+	return await Post.findOneAndUpdate({ _id: id }, { content }, { keywords }, { useFindAndModify: false });
 };
 
 module.exports = {

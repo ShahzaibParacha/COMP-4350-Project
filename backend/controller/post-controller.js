@@ -4,6 +4,7 @@ const subscribeService = require('../service/subscriber-service');
 const userService = require('../service/user-service');
 const likeService = require('../service/likes-service');
 const Result = require('../util/Result');
+const extractEngine = require('../util/extract-keywords');
 
 const createPost = async (req, res) => {
 	const { content, user_id } = req.body;
@@ -14,12 +15,18 @@ const createPost = async (req, res) => {
 	}
 
 	try {
-		const postResult = await postService.createPost(user_id, content);
+		const keywords = await extractEngine.extractKeywords(content)
+		console.log("The keywords returned to controller are: ")
+		console.log(keywords)
+		//const keywords = []
+
+		const postResult = await postService.createPost(user_id, content, keywords);
 		const subscribeResult = subscribeService.notifyAudiences(
 			user_id,
 			postResult._id,
 			content
 		);
+
 		res.json(Result.success([postResult, subscribeResult]));
 	} catch (err) {
 		res.json(Result.fail(err));
@@ -33,9 +40,9 @@ const updatePostContent = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(post_id)) {
 		return res.json(Result.invalidPostId());
 	}
-
+	const keywords = await extractEngine.extractKeywords(content);
 	await postService
-		.updateContent(post_id, content)
+		.updateContent(post_id, content, keywords)
 		.then((result) => {
 			res.json(Result.success(result));
 		})
@@ -180,6 +187,11 @@ const getRecommendatedPosts = async(req, res) => {
 	}
 
 	try {
+		//test the extract keywords
+		// const aa = await extractService.extractKeywords('This is a test post. Nothing seems happened');
+		// console.log(" result from controller: ")
+		// console.log(aa);
+
 		const result = await postService.getRecommendatedPosts(user_id);
 		//console.log("The recommendation result are: " + result)
 		res.json(Result.success(result));

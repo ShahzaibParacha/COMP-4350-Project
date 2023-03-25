@@ -16,10 +16,10 @@ const getAllPosts = () => { return getAllPostsModel(); };
 const getPageOfPosts = (page_number, page_size) => { return getPageOfPostsModel(page_number, page_size); };
 const getPostByID = (id) => { return getPostByIDModel(id); };
 const getAllPostsFromUser = (user_id) => { return getAllPostsFromUserModel(user_id); };
-const createPost = (user_id, content, title, image) => { return createPostModel(user_id, content, title, image); };
+const createPost = (user_id, content, keywords, image) => { return createPostModel(user_id, content, keywords, image); };
 const removePostByID = (id) => { return removePostByIDModel(id); };
 const removeAllPostsFromUser = (user_id) => { return removeAllPostsFromUserModel(user_id); };
-const updateContent = (id, content) => { return updateContentModel(id, content); };
+const updateContent = (id, content, keywords) => { return updateContentModel(id, content, keywords); };
 const countPostsFromUser = (user_id) => { return countPostsFromUserModel(user_id); };
 
 //get a list of recommendated posts based on the liked information of the user
@@ -38,6 +38,11 @@ const getRecommendatedPosts = async (user_id) => {
 	const similarPosts = await Promise.all(similarPostsPromises);
 	return similarPosts;
 };
+
+//add keywords to the Post
+// const updateKeywords = async (post_id, keywords) => {
+// 	return 
+// };
 
 module.exports = {
 	getAllPosts,
