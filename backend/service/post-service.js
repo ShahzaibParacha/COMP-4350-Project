@@ -39,11 +39,6 @@ const getRecommendatedPosts = async (user_id) => {
 	return similarPosts;
 };
 
-//add keywords to the Post
-// const updateKeywords = async (post_id, keywords) => {
-// 	return 
-// };
-
 module.exports = {
 	getAllPosts,
 	getPageOfPosts,

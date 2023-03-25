@@ -97,7 +97,7 @@ app.get('/getTestData', async (req, res) => {
 	}
 
 
-	// // get fake posts from fakePosts.txt
+	// get fake posts from fakePosts.txt
 	let allText = fs.readFileSync('./fakePosts.txt', 'utf8');
 	fakePostsLib = allText.split('\n');
 
@@ -108,8 +108,6 @@ app.get('/getTestData', async (req, res) => {
 		let content = fakePostsLib.pop();
 		let creatorIndex = Math.floor(Math.random() * creatorSize);
 		const keywords = await extractEngine.extractKeywords(content);
-		//console.log("The keywords:")
-		//console.log(keywords)
 		let post = await Post.createPost(creatorList[creatorIndex]._id, content, keywords, null);
 		postList.push(post);
 	}
