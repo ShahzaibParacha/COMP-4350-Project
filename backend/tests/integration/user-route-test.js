@@ -14,7 +14,7 @@ const passport = require('passport');
 require('../../util/passport')(passport);
 
 let server;
-const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWI0ZjM5MDY5NzIxNjQzNTZiMDUxMyIsImVtYWlsIjoiZGVhbkBlbWFpcXd3bC5jb20iLCJpYXQiOjE2Nzk1MTE5NjZ9.-_SLqEilsyXx6uAmpcbDy_Mgmk-eraPA0pdBpSQzdm0';
+const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWU1ZjAwMTJiNTdjNzNlZTA0YjkwNCIsImVtYWlsIjoiZGVhbkBlbWFpcXd3bC5jb20iLCJpYXQiOjE2Nzk3MTIyMjd9.BJOVCNif8jONdQxcw51JTeSZgLHwpcmSppJhDaPBUBI';
 let weiyu = {
 	_id: null,
 	username: 'weiyu',
