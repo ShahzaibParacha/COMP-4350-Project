@@ -6,6 +6,9 @@ const likeService = require('../service/likes-service');
 const Result = require('../util/Result');
 const extractEngine = require('../util/extract-keywords');
 
+//this engine is faster
+//const extractEngine = require('../util/recommendation-engine');
+
 const createPost = async (req, res) => {
 	const { content, user_id } = req.body;
 	console.log(user_id, content);
