@@ -1,5 +1,4 @@
 from keybert import KeyBERT
-import argparse
 import sys
 import json
 

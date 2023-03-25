@@ -13,7 +13,6 @@ async function extractKeywords(content) {
     };
 
     const result = await PythonShell.run('extract-keywords.py', options);
-    //console.log("here is the result")
     //console.log(result[0]);
     return result[0]
 }

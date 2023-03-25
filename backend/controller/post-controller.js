@@ -190,13 +190,7 @@ const getRecommendatedPosts = async(req, res) => {
 	}
 
 	try {
-		//test the extract keywords
-		// const aa = await extractService.extractKeywords('This is a test post. Nothing seems happened');
-		// console.log(" result from controller: ")
-		// console.log(aa);
-
 		const result = await postService.getRecommendatedPosts(user_id);
-		//console.log("The recommendation result are: " + result)
 		res.json(Result.success(result));
 	} catch (err) {
 		/* istanbul ignore next */
