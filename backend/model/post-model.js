@@ -1,38 +1,42 @@
 const Post = require('../schema/post-schema');
 
+//TODO: remove the original post from the result
 const getRecommendatedPosts = async (post_id) => {
-	const numSimilarPosts = 5;
-	Post.findById(post_id, (err, post) => {
-		if (err) {
-			console.error(err);
-			return;
-		}
-
-		console.log("The original content: " + post.content);
+	const numSimilarPosts = 10;
+	try{
+		const post = await Post.findById(post_id);
+		console.log("The original post is and content: " + post_id + "  " + post.content);
 		//try to find similar posts
-		Post.aggregate([
+		const aggregate = Post.aggregate([
 			{
 				"$search": {
-					"index": 'searchPost',
-					moreLikeThis: {
-						like:{
-							"content": post.content,
+					"index": "searchPost",
+				   	"compound":{
+						"must":[{
+							"moreLikeThis": {
+								like:{
+									"content": post.content,
+								}
 							}
+					  	}],
+					  	"mustNot":[{
+							"equals": {
+						   		"path": "_id",
+						   		"value": post_id, 
+							}
+					  	}]
 					}
 				}
 			},
 			{ "$limit": numSimilarPosts}
-		]).exec((err, result) => {
-			if (err) {
-			  console.error(err);
-			  return;
-			}
-			console.log("The similar posts are:")
-			console.log( result )
-			
-			return result
-		});
-	});
+		]);
+
+		return await aggregate.exec(); 
+
+	}catch(err){
+		console.log("error in get similar post: " + err);
+		return null; //some better way to hanle the error
+	}
 };
 
 // get all posts

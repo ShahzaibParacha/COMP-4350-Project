@@ -178,7 +178,7 @@ app.get('/deleteTestData', async (req, res) => {
 	await PostSchema.deleteMany({});
 	await SubscriptionSchema.deleteMany({});
 	await LikeSchema.deleteMany({});
-	fs.unlinkSync('./fakeDateReport.txt');
+	//fs.unlinkSync('./fakeDateReport.txt');
 	res.json('success');
 	console.log('done');
 });

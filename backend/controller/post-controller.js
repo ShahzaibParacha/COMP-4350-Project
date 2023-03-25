@@ -173,16 +173,15 @@ Array.prototype.extend = function (array) {
 };
 
 const getRecommendatedPosts = async(req, res) => {
-	const { post_id } = req.query;
-	console.log("the post id is: " + post_id)
+	const { user_id } = req.query;
 
-	if (!mongoose.Types.ObjectId.isValid(post_id)) {
-		return res.json(Result.invalidPostId());
+	if (!mongoose.Types.ObjectId.isValid(user_id)) {
+		return res.json(Result.invalidUserId());
 	}
 
 	try {
-		const result = await postService.getRecommendatedPosts(post_id);
-		console.log("The rec result is: " + result)
+		const result = await postService.getRecommendatedPosts(user_id);
+		//console.log("The recommendation result are: " + result)
 		res.json(Result.success(result));
 	} catch (err) {
 		/* istanbul ignore next */
