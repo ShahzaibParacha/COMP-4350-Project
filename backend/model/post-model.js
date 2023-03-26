@@ -6,7 +6,7 @@ const Post = require('../schema/post-schema');
 //this engine is faster
 const extractEngine = require('../util/recommendation-engine');
 
-const getRecommendatedPosts = async (post_id) => {
+const getRecommendedPosts = async (post_id) => {
 	const numSimilarPosts = 5;
 	try{
 		const post = await Post.findById(post_id);
@@ -130,5 +130,5 @@ module.exports = {
 	removeAllPostsFromUser,
 	updateContent,
 	countPostsFromUser,
-	getRecommendatedPosts
+	getRecommendedPosts
 };

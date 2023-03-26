@@ -75,17 +75,17 @@ describe('Recommendation Service test', function () {
 		await mongoose.disconnect();
 	});
 
-	describe('getRecommendatedPosts', function () {
+	describe('getRecommendedPosts', function () {
 		it('should return nothing', async function () {
 			const { userIDs } = (await generatePosts() );
 
-			const value = await services.getRecommendatedPosts(userIDs[1]);
+			const value = await services.getRecommendedPosts(userIDs[1]);
 			expect(value.length).to.equal(0);
 		});
 
 		it('should return an array of recommendated post, it could be empty.', async function () {
 			const { userIDs, postIDs, likes } = (await generatePosts());
-            const values = await services.getRecommendatedPosts(userIDs[0]);
+            const values = await services.getRecommendedPosts(userIDs[0]);
 
             expect(values[0]).to.be.an('array');
 		});

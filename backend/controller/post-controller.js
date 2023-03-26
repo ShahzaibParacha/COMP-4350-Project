@@ -174,7 +174,7 @@ Array.prototype.extend = function (array) {
 	array.forEach(item => this.push(item));
 };
 
-const getRecommendatedPosts = async(req, res) => {
+const getRecommendedPosts = async(req, res) => {
 	const { user_id } = req.query;
 
 	/* istanbul ignore next */
@@ -183,7 +183,9 @@ const getRecommendatedPosts = async(req, res) => {
 	}
 
 	try {
-		const result = await postService.getRecommendatedPosts(user_id);
+		const posts = await postService.getRecommendedPosts(user_id);
+		console.log(posts)
+		const result = await getPostsInfo(posts);
 		res.json(Result.success(result));
 	} catch (err) {
 		/* istanbul ignore next */
@@ -199,5 +201,5 @@ module.exports = {
 	getRecentPost, 
 	getAllPostsFromUser,
 	getSubscribedPosts,
-	getRecommendatedPosts,
+	getRecommendedPosts,
 };

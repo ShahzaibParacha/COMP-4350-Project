@@ -8,7 +8,7 @@ const {
 	removeAllPostsFromUser: removeAllPostsFromUserModel,
 	updateContent: updateContentModel,
 	countPostsFromUser: countPostsFromUserModel,
-	getRecommendatedPosts: getRecommendatedPostsModel
+	getRecommendedPosts: getRecommendedPostsModel
 } = require('../model/post-model');
 const likeService = require('./likes-service');
 
@@ -23,19 +23,18 @@ const updateContent = (id, content) => { return updateContentModel(id, content);
 const countPostsFromUser = (user_id) => { return countPostsFromUserModel(user_id); };
 
 //get a list of recommendated posts based on the liked information of the user
-const getRecommendatedPosts = async (user_id) => {
+const getRecommendedPosts = async (user_id) => {
 	const similarPostsPromises = [];
 
 	const likedPosts = await likeService.getRecentUserLikedPosts(user_id);
 	for (let i = 0; i < likedPosts.length; i++) {
 		const post = await getPostByID(likedPosts[i].post_id);
 		if( post !== null && post._id != null && post.user_id != user_id ){
-			similarPostsPromises.push(getRecommendatedPostsModel(post._id));
+			similarPostsPromises.push( getRecommendedPostsModel(post._id) );
 		}
 	}
-
 	const similarPosts = await Promise.all(similarPostsPromises);
-	return similarPosts;
+	return similarPosts[0];
 };
 
 module.exports = {
@@ -48,5 +47,5 @@ module.exports = {
 	removeAllPostsFromUser,
 	updateContent,
 	countPostsFromUser,
-	getRecommendatedPosts
+	getRecommendedPosts
 };
