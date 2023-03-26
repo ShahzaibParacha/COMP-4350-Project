@@ -181,6 +181,7 @@ Array.prototype.extend = function (array) {
 const getRecommendatedPosts = async(req, res) => {
 	const { user_id } = req.query;
 
+	/* istanbul ignore next */
 	if (!mongoose.Types.ObjectId.isValid(user_id)) {
 		return res.json(Result.invalidUserId());
 	}

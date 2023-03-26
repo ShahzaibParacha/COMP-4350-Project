@@ -280,6 +280,28 @@ describe('Post routes', function () {
 		});
 	});
 
+	describe('GET request to getRecommendatedPosts', function () {
+		it('should return nothing', async function () {
+			const {id, token} = (await setup(0, 1)).res.data.data;
+
+			const res = await axios({
+				method: 'get',
+				url: 'http://localhost:4350/api/post/getRecommendatedPosts',
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				params: {
+					user_id: id
+				}
+			});
+
+			expect(res.data.msg).to.equal('success');
+			expect(res.data.data).to.exist;
+			expect(res.data.data.length).to.equal(0);
+		});
+	});
+
 	describe('GET request to get_subscribed_posts', function () {
 		it('should return nothing', async function () {
 			const {id, token} = (await setup(0, 1)).res.data.data;
@@ -626,7 +648,7 @@ describe('Post routes', function () {
 			expect(posts).to.exist;
 			expect(posts.length).to.equal(1);
 			expect(posts[0].content).to.equal('69');
-			expect(response.data.data[1].notification_state).to.equal('success');
+			//expect(response.data.data[1].notification_state).to.equal('success'); //the controller does not wait for notification anymore
 		});
 
 		it('should return three posts', async function () {

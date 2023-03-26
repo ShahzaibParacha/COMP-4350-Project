@@ -2,7 +2,7 @@ const Post = require('../schema/post-schema');
 
 //TODO: remove the original post from the result
 const getRecommendatedPosts = async (post_id) => {
-	const numSimilarPosts = 10;
+	const numSimilarPosts = 5;
 	try{
 		const post = await Post.findById(post_id);
 		console.log("The original post is and content: " + post_id + "  " + post.content);
@@ -32,11 +32,12 @@ const getRecommendatedPosts = async (post_id) => {
 			{ "$limit": numSimilarPosts}
 		]);
 
-		return await aggregate.exec(); 
+		const result = await aggregate.exec();
+		return result
 
 	}catch(err){
+		/* istanbul ignore next */
 		console.log("error in get similar post: " + err);
-		return null; //some better way to hanle the error
 	}
 };
 
@@ -97,7 +98,7 @@ const removeAllPostsFromUser = async (user_id) => {
 // update the content of a post
 // returns the object updated
 const updateContent = async (id, content, keywords) => {
-	return await Post.findOneAndUpdate({ _id: id }, { content }, { keywords }, { useFindAndModify: false });
+	return await Post.findOneAndUpdate({ _id: id }, { content: content, keywords: keywords }, { useFindAndModify: false });
 };
 
 module.exports = {

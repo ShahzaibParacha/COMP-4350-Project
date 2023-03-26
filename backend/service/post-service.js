@@ -30,7 +30,7 @@ const getRecommendatedPosts = async (user_id) => {
 
 	for (let i = 0; i < likedPosts.length; i++) {
 		let post = likedPosts[i];
-		if( post !== null && post.post_id != null ){
+		if( post !== null && post.post_id != null && post.user_id != user_id ){
 			similarPostsPromises.push(getRecommendatedPostsModel(post.post_id));
 		}
 	}
