@@ -1,8 +1,8 @@
-const SubscriberSchema = require('../../schema/subscriber-schema');
+const SubscriberSchema = require('../schema/subscriber-schema');
 const mongoose = require('mongoose');
-const SubscriberService = require('../../service/subscriber-service');
+const SubscriberService = require('../service/subscriber-service');
 const sinon = require('sinon');
-const User = require('../../schema/user-schema');
+const User = require('../schema/user-schema');
 const expect = require('chai').expect;
 require('dotenv').config();
 

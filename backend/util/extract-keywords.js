@@ -11,16 +11,15 @@ async function extractKeywords(content) {
       pythonOptions: ['-u'],
       mode: 'text',
       timeout: 5000
-    };
+      };
 
-    const result = await PythonShell.run('extract-keywords.py', options);
-    console.log("result " + JSON.parse(result[0]));
-    return JSON.parse(result[0]);
+      const result = await PythonShell.run('extract-keywords.py', options);
+      console.log("keywords are: " + JSON.parse(result[0]));
+      return JSON.parse(result[0]);
   }catch(err){
-    console.log("keybert error: " + err)
-    return null;
-  }
-
+      console.log("keybert error: " + err)
+      return null;
+  };
 }
 
  module.exports = { extractKeywords };

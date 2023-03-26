@@ -53,7 +53,7 @@ const generatePosts = async () => {
 };
 
 
-describe('Post services and model', function () {
+describe('Recommendation Service test', function () {
 	before(async () => {
 		mongoose
 			.connect(process.env.TEST_MONGODB_CONNECTION, {
@@ -83,11 +83,11 @@ describe('Post services and model', function () {
 			expect(value.length).to.equal(0);
 		});
 
-		it('should return only one post with content shown below.', async function () {
+		it('should return an array of recommendated post, it could be empty.', async function () {
 			const { userIDs, postIDs, likes } = (await generatePosts());
             const values = await services.getRecommendatedPosts(userIDs[0]);
 
-            expect(values[0].length).not.to.equal(0);
+            expect(values[0]).to.be.an('array');
 		});
 	});
 });

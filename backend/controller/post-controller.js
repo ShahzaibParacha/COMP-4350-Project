@@ -4,10 +4,6 @@ const subscribeService = require('../service/subscriber-service');
 const userService = require('../service/user-service');
 const likeService = require('../service/likes-service');
 const Result = require('../util/Result');
-const extractEngine = require('../util/extract-keywords');
-
-//this engine is faster
-//const extractEngine = require('../util/recommendation-engine');
 
 const createPost = async (req, res) => {
 	const { content, user_id } = req.body;
@@ -18,8 +14,8 @@ const createPost = async (req, res) => {
 	}
 
 	try {
-		const keywords = await extractEngine.extractKeywords(content);
-		const postResult = await postService.createPost(user_id, content, keywords);
+		//const keywords = await extractEngine.extractKeywords(content);//don't need to wait here
+		const postResult = await postService.createPost(user_id, content);
 		const subscribeResult = subscribeService.notifyAudiences(
 			user_id,
 			postResult._id,
@@ -39,9 +35,9 @@ const updatePostContent = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(post_id)) {
 		return res.json(Result.invalidPostId());
 	}
-	const keywords = await extractEngine.extractKeywords(content);
+	//const keywords = await extractEngine.extractKeywords(content);
 	await postService
-		.updateContent(post_id, content, keywords)
+		.updateContent(post_id, content)
 		.then((result) => {
 			res.json(Result.success(result));
 		})

@@ -16,10 +16,10 @@ const getAllPosts = () => { return getAllPostsModel(); };
 const getPageOfPosts = (page_number, page_size) => { return getPageOfPostsModel(page_number, page_size); };
 const getPostByID = (id) => { return getPostByIDModel(id); };
 const getAllPostsFromUser = (user_id) => { return getAllPostsFromUserModel(user_id); };
-const createPost = (user_id, content, keywords, image) => { return createPostModel(user_id, content, keywords, image); };
+const createPost = (user_id, content, image) => { return createPostModel(user_id, content, image); };
 const removePostByID = (id) => { return removePostByIDModel(id); };
 const removeAllPostsFromUser = (user_id) => { return removeAllPostsFromUserModel(user_id); };
-const updateContent = (id, content, keywords) => { return updateContentModel(id, content, keywords); };
+const updateContent = (id, content) => { return updateContentModel(id, content); };
 const countPostsFromUser = (user_id) => { return countPostsFromUserModel(user_id); };
 
 //get a list of recommendated posts based on the liked information of the user
@@ -27,11 +27,10 @@ const getRecommendatedPosts = async (user_id) => {
 	const similarPostsPromises = [];
 
 	const likedPosts = await likeService.getRecentUserLikedPosts(user_id);
-
 	for (let i = 0; i < likedPosts.length; i++) {
-		let post = likedPosts[i];
-		if( post !== null && post.post_id != null && post.user_id != user_id ){
-			similarPostsPromises.push(getRecommendatedPostsModel(post.post_id));
+		const post = await getPostByID(likedPosts[i].post_id);
+		if( post !== null && post._id != null && post.user_id != user_id ){
+			similarPostsPromises.push(getRecommendatedPostsModel(post._id));
 		}
 	}
 

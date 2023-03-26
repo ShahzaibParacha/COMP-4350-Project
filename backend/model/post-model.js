@@ -1,11 +1,17 @@
 const Post = require('../schema/post-schema');
 
-//TODO: remove the original post from the result
+//two engines to choose: recommendation-engine or extract-keywords
+//const extractEngine = require('../util/extract-keywords');
+
+//this engine is faster
+const extractEngine = require('../util/recommendation-engine');
+
 const getRecommendatedPosts = async (post_id) => {
 	const numSimilarPosts = 5;
 	try{
 		const post = await Post.findById(post_id);
-		console.log("The original post is and content: " + post_id + "  " + post.content);
+		console.log("The original post_id, content and kewords are: " + post_id + "  " + post.content);
+		console.log(post.keywords);
 		//try to find similar posts
 		const aggregate = Post.aggregate([
 			{
@@ -79,8 +85,15 @@ const countPostsFromUser = async (user_id) => {
 
 // create a new post
 // returns the new document
-const createPost = async (user_id, content, keywords, image) => {
-	return await Post.create({ user_id, content, keywords, image });
+const createPost = async (user_id, content, image) => {
+	const result = await Post.create({ user_id, content, image });
+	extractEngine.extractKeywords(content)
+	.then(keywords => {
+		Post.findOneAndUpdate({ _id: result._id }, { keywords: keywords }, { useFindAndModify: false })
+		.then(result => {});
+	});
+
+	return result;
 };
 
 // remove a post by id
@@ -97,8 +110,14 @@ const removeAllPostsFromUser = async (user_id) => {
 
 // update the content of a post
 // returns the object updated
-const updateContent = async (id, content, keywords) => {
-	return await Post.findOneAndUpdate({ _id: id }, { content: content, keywords: keywords }, { useFindAndModify: false });
+const updateContent = async (id, content) => {
+	const result = await Post.findOneAndUpdate({ _id: id }, { content: content }, { useFindAndModify: false });
+	extractEngine.extractKeywords(content)
+	.then(keywords => {
+		Post.findOneAndUpdate({ _id: id }, { keywords: keywords }, { useFindAndModify: false })
+		.then(result => {});
+	});
+	return result;
 };
 
 module.exports = {

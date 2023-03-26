@@ -104,13 +104,33 @@ app.get('/getTestData', async (req, res) => {
 
 	console.log('simulating creating posts...');
 	// simulate that some creators create some post
-	while (fakePostsLib.length !== 0) {
+	let count = 0;
+	function loop() {
+		count += 1;
+		console.log("generate keywords for post[" + count +"]:");
+		if( count % 30 === 0 ){
+			console.log("wait for 30 seconds to go on...");
+		}
+
 		let content = fakePostsLib.pop();
 		let creatorIndex = Math.floor(Math.random() * creatorSize);
-		const keywords = await extractEngine.extractKeywords(content);
-		let post = await Post.createPost(creatorList[creatorIndex]._id, content, keywords, null);
-		postList.push(post);
+		Post.createPost(creatorList[creatorIndex]._id, content, null)
+		.then(post => {
+			postList.push(post);
+		});
+
+		if (fakePostsLib.length > 0) {
+			if( count % 30 === 0 ){
+				setTimeout(loop, 31000);
+			}else{
+				setTimeout(loop, 1000);	
+			}	
+		}else{
+			console.log("done");
+		}
 	}
+	setTimeout(loop, 1000);
+
 
 	console.log('simulating like...');
 	// simulate that some audiences like some posts

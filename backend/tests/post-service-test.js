@@ -338,7 +338,7 @@ describe('Post services and model', function () {
 	describe('updateContent', function () {
 		it('should show content = \'mitochondria\'', async function () {
 			const postIDs = (await generatePosts(10, 10)).postIDs;
-			await services.updateContent(postIDs[0], 'mitochondria', []);
+			await services.updateContent(postIDs[0], 'mitochondria');
 			const value = await services.getPostByID(postIDs[0]);
 			expect(value).to.not.be.null;
 			expect(value.content).to.equal('mitochondria');
@@ -347,7 +347,7 @@ describe('Post services and model', function () {
 		it('should show content = \' \'', async function () {
 			const post = new mongoose.mongo.ObjectID();
 			postsToDelete.push(post);
-			await services.createPost(post, 'mitochondria', [], '0');
+			await services.createPost(post, 'mitochondria', '0');
 			const posts = await services.getAllPosts();
 			await services.updateContent(posts[0]._id, ' ', []);
 			const value = await services.getPostByID(posts[0]._id);
