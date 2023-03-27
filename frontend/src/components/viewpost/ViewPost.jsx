@@ -14,6 +14,7 @@ function ViewPost() {
   const [profile, setProfile] = useState();
   const [photo, setPhoto] = useState();
   const [post, setPost] = useState();
+  const [date, setDate] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
   const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
@@ -22,7 +23,7 @@ function ViewPost() {
   useEffect(() => {
     // eslint-disable-next-line no-console
     axios
-      .get(`http://localhost:4350/api/post/get_post_by_ID`, {
+      .get(`http://localhost:4350/api/post/getPostByID`, {
         params: { post_id: id },
         headers: {
           Authorization: token,
@@ -33,6 +34,7 @@ function ViewPost() {
         setProfile(r.data.data[0].post.user_id);
         setPhoto(r.data.data[0].profile_photo);
         setPost(r.data.data[0].post.content);
+        setDate(r.data.data[0].post.post_date);
       })
       .catch((e) => console.error(e, userId));
   }, []);
@@ -68,6 +70,8 @@ function ViewPost() {
                 </button>
                 <h2 className="ml-4">User posted</h2>
               </div>
+              <p className="mb-10">Posted on {String(new Date(date))}</p>
+              {/* TODO: Format correctly */}
               <div>
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {post}
