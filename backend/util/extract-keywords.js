@@ -16,7 +16,6 @@ async function extractKeywords(content) {
       };
 
       const result = await PythonShell.run('extract-keywords.py', options);
-      console.log("the result is: " + result)
       console.log("keywords are: " + JSON.parse(result[0]));
       return JSON.parse(result[0]);
   }catch(err){
