@@ -56,7 +56,7 @@ function ViewPost() {
       <div className="grid grid-rows-4 grid-cols-8 gap-4">
         <div className="row-start-1 row-end-5 bg-black-600 row-span-2" />
         <div className="row-start-1 col-start-3 bg-base-100 col-span-4 row-end-5">
-          <div className="grid-column-1 pt-48">
+          <div className="grid-column-1 pt-16">
             <div className="pt-2">
               <div className="flex pb-4 items-center">
                 <button type="button" onClick={profileClick}>

@@ -630,8 +630,8 @@ function Writer() {
           </div>
         </div>
 
-        <div className="w-9/12 lg:w-7/12 h-fit min-h-screen mx-auto px-8">
-          <div className="m-auto mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full flex">
+        <div className="w-9/12 h-fit min-h-screen mx-auto px-8">
+          <div className="m-auto mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full flex gap-8">
             <div className="flex flex-col items-center w-6/12 p-2 gap-1">
               <img
                 className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white mb-4"
@@ -682,8 +682,8 @@ function Writer() {
                 </div>
               )}
               <p id="image_message" className="opacity-0 text-xs" />
-              <div className="flex justify-center items-center w-full border-gray-400 border-b-2 pb-4">
-                <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto overflow-y-clip py-2">
+              <div className="flex justify-center items-center w-full">
+                <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto py-2">
                   {username}
                 </h1>
               </div>
@@ -797,9 +797,7 @@ function Writer() {
                 </div>
                 <div className="w-full">
                   {!changeAffiliation ? (
-                    <p className="overflow-x-auto overflow-y-clip py-2">
-                      {affiliation}
-                    </p>
+                    <p className="overflow-x-auto py-2">{affiliation}</p>
                   ) : (
                     <textarea
                       className="rounded-md text-md p-1 w-full resize-none h-[36px] p-1"
