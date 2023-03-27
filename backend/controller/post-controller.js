@@ -85,7 +85,7 @@ const removePostByID = async (req, res) => {
 
 const getRecentPost = async (req, res) => {
 	try {
-		const posts = await postService.getAllPosts();
+		const posts = await postService.getPageOfPosts(0, 20);
 		const result = await getPostsInfo(posts);
 		res.json(Result.success(result));
 	} catch (err) {

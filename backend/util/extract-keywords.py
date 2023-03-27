@@ -13,12 +13,8 @@ def extract_keywords( content):
 
 if __name__ == '__main__':
     args = sys.argv
-    #print("content: " + args[1])
     keywords = extract_keywords( args[1] )
-    #print(keywords)
     result = list(dict(keywords).keys())
-    #print(result)
     if len(result) > 5:
         result = result[:5]
     print(json.dumps(result))
-    #sys.exit(0)
