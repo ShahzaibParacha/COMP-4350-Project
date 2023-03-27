@@ -3,7 +3,7 @@ const Post = require('../schema/post-schema');
 //two engines to choose: recommendation-engine or extract-keywords
 //const extractEngine = require('../util/extract-keywords');
 
-//this engine is faster
+//this engine is slower
 const extractEngine = require('../util/extract-keywords');
 
 const getRecommendedPosts = async (post_id) => {
