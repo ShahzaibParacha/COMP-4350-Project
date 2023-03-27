@@ -12,6 +12,7 @@ async function extractKeywords(content){
     try {
         if (content !== ''){
             const response = await monkeyLearn.extractors.extract(keywordsModel, [content]);
+            console.log("The number of requests we still have for MonkeyLearn keywords extraction: " + response.plan_queries_remaining);
             const keywords = response.body[0].extractions.map(extraction => extraction.parsed_value);
             //console.log(keywords);
             return keywords;

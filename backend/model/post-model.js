@@ -4,7 +4,7 @@ const Post = require('../schema/post-schema');
 //const extractEngine = require('../util/extract-keywords');
 
 //this engine is faster
-const extractEngine = require('../util/recommendation-engine');
+const extractEngine = require('../util/extract-keywords');
 
 const getRecommendedPosts = async (post_id) => {
 	const numSimilarPosts = 5;

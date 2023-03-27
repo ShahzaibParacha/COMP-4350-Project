@@ -22,7 +22,7 @@ function ViewPost() {
   useEffect(() => {
     // eslint-disable-next-line no-console
     axios
-      .get(`http://localhost:4350/api/post/get_post_by_ID`, {
+      .get(`http://localhost:4350/api/post/getPostByID`, {
         params: { post_id: id },
         headers: {
           Authorization: token,

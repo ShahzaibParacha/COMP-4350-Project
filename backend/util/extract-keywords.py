@@ -1,17 +1,24 @@
 from keybert import KeyBERT
 import sys
 import json
+from sentence_transformers import SentenceTransformer
 
-# def extract_keywords(kw_model, content):
-#     keywords = kw_model.extract_keywords(content)
-#     return keywords
+
+def extract_keywords( content):
+    #('paraphrase-albert-small-v2') #( 'distilbert-base-nli-stsb-mean-tokens' ) #("all-MiniLM-L6-v2")
+    sentence_model = SentenceTransformer( 'distilbert-base-nli-stsb-mean-tokens' ) 
+    kw_model = KeyBERT(model=sentence_model)
+    keywords = kw_model.extract_keywords(content)
+    return keywords
 
 if __name__ == '__main__':
     args = sys.argv
-    kw_model = KeyBERT()#model='paraphrase-albert-small-v2') ##small model to try
-    keywords = kw_model.extract_keywords( kw_model, args[1])
+    #print("content: " + args[1])
+    keywords = extract_keywords( args[1] )
+    #print(keywords)
     result = list(dict(keywords).keys())
+    #print(result)
     if len(result) > 5:
         result = result[:5]
     print(json.dumps(result))
-    sys.exit(0)
+    #sys.exit(0)
