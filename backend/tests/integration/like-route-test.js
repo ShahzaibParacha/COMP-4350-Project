@@ -33,58 +33,58 @@ let server;
  * res - the response returned by logging in
  */
 const setup = async (numPosts, numUsers, numLikes) => {
-    let postIDs = [];
-    let userIDs = [];
-    let i = 0, userIdx = 0, postIdx = 0;
+	let postIDs = [];
+	let userIDs = [];
+	let i = 0, userIdx = 0, postIdx = 0;
 
-    if (numLikes <= numPosts * numUsers) {
+	if (numLikes <= numPosts * numUsers) {
 
-        await Like.deleteMany({});
+		await Like.deleteMany({});
 
-        //generate user ids
-        for (i = 0; i < numUsers; i++) {
-            userIDs.push(new mongoose.mongo.ObjectID);
-        }
+		//generate user ids
+		for (i = 0; i < numUsers; i++) {
+			userIDs.push(new mongoose.mongo.ObjectID);
+		}
 
-        //generate random posts created by numUsers users
-        for (i = 0; i < numPosts; i++) {
-            postIDs.push(new mongoose.mongo.ObjectID);
-        }
+		//generate random posts created by numUsers users
+		for (i = 0; i < numPosts; i++) {
+			postIDs.push(new mongoose.mongo.ObjectID);
+		}
 
-        //the first user will like the first post
-        //the second user will like the first post
-        //...
-        //the last user will like the first post
-        //the first user will like the second post
-        //...
-        //the last user will like the last post
-        for (i = 0; i < numLikes; i++) {
-            await Like.create({ post_id: postIDs[postIdx], user_id: userIDs[userIdx] });
+		//the first user will like the first post
+		//the second user will like the first post
+		//...
+		//the last user will like the first post
+		//the first user will like the second post
+		//...
+		//the last user will like the last post
+		for (i = 0; i < numLikes; i++) {
+			await Like.create({ post_id: postIDs[postIdx], user_id: userIDs[userIdx] });
 
-            userIdx++;
-            if (userIdx >= numUsers) {
-                userIdx = 0;
-                postIdx = (postIdx + 1) % numPosts;
-            }
-        }
-    }
+			userIdx++;
+			if (userIdx >= numUsers) {
+				userIdx = 0;
+				postIdx = (postIdx + 1) % numPosts;
+			}
+		}
+	}
 
-    //creates an account
-    await User.findOneAndDelete({email});
-    await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
+	//creates an account
+	await User.findOneAndDelete({email});
+	await User.create({username, email, password, _id: userIDs[0], profile_photo: '/sample_profile.jpg'}); 
 
-    //login
-    const res = await axios({
-        method: "post",
-        url: `http://localhost:4350/api/free/user/login`,
-        data: {
-          email,
-          password,
-        },
-      });
+	//login
+	const res = await axios({
+		method: 'post',
+		url: 'http://localhost:4350/api/free/user/login',
+		data: {
+			email,
+			password,
+		},
+	});
 
-    return { postIDs, userIDs, res };
-}
+	return { postIDs, userIDs, res };
+};
 
 //this function will send four requests of type req to route and verify the codes in the response
 //
@@ -173,7 +173,7 @@ describe('Like routes', function () {
 		const app = express();
 
 		mongoose
-			.connect(process.env.MONGODB_CONNECTION, {
+			.connect(process.env.TEST_MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})

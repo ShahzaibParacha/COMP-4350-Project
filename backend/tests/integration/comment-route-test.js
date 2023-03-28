@@ -34,63 +34,69 @@ let server;
  * res - the response returned by logging in
  */
 const setup = async (numComments, numPosts, numUsers) => {
-    let commentIDs = [];
-    let postIDs = [];
-    let userIDs = [];
-    let i = 0;
+	let commentIDs = [];
+	let postIDs = [];
+	let userIDs = [];
+	let i = 0;
 
-    await Comment.deleteMany({});
+	await Comment.deleteMany({});
 
-    //creates an user id to leave comments
-    for (i = 0; i < numUsers; i++){
-        userIDs.push(new mongoose.mongo.ObjectID);
-    }
-    //userID = new mongoose.mongo.ObjectID;
+	//creates an user id to leave comments
+	for (i = 0; i < numUsers; i++) {
+		userIDs.push(new mongoose.mongo.ObjectID);
+	}
+	//userID = new mongoose.mongo.ObjectID;
 
-    //generate post ids
-    for (i = 0; i < numPosts; i++) {
-        postIDs.push(new mongoose.mongo.ObjectID);
-    }
+	//generate post ids
+	for (i = 0; i < numPosts; i++) {
+		postIDs.push(new mongoose.mongo.ObjectID);
+	}
 
-    //generate random comments to numPosts posts
-    for (i = 0; i < numComments; i++) {
-        commentIDs.push(new mongoose.mongo.ObjectID);
-        const attrib = {_id: commentIDs[i], post_id: postIDs[i % numPosts],
-            user_id: userIDs[i % numUsers], content: i, comment_date: new Date(i * 1000000)};
-        await Comment.create(attrib);
-    }
+	//generate random comments to numPosts posts
+	for (i = 0; i < numComments; i++) {
+		commentIDs.push(new mongoose.mongo.ObjectID);
+		const attrib = {
+			_id: commentIDs[i], post_id: postIDs[i % numPosts],
+			user_id: userIDs[i % numUsers], content: i, comment_date: new Date(i * 1000000)
+		};
+		await Comment.create(attrib);
+	}
 
- 
-    await User.findOneAndDelete({email});
-    await User.create({username, email, password, _id: userIDs[0], profile_photo: "/sample_profile.jpg"}); 
 
-    //login
-    const res = await axios({
-        method: "post",
-        url: `http://localhost:4350/api/free/user/login`,
-        data: {
-          email,
-          password,
-        },
-      });
+	await User.findOneAndDelete({email});
+	await User.create({username, email, password, _id: userIDs[0], profile_photo: '/sample_profile.jpg'});
 
-    return { commentIDs, postIDs, userIDs, res };
-}
+	//login
+	const res = await axios({
+		method: 'post',
+		url: 'http://localhost:4350/api/free/user/login',
+		data: {
+			email,
+			password,
+		},
+	});
+
+	return {commentIDs, postIDs, userIDs, res};
+};
 
 describe('Comment routes', function () {
 	before(async () => {
 		const app = express();
 
 		mongoose
-			.connect(process.env.MONGODB_CONNECTION, {
+			.connect(process.env.TEST_MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})
-			.then(() => { console.log('Success to connect mongodb'); })
-			.catch(() => { console.log('Fail to connect mongodb'); });
+			.then(() => {
+				console.log('Success to connect mongodb');
+			})
+			.catch(() => {
+				console.log('Fail to connect mongodb');
+			});
 
-		app.use(bodyParser.json({ extended: true }));
-		app.use(bodyParser.urlencoded({ extended: true }));
+		app.use(bodyParser.json({extended: true}));
+		app.use(bodyParser.urlencoded({extended: true}));
 		app.use(cors());
 
 		app.use('/api', apiRouter);
@@ -110,7 +116,7 @@ describe('Comment routes', function () {
 		const url = 'http://localhost:4350/api/comment/create';
 
 		it('should return a comment', async function () {
-			const { postIDs, userIDs, res } = (await setup(0, 1, 2)); // no comments, one post, two users
+			const {postIDs, userIDs, res} = (await setup(0, 1, 2)); // no comments, one post, two users
 
 			await axios({
 				method: 'post',
@@ -126,7 +132,7 @@ describe('Comment routes', function () {
 				}
 			});
 
-			const comments = await Comment.find({ user_id: userIDs[0], post_id: postIDs[0] });
+			const comments = await Comment.find({user_id: userIDs[0], post_id: postIDs[0]});
 
 			expect(comments).to.exist;
 			expect(comments.length).to.equal(1);
@@ -134,7 +140,7 @@ describe('Comment routes', function () {
 		});
 
 		it('should return two comments', async function () {
-			const { postIDs, userIDs, res } = (await setup(4, 2, 2));
+			const {postIDs, userIDs, res} = (await setup(4, 2, 2));
 
 			await axios({
 				method: 'post',
@@ -150,7 +156,7 @@ describe('Comment routes', function () {
 				}
 			});
 
-			const comments = await Comment.find({ user_id: userIDs[0] });
+			const comments = await Comment.find({user_id: userIDs[0]});
 			expect(comments).to.exist;
 			expect(comments.length).to.equal(3);
 			expect(comments[0].content).to.equal('0');
@@ -159,7 +165,7 @@ describe('Comment routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { userIDs, res } = (await setup(5, 1, 1));
+			const {userIDs, res} = (await setup(5, 1, 1));
 
 			const response = await axios({
 				method: 'post',
@@ -179,7 +185,7 @@ describe('Comment routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { postIDs, userIDs, res } = (await setup(5, 1, 1));
+			const {postIDs, userIDs, res} = (await setup(5, 1, 1));
 
 			const response = await axios({
 				method: 'post',
@@ -203,7 +209,7 @@ describe('Comment routes', function () {
 		const url = 'http://localhost:4350/api/comment/getCommentsFromPost';
 
 		it('should return nothing', async function () {
-			const { postIDs, res } = (await setup(0, 1, 1));
+			const {postIDs, res} = (await setup(0, 1, 1));
 
 			const response = await axios({
 				method: 'get',
@@ -223,7 +229,7 @@ describe('Comment routes', function () {
 		});
 
 		it('should return nothing', async function () {
-			const { token } = (await setup(10, 3, 2)).res.data.data;
+			const {token} = (await setup(10, 3, 2)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -243,7 +249,7 @@ describe('Comment routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { token } = (await setup(10, 3, 5)).res.data.data;
+			const {token} = (await setup(10, 3, 5)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -261,7 +267,7 @@ describe('Comment routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const { token } = (await setup(10, 3, 3)).res.data.data;
+			const {token} = (await setup(10, 3, 3)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
@@ -279,7 +285,7 @@ describe('Comment routes', function () {
 		});
 
 		it('should return all comments with even content', async function () {
-			const { postIDs, res } = (await setup(10, 2, 2));
+			const {postIDs, res} = (await setup(10, 2, 2));
 
 			const response = await axios({
 				method: 'get',

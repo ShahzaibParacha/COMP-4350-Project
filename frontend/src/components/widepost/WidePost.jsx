@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import axios from "axios";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import removeMd from "remove-markdown";
 
-function WidePost() {
+function WidePost({ postType }) {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
-  const { token } = JSON.parse(sessionStorage.getItem("session"));
+  const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
 
-  const getPosts = () => {
+  const getRecommendedPosts = () => {
     axios({
       method: "get",
-      url: `http://localhost:4350/api/post/get_recent_posts`,
+      url: `http://localhost:4350/api/post/getRecommendatedPosts`,
+      params: { user_id: userId },
       headers: {
         Authorization: token,
         withCredentials: true,
@@ -22,9 +24,29 @@ function WidePost() {
     });
   };
 
+  const getRecentPosts = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:4350/api/post/getRecentPosts`,
+      headers: {
+        Authorization: token,
+        withCredentials: true,
+      },
+    }).then((s) => {
+      setPosts(s.data.data);
+    });
+  };
+
+  const getPosts = () => {
+    if (postType === "feed") {
+      getRecentPosts();
+    } else if (postType === "subscribed") {
+      getRecommendedPosts();
+    }
+  };
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [postType]);
 
   const handlePostClick = (postID) => {
     navigate(`/post/${postID}`);
@@ -93,3 +115,9 @@ function WidePost() {
 }
 
 export default WidePost;
+
+WidePost.propTypes = {
+  // can keep this since it is up to preference according to the doc
+  // eslint-disable-next-line
+  postType: PropTypes.any,
+};

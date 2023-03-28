@@ -6,7 +6,7 @@
   "scripts": {
     "unit": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/*.js",
     "integration": "nyc mocha --timeout 15000 ./tests/integration/*.js ./tests/*.js",
-    "test": "nyc mocha --timeout 15000 ./tests/integration/aws-controller-test.js",
+    "test": "nyc mocha --timeout 15000 ./tests/*.js",
     "all": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/integration/*.js ./tests/*.js",
     "start": "nodemon index.js"
   },
@@ -33,6 +33,7 @@
     "jsonwebtoken": "^9.0.0",
     "mocha": "^10.2.0",
     "mongoose": "^5.10.0",
+    "monkeylearn": "^3.4.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.20",
@@ -40,6 +41,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "python-shell": "^5.0.0",
     "sinon": "^15.0.1"
   },
   "devDependencies": {

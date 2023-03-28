@@ -12,7 +12,7 @@ async function getUserAudiences (userId, pageNum, pageSize) {
 async function notifyAudiences (user_id, post_id, content) {
 	const creator = await userService.getUserInfo(user_id);
 	const subscribers = await getUserAudiences(user_id);
-	console.log('The number of audiences for the user is: ' + subscribers.length);
+	//console.log('The number of audiences for the user is: ' + subscribers.length);
 
 	try {
 		const audience_emails = [];
