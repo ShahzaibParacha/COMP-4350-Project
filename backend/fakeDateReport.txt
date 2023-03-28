@@ -1,0 +1,1002 @@
+								Audience List		
+_id							username	email				password		isWriter	
+6421072af00aac162c68b1a4	user0		user0@test.com		user0Password!	false	
+6421072af00aac162c68b1a7	user1		user1@test.com		user1Password!	false	
+6421072af00aac162c68b1aa	user2		user2@test.com		user2Password!	false	
+6421072af00aac162c68b1ad	user3		user3@test.com		user3Password!	false	
+6421072af00aac162c68b1b0	user4		user4@test.com		user4Password!	false	
+6421072af00aac162c68b1b3	user5		user5@test.com		user5Password!	false	
+6421072af00aac162c68b1b6	user6		user6@test.com		user6Password!	false	
+6421072af00aac162c68b1b9	user7		user7@test.com		user7Password!	false	
+6421072bf00aac162c68b1bc	user8		user8@test.com		user8Password!	false	
+6421072bf00aac162c68b1bf	user9		user9@test.com		user9Password!	false	
+6421072bf00aac162c68b1c2	user10		user10@test.com		user10Password!	false	
+6421072bf00aac162c68b1c5	user11		user11@test.com		user11Password!	false	
+6421072bf00aac162c68b1c8	user12		user12@test.com		user12Password!	false	
+6421072bf00aac162c68b1cb	user13		user13@test.com		user13Password!	false	
+6421072bf00aac162c68b1ce	user14		user14@test.com		user14Password!	false	
+6421072bf00aac162c68b1d1	user15		user15@test.com		user15Password!	false	
+6421072bf00aac162c68b1d4	user16		user16@test.com		user16Password!	false	
+6421072bf00aac162c68b1d7	user17		user17@test.com		user17Password!	false	
+6421072bf00aac162c68b1da	user18		user18@test.com		user18Password!	false	
+6421072bf00aac162c68b1dd	user19		user19@test.com		user19Password!	false	
+6421072bf00aac162c68b1e0	user20		user20@test.com		user20Password!	false	
+6421072bf00aac162c68b1e3	user21		user21@test.com		user21Password!	false	
+6421072bf00aac162c68b1e6	user22		user22@test.com		user22Password!	false	
+6421072bf00aac162c68b1e9	user23		user23@test.com		user23Password!	false	
+6421072bf00aac162c68b1ec	user24		user24@test.com		user24Password!	false	
+6421072bf00aac162c68b1ef	user25		user25@test.com		user25Password!	false	
+6421072bf00aac162c68b1f2	user26		user26@test.com		user26Password!	false	
+6421072bf00aac162c68b1f5	user27		user27@test.com		user27Password!	false	
+6421072bf00aac162c68b1f8	user28		user28@test.com		user28Password!	false	
+6421072bf00aac162c68b1fb	user29		user29@test.com		user29Password!	false	
+6421072bf00aac162c68b1fe	user30		user30@test.com		user30Password!	false	
+6421072bf00aac162c68b201	user31		user31@test.com		user31Password!	false	
+6421072bf00aac162c68b204	user32		user32@test.com		user32Password!	false	
+6421072cf00aac162c68b207	user33		user33@test.com		user33Password!	false	
+6421072cf00aac162c68b20a	user34		user34@test.com		user34Password!	false	
+6421072cf00aac162c68b20d	user35		user35@test.com		user35Password!	false	
+6421072cf00aac162c68b210	user36		user36@test.com		user36Password!	false	
+6421072cf00aac162c68b213	user37		user37@test.com		user37Password!	false	
+6421072cf00aac162c68b216	user38		user38@test.com		user38Password!	false	
+6421072cf00aac162c68b219	user39		user39@test.com		user39Password!	false	
+6421072cf00aac162c68b21c	user40		user40@test.com		user40Password!	false	
+6421072cf00aac162c68b21f	user41		user41@test.com		user41Password!	false	
+6421072cf00aac162c68b222	user42		user42@test.com		user42Password!	false	
+6421072cf00aac162c68b225	user43		user43@test.com		user43Password!	false	
+6421072cf00aac162c68b228	user44		user44@test.com		user44Password!	false	
+6421072cf00aac162c68b22b	user45		user45@test.com		user45Password!	false	
+6421072cf00aac162c68b22e	user46		user46@test.com		user46Password!	false	
+6421072cf00aac162c68b231	user47		user47@test.com		user47Password!	false	
+6421072cf00aac162c68b234	user48		user48@test.com		user48Password!	false	
+6421072cf00aac162c68b237	user49		user49@test.com		user49Password!	false	
+
+########################################################################################
+
+								Creator List		
+_id							username	email				password		isWriter	
+6421072cf00aac162c68b23a	user50		user50@test.com		user50Password!	true	
+6421072cf00aac162c68b23d	user51		user51@test.com		user51Password!	true	
+6421072cf00aac162c68b240	user52		user52@test.com		user52Password!	true	
+6421072cf00aac162c68b243	user53		user53@test.com		user53Password!	true	
+6421072cf00aac162c68b246	user54		user54@test.com		user54Password!	true	
+6421072cf00aac162c68b249	user55		user55@test.com		user55Password!	true	
+6421072cf00aac162c68b24c	user56		user56@test.com		user56Password!	true	
+6421072cf00aac162c68b24f	user57		user57@test.com		user57Password!	true	
+6421072df00aac162c68b252	user58		user58@test.com		user58Password!	true	
+6421072df00aac162c68b255	user59		user59@test.com		user59Password!	true	
+
+########################################################################################
+
+								Subscription List		
+creator_id							audience_id	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b1bc	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b1ce	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b1d1	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b1d4	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b1d7	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b1ef	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b1f8	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b1fe	
+6421072cf00aac162c68b23a			6421072bf00aac162c68b204	
+6421072cf00aac162c68b23a			6421072cf00aac162c68b21c	
+6421072cf00aac162c68b23a			6421072cf00aac162c68b228	
+6421072cf00aac162c68b23a			6421072cf00aac162c68b22b	
+6421072cf00aac162c68b23a			6421072cf00aac162c68b231	
+6421072cf00aac162c68b23d			6421072af00aac162c68b1a7	
+6421072cf00aac162c68b23d			6421072af00aac162c68b1ad	
+6421072cf00aac162c68b23d			6421072af00aac162c68b1b0	
+6421072cf00aac162c68b23d			6421072af00aac162c68b1b9	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1c5	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1d1	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1d4	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1dd	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1ec	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1ef	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1f2	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1f8	
+6421072cf00aac162c68b23d			6421072bf00aac162c68b1fe	
+6421072cf00aac162c68b23d			6421072cf00aac162c68b207	
+6421072cf00aac162c68b23d			6421072cf00aac162c68b20d	
+6421072cf00aac162c68b23d			6421072cf00aac162c68b216	
+6421072cf00aac162c68b23d			6421072cf00aac162c68b21f	
+6421072cf00aac162c68b23d			6421072cf00aac162c68b222	
+6421072cf00aac162c68b23d			6421072cf00aac162c68b22b	
+6421072cf00aac162c68b23d			6421072cf00aac162c68b231	
+6421072cf00aac162c68b240			6421072af00aac162c68b1ad	
+6421072cf00aac162c68b240			6421072af00aac162c68b1b9	
+6421072cf00aac162c68b240			6421072bf00aac162c68b1c8	
+6421072cf00aac162c68b240			6421072bf00aac162c68b1ce	
+6421072cf00aac162c68b240			6421072bf00aac162c68b1e9	
+6421072cf00aac162c68b240			6421072bf00aac162c68b1ef	
+6421072cf00aac162c68b240			6421072bf00aac162c68b1f5	
+6421072cf00aac162c68b240			6421072bf00aac162c68b201	
+6421072cf00aac162c68b240			6421072bf00aac162c68b204	
+6421072cf00aac162c68b240			6421072cf00aac162c68b207	
+6421072cf00aac162c68b240			6421072cf00aac162c68b20a	
+6421072cf00aac162c68b240			6421072cf00aac162c68b20d	
+6421072cf00aac162c68b240			6421072cf00aac162c68b210	
+6421072cf00aac162c68b240			6421072cf00aac162c68b213	
+6421072cf00aac162c68b240			6421072cf00aac162c68b216	
+6421072cf00aac162c68b240			6421072cf00aac162c68b21c	
+6421072cf00aac162c68b240			6421072cf00aac162c68b21f	
+6421072cf00aac162c68b240			6421072cf00aac162c68b222	
+6421072cf00aac162c68b240			6421072cf00aac162c68b228	
+6421072cf00aac162c68b240			6421072cf00aac162c68b22b	
+6421072cf00aac162c68b243			6421072af00aac162c68b1a4	
+6421072cf00aac162c68b243			6421072af00aac162c68b1a7	
+6421072cf00aac162c68b243			6421072af00aac162c68b1ad	
+6421072cf00aac162c68b243			6421072af00aac162c68b1b6	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1bf	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1c8	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1cb	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1ce	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1d1	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1d4	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1d7	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1dd	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1ef	
+6421072cf00aac162c68b243			6421072bf00aac162c68b1f2	
+6421072cf00aac162c68b243			6421072cf00aac162c68b20d	
+6421072cf00aac162c68b243			6421072cf00aac162c68b216	
+6421072cf00aac162c68b243			6421072cf00aac162c68b21f	
+6421072cf00aac162c68b243			6421072cf00aac162c68b222	
+6421072cf00aac162c68b246			6421072af00aac162c68b1a7	
+6421072cf00aac162c68b246			6421072af00aac162c68b1b6	
+6421072cf00aac162c68b246			6421072bf00aac162c68b1c8	
+6421072cf00aac162c68b246			6421072bf00aac162c68b1d4	
+6421072cf00aac162c68b246			6421072bf00aac162c68b1dd	
+6421072cf00aac162c68b246			6421072bf00aac162c68b204	
+6421072cf00aac162c68b246			6421072cf00aac162c68b207	
+6421072cf00aac162c68b246			6421072cf00aac162c68b228	
+6421072cf00aac162c68b246			6421072cf00aac162c68b237	
+6421072cf00aac162c68b249			6421072af00aac162c68b1b6	
+6421072cf00aac162c68b249			6421072bf00aac162c68b1c5	
+6421072cf00aac162c68b249			6421072bf00aac162c68b1c8	
+6421072cf00aac162c68b249			6421072bf00aac162c68b1ce	
+6421072cf00aac162c68b249			6421072bf00aac162c68b1dd	
+6421072cf00aac162c68b249			6421072bf00aac162c68b1e3	
+6421072cf00aac162c68b249			6421072bf00aac162c68b1e6	
+6421072cf00aac162c68b249			6421072bf00aac162c68b1f2	
+6421072cf00aac162c68b249			6421072bf00aac162c68b1fb	
+6421072cf00aac162c68b249			6421072cf00aac162c68b216	
+6421072cf00aac162c68b249			6421072cf00aac162c68b21f	
+6421072cf00aac162c68b249			6421072cf00aac162c68b222	
+6421072cf00aac162c68b249			6421072cf00aac162c68b231	
+6421072cf00aac162c68b249			6421072cf00aac162c68b237	
+6421072cf00aac162c68b24c			6421072af00aac162c68b1a7	
+6421072cf00aac162c68b24c			6421072af00aac162c68b1aa	
+6421072cf00aac162c68b24c			6421072af00aac162c68b1b9	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1bf	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1cb	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1da	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1dd	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1e0	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1e6	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1e9	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1f2	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1fb	
+6421072cf00aac162c68b24c			6421072bf00aac162c68b1fe	
+6421072cf00aac162c68b24c			6421072cf00aac162c68b207	
+6421072cf00aac162c68b24c			6421072cf00aac162c68b20d	
+6421072cf00aac162c68b24c			6421072cf00aac162c68b216	
+6421072cf00aac162c68b24c			6421072cf00aac162c68b219	
+6421072cf00aac162c68b24c			6421072cf00aac162c68b222	
+6421072cf00aac162c68b24c			6421072cf00aac162c68b225	
+6421072cf00aac162c68b24c			6421072cf00aac162c68b22b	
+6421072cf00aac162c68b24f			6421072af00aac162c68b1a7	
+6421072cf00aac162c68b24f			6421072bf00aac162c68b1c2	
+6421072cf00aac162c68b24f			6421072bf00aac162c68b1c5	
+6421072cf00aac162c68b24f			6421072bf00aac162c68b1cb	
+6421072cf00aac162c68b24f			6421072bf00aac162c68b1d1	
+6421072cf00aac162c68b24f			6421072bf00aac162c68b1ec	
+6421072cf00aac162c68b24f			6421072bf00aac162c68b1f2	
+6421072cf00aac162c68b24f			6421072bf00aac162c68b201	
+6421072cf00aac162c68b24f			6421072bf00aac162c68b204	
+6421072cf00aac162c68b24f			6421072cf00aac162c68b210	
+6421072cf00aac162c68b24f			6421072cf00aac162c68b228	
+6421072cf00aac162c68b24f			6421072cf00aac162c68b22e	
+6421072cf00aac162c68b24f			6421072cf00aac162c68b231	
+6421072cf00aac162c68b24f			6421072cf00aac162c68b237	
+6421072df00aac162c68b252			6421072af00aac162c68b1ad	
+6421072df00aac162c68b252			6421072bf00aac162c68b1c2	
+6421072df00aac162c68b252			6421072bf00aac162c68b1d7	
+6421072df00aac162c68b252			6421072bf00aac162c68b204	
+6421072df00aac162c68b252			6421072cf00aac162c68b207	
+6421072df00aac162c68b252			6421072cf00aac162c68b210	
+6421072df00aac162c68b252			6421072cf00aac162c68b213	
+6421072df00aac162c68b252			6421072cf00aac162c68b216	
+6421072df00aac162c68b252			6421072cf00aac162c68b225	
+6421072df00aac162c68b252			6421072cf00aac162c68b228	
+6421072df00aac162c68b252			6421072cf00aac162c68b234	
+6421072df00aac162c68b255			6421072af00aac162c68b1a7	
+6421072df00aac162c68b255			6421072bf00aac162c68b1bc	
+6421072df00aac162c68b255			6421072bf00aac162c68b1bf	
+6421072df00aac162c68b255			6421072bf00aac162c68b1d7	
+6421072df00aac162c68b255			6421072bf00aac162c68b1e6	
+6421072df00aac162c68b255			6421072bf00aac162c68b1ec	
+6421072df00aac162c68b255			6421072bf00aac162c68b204	
+6421072df00aac162c68b255			6421072cf00aac162c68b207	
+6421072df00aac162c68b255			6421072cf00aac162c68b20d	
+6421072df00aac162c68b255			6421072cf00aac162c68b219	
+6421072df00aac162c68b255			6421072cf00aac162c68b21c	
+6421072df00aac162c68b255			6421072cf00aac162c68b228	
+6421072df00aac162c68b255			6421072cf00aac162c68b22e	
+6421072df00aac162c68b255			6421072cf00aac162c68b237	
+
+########################################################################################
+
+								Posts List		
+user_id									content	
+6421072cf00aac162c68b246				A computer is a device that can help us explore the world around us, from the depths of the ocean to the far reaches of space.	
+6421072cf00aac162c68b24f				Computers are the ultimate tool for problem-solving, offering us new ways to approach complex issues and find solutions.	
+6421072cf00aac162c68b24f				A computer is like a box of Legos, offering us a wealth of possibilities and opportunities for creativity and innovation.	
+6421072cf00aac162c68b240				Computers are the ultimate communication tool, allowing us to connect with people all over the world and share our ideas and passions.	
+6421072cf00aac162c68b24c				A computer is a machine that can learn and adapt, offering us new possibilities and opportunities for growth and evolution.	
+6421072cf00aac162c68b246				Computers are like a mirror, reflecting back to us the best and worst of ourselves and our society.	
+6421072cf00aac162c68b243				A computer is a machine that can make our lives easier, but it is up to us to use it wisely and responsibly.	
+6421072cf00aac162c68b240				Computers are the ultimate tool for research and discovery, allowing us to explore the unknown and uncover new knowledge.	
+6421072df00aac162c68b255				A computer is a canvas that we can paint with our thoughts, ideas, and creativity.	
+6421072cf00aac162c68b243				Computers are like Swiss Army knives, offering us a wide range of tools and capabilities that we can use to accomplish a variety of tasks.	
+6421072df00aac162c68b252				A computer is a window to the world, offering us access to new and exciting cultures, ideas, and perspectives.	
+6421072cf00aac162c68b24c				Computers are the ultimate collaboration tool, bringing people from all over the world together to work on projects and solve problems.	
+6421072cf00aac162c68b240				A computer is like a magic wand, allowing us to bring our dreams and ideas to life with a few clicks of a mouse.	
+6421072cf00aac162c68b246				Computers are the ultimate multitasking tool, allowing us to juggle multiple projects and tasks at once.	
+6421072cf00aac162c68b246				A computer is a device that can help us unlock the secrets of the universe, from the smallest subatomic particles to the vastness of space.	
+6421072cf00aac162c68b240				Computers are the tools of the future, opening up new frontiers in science, medicine, and technology.	
+6421072df00aac162c68b255				A computer is like a puzzle waiting to be solved, offering endless opportunities for problem-solving and critical thinking.	
+6421072cf00aac162c68b24f				Computers are the new canvas for the digital age, allowing artists to create and express themselves in new and exciting ways.	
+6421072cf00aac162c68b249				Computers are an extension of our minds, allowing us to store and process vast amounts of information and data.	
+6421072df00aac162c68b252				A computer is a machine that can do the work of a hundred men, but it cannot do the work of one extraordinary man.	
+6421072cf00aac162c68b24f				Computers are the great equalizer, providing opportunities for people to learn and create no matter where they are or what their background is.	
+6421072cf00aac162c68b24f				Computers are the gateways to endless information and knowledge, offering us access to the sum of human understanding.	
+6421072cf00aac162c68b240				A computer is a tool that can be used to make a difference in the world, but it is up to us to decide how to use it.	
+6421072cf00aac162c68b24f				The best thing about a computer is that it is a blank canvas, waiting for us to paint our ideas and creativity on.	
+6421072cf00aac162c68b240				Computers are like a pair of scissors; they can be used to cut out the bad and the unnecessary from our lives.	
+6421072cf00aac162c68b24c				Computers are like air conditioners, they stop working properly if you open Windows.	
+6421072cf00aac162c68b23a				Computers are like Old Testament gods; lots of rules and no mercy. - Joseph Campbell	
+6421072df00aac162c68b252				Computers are not intelligent, they are merely very fast at calculating.	
+6421072cf00aac162c68b24c				Computers are useless. They can only give you answers. - Pablo Picasso	
+6421072cf00aac162c68b24f				A computer once beat me at chess, but it was no match for me at kickboxing. - Emo Philips	
+6421072df00aac162c68b252				Computers are like bicycles for our minds. - Steve Jobs	
+6421072cf00aac162c68b24f				Computers are the most incredible tool we've ever seen. They can be our tools of creativity, they can help us explore the world, and they can help us make connections we never thought possible. - Steve Jobs	
+6421072cf00aac162c68b23d				A tree may lose its leaves in the winter, but come springtime, it blooms anew, a testament to the power of renewal and rebirth.	
+6421072df00aac162c68b255				Trees are a reminder that life is a journey, and that even the longest journey begins with a single step.	
+6421072cf00aac162c68b243				The beauty of a tree is in its imperfections, the knots and scars that tell the story of its growth and struggles.	
+6421072cf00aac162c68b23a				A tree may start out as a small seed, but with time and care, it can grow into a mighty force of nature.	
+6421072cf00aac162c68b240				Trees are a symbol of balance and harmony, reminding us of the interconnectedness of all things.	
+6421072df00aac162c68b255				A tree is a living thing, constantly growing and changing, adapting to the world around it.	
+6421072cf00aac162c68b24c				The branches of a tree may reach for the sky, but its roots go deep into the earth, anchoring it firmly in place.	
+6421072df00aac162c68b255				Trees are a symbol of endurance and strength, reminding us that even in the face of adversity, we can grow and thrive.	
+6421072df00aac162c68b255				The leaves of a tree may wither and die, but its roots remain, waiting for new growth and new life.	
+6421072cf00aac162c68b240				A tree's shade is a refuge from the heat of the sun, a place to rest and be at peace.	
+6421072df00aac162c68b252				Trees are a reminder that sometimes the greatest beauty lies in simplicity.	
+6421072df00aac162c68b255				A tree may be small and unassuming, but with time and care, it can grow into something magnificent.	
+6421072df00aac162c68b255				The roots of a tree may be hidden beneath the earth, but they are the foundation that holds it upright and strong.	
+6421072df00aac162c68b252				Trees are the guardians of our planet, protecting us from the harmful effects of pollution and climate change.	
+6421072cf00aac162c68b243				A tree is a symbol of hope, growth, and renewal, reminding us that even in the darkest of times, new life can emerge.	
+6421072cf00aac162c68b249				Trees are the lungs of the earth, providing us with the oxygen we need to breathe.	
+6421072cf00aac162c68b243				A tree's beauty lies not only in its leaves, but also in its bark, its branches, and its roots.	
+6421072df00aac162c68b252				Trees are a source of inspiration and wonder, reminding us of the beauty and majesty of the natural world.	
+6421072cf00aac162c68b240				A tree is like a good friend, always there when you need it most.	
+6421072df00aac162c68b252				Trees provide shade and shelter, and a place for birds and other animals to call home.	
+6421072cf00aac162c68b249				A tree is only as strong as the forest that surrounds it.	
+6421072cf00aac162c68b246				The tree that bends with the wind is stronger than the one that resists.	
+6421072cf00aac162c68b23d				Trees are a symbol of life, growth, and resilience.	
+6421072cf00aac162c68b24c				The strength and beauty of a tree is in its roots, not its branches.	
+6421072cf00aac162c68b246				Trees are a reminder that growth takes time, and that slow progress is still progress.	
+6421072cf00aac162c68b24f				A tree's leaves may fall in autumn, but its roots remain strong and steadfast.	
+6421072df00aac162c68b255				A tree's roots go deep, but its branches reach for the sky.	
+6421072df00aac162c68b255				The tree is more than first a seed, then a stem, then a living trunk, and then dead timber. The tree is a slow, enduring force straining to win the sky. - Antoine de Saint-Exupery	
+6421072cf00aac162c68b23d				Trees are poems that the earth writes upon the sky. - Kahlil Gibran	
+6421072cf00aac162c68b243				The tree which moves some to tears of joy is in the eyes of others only a green thing that stands in the way. Some see nature all ridicule and deformity... and some scarce see nature at all. But to the eyes of the man of imagination, nature is imagination itself. - William Blake	
+6421072cf00aac162c68b249				A tree is known by its fruit; a man by his deeds. A good tree makes good fruit; a good man makes good deeds. - Source Unknown	
+6421072cf00aac162c68b24f				Trees are the lungs of the earth, providing us with clean air to breathe.	
+6421072cf00aac162c68b243				The best time to plant a tree was 20 years ago. The second-best time is now. - Chinese proverb	
+6421072cf00aac162c68b240				Sometimes, the best way to be happy is to learn to be alone	
+6421072cf00aac162c68b240				We're never alone. As long as we're alive, we carry the people we've loved and who've loved us inside our hearts. - Bruce Coville	
+6421072cf00aac162c68b24f				When you're alone, you get to discover things about yourself that you never knew before.	
+6421072df00aac162c68b252				Being alone doesn't mean you're weak, it means you're strong enough to wait for the right person.	
+6421072df00aac162c68b255				The pain of being alone is completely out of this world, isn't it? I don't know why, but I understand your feelings so much, it actually hurts. - Masashi Kishimoto	
+6421072cf00aac162c68b243				Sometimes, the only way to be happy is to learn to be alone without being lonely.	
+6421072cf00aac162c68b246				We are all alone, but we are all together too. - Tony Evans	
+6421072cf00aac162c68b249				In the end, we are all alone, and no one is coming to save us. - Erica Jong	
+6421072cf00aac162c68b23a				If you want to be happy, learn to be alone without being lonely.	
+6421072cf00aac162c68b243				We're born alone, we live alone, we die alone. Only through our love and friendship can we create the illusion for the moment that we're not alone. - Orson Welles	
+6421072cf00aac162c68b23d				If you want to be strong, learn how to fight alone.	
+6421072cf00aac162c68b24c				The worst thing in life is to end up with people who make you feel alone. - Robin Williams	
+6421072cf00aac162c68b246				The best part about being alone is that you really don't have to answer to anybody. You do what you want. - Justin Timberlake	
+6421072cf00aac162c68b246				The greatest thing in the world is to know how to belong to oneself. - Michel de Montaigne	
+6421072cf00aac162c68b249				In the midst of winter, I found there was, within me, an invincible summer. - Albert Camus	
+6421072df00aac162c68b252				Sometimes, being alone with your thoughts is the best medicine.	
+6421072cf00aac162c68b243				If you make friends with yourself, you will never be alone. - Maxwell Maltz	
+6421072cf00aac162c68b23d				It's better to walk alone than with a crowd going in the wrong direction.	
+6421072cf00aac162c68b24f				Solitude is the richness of self. - May Sarton	
+6421072cf00aac162c68b23d				Sometimes you need to take a break from everyone and spend time alone to experience, appreciate, and love yourself.	
+6421072cf00aac162c68b243				The world breaks everyone, and afterward, some are strong at the broken places. - Ernest Hemingway	
+6421072cf00aac162c68b24c				There's a certain grace in being alone. - M.F.K. Fisher	
+6421072cf00aac162c68b246				The greatest thing in the world is to know how to belong to oneself. - Michel de Montaigne	
+6421072df00aac162c68b255				When we truly realize that we are all alone is when we need others the most. - Ronald Anthony	
+6421072cf00aac162c68b24c				I used to think that the worst thing in life was to end up alone. It's not. The worst thing in life is to end up with people who make you feel alone. - Robin Williams	
+6421072df00aac162c68b255				We are all alone, born alone, die alone, and—in spite of True Romance magazines—we shall all someday look back on our lives and see that, in spite of our company, we were alone the whole way. - Hunter S. Thompson	
+6421072cf00aac162c68b23d				It is better to be alone than in bad company. - George Washington	
+6421072cf00aac162c68b23a				Sometimes, the only way to discover who you are and what life you should lead is to be alone. - Shonda Rhimes	
+6421072cf00aac162c68b249				I restore myself when I'm alone. - Marilyn Monroe	
+6421072cf00aac162c68b240				Solitude is the soul's holiday, an opportunity to stop doing for others and to surprise and delight ourselves instead. - Katrina Kenison	
+6421072cf00aac162c68b240				The loneliest moment in someone's life is when they are watching their whole world fall apart, and all they can do is stare blankly.	
+6421072cf00aac162c68b243				In order to be happy, you must be able to be alone and love yourself first.	
+6421072cf00aac162c68b24f				Being alone doesn't necessarily mean you're lonely.	
+6421072cf00aac162c68b23d				Sometimes, it's better to be alone than to be surrounded by the wrong people.	
+6421072df00aac162c68b255				Books are the keys that unlock the doors to new knowledge, understanding, and enlightenment.	
+6421072cf00aac162c68b249				A book is a treasure trove of ideas and inspiration, waiting to be discovered.	
+6421072cf00aac162c68b24c				Reading a good book can help you to see the world in a new way, and to gain a deeper understanding of yourself and others.	
+6421072cf00aac162c68b243				A book is a friend that can never leave you, and will always be there when you need it most.	
+6421072cf00aac162c68b24f				Books are the bridge that connect us to the wisdom of the past and the potential of the future.	
+6421072cf00aac162c68b24f				A book is a door that opens to the world of imagination and adventure.	
+6421072cf00aac162c68b23d				Books are the treasures that inspire us to dream, to learn, to explore, and to grow.	
+6421072cf00aac162c68b240				A book is the most valuable gift you can give someone, offering knowledge, entertainment, and inspiration.	
+6421072cf00aac162c68b23a				A book can change your life forever, opening your eyes to new possibilities and ideas.	
+6421072cf00aac162c68b243				Books are the antidote to ignorance and close-mindedness.	
+6421072cf00aac162c68b243				A book can take you on a journey to new lands and times, and introduce you to new people and ideas.	
+6421072cf00aac162c68b23d				Reading a good book is like having a conversation with a wise and knowledgeable friend.	
+6421072df00aac162c68b252				A book is a map to a new world waiting to be explored.	
+6421072cf00aac162c68b24f				Books are the keys to wisdom and knowledge, offering insight into different cultures and perspectives.	
+6421072df00aac162c68b255				A book is a window into the mind of its author.	
+6421072cf00aac162c68b243				A book is a garden of ideas, waiting to be explored.	
+6421072df00aac162c68b252				Books are a form of magic that we can all experience.	
+6421072cf00aac162c68b24f				A book is a good friend that can never betray you.	
+6421072cf00aac162c68b240				A book is a source of knowledge and inspiration that never runs out.	
+6421072df00aac162c68b255				A book is the most effective weapon against intolerance and ignorance. - Lyndon B. Johnson	
+6421072cf00aac162c68b249				A book is a mirror: if an ape looks in, an apostle is unlikely to look out. - G.C. Lichtenberg	
+6421072cf00aac162c68b240				Books are a way to learn without actually experiencing the consequences of mistakes.	
+6421072cf00aac162c68b240				A book is the only thing that can take you to another world without ever leaving your chair.	
+6421072cf00aac162c68b243				The best books are the ones that make you see the world differently.	
+6421072cf00aac162c68b240				A book is the only place in which you can examine a fragile thought without breaking it. - Edward P. Morgan	
+6421072df00aac162c68b252				Books are the plane, and the train, and the road. They are the destination, and the journey. They are home. - Anna Quindlen	
+6421072cf00aac162c68b23d				Books are a refuge for the soul.	
+6421072df00aac162c68b252				The best books are the ones that make you think, and feel, and grow.	
+6421072df00aac162c68b255				A book is like a garden carried in the pocket. - Chinese proverb	
+6421072cf00aac162c68b24f				Books are a treasure that cannot be stolen.	
+6421072df00aac162c68b252				Reading is to the mind what exercise is to the body. - Joseph Addison	
+6421072cf00aac162c68b243				The book you don't read won't help. - Jim Rohn	
+6421072df00aac162c68b255				A book is a device to ignite the imagination. - Alan Bennett	
+6421072cf00aac162c68b24c				Books are a uniquely portable magic. - Stephen King	
+6421072cf00aac162c68b240				A book is a dream that you hold in your hands. - Neil Gaiman	
+6421072cf00aac162c68b24f				A good book has no ending. - R.D. Cumming	
+6421072cf00aac162c68b23a				Books are the ultimate Dumpees: put them down and they’ll wait for you forever; pay attention to them and they always love you back. - John Green	
+6421072cf00aac162c68b23a				Reading is a conversation. All books talk. But a good book listens as well. - Mark Haddon	
+6421072cf00aac162c68b23d				A room without books is like a body without a soul. - Cicero	
+6421072cf00aac162c68b24f				The more that you read, the more things you will know. The more that you learn, the more places you'll go. - Dr. Seuss	
+6421072cf00aac162c68b23d				Books are the quietest and most constant of friends.	
+6421072cf00aac162c68b246				A book is a magical thing that can transport you to different worlds and times.	
+6421072cf00aac162c68b24f				Friends are the ones who make you feel like you're part of something special, even if it's just a small part.	
+6421072cf00aac162c68b243				A friend is someone who can make you feel like everything is going to be okay, even when everything feels like it's falling apart.	
+6421072df00aac162c68b252				Friends are the people who make you feel like you're not alone, even when the whole world is against you.	
+6421072cf00aac162c68b24c				A true friend is someone who is willing to stand up for you, even when everyone else is against you.	
+6421072df00aac162c68b255				Friends are the ones who make the world a little less scary, simply by being there.	
+6421072cf00aac162c68b24f				A friend is someone who can make you feel better with just a phone call.	
+6421072cf00aac162c68b246				Friends are the people who make you feel loved, even when you don't love yourself.	
+6421072cf00aac162c68b249				A true friend is someone who knows when you need a shoulder to cry on, and when you need a kick in the pants.	
+6421072cf00aac162c68b23d				Friends are the ones who make the world a better place, simply by being themselves.	
+6421072df00aac162c68b252				A friend is someone who can make you smile, even when you're feeling down.	
+6421072cf00aac162c68b243				Friends are the people who make you feel like you're part of their family, even if you're not related by blood.	
+6421072cf00aac162c68b23a				A true friend is someone who knows your weaknesses, and still thinks you're strong.	
+6421072cf00aac162c68b240				Friends are the ones who make your heart feel full, even when everything else feels empty.	
+6421072cf00aac162c68b24c				A friend is someone who is always willing to lend a hand, even if they have their own problems to deal with.	
+6421072cf00aac162c68b249				Friends are the people who make you feel like you're part of a bigger story, even if you're just a supporting character.	
+6421072cf00aac162c68b24c				A true friend is someone who never gives up on you, no matter how hard things get.	
+6421072cf00aac162c68b246				Friends are the ones who make you feel like you can do anything, simply by believing in you.	
+6421072df00aac162c68b252				A friend is someone who can make you forget your problems, even if it's just for a little while.	
+6421072cf00aac162c68b23a				Friends are the people who make you feel like you matter, even when the world tells you otherwise.	
+6421072cf00aac162c68b246				A true friend is someone who is always honest with you, even when the truth hurts.	
+6421072cf00aac162c68b249				Friends are the ones who make the world a brighter place, simply by being in it.	
+6421072cf00aac162c68b23d				A friend is someone who can make you feel better with just a hug.	
+6421072cf00aac162c68b23d				Friends are the people who make you feel like you're part of something bigger than yourself.	
+6421072cf00aac162c68b23d				A true friend is someone who knows the real you, and loves you anyway.	
+6421072cf00aac162c68b249				Friends are the ones who make you feel like you're not alone, even when you're by yourself.	
+6421072cf00aac162c68b243				A friend is someone who will never judge you, no matter what mistakes you've made.	
+6421072cf00aac162c68b246				Friends are the people who make the hard times easier, and the good times even better.	
+6421072df00aac162c68b255				A true friend is someone who is there for you, no matter what time of day or night.	
+6421072cf00aac162c68b249				Friends are the ones who make the world a better place, one kind act at a time.	
+6421072cf00aac162c68b249				A friend is someone who accepts you for who you are, and doesn't try to change you.	
+6421072cf00aac162c68b246				Friends are the people who make you feel alive, even when the world seems dull.	
+6421072df00aac162c68b255				A true friend is someone who can make you smile, even on your worst days.	
+6421072cf00aac162c68b249				Friends are the ones who make you laugh until your stomach hurts, and then laugh some more.	
+6421072cf00aac162c68b246				A friend is someone who understands you, even when you don't understand yourself.	
+6421072df00aac162c68b252				Friends are the people who make the journey worthwhile, even when the destination seems far away.	
+6421072cf00aac162c68b246				A true friend is someone who supports you in your dreams, and helps you achieve them.	
+6421072df00aac162c68b252				Friends are the ones who make your life richer, your days brighter, and your heart fuller.	
+6421072cf00aac162c68b240				A friend is someone who is always there for you, whether it's to lend a listening ear or a helping hand.	
+6421072cf00aac162c68b24f				A true friend is someone who loves you unconditionally, flaws and all.	
+6421072cf00aac162c68b243				Friends are the ones who make the good times better and the bad times bearable.	
+6421072cf00aac162c68b23a				A friend is someone who makes you feel like you can conquer the world.	
+6421072df00aac162c68b252				Friends are the people who know all your secrets and still love you anyway.	
+6421072cf00aac162c68b240				A true friend is someone who can see the pain in your eyes, even when you're smiling.	
+6421072cf00aac162c68b243				Friends are the ones who never leave your side, no matter how hard things get.	
+6421072cf00aac162c68b246				A friend is someone who knows how crazy you are but still chooses to be seen with you in public.	
+6421072cf00aac162c68b24f				Friends are the ones who make your heart sing and your soul dance.	
+6421072df00aac162c68b252				A true friend is someone who accepts your past, supports your present, and encourages your future.	
+6421072cf00aac162c68b246				Friends are the people who make life's journey a little easier and a lot more fun.	
+6421072cf00aac162c68b246				A friend is someone who can make you laugh even when you feel like crying.	
+6421072cf00aac162c68b23d				Friends are the people who make you feel at home wherever you are.	
+6421072df00aac162c68b255				A true friend is someone who never judges you and always has your back.	
+6421072cf00aac162c68b23a				Friends are the ones who believe in you even when you don't believe in yourself.	
+6421072cf00aac162c68b24f				A friend is someone who knows your flaws but loves you anyway.	
+6421072cf00aac162c68b240				Friends are the ones who make your problems their problems just so you don't have to go through them alone.	
+6421072df00aac162c68b252				A true friend is someone who never gets tired of listening to your drama.	
+6421072cf00aac162c68b24c				Friends are the people who make you see the best in yourself.	
+6421072cf00aac162c68b24f				A good friend is someone who is always there to lend a helping hand or a shoulder to cry on.	
+6421072cf00aac162c68b243				A friend is someone who knows the song in your heart and can sing it back to you when you have forgotten the words.	
+6421072cf00aac162c68b24c				Friends are the people who make you feel loved and wanted, even when you're not perfect.	
+6421072cf00aac162c68b24f				A true friend is someone who knows all about you and still loves you just the same.	
+6421072cf00aac162c68b24f				Friends are like stars, they come and go, but the ones that stay are the ones that glow.	
+6421072cf00aac162c68b246				A friend is someone who gives you total freedom to be yourself.	
+6421072df00aac162c68b255				Friends are the people who make you smile brighter, laugh louder, and live better.	
+6421072df00aac162c68b255				A friend is one who believes in you when you have ceased to believe in yourself.	
+6421072df00aac162c68b252				A true friend is someone who is there for you when he'd rather be anywhere else.	
+6421072df00aac162c68b252				Friends are the chocolate chips in the cookie of life.	
+6421072cf00aac162c68b249				A good friend is a connection to life, a tie to the past, a road to the future, the key to sanity in a totally insane world.	
+6421072cf00aac162c68b249				A friend is someone who listens to your stories, even when they've heard them before.	
+6421072df00aac162c68b255				Friends are the best therapy.	
+6421072cf00aac162c68b24c				A friend is one who walks in when others walk out.	
+6421072df00aac162c68b252				A friend is someone who knows everything about you and still loves you.	
+6421072cf00aac162c68b24f				Friends are the most important ingredient in the recipe called life.	
+6421072df00aac162c68b255				A friend is one who knows you and loves you just the same.	
+6421072df00aac162c68b252				A true friend is one who overlooks your failures and tolerates your success.	
+6421072cf00aac162c68b240				Friends are the pillars on your porch, sometimes they hold you up, sometimes they lean on you, and sometimes it's just enough to know they're standing by.	
+6421072cf00aac162c68b24c				Friends are the sunshine of life.	
+6421072cf00aac162c68b243				A good friend is like a four-leaf clover, hard to find and lucky to have.	
+6421072cf00aac162c68b243				A friend is someone who understands your past, believes in your future, and accepts you just the way you are.	
+6421072cf00aac162c68b24c				Friends are the siblings God never gave us.	
+6421072df00aac162c68b252				A true friend is someone who sees the pain in your eyes while everyone else believes the smile on your face.	
+6421072cf00aac162c68b24c				Friends are the family we choose for ourselves.	
+6421072cf00aac162c68b240				A friend is someone who knows the song in your heart and can sing it back to you when you have forgotten the words.	
+
+########################################################################################
+
+								Like List		
+user_id								post_id	
+6421072af00aac162c68b1a4			64210751f00aac162c68b3a7	
+6421072af00aac162c68b1a4			6421079ef00aac162c68b3f2	
+6421072af00aac162c68b1a4			642107adf00aac162c68b401	
+6421072af00aac162c68b1a4			64210812f00aac162c68b464	
+6421072af00aac162c68b1a4			64210843f00aac162c68b494	
+6421072af00aac162c68b1a4			6421086ef00aac162c68b4be	
+6421072af00aac162c68b1a4			64210913f00aac162c68b560	
+6421072af00aac162c68b1a4			64210919f00aac162c68b566	
+6421072af00aac162c68b1a4			64210935f00aac162c68b581	
+6421072af00aac162c68b1a4			642109a9f00aac162c68b5f3	
+6421072af00aac162c68b1a7			64210776f00aac162c68b3cb	
+6421072af00aac162c68b1a7			642107c3f00aac162c68b416	
+6421072af00aac162c68b1a7			642107f4f00aac162c68b446	
+6421072af00aac162c68b1a7			642108bef00aac162c68b50c	
+6421072af00aac162c68b1a7			64210913f00aac162c68b560	
+6421072af00aac162c68b1a7			64210960f00aac162c68b5ab	
+6421072af00aac162c68b1a7			6421096cf00aac162c68b5b7	
+6421072af00aac162c68b1a7			642109a0f00aac162c68b5ea	
+6421072af00aac162c68b1a7			642109b8f00aac162c68b602	
+6421072af00aac162c68b1aa			6421073ff00aac162c68b395	
+6421072af00aac162c68b1aa			6421074bf00aac162c68b3a1	
+6421072af00aac162c68b1aa			6421076af00aac162c68b3bf	
+6421072af00aac162c68b1aa			642107bdf00aac162c68b410	
+6421072af00aac162c68b1aa			642107c0f00aac162c68b413	
+6421072af00aac162c68b1aa			642107faf00aac162c68b44c	
+6421072af00aac162c68b1aa			64210850f00aac162c68b4a0	
+6421072af00aac162c68b1aa			64210916f00aac162c68b563	
+6421072af00aac162c68b1aa			6421096cf00aac162c68b5b7	
+6421072af00aac162c68b1aa			64210978f00aac162c68b5c3	
+6421072af00aac162c68b1aa			64210996f00aac162c68b5e1	
+6421072af00aac162c68b1ad			64210736f00aac162c68b38c	
+6421072af00aac162c68b1ad			642107c0f00aac162c68b413	
+6421072af00aac162c68b1ad			642107ccf00aac162c68b41f	
+6421072af00aac162c68b1ad			642107eef00aac162c68b440	
+6421072af00aac162c68b1ad			64210880f00aac162c68b4d0	
+6421072af00aac162c68b1ad			64210932f00aac162c68b57e	
+6421072af00aac162c68b1ad			6421094df00aac162c68b599	
+6421072af00aac162c68b1ad			64210966f00aac162c68b5b1	
+6421072af00aac162c68b1b0			64210736f00aac162c68b38c	
+6421072af00aac162c68b1b0			6421076af00aac162c68b3bf	
+6421072af00aac162c68b1b0			64210783f00aac162c68b3d7	
+6421072af00aac162c68b1b0			6421079bf00aac162c68b3ef	
+6421072af00aac162c68b1b0			642107a7f00aac162c68b3fb	
+6421072af00aac162c68b1b0			642107bdf00aac162c68b410	
+6421072af00aac162c68b1b0			642107f4f00aac162c68b446	
+6421072af00aac162c68b1b0			64210880f00aac162c68b4d0	
+6421072af00aac162c68b1b0			642108a5f00aac162c68b4f4	
+6421072af00aac162c68b1b0			64210950f00aac162c68b59c	
+6421072af00aac162c68b1b0			642109daf00aac162c68b623	
+6421072af00aac162c68b1b3			64210767f00aac162c68b3bc	
+6421072af00aac162c68b1b3			642107bdf00aac162c68b410	
+6421072af00aac162c68b1b3			642107e4f00aac162c68b437	
+6421072af00aac162c68b1b3			64210828f00aac162c68b479	
+6421072af00aac162c68b1b3			64210846f00aac162c68b497	
+6421072af00aac162c68b1b3			6421086bf00aac162c68b4bb	
+6421072af00aac162c68b1b3			6421088df00aac162c68b4dc	
+6421072af00aac162c68b1b3			642108d6f00aac162c68b524	
+6421072af00aac162c68b1b3			64210978f00aac162c68b5c3	
+6421072af00aac162c68b1b3			642109a6f00aac162c68b5f0	
+6421072af00aac162c68b1b3			642109daf00aac162c68b623	
+6421072af00aac162c68b1b6			642107a7f00aac162c68b3fb	
+6421072af00aac162c68b1b6			642107ccf00aac162c68b41f	
+6421072af00aac162c68b1b6			642107e4f00aac162c68b437	
+6421072af00aac162c68b1b6			64210840f00aac162c68b491	
+6421072af00aac162c68b1b6			6421087df00aac162c68b4cd	
+6421072af00aac162c68b1b6			64210890f00aac162c68b4df	
+6421072af00aac162c68b1b6			642108bbf00aac162c68b509	
+6421072af00aac162c68b1b6			642108bef00aac162c68b50c	
+6421072af00aac162c68b1b6			64210929f00aac162c68b575	
+6421072af00aac162c68b1b6			64210938f00aac162c68b584	
+6421072af00aac162c68b1b9			64210751f00aac162c68b3a7	
+6421072af00aac162c68b1b9			64210773f00aac162c68b3c8	
+6421072af00aac162c68b1b9			64210795f00aac162c68b3e9	
+6421072af00aac162c68b1b9			642107b3f00aac162c68b407	
+6421072af00aac162c68b1b9			642107eef00aac162c68b440	
+6421072af00aac162c68b1b9			64210803f00aac162c68b455	
+6421072af00aac162c68b1b9			6421080cf00aac162c68b45e	
+6421072af00aac162c68b1b9			6421087af00aac162c68b4ca	
+6421072af00aac162c68b1b9			642108abf00aac162c68b4fa	
+6421072af00aac162c68b1b9			6421091ff00aac162c68b56c	
+6421072af00aac162c68b1b9			64210925f00aac162c68b572	
+6421072af00aac162c68b1b9			6421093bf00aac162c68b587	
+6421072af00aac162c68b1b9			6421096ff00aac162c68b5ba	
+6421072bf00aac162c68b1bc			64210736f00aac162c68b38c	
+6421072bf00aac162c68b1bc			6421073cf00aac162c68b392	
+6421072bf00aac162c68b1bc			64210742f00aac162c68b398	
+6421072bf00aac162c68b1bc			6421074ef00aac162c68b3a4	
+6421072bf00aac162c68b1bc			64210770f00aac162c68b3c5	
+6421072bf00aac162c68b1bc			642107bdf00aac162c68b410	
+6421072bf00aac162c68b1bc			642107cff00aac162c68b422	
+6421072bf00aac162c68b1bc			642107d5f00aac162c68b428	
+6421072bf00aac162c68b1bc			642107ebf00aac162c68b43d	
+6421072bf00aac162c68b1bc			642108dff00aac162c68b52d	
+6421072bf00aac162c68b1bc			6421093bf00aac162c68b587	
+6421072bf00aac162c68b1bc			6421097bf00aac162c68b5c6	
+6421072bf00aac162c68b1bc			64210999f00aac162c68b5e4	
+6421072bf00aac162c68b1bf			6421079ef00aac162c68b3f2	
+6421072bf00aac162c68b1bf			642107b0f00aac162c68b404	
+6421072bf00aac162c68b1bf			642107bdf00aac162c68b410	
+6421072bf00aac162c68b1bf			642107f7f00aac162c68b449	
+6421072bf00aac162c68b1bf			6421080ff00aac162c68b461	
+6421072bf00aac162c68b1bf			64210818f00aac162c68b46a	
+6421072bf00aac162c68b1bf			64210859f00aac162c68b4a9	
+6421072bf00aac162c68b1bf			64210880f00aac162c68b4d0	
+6421072bf00aac162c68b1bf			64210884f00aac162c68b4d3	
+6421072bf00aac162c68b1bf			64210907f00aac162c68b554	
+6421072bf00aac162c68b1bf			64210935f00aac162c68b581	
+6421072bf00aac162c68b1bf			6421094df00aac162c68b599	
+6421072bf00aac162c68b1c2			64210739f00aac162c68b38f	
+6421072bf00aac162c68b1c2			6421079ef00aac162c68b3f2	
+6421072bf00aac162c68b1c2			64210853f00aac162c68b4a3	
+6421072bf00aac162c68b1c2			6421087df00aac162c68b4cd	
+6421072bf00aac162c68b1c2			64210884f00aac162c68b4d3	
+6421072bf00aac162c68b1c2			64210922f00aac162c68b56f	
+6421072bf00aac162c68b1c2			6421093bf00aac162c68b587	
+6421072bf00aac162c68b1c2			642109bef00aac162c68b608	
+6421072bf00aac162c68b1c2			642109c7f00aac162c68b611	
+6421072bf00aac162c68b1c5			642107e1f00aac162c68b434	
+6421072bf00aac162c68b1c5			642107eef00aac162c68b440	
+6421072bf00aac162c68b1c5			642107fdf00aac162c68b44f	
+6421072bf00aac162c68b1c5			6421085cf00aac162c68b4ac	
+6421072bf00aac162c68b1c5			6421094af00aac162c68b596	
+6421072bf00aac162c68b1c5			642109aff00aac162c68b5f9	
+6421072bf00aac162c68b1c8			64210761f00aac162c68b3b6	
+6421072bf00aac162c68b1c8			64210767f00aac162c68b3bc	
+6421072bf00aac162c68b1c8			642107adf00aac162c68b401	
+6421072bf00aac162c68b1c8			642107c9f00aac162c68b41c	
+6421072bf00aac162c68b1c8			64210877f00aac162c68b4c7	
+6421072bf00aac162c68b1c8			64210887f00aac162c68b4d6	
+6421072bf00aac162c68b1c8			642108c7f00aac162c68b515	
+6421072bf00aac162c68b1c8			6421091cf00aac162c68b569	
+6421072bf00aac162c68b1c8			642109a0f00aac162c68b5ea	
+6421072bf00aac162c68b1c8			642109a9f00aac162c68b5f3	
+6421072bf00aac162c68b1cb			64210736f00aac162c68b38c	
+6421072bf00aac162c68b1cb			64210859f00aac162c68b4a9	
+6421072bf00aac162c68b1cb			6421085ff00aac162c68b4af	
+6421072bf00aac162c68b1cb			642108d0f00aac162c68b51e	
+6421072bf00aac162c68b1cb			642108dff00aac162c68b52d	
+6421072bf00aac162c68b1cb			642108f5f00aac162c68b542	
+6421072bf00aac162c68b1cb			64210960f00aac162c68b5ab	
+6421072bf00aac162c68b1cb			64210978f00aac162c68b5c3	
+6421072bf00aac162c68b1ce			64210779f00aac162c68b3ce	
+6421072bf00aac162c68b1ce			642107d2f00aac162c68b425	
+6421072bf00aac162c68b1ce			64210853f00aac162c68b4a3	
+6421072bf00aac162c68b1ce			64210865f00aac162c68b4b5	
+6421072bf00aac162c68b1ce			642108abf00aac162c68b4fa	
+6421072bf00aac162c68b1ce			642108fef00aac162c68b54b	
+6421072bf00aac162c68b1ce			64210913f00aac162c68b560	
+6421072bf00aac162c68b1ce			6421093ef00aac162c68b58a	
+6421072bf00aac162c68b1ce			64210972f00aac162c68b5bd	
+6421072bf00aac162c68b1d1			64210767f00aac162c68b3bc	
+6421072bf00aac162c68b1d1			64210792f00aac162c68b3e6	
+6421072bf00aac162c68b1d1			6421079bf00aac162c68b3ef	
+6421072bf00aac162c68b1d1			642107d8f00aac162c68b42b	
+6421072bf00aac162c68b1d1			64210856f00aac162c68b4a6	
+6421072bf00aac162c68b1d1			642108d6f00aac162c68b524	
+6421072bf00aac162c68b1d1			6421090af00aac162c68b557	
+6421072bf00aac162c68b1d1			64210972f00aac162c68b5bd	
+6421072bf00aac162c68b1d4			64210742f00aac162c68b398	
+6421072bf00aac162c68b1d4			64210779f00aac162c68b3ce	
+6421072bf00aac162c68b1d4			642107b0f00aac162c68b404	
+6421072bf00aac162c68b1d4			64210890f00aac162c68b4df	
+6421072bf00aac162c68b1d4			642108f5f00aac162c68b542	
+6421072bf00aac162c68b1d4			64210919f00aac162c68b566	
+6421072bf00aac162c68b1d4			64210987f00aac162c68b5d2	
+6421072bf00aac162c68b1d4			642109acf00aac162c68b5f6	
+6421072bf00aac162c68b1d4			642109d0f00aac162c68b61a	
+6421072bf00aac162c68b1d7			6421077ff00aac162c68b3d4	
+6421072bf00aac162c68b1d7			642107c0f00aac162c68b413	
+6421072bf00aac162c68b1d7			642107d5f00aac162c68b428	
+6421072bf00aac162c68b1d7			64210865f00aac162c68b4b5	
+6421072bf00aac162c68b1d7			6421086ef00aac162c68b4be	
+6421072bf00aac162c68b1d7			642108bbf00aac162c68b509	
+6421072bf00aac162c68b1d7			642108c1f00aac162c68b50f	
+6421072bf00aac162c68b1d7			642108e8f00aac162c68b536	
+6421072bf00aac162c68b1da			64210739f00aac162c68b38f	
+6421072bf00aac162c68b1da			64210742f00aac162c68b398	
+6421072bf00aac162c68b1da			64210764f00aac162c68b3b9	
+6421072bf00aac162c68b1da			6421078cf00aac162c68b3e0	
+6421072bf00aac162c68b1da			64210806f00aac162c68b458	
+6421072bf00aac162c68b1da			64210834f00aac162c68b485	
+6421072bf00aac162c68b1da			6421086bf00aac162c68b4bb	
+6421072bf00aac162c68b1da			642108ebf00aac162c68b539	
+6421072bf00aac162c68b1da			642108eff00aac162c68b53c	
+6421072bf00aac162c68b1da			642109caf00aac162c68b614	
+6421072bf00aac162c68b1dd			64210751f00aac162c68b3a7	
+6421072bf00aac162c68b1dd			64210776f00aac162c68b3cb	
+6421072bf00aac162c68b1dd			64210779f00aac162c68b3ce	
+6421072bf00aac162c68b1dd			6421078cf00aac162c68b3e0	
+6421072bf00aac162c68b1dd			642107d8f00aac162c68b42b	
+6421072bf00aac162c68b1dd			64210815f00aac162c68b467	
+6421072bf00aac162c68b1dd			6421083df00aac162c68b48e	
+6421072bf00aac162c68b1dd			64210849f00aac162c68b49a	
+6421072bf00aac162c68b1dd			64210880f00aac162c68b4d0	
+6421072bf00aac162c68b1dd			64210899f00aac162c68b4e8	
+6421072bf00aac162c68b1dd			6421089ff00aac162c68b4ee	
+6421072bf00aac162c68b1dd			642108c1f00aac162c68b50f	
+6421072bf00aac162c68b1dd			642108d6f00aac162c68b524	
+6421072bf00aac162c68b1dd			642108dff00aac162c68b52d	
+6421072bf00aac162c68b1dd			642108e8f00aac162c68b536	
+6421072bf00aac162c68b1dd			64210969f00aac162c68b5b4	
+6421072bf00aac162c68b1dd			6421096cf00aac162c68b5b7	
+6421072bf00aac162c68b1dd			642109a3f00aac162c68b5ed	
+6421072bf00aac162c68b1e0			64210764f00aac162c68b3b9	
+6421072bf00aac162c68b1e0			642107ebf00aac162c68b43d	
+6421072bf00aac162c68b1e0			64210818f00aac162c68b46a	
+6421072bf00aac162c68b1e0			64210825f00aac162c68b476	
+6421072bf00aac162c68b1e0			64210840f00aac162c68b491	
+6421072bf00aac162c68b1e0			64210853f00aac162c68b4a3	
+6421072bf00aac162c68b1e0			64210893f00aac162c68b4e2	
+6421072bf00aac162c68b1e0			642108a5f00aac162c68b4f4	
+6421072bf00aac162c68b1e0			642108abf00aac162c68b4fa	
+6421072bf00aac162c68b1e0			6421093bf00aac162c68b587	
+6421072bf00aac162c68b1e0			642109a0f00aac162c68b5ea	
+6421072bf00aac162c68b1e0			642109aff00aac162c68b5f9	
+6421072bf00aac162c68b1e0			642109b2f00aac162c68b5fc	
+6421072bf00aac162c68b1e3			6421075bf00aac162c68b3b0	
+6421072bf00aac162c68b1e3			64210789f00aac162c68b3dd	
+6421072bf00aac162c68b1e3			642107c9f00aac162c68b41c	
+6421072bf00aac162c68b1e3			642107eef00aac162c68b440	
+6421072bf00aac162c68b1e3			64210803f00aac162c68b455	
+6421072bf00aac162c68b1e3			64210809f00aac162c68b45b	
+6421072bf00aac162c68b1e3			64210822f00aac162c68b473	
+6421072bf00aac162c68b1e3			6421085ff00aac162c68b4af	
+6421072bf00aac162c68b1e3			64210865f00aac162c68b4b5	
+6421072bf00aac162c68b1e3			6421087af00aac162c68b4ca	
+6421072bf00aac162c68b1e3			642108f5f00aac162c68b542	
+6421072bf00aac162c68b1e3			64210953f00aac162c68b59f	
+6421072bf00aac162c68b1e3			6421096cf00aac162c68b5b7	
+6421072bf00aac162c68b1e3			64210972f00aac162c68b5bd	
+6421072bf00aac162c68b1e3			64210975f00aac162c68b5c0	
+6421072bf00aac162c68b1e3			642109cdf00aac162c68b617	
+6421072bf00aac162c68b1e6			64210795f00aac162c68b3e9	
+6421072bf00aac162c68b1e6			642107a4f00aac162c68b3f8	
+6421072bf00aac162c68b1e6			642107b3f00aac162c68b407	
+6421072bf00aac162c68b1e6			64210803f00aac162c68b455	
+6421072bf00aac162c68b1e6			6421088df00aac162c68b4dc	
+6421072bf00aac162c68b1e6			642108eff00aac162c68b53c	
+6421072bf00aac162c68b1e6			642108fbf00aac162c68b548	
+6421072bf00aac162c68b1e6			6421092cf00aac162c68b578	
+6421072bf00aac162c68b1e6			64210981f00aac162c68b5cc	
+6421072bf00aac162c68b1e6			642109bef00aac162c68b608	
+6421072bf00aac162c68b1e9			64210764f00aac162c68b3b9	
+6421072bf00aac162c68b1e9			642107faf00aac162c68b44c	
+6421072bf00aac162c68b1e9			64210800f00aac162c68b452	
+6421072bf00aac162c68b1e9			64210834f00aac162c68b485	
+6421072bf00aac162c68b1e9			64210874f00aac162c68b4c4	
+6421072bf00aac162c68b1e9			64210884f00aac162c68b4d3	
+6421072bf00aac162c68b1e9			64210901f00aac162c68b54e	
+6421072bf00aac162c68b1e9			64210932f00aac162c68b57e	
+6421072bf00aac162c68b1e9			642109b5f00aac162c68b5ff	
+6421072bf00aac162c68b1ec			64210783f00aac162c68b3d7	
+6421072bf00aac162c68b1ec			642107faf00aac162c68b44c	
+6421072bf00aac162c68b1ec			6421080cf00aac162c68b45e	
+6421072bf00aac162c68b1ec			64210849f00aac162c68b49a	
+6421072bf00aac162c68b1ec			642108a2f00aac162c68b4f1	
+6421072bf00aac162c68b1ec			64210960f00aac162c68b5ab	
+6421072bf00aac162c68b1ec			64210978f00aac162c68b5c3	
+6421072bf00aac162c68b1ec			64210996f00aac162c68b5e1	
+6421072bf00aac162c68b1ec			642109d7f00aac162c68b620	
+6421072bf00aac162c68b1ef			64210742f00aac162c68b398	
+6421072bf00aac162c68b1ef			6421082bf00aac162c68b47c	
+6421072bf00aac162c68b1ef			64210874f00aac162c68b4c4	
+6421072bf00aac162c68b1ef			642108abf00aac162c68b4fa	
+6421072bf00aac162c68b1ef			64210950f00aac162c68b59c	
+6421072bf00aac162c68b1ef			642109a3f00aac162c68b5ed	
+6421072bf00aac162c68b1f2			6421078cf00aac162c68b3e0	
+6421072bf00aac162c68b1f2			64210795f00aac162c68b3e9	
+6421072bf00aac162c68b1f2			6421086ef00aac162c68b4be	
+6421072bf00aac162c68b1f2			6421089cf00aac162c68b4eb	
+6421072bf00aac162c68b1f2			642108a8f00aac162c68b4f7	
+6421072bf00aac162c68b1f2			642108e5f00aac162c68b533	
+6421072bf00aac162c68b1f2			642108f2f00aac162c68b53f	
+6421072bf00aac162c68b1f2			64210953f00aac162c68b59f	
+6421072bf00aac162c68b1f2			6421096cf00aac162c68b5b7	
+6421072bf00aac162c68b1f2			64210996f00aac162c68b5e1	
+6421072bf00aac162c68b1f2			642109a0f00aac162c68b5ea	
+6421072bf00aac162c68b1f5			6421073cf00aac162c68b392	
+6421072bf00aac162c68b1f5			64210758f00aac162c68b3ad	
+6421072bf00aac162c68b1f5			64210792f00aac162c68b3e6	
+6421072bf00aac162c68b1f5			64210800f00aac162c68b452	
+6421072bf00aac162c68b1f5			64210825f00aac162c68b476	
+6421072bf00aac162c68b1f5			64210862f00aac162c68b4b2	
+6421072bf00aac162c68b1f5			64210874f00aac162c68b4c4	
+6421072bf00aac162c68b1f5			642108d0f00aac162c68b51e	
+6421072bf00aac162c68b1f5			64210916f00aac162c68b563	
+6421072bf00aac162c68b1f5			64210953f00aac162c68b59f	
+6421072bf00aac162c68b1f5			6421098af00aac162c68b5d5	
+6421072bf00aac162c68b1f5			642109b2f00aac162c68b5fc	
+6421072bf00aac162c68b1f5			642109bbf00aac162c68b605	
+6421072bf00aac162c68b1f8			64210786f00aac162c68b3da	
+6421072bf00aac162c68b1f8			642107bdf00aac162c68b410	
+6421072bf00aac162c68b1f8			642107c6f00aac162c68b419	
+6421072bf00aac162c68b1f8			6421088df00aac162c68b4dc	
+6421072bf00aac162c68b1f8			642108bef00aac162c68b50c	
+6421072bf00aac162c68b1f8			642108f5f00aac162c68b542	
+6421072bf00aac162c68b1f8			64210907f00aac162c68b554	
+6421072bf00aac162c68b1f8			6421092ff00aac162c68b57b	
+6421072bf00aac162c68b1f8			6421098df00aac162c68b5d8	
+6421072bf00aac162c68b1f8			642109bef00aac162c68b608	
+6421072bf00aac162c68b1f8			642109c1f00aac162c68b60b	
+6421072bf00aac162c68b1f8			642109c4f00aac162c68b60e	
+6421072bf00aac162c68b1f8			642109caf00aac162c68b614	
+6421072bf00aac162c68b1fb			64210758f00aac162c68b3ad	
+6421072bf00aac162c68b1fb			64210770f00aac162c68b3c5	
+6421072bf00aac162c68b1fb			642107a7f00aac162c68b3fb	
+6421072bf00aac162c68b1fb			642107b0f00aac162c68b404	
+6421072bf00aac162c68b1fb			642107c9f00aac162c68b41c	
+6421072bf00aac162c68b1fb			64210800f00aac162c68b452	
+6421072bf00aac162c68b1fb			6421080cf00aac162c68b45e	
+6421072bf00aac162c68b1fb			64210815f00aac162c68b467	
+6421072bf00aac162c68b1fb			64210849f00aac162c68b49a	
+6421072bf00aac162c68b1fb			64210850f00aac162c68b4a0	
+6421072bf00aac162c68b1fb			64210859f00aac162c68b4a9	
+6421072bf00aac162c68b1fb			642108c4f00aac162c68b512	
+6421072bf00aac162c68b1fb			642108d3f00aac162c68b521	
+6421072bf00aac162c68b1fb			642108fbf00aac162c68b548	
+6421072bf00aac162c68b1fb			6421093bf00aac162c68b587	
+6421072bf00aac162c68b1fb			64210941f00aac162c68b58d	
+6421072bf00aac162c68b1fb			64210984f00aac162c68b5cf	
+6421072bf00aac162c68b1fb			6421098af00aac162c68b5d5	
+6421072bf00aac162c68b1fb			64210996f00aac162c68b5e1	
+6421072bf00aac162c68b1fb			642109acf00aac162c68b5f6	
+6421072bf00aac162c68b1fe			6421073cf00aac162c68b392	
+6421072bf00aac162c68b1fe			6421074bf00aac162c68b3a1	
+6421072bf00aac162c68b1fe			6421075ef00aac162c68b3b3	
+6421072bf00aac162c68b1fe			642107a1f00aac162c68b3f5	
+6421072bf00aac162c68b1fe			642107aaf00aac162c68b3fe	
+6421072bf00aac162c68b1fe			642107f4f00aac162c68b446	
+6421072bf00aac162c68b1fe			6421080ff00aac162c68b461	
+6421072bf00aac162c68b1fe			6421082ef00aac162c68b47f	
+6421072bf00aac162c68b1fe			642108b7f00aac162c68b506	
+6421072bf00aac162c68b1fe			64210916f00aac162c68b563	
+6421072bf00aac162c68b1fe			64210966f00aac162c68b5b1	
+6421072bf00aac162c68b1fe			642109d7f00aac162c68b620	
+6421072bf00aac162c68b201			64210733f00aac162c68b38a	
+6421072bf00aac162c68b201			64210795f00aac162c68b3e9	
+6421072bf00aac162c68b201			64210822f00aac162c68b473	
+6421072bf00aac162c68b201			6421083df00aac162c68b48e	
+6421072bf00aac162c68b201			64210843f00aac162c68b494	
+6421072bf00aac162c68b201			64210865f00aac162c68b4b5	
+6421072bf00aac162c68b201			64210899f00aac162c68b4e8	
+6421072bf00aac162c68b201			642108c1f00aac162c68b50f	
+6421072bf00aac162c68b201			642108d9f00aac162c68b527	
+6421072bf00aac162c68b201			642109a6f00aac162c68b5f0	
+6421072bf00aac162c68b204			64210739f00aac162c68b38f	
+6421072bf00aac162c68b204			64210761f00aac162c68b3b6	
+6421072bf00aac162c68b204			64210767f00aac162c68b3bc	
+6421072bf00aac162c68b204			6421081bf00aac162c68b46d	
+6421072bf00aac162c68b204			6421083af00aac162c68b48b	
+6421072bf00aac162c68b204			64210887f00aac162c68b4d6	
+6421072bf00aac162c68b204			64210925f00aac162c68b572	
+6421072bf00aac162c68b204			64210966f00aac162c68b5b1	
+6421072bf00aac162c68b204			6421098af00aac162c68b5d5	
+6421072bf00aac162c68b204			642109a6f00aac162c68b5f0	
+6421072bf00aac162c68b204			642109bbf00aac162c68b605	
+6421072cf00aac162c68b207			6421076af00aac162c68b3bf	
+6421072cf00aac162c68b207			6421081bf00aac162c68b46d	
+6421072cf00aac162c68b207			6421082bf00aac162c68b47c	
+6421072cf00aac162c68b207			6421083af00aac162c68b48b	
+6421072cf00aac162c68b207			6421085cf00aac162c68b4ac	
+6421072cf00aac162c68b207			64210901f00aac162c68b54e	
+6421072cf00aac162c68b207			64210925f00aac162c68b572	
+6421072cf00aac162c68b207			64210972f00aac162c68b5bd	
+6421072cf00aac162c68b207			64210984f00aac162c68b5cf	
+6421072cf00aac162c68b207			64210996f00aac162c68b5e1	
+6421072cf00aac162c68b20a			64210745f00aac162c68b39b	
+6421072cf00aac162c68b20a			642107cff00aac162c68b422	
+6421072cf00aac162c68b20a			642107def00aac162c68b431	
+6421072cf00aac162c68b20a			6421080cf00aac162c68b45e	
+6421072cf00aac162c68b20a			642108a8f00aac162c68b4f7	
+6421072cf00aac162c68b20a			642108f8f00aac162c68b545	
+6421072cf00aac162c68b20a			64210907f00aac162c68b554	
+6421072cf00aac162c68b20a			64210932f00aac162c68b57e	
+6421072cf00aac162c68b20a			64210941f00aac162c68b58d	
+6421072cf00aac162c68b20a			6421094af00aac162c68b596	
+6421072cf00aac162c68b20a			64210999f00aac162c68b5e4	
+6421072cf00aac162c68b20a			642109b2f00aac162c68b5fc	
+6421072cf00aac162c68b20a			642109c1f00aac162c68b60b	
+6421072cf00aac162c68b20d			64210776f00aac162c68b3cb	
+6421072cf00aac162c68b20d			642107c3f00aac162c68b416	
+6421072cf00aac162c68b20d			642107c6f00aac162c68b419	
+6421072cf00aac162c68b20d			642107d2f00aac162c68b425	
+6421072cf00aac162c68b20d			64210806f00aac162c68b458	
+6421072cf00aac162c68b20d			64210862f00aac162c68b4b2	
+6421072cf00aac162c68b20d			64210868f00aac162c68b4b8	
+6421072cf00aac162c68b20d			64210877f00aac162c68b4c7	
+6421072cf00aac162c68b20d			642108e5f00aac162c68b533	
+6421072cf00aac162c68b20d			6421092ff00aac162c68b57b	
+6421072cf00aac162c68b20d			64210950f00aac162c68b59c	
+6421072cf00aac162c68b210			64210776f00aac162c68b3cb	
+6421072cf00aac162c68b210			64210786f00aac162c68b3da	
+6421072cf00aac162c68b210			6421078cf00aac162c68b3e0	
+6421072cf00aac162c68b210			642107aaf00aac162c68b3fe	
+6421072cf00aac162c68b210			6421080cf00aac162c68b45e	
+6421072cf00aac162c68b210			64210822f00aac162c68b473	
+6421072cf00aac162c68b210			64210877f00aac162c68b4c7	
+6421072cf00aac162c68b210			6421090df00aac162c68b55a	
+6421072cf00aac162c68b210			64210910f00aac162c68b55d	
+6421072cf00aac162c68b210			64210919f00aac162c68b566	
+6421072cf00aac162c68b210			64210925f00aac162c68b572	
+6421072cf00aac162c68b210			6421093ef00aac162c68b58a	
+6421072cf00aac162c68b210			64210950f00aac162c68b59c	
+6421072cf00aac162c68b210			64210981f00aac162c68b5cc	
+6421072cf00aac162c68b213			64210767f00aac162c68b3bc	
+6421072cf00aac162c68b213			6421078ff00aac162c68b3e3	
+6421072cf00aac162c68b213			64210798f00aac162c68b3ec	
+6421072cf00aac162c68b213			6421082bf00aac162c68b47c	
+6421072cf00aac162c68b213			64210837f00aac162c68b488	
+6421072cf00aac162c68b213			64210843f00aac162c68b494	
+6421072cf00aac162c68b213			64210877f00aac162c68b4c7	
+6421072cf00aac162c68b213			64210904f00aac162c68b551	
+6421072cf00aac162c68b213			64210907f00aac162c68b554	
+6421072cf00aac162c68b213			6421091ff00aac162c68b56c	
+6421072cf00aac162c68b213			64210925f00aac162c68b572	
+6421072cf00aac162c68b216			6421075ef00aac162c68b3b3	
+6421072cf00aac162c68b216			64210798f00aac162c68b3ec	
+6421072cf00aac162c68b216			6421089ff00aac162c68b4ee	
+6421072cf00aac162c68b216			642108e5f00aac162c68b533	
+6421072cf00aac162c68b216			642109c7f00aac162c68b611	
+6421072cf00aac162c68b219			6421073cf00aac162c68b392	
+6421072cf00aac162c68b219			64210783f00aac162c68b3d7	
+6421072cf00aac162c68b219			642107f4f00aac162c68b446	
+6421072cf00aac162c68b219			6421084cf00aac162c68b49d	
+6421072cf00aac162c68b219			6421089cf00aac162c68b4eb	
+6421072cf00aac162c68b219			642108e2f00aac162c68b530	
+6421072cf00aac162c68b219			64210901f00aac162c68b54e	
+6421072cf00aac162c68b219			64210907f00aac162c68b554	
+6421072cf00aac162c68b219			64210910f00aac162c68b55d	
+6421072cf00aac162c68b219			64210941f00aac162c68b58d	
+6421072cf00aac162c68b219			64210963f00aac162c68b5ae	
+6421072cf00aac162c68b219			6421097bf00aac162c68b5c6	
+6421072cf00aac162c68b219			642109a9f00aac162c68b5f3	
+6421072cf00aac162c68b21c			64210779f00aac162c68b3ce	
+6421072cf00aac162c68b21c			642107def00aac162c68b431	
+6421072cf00aac162c68b21c			642107e8f00aac162c68b43a	
+6421072cf00aac162c68b21c			64210890f00aac162c68b4df	
+6421072cf00aac162c68b21c			6421089cf00aac162c68b4eb	
+6421072cf00aac162c68b21c			642108e5f00aac162c68b533	
+6421072cf00aac162c68b21c			642108ebf00aac162c68b539	
+6421072cf00aac162c68b21c			64210916f00aac162c68b563	
+6421072cf00aac162c68b21c			64210919f00aac162c68b566	
+6421072cf00aac162c68b21c			6421092ff00aac162c68b57b	
+6421072cf00aac162c68b21c			6421093bf00aac162c68b587	
+6421072cf00aac162c68b21c			642109caf00aac162c68b614	
+6421072cf00aac162c68b21f			642107baf00aac162c68b40d	
+6421072cf00aac162c68b21f			6421081ff00aac162c68b470	
+6421072cf00aac162c68b21f			64210840f00aac162c68b491	
+6421072cf00aac162c68b21f			64210859f00aac162c68b4a9	
+6421072cf00aac162c68b21f			64210896f00aac162c68b4e5	
+6421072cf00aac162c68b21f			642108a2f00aac162c68b4f1	
+6421072cf00aac162c68b21f			642108b7f00aac162c68b506	
+6421072cf00aac162c68b21f			642108caf00aac162c68b518	
+6421072cf00aac162c68b21f			6421096cf00aac162c68b5b7	
+6421072cf00aac162c68b21f			6421098af00aac162c68b5d5	
+6421072cf00aac162c68b21f			642109a6f00aac162c68b5f0	
+6421072cf00aac162c68b21f			642109c4f00aac162c68b60e	
+6421072cf00aac162c68b21f			642109d3f00aac162c68b61d	
+6421072cf00aac162c68b222			642107bdf00aac162c68b410	
+6421072cf00aac162c68b222			642107e8f00aac162c68b43a	
+6421072cf00aac162c68b222			6421080ff00aac162c68b461	
+6421072cf00aac162c68b222			6421081bf00aac162c68b46d	
+6421072cf00aac162c68b222			64210865f00aac162c68b4b5	
+6421072cf00aac162c68b222			642108a5f00aac162c68b4f4	
+6421072cf00aac162c68b222			642108dff00aac162c68b52d	
+6421072cf00aac162c68b222			642108ebf00aac162c68b539	
+6421072cf00aac162c68b222			64210904f00aac162c68b551	
+6421072cf00aac162c68b222			642109aff00aac162c68b5f9	
+6421072cf00aac162c68b222			642109c4f00aac162c68b60e	
+6421072cf00aac162c68b225			64210792f00aac162c68b3e6	
+6421072cf00aac162c68b225			6421079ef00aac162c68b3f2	
+6421072cf00aac162c68b225			642107a7f00aac162c68b3fb	
+6421072cf00aac162c68b225			642107eef00aac162c68b440	
+6421072cf00aac162c68b225			642108a2f00aac162c68b4f1	
+6421072cf00aac162c68b225			642108a5f00aac162c68b4f4	
+6421072cf00aac162c68b225			642108caf00aac162c68b518	
+6421072cf00aac162c68b225			6421090df00aac162c68b55a	
+6421072cf00aac162c68b225			64210925f00aac162c68b572	
+6421072cf00aac162c68b225			64210956f00aac162c68b5a2	
+6421072cf00aac162c68b225			6421096cf00aac162c68b5b7	
+6421072cf00aac162c68b225			6421097bf00aac162c68b5c6	
+6421072cf00aac162c68b225			642109aff00aac162c68b5f9	
+6421072cf00aac162c68b225			642109daf00aac162c68b623	
+6421072cf00aac162c68b228			64210761f00aac162c68b3b6	
+6421072cf00aac162c68b228			6421077ff00aac162c68b3d4	
+6421072cf00aac162c68b228			6421082bf00aac162c68b47c	
+6421072cf00aac162c68b228			64210919f00aac162c68b566	
+6421072cf00aac162c68b22b			64210742f00aac162c68b398	
+6421072cf00aac162c68b22b			64210761f00aac162c68b3b6	
+6421072cf00aac162c68b22b			6421079ef00aac162c68b3f2	
+6421072cf00aac162c68b22b			642107b3f00aac162c68b407	
+6421072cf00aac162c68b22b			6421080cf00aac162c68b45e	
+6421072cf00aac162c68b22b			64210822f00aac162c68b473	
+6421072cf00aac162c68b22b			64210834f00aac162c68b485	
+6421072cf00aac162c68b22b			6421086ef00aac162c68b4be	
+6421072cf00aac162c68b22b			64210899f00aac162c68b4e8	
+6421072cf00aac162c68b22b			642108cdf00aac162c68b51b	
+6421072cf00aac162c68b22b			64210919f00aac162c68b566	
+6421072cf00aac162c68b22b			64210959f00aac162c68b5a5	
+6421072cf00aac162c68b22b			64210999f00aac162c68b5e4	
+6421072cf00aac162c68b22b			642109b8f00aac162c68b602	
+6421072cf00aac162c68b22b			642109caf00aac162c68b614	
+6421072cf00aac162c68b22e			6421074bf00aac162c68b3a1	
+6421072cf00aac162c68b22e			6421076df00aac162c68b3c2	
+6421072cf00aac162c68b22e			64210828f00aac162c68b479	
+6421072cf00aac162c68b22e			64210849f00aac162c68b49a	
+6421072cf00aac162c68b22e			64210850f00aac162c68b4a0	
+6421072cf00aac162c68b22e			64210874f00aac162c68b4c4	
+6421072cf00aac162c68b22e			642108a8f00aac162c68b4f7	
+6421072cf00aac162c68b22e			642108caf00aac162c68b518	
+6421072cf00aac162c68b22e			64210929f00aac162c68b575	
+6421072cf00aac162c68b22e			642109bef00aac162c68b608	
+6421072cf00aac162c68b231			64210779f00aac162c68b3ce	
+6421072cf00aac162c68b231			64210798f00aac162c68b3ec	
+6421072cf00aac162c68b231			642107f1f00aac162c68b443	
+6421072cf00aac162c68b231			64210809f00aac162c68b45b	
+6421072cf00aac162c68b231			6421080ff00aac162c68b461	
+6421072cf00aac162c68b231			6421081bf00aac162c68b46d	
+6421072cf00aac162c68b231			64210890f00aac162c68b4df	
+6421072cf00aac162c68b231			642108d3f00aac162c68b521	
+6421072cf00aac162c68b231			6421092cf00aac162c68b578	
+6421072cf00aac162c68b231			6421093ef00aac162c68b58a	
+6421072cf00aac162c68b231			6421096ff00aac162c68b5ba	
+6421072cf00aac162c68b231			642109a0f00aac162c68b5ea	
+6421072cf00aac162c68b234			642107dbf00aac162c68b42e	
+6421072cf00aac162c68b234			64210837f00aac162c68b488	
+6421072cf00aac162c68b234			64210862f00aac162c68b4b2	
+6421072cf00aac162c68b234			64210865f00aac162c68b4b5	
+6421072cf00aac162c68b234			64210868f00aac162c68b4b8	
+6421072cf00aac162c68b234			6421088af00aac162c68b4d9	
+6421072cf00aac162c68b234			64210896f00aac162c68b4e5	
+6421072cf00aac162c68b234			642108ebf00aac162c68b539	
+6421072cf00aac162c68b234			64210987f00aac162c68b5d2	
+6421072cf00aac162c68b234			642109a6f00aac162c68b5f0	
+6421072cf00aac162c68b234			642109b2f00aac162c68b5fc	
+6421072cf00aac162c68b237			64210789f00aac162c68b3dd	
+6421072cf00aac162c68b237			642108a5f00aac162c68b4f4	
+6421072cf00aac162c68b237			642108abf00aac162c68b4fa	
+6421072cf00aac162c68b237			642108c4f00aac162c68b512	
+6421072cf00aac162c68b237			642108caf00aac162c68b518	
+6421072cf00aac162c68b237			642108fbf00aac162c68b548	
+6421072cf00aac162c68b237			64210929f00aac162c68b575	
+6421072cf00aac162c68b237			64210987f00aac162c68b5d2	
+6421072cf00aac162c68b237			642109a3f00aac162c68b5ed	

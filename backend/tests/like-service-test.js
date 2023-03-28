@@ -137,6 +137,20 @@ describe('Like services and model', function () {
 		});
 	});
 
+	//testable only with the real database
+	if (process.env.TEST_TYPE === 'INTEGRATION') {
+		describe('getRecentUserLikedPosts', function () {
+			it('should returned the most recently liked post ', async function () {
+				const data = await generateLikes(5, 5, 10);
+				const userIDs = data.userIDs;
+				const postIDs = data.postIDs;
+
+				let value = await services.getRecentUserLikedPosts(userIDs[0]);
+				expect(value[0].post_id.toString()).to.equal(postIDs[0].toString());
+			});
+		});
+	}
+
 	describe('userLikedPost', function () {
 		it('should return false', async function () {
 			const value = await services.userLikedPost(new mongoose.mongo.ObjectID(), new mongoose.mongo.ObjectID());
