@@ -111,7 +111,7 @@ function Writer() {
 
   function deleteAccount() {
     axios
-      .get(`http://localhost:4350/api/user/delete_account`, {
+      .get(`http://localhost:4350/api/user/deleteAccount`, {
         params: {
           user_id: userId,
         },
@@ -378,7 +378,7 @@ function Writer() {
         // upload the image to the cloud
         axios({
           method: "post",
-          url: `http://localhost:4350/api/aws/upload_image`,
+          url: `http://localhost:4350/api/aws/uploadImage`,
           headers: {
             Authorization: token,
             withCredentials: true,
@@ -405,7 +405,7 @@ function Writer() {
             // delete the image to not crowd our bucket
             axios({
               method: "post",
-              url: `http://localhost:4350/api/aws/delete_image`,
+              url: `http://localhost:4350/api/aws/deleteImage`,
               headers: {
                 Authorization: token,
                 withCredentials: true,
