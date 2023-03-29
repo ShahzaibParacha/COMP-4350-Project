@@ -41,8 +41,8 @@ describe('AWS controller', function () {
 
 	describe('POST request to upload_image', function () {
 		it('should upload a text file (content should be "Hello World")', async function () {
-            let result, req, res;
-            await uploadImage(req = {err: false, key: "sample.txt"}, res = { json: (data) => result = data });
+            let result, req = {err: false, key: "sample.txt"}, res = { json: (data) => result = data };
+            await uploadImage(req, res);
             
             expect(result.code).to.equal(20000);
             expect(result.msg).to.equal('success');
@@ -50,8 +50,8 @@ describe('AWS controller', function () {
 		});
 
         it('should not upload a text file (content should still be "Hello World")', async function () {
-            let result, req, res;
-            await uploadImage(req = {err: true, key: "sample.txt"}, res = { json: (data) => result = data });
+            let result, req = {err: true, key: "sample.txt"}, res= { json: (data) => result = data };
+            await uploadImage(req, res);
 
             expect(result.code).to.equal(40000);
 		});
@@ -59,20 +59,22 @@ describe('AWS controller', function () {
     
     describe('POST request to delete_image', function () {
 		it('there should not be an error.txt', async function () {
-            let result, req, res;
+            let result, req = {err: false, key: 'error.txt'}, res = { json: (data) => result = data};
 
-            await uploadImage(req = {err: false, key: 'error.txt'}, res = { json: (data) => result = data});
-            await deleteImage(req = {err: false, key: 'error.txt'}, res = { json: (data) => result = data });
+            await uploadImage(req, res);
+            await deleteImage(req, res);
 
             expect(result.code).to.equal(20000);
             expect(result.msg).to.equal("success");
 		});
 
         it('there should be an other_error.txt', async function () {
-            let result, req, res;
+            let result, req = {err: false, key: 'other_error.txt'}, res = { json: (data) => result = data};
 
-            await uploadImage(req = {err: false, key: 'other_error.txt'}, res = { json: (data) => result = data});
-            await deleteImage(req = {err: true, key: 'other_error.txt'}, res = { json: (data) => result = data });
+            await uploadImage(req, res);
+
+            req.err = true;
+            await deleteImage(req, res);
 
             expect(result.code).to.equal(40000);
 		});

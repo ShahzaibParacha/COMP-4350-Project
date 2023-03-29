@@ -14,8 +14,7 @@ const passport = require('passport');
 require('../../util/passport')(passport);
 
 let server;
-//const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWZmZjcxOWI0ZjZkNTAyMDQxZTk0ZCIsImVtYWlsIjoid2VpeXVAZ21haWwuY29tIiwiaWF0IjoxNjc5ODE4OTg4fQ.oP6FFqwG4CSI45jM7XuHQ08GzGMLkqHMkB161yX0FeY' 
-const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWU1ZjAwMTJiNTdjNzNlZTA0YjkwNCIsImVtYWlsIjoiZGVhbkBlbWFpcXd3bC5jb20iLCJpYXQiOjE2Nzk3MTIyMjd9.BJOVCNif8jONdQxcw51JTeSZgLHwpcmSppJhDaPBUBI';
+let token;
 let weiyu = {
 	_id: null,
 	username: 'weiyu',
@@ -70,6 +69,17 @@ async function resetDatabase() {
 		subscription_date: Date.now(),
 		receive_notification: true
 	}));
+
+	const res = await axios({
+		method: 'post',
+		url: 'http://localhost:4350/api/free/user/login',
+		data: {
+			email: weiyu.email,
+			password: weiyu.password,
+		},
+	});
+
+	token = res.data.data.token;
 }
 
 describe('User routes', function () {
@@ -265,7 +275,7 @@ describe('User routes', function () {
 					Authorization: token,
 					withCredentials: true
 				}
-			});
+			}).catch((err) => console.log(err));
 
 			expect(resp.data.code).to.equal(Result.SUCCESS.code);
 		});

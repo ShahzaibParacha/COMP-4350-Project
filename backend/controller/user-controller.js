@@ -124,7 +124,10 @@ function getMyFollowing (req, res) {
 				}
 
 				res.json(Result.success(output));
-			});
+			}).
+			catch((err) => {
+				res.json(Result.fail([]));
+			})
 		} else {
 			res.json('Cannot find following list');
 		}
