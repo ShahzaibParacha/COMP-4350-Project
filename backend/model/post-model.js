@@ -86,14 +86,15 @@ const countPostsFromUser = async (user_id) => {
 
 // create a new post
 // returns the new document
-const createPost = async (user_id, content, image) => {
-	const result = await Post.create({ user_id, content, image });
-	extractEngine.extractKeywords(content)
-	.then(keywords => {
-		Post.findOneAndUpdate({ _id: result._id }, { keywords: keywords }, { useFindAndModify: false })
-		.then(result => {});
-	});
-
+const createPost = async (user_id, content, createKeywords) => {
+	const result = await Post.create({ user_id, content });
+	if (createKeywords){
+		extractEngine.extractKeywords(content)
+		.then(keywords => {
+			Post.findOneAndUpdate({ _id: result._id }, { keywords: keywords }, { useFindAndModify: false })
+			.then(result => {});
+		});	
+	}
 	return result;
 };
 
@@ -111,13 +112,16 @@ const removeAllPostsFromUser = async (user_id) => {
 
 // update the content of a post
 // returns the object updated
-const updateContent = async (id, content) => {
+const updateContent = async (id, content, createKeywords) => {
 	const result = await Post.findOneAndUpdate({ _id: id }, { content: content }, { useFindAndModify: false });
-	extractEngine.extractKeywords(content)
-	.then(keywords => {
-		Post.findOneAndUpdate({ _id: id }, { keywords: keywords }, { useFindAndModify: false })
-		.then(result => {});
-	});
+	if (createKeywords){
+		extractEngine.extractKeywords(content)
+		.then(keywords => {
+			Post.findOneAndUpdate({ _id: id }, { keywords: keywords }, { useFindAndModify: false })
+			.then(result => {});
+		});
+	}
+
 	return result;
 };
 
