@@ -53,9 +53,9 @@ function CreatePost() {
   return (
     <div className="bg-base-100">
       <div className="grid grid-rows-4 grid-cols-6 gap-4">
-        <div className="row-start-1 row-end-5 bg-black-600 row-span-2 h-screen" />
-        <div className="row-start-1 col-start-2 bg-base-100 col-span-4 row-end-5 h-screen">
-          <div className="grid-column-1 h-screen pt-48">
+        {/* <div className="row-start-1 row-end-5 bg-black-600 row-span-2" /> */}
+        <div className="row-start-1 col-start-2 bg-base-100 col-span-4 row-end-5">
+          <div className="grid-column-1 pt-16">
             <div className="flex justify-end">
               <button
                 type="submit"
@@ -67,19 +67,17 @@ function CreatePost() {
               </button>
             </div>
 
-            <div className="pt-4">
+            <div className="py-4 h-fit min-h-screen bg-base-100">
               <MDEditor
                 value={post}
                 className="h-screen"
                 onChange={createPost}
-                height={1080}
-                maxHeight={1200}
+                height={690}
               />
               {/* <MDEditor.Markdown source={value} /> */}
             </div>
           </div>
         </div>
-        <div className="row-start-1 row-end-5 h-screen" />
       </div>
     </div>
   );

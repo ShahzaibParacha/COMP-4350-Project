@@ -4,6 +4,7 @@ import axios from "axios";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import QRCode from "qrcode";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { showMessage, success, failure } from "../../util/messages";
 
@@ -19,6 +20,8 @@ function Comment({ id }) {
   const [qrCode, updateQRCode] = useState(null);
 
   const { userId, token } = JSON.parse(sessionStorage.getItem("session"));
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // want to know if the user liked the post to display the like button appropriately
@@ -203,6 +206,10 @@ function Comment({ id }) {
     document.getElementById("qr_code_modal").style.display = "none";
   }
 
+  const profileClick = (profile) => {
+    navigate(`/writer/${profile}`);
+  };
+
   const buttonClicked = "w-6 h-6 fill-purple-600 hover:fill-purple-900";
   const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none";
 
@@ -362,22 +369,28 @@ function Comment({ id }) {
                 className="grid grid-cols-6 gap-2 border-black rounded-2xl border-2 p-4 mt-4 bg-white"
               >
                 <div className="col-start-1 col-end-1 hidden md:col-end-2 md:flex justify-center">
-                  <img
-                    className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
-                    src={
-                      comment.profile_photo === null
-                        ? "/sample_profile.jpg"
-                        : comment.profile_photo
-                    }
-                    alt="Profile"
-                  />
+                  <button
+                    type="button"
+                    className="h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
+                    onClick={() => profileClick(comment.user_id)}
+                  >
+                    <img
+                      className="rounded-full object-cover w-full h-full"
+                      src={
+                        comment.profile_photo === null
+                          ? "/sample_profile.jpg"
+                          : comment.profile_photo
+                      }
+                      alt="Profile"
+                    />
+                  </button>
                 </div>
                 <div className="col-start-1 col-end-7 md:col-start-2">
                   <div className="mb-2 flex flex-col md:flex-row justify-between">
-                    <p className="overflow-x-auto overflow-y-clip font-bold leading-4 text-[1rem]">
+                    <p className="overflow-x-auto font-bold leading-4 text-[1rem] pb-2 mr-2">
                       {comment.username}
                     </p>
-                    <p className="leading-4 text-[1rem] mt-2 md:mt-0">
+                    <p className="leading-4 text-[1rem] mt-2 md:mt-0 pb-2">
                       {formatDistanceToNow(new Date(comment.comment_date), {
                         addSuffix: true,
                       })}
