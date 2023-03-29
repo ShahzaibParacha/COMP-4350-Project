@@ -35,7 +35,6 @@ const getRecommendedPosts = async (user_id) => {
 	}
 	const similarPosts = await Promise.all(similarPostsPromises);
 	const similarPostsFlat = similarPosts.flat(1);
-	//console.log("all similar posts:");
 	//console.log(similarPostsFlat);
 	return similarPostsFlat;
 };
