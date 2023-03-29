@@ -70,7 +70,7 @@ function WidePost({ postType }) {
                   type="button"
                   onClick={() => profileClick(post.post.user_id)}
                 >
-                  <div className="flex justify-center">
+                  <div>
                     <img
                       className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
                       src={
@@ -82,17 +82,12 @@ function WidePost({ postType }) {
                     />
                   </div>
                 </button>
-                <h3 className="text-lg font-base font-medium leading-6 text-gray-900">
-                  {post.username.length > 10
-                    ? `${post.username.substring(0, 10)}...`
+                <p className="text-[0.69rem] font-base font-medium leading-6 text-gray-900">
+                  {post.username.length > 15
+                    ? `${post.username.substring(0, 15)}...`
                     : post.username}
-                </h3>
-                <p className="mt-1 overflow-hidden font-base max-w-2xl text-sm text-gray-500">
-                  {post.affiliation && post.affiliation.length > 10
-                    ? `${post.affiliation.substring(0, 10)}...`
-                    : post.affiliation}
                 </p>
-                <p className="mt-1 border-t font-base max-w-2xl text-sm text-gray-500">
+                <p className="mt-1 font-base max-w-2xl text-[0.6rem] text-gray-500">
                   {post.numberLikes === 1
                     ? `${post.numberLikes} Like`
                     : `${post.numberLikes} Likes`}
@@ -105,8 +100,10 @@ function WidePost({ postType }) {
               className="border-l border-neutral px-4 py-2 col-start-2 col-span-5 sm:px-6"
             >
               <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                <dd className="mt-1 text-left text-sm font-base text-gray-900 sm:col-span-6 sm:mt-0">
-                  {removeMd(post.post.content)}
+                <dd className="mt-1 text-left text-sm font-base text-gray-900 sm:col-span-6 sm:mt-0 overflow-x-hidden">
+                  {post.post.content.length > 200
+                    ? removeMd(`${post.post.content.substring(0, 200)}...`)
+                    : removeMd(post.post.content)}
                 </dd>
               </div>
             </button>
