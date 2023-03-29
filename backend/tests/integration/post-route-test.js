@@ -280,13 +280,13 @@ describe('Post routes', function () {
 		});
 	});
 
-	describe('GET request to getRecommendatedPosts', function () {
+	describe('GET request to getRecommendedPosts', function () {
 		it('should return nothing', async function () {
 			const {id, token} = (await setup(0, 1)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/getRecommendatedPosts',
+				url: 'http://localhost:4350/api/post/getRecommendedPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true

@@ -10,15 +10,13 @@ const likesToDelete = [];
 
 /* generatePosts
  *
- * Purpose: Generates a number of posts assigned to a number of users
- * Input:
- * numPosts - the number of posts to create
- * numUsers - the number of users who created the posts
+ * Purpose: Generates a number of posts assigned to a number of users, and users like the posts
  *
  * Output:
  * Returns an object with two properties:
- * posts - the posts created
- * userIDs - the user ids of the users that made the posts
+ * postIDs - the posts IDs created
+ * userIDs - the user ids of the users that made the 
+ * likes - the likes created
  */
 const generatePosts = async () => {
 	const userIDs = [];
@@ -87,7 +85,7 @@ describe('Recommendation Service test', function () {
 			const { userIDs, postIDs, likes } = (await generatePosts());
             const values = await services.getRecommendedPosts(userIDs[0]);
 
-            expect(values[0]).to.be.an('array');
+            expect(values).to.be.an('array');
 		});
 	});
 });

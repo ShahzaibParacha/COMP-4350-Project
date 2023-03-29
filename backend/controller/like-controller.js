@@ -21,18 +21,18 @@ const getNumLikes = (req, res) => {
 		});
 };
 
-const getRecentUserLikedPosts = (req, res) => {
-	const { user_id } = req.query;
+// const getRecentUserLikedPosts = (req, res) => {
+// 	const { user_id } = req.query;
 
-	if (!mongoose.Types.ObjectId.isValid(user_id)) {
-		return res.json(Result.invalidUserId());
-	}
+// 	if (!mongoose.Types.ObjectId.isValid(user_id)) {
+// 		return res.json(Result.invalidUserId());
+// 	}
 
-	getRecentUserLikedPostsService(user_id)
-		.then(posts => {
-			res.json(Result.success(posts));
-		});
-}
+// 	getRecentUserLikedPostsService(user_id)
+// 		.then(posts => {
+// 			res.json(Result.success(posts));
+// 		});
+// }
 
 const userLikedPost = (req, res) => {
 	const { user_id, post_id } = req.query;
@@ -91,4 +91,4 @@ const likePost = (req, res) => {
 		});
 };
 
-module.exports = { getNumLikes, userLikedPost, likePost, unlikePost, getRecentUserLikedPosts };
+module.exports = { getNumLikes, userLikedPost, likePost, unlikePost };
