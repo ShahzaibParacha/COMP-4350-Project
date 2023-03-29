@@ -296,6 +296,8 @@ describe('Post routes', function () {
 				}
 			}).catch((err) => {console.log(err)});
 
+			console.log(res);
+
 			expect(res.data.msg).to.equal('success');
 			expect(res.data.data).to.exist;
 			expect(res.data.data.length).to.equal(0);

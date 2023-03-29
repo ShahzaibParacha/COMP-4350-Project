@@ -184,12 +184,13 @@ const getRecommendedPosts = async(req, res) => {
 
 	try {
 		const posts = await postService.getRecommendedPosts(user_id);
-		console.log(posts)
+		console.log(posts);
 		const result = await getPostsInfo(posts);
-		console.log(result + "--------------------------------------");
+		console.log(result);
 		res.json(Result.success(result));
 	} catch (err) {
 		/* istanbul ignore next */
+		console.log("Here " + err);
 		res.json(Result.fail(err));
 	}
 };
