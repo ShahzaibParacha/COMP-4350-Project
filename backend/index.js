@@ -34,8 +34,8 @@ app.use(bodyParser.json({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
-let creatorSize = 10;
-let audienceSize = 50;
+let creatorSize =5; // 10;
+let audienceSize = 25;// 50;
 
 let fakePostsLib;
 
@@ -99,8 +99,21 @@ app.get('/getTestData', async (req, res) => {
 
 
 	// get fake posts from fakePosts.txt
-	let allText = fs.readFileSync('./fakePosts.txt', 'utf8');
+	let allText = fs.readFileSync('./util/sampledata.csv', 'utf8')//('./fakePosts.txt', 'utf8');
 	fakePostsLib = allText.split('\n');
+
+	//try Dean's sample posts:
+	var data = fs.readFileSync("./util/sampledata.csv", 'utf8');
+	const s = data.toString().split('"');
+	let i = 0;
+	while (i < s.length) {
+	if (s[i].length < 5) {
+		s.splice(i, 1);
+	}
+	i++;
+	}
+	fakePostsLib = s;
+	console.log(fakePostsLib.length);
 
 	// console.log('simulating creating posts...');
 	// // simulate that some creators create some post

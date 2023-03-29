@@ -10,8 +10,6 @@ const getRecommendedPosts = async (post_id) => {
 	const numSimilarPosts = 5;
 	try{
 		const post = await Post.findById(post_id);
-		console.log("The original post_id, content and kewords are: " + post_id + "  " + post.content);
-		console.log(post.keywords);
 		//try to find similar posts
 		const aggregate = Post.aggregate([
 			{
@@ -21,7 +19,7 @@ const getRecommendedPosts = async (post_id) => {
 						"must":[{
 							"moreLikeThis": {
 								like:{
-									"content": post.content,
+									//"content": post.content,
 									"keywords": post.keywords,
 								}
 							}
@@ -39,7 +37,10 @@ const getRecommendedPosts = async (post_id) => {
 		]);
 
 		const result = await aggregate.exec();
-		return result
+		console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
+		console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
+		console.log(result);
+		return result;
 
 	}catch(err){
 		/* istanbul ignore next */

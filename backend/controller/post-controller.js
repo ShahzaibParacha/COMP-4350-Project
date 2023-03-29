@@ -14,7 +14,6 @@ const createPost = async (req, res) => {
 	}
 
 	try {
-		//const keywords = await extractEngine.extractKeywords(content);//don't need to wait here
 		const postResult = await postService.createPost(user_id, content);
 		const subscribeResult = subscribeService.notifyAudiences(
 			user_id,
@@ -35,7 +34,6 @@ const updatePostContent = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(post_id)) {
 		return res.json(Result.invalidPostId());
 	}
-	//const keywords = await extractEngine.extractKeywords(content);
 	await postService
 		.updateContent(post_id, content)
 		.then((result) => {
@@ -184,7 +182,7 @@ const getRecommendedPosts = async(req, res) => {
 
 	try {
 		const posts = await postService.getRecommendedPosts(user_id);
-		console.log(posts)
+		console.log("the length of the recommended posts: " + posts.length)
 		const result = await getPostsInfo(posts);
 		res.json(Result.success(result));
 	} catch (err) {
