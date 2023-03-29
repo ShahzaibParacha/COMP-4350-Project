@@ -173,7 +173,7 @@ describe('Like routes', function () {
 		const app = express();
 
 		mongoose
-			.connect(process.env.TEST_MONGODB_CONNECTION, {
+			.connect(process.env.MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})

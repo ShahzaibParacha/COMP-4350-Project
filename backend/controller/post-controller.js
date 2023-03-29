@@ -186,6 +186,7 @@ const getRecommendedPosts = async(req, res) => {
 		const posts = await postService.getRecommendedPosts(user_id);
 		console.log(posts)
 		const result = await getPostsInfo(posts);
+		console.log(result + "--------------------------------------");
 		res.json(Result.success(result));
 	} catch (err) {
 		/* istanbul ignore next */

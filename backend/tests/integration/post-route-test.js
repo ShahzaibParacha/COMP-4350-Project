@@ -112,7 +112,7 @@ describe('Post routes', function () {
 		const app = express();
 
 		mongoose
-			.connect(process.env.TEST_MONGODB_CONNECTION, {
+			.connect(process.env.MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})
@@ -280,13 +280,13 @@ describe('Post routes', function () {
 		});
 	});
 
-	describe('GET request to getRecommendatedPosts', function () {
+	describe('GET request to getRecommendedPosts', function () {
 		it('should return nothing', async function () {
 			const {id, token} = (await setup(0, 1)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/getRecommendatedPosts',
+				url: 'http://localhost:4350/api/post/getRecommendedPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -294,7 +294,7 @@ describe('Post routes', function () {
 				params: {
 					user_id: id
 				}
-			});
+			}).catch((err) => {console.log(err)});
 
 			expect(res.data.msg).to.equal('success');
 			expect(res.data.data).to.exist;
