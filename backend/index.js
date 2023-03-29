@@ -14,7 +14,6 @@ const Post = require('./service/post-service');
 const Like = require('./service/likes-service');
 const fs = require('fs');
 require('./util/passport')(passport);
-const extractEngine = require('./util/recommendation-engine');
 const { writer } = require('repl');
 
 const app = express();
@@ -34,8 +33,8 @@ app.use(bodyParser.json({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
-let creatorSize = 10;
-let audienceSize = 50;
+let creatorSize =5; // 10;
+let audienceSize = 25;// 50;
 
 let fakePostsLib;
 
@@ -102,15 +101,18 @@ app.get('/getTestData', async (req, res) => {
 	let allText = fs.readFileSync('./fakePosts.txt', 'utf8');
 	fakePostsLib = allText.split('\n');
 
-	// console.log('simulating creating posts...');
-	// // simulate that some creators create some post
-	// while (fakePostsLib.length !== 0) {
-	// 	console.log(fakePostsLib.length);
-	// 	let content = fakePostsLib.pop();
-	// 	let creatorIndex = Math.floor(Math.random() * creatorSize);
-	// 	let post = await Post.createPost(creatorList[creatorIndex]._id, content, null);
-	// 	postList.push(post);
-	// }
+	//try Dean's sample posts instead:
+	var data = fs.readFileSync("./util/sampledata.csv", 'utf8');
+	const s = data.toString().split('"');
+	let i = 0;
+	while (i < s.length) {
+		if (s[i].length < 5) {
+			s.splice(i, 1);
+		}
+		i++;
+	}
+	fakePostsLib = s;
+	console.log(fakePostsLib.length);
 
 	console.log('simulating creating posts...');
 	// simulate that some creators create some post
@@ -118,9 +120,6 @@ app.get('/getTestData', async (req, res) => {
 	async function loop() {
 		count += 1;
 		console.log("generate keywords for post[" + count +"]:");
-		if( count % 30 === 0 ){
-		  console.log("wait for 30 seconds to go on...");
-		}
 	  
 		let content = fakePostsLib.pop();
 		let creatorIndex = Math.floor(Math.random() * creatorSize);
@@ -147,33 +146,6 @@ app.get('/getTestData', async (req, res) => {
 	  }
 	  
 	  createPosts();
-
-	// async function loop() {
-	// 	count += 1;
-	// 	console.log("generate keywords for post[" + count +"]:");
-	// 	if( count % 30 === 0 ){
-	// 		console.log("wait for 30 seconds to go on...");
-	// 	}
-
-	// 	let content = fakePostsLib.pop();
-	// 	let creatorIndex = Math.floor(Math.random() * creatorSize);
-	// 	await Post.createPost(creatorList[creatorIndex]._id, content, null)
-	// 	.then(post => {
-	// 		postList.push(post);
-	// 	});
-
-	// 	if (fakePostsLib.length > 215) {
-	// 		if( count % 30 === 0 ){
-	// 			setTimeout(loop, 3000); //31000
-	// 		}else{
-	// 			setTimeout(loop, 3000);	//1000
-	// 		}	
-	// 	}else{
-	// 		console.log("done");
-	// 	}
-	// }
-
-	// await loop();
 	
 	async function generateLikes(){
 		console.log("The count for the posts: " + postList.length);

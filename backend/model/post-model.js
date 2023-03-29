@@ -10,8 +10,6 @@ const getRecommendedPosts = async (post_id) => {
 	const numSimilarPosts = 5;
 	try{
 		const post = await Post.findById(post_id);
-		console.log("The original post_id, content and kewords are: " + post_id + "  " + post.content);
-		console.log(post.keywords);
 		//try to find similar posts
 		const aggregate = Post.aggregate([
 			{
@@ -21,7 +19,7 @@ const getRecommendedPosts = async (post_id) => {
 						"must":[{
 							"moreLikeThis": {
 								like:{
-									"content": post.content,
+									//"content": post.content,
 									"keywords": post.keywords,
 								}
 							}
@@ -39,7 +37,10 @@ const getRecommendedPosts = async (post_id) => {
 		]);
 
 		const result = await aggregate.exec();
-		return result
+		console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
+		console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
+		console.log(result);
+		return result;
 
 	}catch(err){
 		/* istanbul ignore next */
@@ -85,14 +86,15 @@ const countPostsFromUser = async (user_id) => {
 
 // create a new post
 // returns the new document
-const createPost = async (user_id, content, image) => {
-	const result = await Post.create({ user_id, content, image });
-	extractEngine.extractKeywords(content)
-	.then(keywords => {
-		Post.findOneAndUpdate({ _id: result._id }, { keywords: keywords }, { useFindAndModify: false })
-		.then(result => {});
-	});
-
+const createPost = async (user_id, content, createKeywords) => {
+	const result = await Post.create({ user_id, content });
+	if (createKeywords){
+		extractEngine.extractKeywords(content)
+		.then(keywords => {
+			Post.findOneAndUpdate({ _id: result._id }, { keywords: keywords }, { useFindAndModify: false })
+			.then(result => {});
+		});	
+	}
 	return result;
 };
 
@@ -110,13 +112,16 @@ const removeAllPostsFromUser = async (user_id) => {
 
 // update the content of a post
 // returns the object updated
-const updateContent = async (id, content) => {
+const updateContent = async (id, content, createKeywords) => {
 	const result = await Post.findOneAndUpdate({ _id: id }, { content: content }, { useFindAndModify: false });
-	extractEngine.extractKeywords(content)
-	.then(keywords => {
-		Post.findOneAndUpdate({ _id: id }, { keywords: keywords }, { useFindAndModify: false })
-		.then(result => {});
-	});
+	if (createKeywords){
+		extractEngine.extractKeywords(content)
+		.then(keywords => {
+			Post.findOneAndUpdate({ _id: id }, { keywords: keywords }, { useFindAndModify: false })
+			.then(result => {});
+		});
+	}
+
 	return result;
 };
 
