@@ -40,7 +40,7 @@ jobs:
       - name: Installing Python
         run: pip freeze > requirements.txt
       - name: Echo path
-        run: echo which python
+        run: which python
       - name: Run unit tests
         run: npm run unit
       - name: Run integration tests
