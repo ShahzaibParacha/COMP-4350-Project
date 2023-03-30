@@ -19,7 +19,6 @@ const getRecommendedPosts = async (post_id) => {
 						"must":[{
 							"moreLikeThis": {
 								like:{
-									//"content": post.content,
 									"keywords": post.keywords,
 								}
 							}
@@ -44,7 +43,7 @@ const getRecommendedPosts = async (post_id) => {
 
 	}catch(err){
 		/* istanbul ignore next */
-		console.log("error in get similar post: " + err);
+		console.log("error in getting similar posts: " + err);
 	}
 };
 
