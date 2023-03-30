@@ -54,7 +54,7 @@ const generatePosts = async () => {
 describe('Recommendation Service test', function () {
 	before(async () => {
 		mongoose
-			.connect(process.env.TEST_MONGODB_CONNECTION, {
+			.connect(process.env.MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})

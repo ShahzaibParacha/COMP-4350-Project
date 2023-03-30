@@ -14,8 +14,7 @@ const passport = require('passport');
 require('../../util/passport')(passport);
 
 let server;
-//const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWZmZjcxOWI0ZjZkNTAyMDQxZTk0ZCIsImVtYWlsIjoid2VpeXVAZ21haWwuY29tIiwiaWF0IjoxNjc5ODE4OTg4fQ.oP6FFqwG4CSI45jM7XuHQ08GzGMLkqHMkB161yX0FeY' 
-const token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWU1ZjAwMTJiNTdjNzNlZTA0YjkwNCIsImVtYWlsIjoiZGVhbkBlbWFpcXd3bC5jb20iLCJpYXQiOjE2Nzk3MTIyMjd9.BJOVCNif8jONdQxcw51JTeSZgLHwpcmSppJhDaPBUBI';
+let token;
 let weiyu = {
 	_id: null,
 	username: 'weiyu',
@@ -33,9 +32,19 @@ let tom = {
 	profile_photo: '/sample_profile.jpg'
 };
 
+let sarah = {
+	_id: null,
+	username: 'Sarah',
+	password: 'Password789.',
+	email: 'sarah@gmail.com',
+	is_writer: false,
+	profile_photo: '/sample_profile.jpg'
+};
+
 async function resetDatabase() {
 	await UserSchema.deleteOne({username: weiyu.username});
 	await UserSchema.deleteOne({username: tom.username});
+	await UserSchema.deleteOne({username: sarah.username});
 
 	await UserSchema.create(new UserSchema({
 		username: weiyu.username,
@@ -61,8 +70,21 @@ async function resetDatabase() {
 		profile_photo: '/sample_profile.jpg'
 	}));
 
+	await UserSchema.create(new UserSchema({
+		username: sarah.username,
+		password: sarah.password,
+		email: sarah.email,
+		is_writer: sarah.is_writer,
+		registration_date: Date.now(),
+		last_login_date: null,
+		bio: null,
+		affiliation: null,
+		profile_photo: '/sample_profile.jpg'
+	}));
+
 	weiyu = await UserSchema.findOne({username: weiyu.username});
 	tom = await UserSchema.findOne({username: tom.username});
+	sarah = await UserSchema.findOne({username: sarah.username});
 
 	await SubscriberSchema.create(new SubscriberSchema({
 		creator_id: weiyu._id,
@@ -70,6 +92,17 @@ async function resetDatabase() {
 		subscription_date: Date.now(),
 		receive_notification: true
 	}));
+
+	const res = await axios({
+		method: 'post',
+		url: 'http://localhost:4350/api/free/user/login',
+		data: {
+			email: weiyu.email,
+			password: weiyu.password,
+		},
+	});
+
+	token = res.data.data.token;
 }
 
 describe('User routes', function () {
@@ -77,7 +110,7 @@ describe('User routes', function () {
 		const app = express();
 
 		mongoose
-			.connect(process.env.TEST_MONGODB_CONNECTION, {
+			.connect(process.env.MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			});
@@ -265,7 +298,7 @@ describe('User routes', function () {
 					Authorization: token,
 					withCredentials: true
 				}
-			});
+			}).catch((err) => console.log(err));
 
 			expect(resp.data.code).to.equal(Result.SUCCESS.code);
 		});
@@ -448,14 +481,18 @@ describe('User routes', function () {
 
 	describe('Test: GET /user/subscription/getFollowing', async function () {
 		it('should success, input parameter valid', async function () {
-			for (let i = 0; i < 10; i++) {
-				await SubscriberSchema.create(new SubscriberSchema({
-					creator_id: new mongoose.mongo.ObjectID(),
-					audience_id: weiyu._id,
-					subscription_date: Date.now(),
-					receive_notification: true
-				}));
-			}
+			await SubscriberSchema.create(new SubscriberSchema({
+				creator_id: tom._id,
+				audience_id: weiyu._id,
+				subscription_date: Date.now(),
+				receive_notification: true
+			}));
+			await SubscriberSchema.create(new SubscriberSchema({
+				creator_id: sarah._id,
+				audience_id: weiyu._id,
+				subscription_date: Date.now(),
+				receive_notification: true
+			}));
 
 			const resp = await axios({
 				method: 'get',
@@ -471,7 +508,7 @@ describe('User routes', function () {
 				}
 			});
 
-			expect(resp.data.data.length).to.equal(5);
+			expect(resp.data.data.length).to.equal(2);
 			await SubscriberSchema.deleteMany({audience_id: weiyu._id});
 		});
 

@@ -67,10 +67,6 @@ function Comment({ id }) {
         withCredentials: true,
       },
     }).then((s) => {
-      // eslint-disable-next-line no-console
-      console.log(`comment for post: ${id}`);
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify(s.data));
       if (oldestFirst) {
         updateComments(s.data.data);
       } else {

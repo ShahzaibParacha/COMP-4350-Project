@@ -112,7 +112,7 @@ describe('Post routes', function () {
 		const app = express();
 
 		mongoose
-			.connect(process.env.TEST_MONGODB_CONNECTION, {
+			.connect(process.env.MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})
@@ -294,7 +294,9 @@ describe('Post routes', function () {
 				params: {
 					user_id: id
 				}
-			});
+			}).catch((err) => {console.log(err)});
+
+			console.log(res);
 
 			expect(res.data.msg).to.equal('success');
 			expect(res.data.data).to.exist;
