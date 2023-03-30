@@ -13,6 +13,11 @@ env:
   NOTICE_EMAIL_ADDRESS: ${{ secrets.NOTICE_EMAIL_ADDRESS }}
   NOTICE_EMAIL_PASSWORD: ${{ secrets.NOTICE_EMAIL_PASSWORD }}
   TEST_MONGODB_CONNECTION: ${{ secrets.TEST_MONGODB_CONNECTION }}
+  IMAGE_ACCESS_ID: ${{ secrets.IMAGE_ACCESS_ID }}
+  IMAGE_KEY: ${{ secrets.IMAGE_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  PYTHON_PATH: /usr/bin/python
     
 jobs:
   run_tests:
@@ -32,12 +37,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Installing Nodejs dependencies
         run: npm install
+      - name: Installing Python
+        run: pip freeze > requirements.txt
       - name: Run unit tests
         run: npm run unit
       - name: Run integration tests
         run: npm run integration
         env:
           TEST_TYPE: INTEGRATION
+          
 
       - name: Run all tests
         run: npm run all
