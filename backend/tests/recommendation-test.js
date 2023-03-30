@@ -39,7 +39,6 @@ const generatePosts = async () => {
 			});	
 		if (i === 0){
 			const like = await Like.create( like_attr );
-			likes.push(like);
 		}
 	}
 };
