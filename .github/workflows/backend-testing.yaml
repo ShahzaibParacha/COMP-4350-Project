@@ -13,6 +13,11 @@ env:
   NOTICE_EMAIL_ADDRESS: ${{ secrets.NOTICE_EMAIL_ADDRESS }}
   NOTICE_EMAIL_PASSWORD: ${{ secrets.NOTICE_EMAIL_PASSWORD }}
   TEST_MONGODB_CONNECTION: ${{ secrets.TEST_MONGODB_CONNECTION }}
+  IMAGE_ACCESS_ID: AKIAQZQHBP4MR2MWFXXI
+  IMAGE_KEY: SPhsEua64OAq0L81vDDJJMjytsEJMcwqXqiX4m5c
+  AWS_ACCESS_KEY_ID: AKIAQZQHBP4MZ54NR7MU
+  AWS_SECRET_ACCESS_KEY: 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
+  MONKEY_API_KEY: bc39fa1cd620f7fe410104d36e22ef1e41dffec6
     
 jobs:
   run_tests:
@@ -32,12 +37,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Installing Nodejs dependencies
         run: npm install
+      - name: Installing Python
+        run: pip install -r requirements.txt
       - name: Run unit tests
         run: npm run unit
+        env: 
+          PYTHON_PATH: $(which python)
       - name: Run integration tests
         run: npm run integration
         env:
           TEST_TYPE: INTEGRATION
+          
 
       - name: Run all tests
         run: npm run all
