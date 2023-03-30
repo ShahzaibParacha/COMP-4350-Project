@@ -86,6 +86,7 @@ describe('Recommendation Service test', function () {
             const values = await services.getRecommendedPosts(userIDs[0]);
 
             expect(values).to.be.an('array');
+			//expect(values.length).to.equal(1);
 		});
 	});
 });
