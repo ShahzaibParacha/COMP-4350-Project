@@ -1,9 +1,4 @@
 const Post = require('../schema/post-schema');
-
-//two engines to choose: recommendation-engine or extract-keywords
-//const extractEngine = require('../util/extract-keywords');
-
-//this engine is slower
 const extractEngine = require('../util/extract-keywords');
 
 const getRecommendedPosts = async (post_id) => {
@@ -35,11 +30,11 @@ const getRecommendedPosts = async (post_id) => {
 			{ "$limit": numSimilarPosts}
 		]);
 
-		return await aggregate.exec();
-		//console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
-		//console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
-		//console.log(result);
-		//return result;
+		const result = await aggregate.exec();
+		// console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
+		// console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
+		// console.log(result);
+		return result;
 
 	}catch(err){
 		/* istanbul ignore next */

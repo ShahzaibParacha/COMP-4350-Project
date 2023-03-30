@@ -18,7 +18,7 @@ const { writer } = require('repl');
 
 const app = express();
 mongoose
-  .connect(process.env.MONGODB_CONNECTION, {
+  .connect(process.env.PROD_MONGODB_CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -123,7 +123,7 @@ app.get('/getTestData', async (req, res) => {
 	  
 		let content = fakePostsLib.pop();
 		let creatorIndex = Math.floor(Math.random() * creatorSize);
-		return Post.createPost(creatorList[creatorIndex]._id, content, null)
+		return Post.createPost(creatorList[creatorIndex]._id, content, true)
 		  .then(post => {
 			postList.push(post);
 		  });
