@@ -6,23 +6,15 @@ const mongoose = require('mongoose');
 const expect = require('chai').expect;
 require('dotenv').config();
 
-const postsToDelete = [];
-const likesToDelete = [];
-
+const userIDs = [];
+const postIDs = [];
+const likes = [];
 /* generatePosts
  *
  * Purpose: Generates a number of posts assigned to a number of users, and users like the posts
  *
- * Output:
- * Returns an object with two properties:
- * postIDs - the posts IDs created
- * userIDs - the user ids of the users that made the 
- * likes - the likes created
  */
 const generatePosts = async () => {
-	const userIDs = [];
-	const postIDs = [];
-	const likes = [];
 	let i = 0;
 
 	// generate user ids
@@ -40,7 +32,6 @@ const generatePosts = async () => {
 		const attrib = { _id: postIDs[i], user_id: userIDs[1], content: contents[i], post_date: new Date(i * 1000000) };
 		const like_attr = {user_id: userIDs[0], post_id: postIDs[i]};
 
-		postsToDelete.push(postIDs[i]);
 		await Post.create(attrib);
 		await extractEngine.extractKeywords(contents[i])
 			.then(keywords => {
@@ -48,18 +39,15 @@ const generatePosts = async () => {
 				.then(result => {});
 			});	
 		if (i === 0){
-			likesToDelete.push(userIDs[0]);
 			const like = await Like.create( like_attr );
 			likes.push(like);
 		}
 	}
-	return { postIDs, userIDs, likes };
 };
-
 
 describe('Recommendation Service test', function () {
 	before(async () => {
-		mongoose
+		await mongoose
 			.connect(process.env.MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
@@ -67,10 +55,8 @@ describe('Recommendation Service test', function () {
 			.then(() => { console.log('Success to connect mongodb'); })
 			.catch(() => { console.log('Fail to connect mongodb'); });
 
-	});
-
-	beforeEach(async () => {
 		await Post.deleteMany({});
+		await generatePosts();
 	});
 
 	after(async () => {
@@ -81,14 +67,11 @@ describe('Recommendation Service test', function () {
 
 	describe('getRecommendedPosts', function () {
 		it('should return nothing', async function () {
-			const { userIDs } = (await generatePosts() );
-
 			const value = await services.getRecommendedPosts(userIDs[1]);
 			expect(value.length).to.equal(0);
 		});
 
-		it('should return an array of recommendated post, it could be empty.', async function () {
-			const { userIDs, postIDs, likes } = (await generatePosts());
+		it('should return an array of recommended post, it contains one post.', async function () {
 			const values = await services.getRecommendedPosts(userIDs[0]);
 				expect(values).to.be.an('array');
 				expect(values.length).to.equal(1);
