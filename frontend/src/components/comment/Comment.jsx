@@ -206,7 +206,7 @@ function Comment({ id }) {
     navigate(`/writer/${profile}`);
   };
 
-  const buttonClicked = "w-6 h-6 fill-purple-600 hover:fill-purple-900";
+  const buttonClicked = "w-6 h-6 fill-purple-900 hover:fill-purple-600";
   const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none";
 
   return (
@@ -267,7 +267,7 @@ function Comment({ id }) {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                strokeWidth={!hasLiked ? "1.5" : "0"}
                 stroke="currentColor"
                 className={hasLiked ? buttonClicked : buttonNotClicked}
               >
@@ -291,7 +291,7 @@ function Comment({ id }) {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
-                strokeWidth="1.5"
+                strokeWidth={!writingComment ? "1.5" : "0"}
                 stroke="currentColor"
                 className={writingComment ? buttonClicked : buttonNotClicked}
               >

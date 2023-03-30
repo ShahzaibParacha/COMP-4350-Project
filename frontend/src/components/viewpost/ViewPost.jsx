@@ -53,6 +53,21 @@ function ViewPost() {
     navigate(`/writer/${profile}`);
   };
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   return (
     <div className="bg-base-100 h-fit min-h-screen pb-16">
       <div className="grid grid-rows-4 grid-cols-8 gap-4">
@@ -72,7 +87,12 @@ function ViewPost() {
                 </button>
                 <h2 className="ml-4">{username} posted</h2>
               </div>
-              <p className="mb-10">Posted on {String(new Date(date))}</p>
+              <p className="mb-10 font-bold">
+                Written on{" "}
+                {`${months[new Date(date).getMonth()]} ${new Date(
+                  date
+                ).getDate()}, ${new Date(date).getFullYear()}`}
+              </p>
               {/* TODO: Format correctly */}
               <div>
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
