@@ -12,7 +12,7 @@ async function extractKeywords(content) {
       pythonPath: path.join(pythonPath),
       pythonOptions: ['-u'],
       mode: 'text',
-      timeout: 15000
+      timeout: 30000
       };
 
       const result = await PythonShell.run('extract-keywords.py', options);
