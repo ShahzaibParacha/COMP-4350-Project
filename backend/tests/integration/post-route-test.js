@@ -112,7 +112,7 @@ describe('Post routes', function () {
 		const app = express();
 
 		mongoose
-			.connect(process.env.TEST_MONGODB_CONNECTION, {
+			.connect(process.env.MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})
@@ -277,6 +277,30 @@ describe('Post routes', function () {
 			for (let i = 0; i < res.data.data.length; i++) {
 				expect(res.data.data[i].post.content % 2).to.equal(0);
 			}
+		});
+	});
+
+	describe('GET request to getRecommendedPosts', function () {
+		it('should return nothing', async function () {
+			const {id, token} = (await setup(0, 1)).res.data.data;
+
+			const res = await axios({
+				method: 'get',
+				url: 'http://localhost:4350/api/post/getRecommendedPosts',
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				params: {
+					user_id: id
+				}
+			}).catch((err) => {console.log(err)});
+
+			console.log(res);
+
+			expect(res.data.msg).to.equal('success');
+			expect(res.data.data).to.exist;
+			expect(res.data.data.length).to.equal(0);
 		});
 	});
 
@@ -626,7 +650,7 @@ describe('Post routes', function () {
 			expect(posts).to.exist;
 			expect(posts.length).to.equal(1);
 			expect(posts[0].content).to.equal('69');
-			expect(response.data.data[1].notification_state).to.equal('success');
+			//expect(response.data.data[1].notification_state).to.equal('success'); //the controller does not wait for notification anymore
 		});
 
 		it('should return three posts', async function () {

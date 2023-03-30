@@ -1,5 +1,53 @@
 const Post = require('../schema/post-schema');
 
+//two engines to choose: recommendation-engine or extract-keywords
+//const extractEngine = require('../util/extract-keywords');
+
+//this engine is slower
+const extractEngine = require('../util/extract-keywords');
+
+const getRecommendedPosts = async (post_id) => {
+	const numSimilarPosts = 5;
+	try{
+		const post = await Post.findById(post_id);
+		//try to find similar posts
+		const aggregate = Post.aggregate([
+			{
+				"$search": {
+					"index": "searchPost",
+				   	"compound":{
+						"must":[{
+							"moreLikeThis": {
+								like:{
+									//"content": post.content,
+									"keywords": post.keywords,
+								}
+							}
+					  	}],
+					  	"mustNot":[{
+							"equals": {
+						   		"path": "_id",
+						   		"value": post_id, 
+							}
+					  	}]
+					}
+				}
+			},
+			{ "$limit": numSimilarPosts}
+		]);
+
+		const result = await aggregate.exec();
+		console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
+		console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
+		console.log(result);
+		return result;
+
+	}catch(err){
+		/* istanbul ignore next */
+		console.log("error in get similar post: " + err);
+	}
+};
+
 // get all posts
 const getAllPosts = async () => {
 	return await Post.find({});
@@ -38,8 +86,16 @@ const countPostsFromUser = async (user_id) => {
 
 // create a new post
 // returns the new document
-const createPost = async (user_id, content, image) => {
-	return await Post.create({ user_id, content, image });
+const createPost = async (user_id, content, createKeywords) => {
+	const result = await Post.create({ user_id, content });
+	if (createKeywords){
+		extractEngine.extractKeywords(content)
+		.then(keywords => {
+			Post.findOneAndUpdate({ _id: result._id }, { keywords: keywords }, { useFindAndModify: false })
+			.then(result => {});
+		});	
+	}
+	return result;
 };
 
 // remove a post by id
@@ -56,8 +112,17 @@ const removeAllPostsFromUser = async (user_id) => {
 
 // update the content of a post
 // returns the object updated
-const updateContent = async (id, content) => {
-	return await Post.findOneAndUpdate({ _id: id }, { content }, { useFindAndModify: false });
+const updateContent = async (id, content, createKeywords) => {
+	const result = await Post.findOneAndUpdate({ _id: id }, { content: content }, { useFindAndModify: false });
+	if (createKeywords){
+		extractEngine.extractKeywords(content)
+		.then(keywords => {
+			Post.findOneAndUpdate({ _id: id }, { keywords: keywords }, { useFindAndModify: false })
+			.then(result => {});
+		});
+	}
+
+	return result;
 };
 
 module.exports = {
@@ -69,5 +134,6 @@ module.exports = {
 	removePostByID,
 	removeAllPostsFromUser,
 	updateContent,
-	countPostsFromUser
+	countPostsFromUser,
+	getRecommendedPosts
 };

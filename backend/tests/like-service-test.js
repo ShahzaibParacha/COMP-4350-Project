@@ -87,7 +87,7 @@ describe('Like services and model', function () {
 	before(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
 			mongoose
-				.connect(process.env.TEST_MONGODB_CONNECTION, {
+				.connect(process.env.MONGODB_CONNECTION, {
 					useNewUrlParser: true,
 					useUnifiedTopology: true
 				})
@@ -136,6 +136,20 @@ describe('Like services and model', function () {
 			expect(value).to.equal(3);
 		});
 	});
+
+	//testable only with the real database
+	if (process.env.TEST_TYPE === 'INTEGRATION') {
+		describe('getRecentUserLikedPosts', function () {
+			it('should returned the most recently liked post ', async function () {
+				const data = await generateLikes(5, 5, 10);
+				const userIDs = data.userIDs;
+				const postIDs = data.postIDs;
+
+				let value = await services.getRecentUserLikedPosts(userIDs[0]);
+				expect(value[0].post_id.toString()).to.equal(postIDs[0].toString());
+			});
+		});
+	}
 
 	describe('userLikedPost', function () {
 		it('should return false', async function () {

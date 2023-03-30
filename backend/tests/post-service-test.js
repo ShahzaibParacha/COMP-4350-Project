@@ -1,9 +1,12 @@
 const services = require('../service/post-service');
+const Like = require('../schema/likes-schema');
 const sinon = require('sinon');
 const Post = require('../schema/post-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 require('dotenv').config();
+
+const postsToDelete = [];
 
 /* generatePosts
  *
@@ -28,19 +31,21 @@ const generatePosts = async (numPosts, numUsers) => {
 	}
 
 	// generate random posts created by numUsers users
+	let attribs = [];
 	for (i = 0; i < numPosts; i++) {
 		postIDs.push(new mongoose.mongo.ObjectID());
 
 		const attrib = { _id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i, post_date: new Date(i * 1000000) };
+		attribs.push(attrib)
 
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
+			postsToDelete.push(postIDs[i]);
 			await Post.create(attrib);
 		} else {
 			posts.push(new Post(attrib));
 		}
 	}
-
-	return { postIDs, userIDs };
+	return { postIDs, userIDs, attribs };
 };
 
 /* setFakeDatabase
@@ -111,7 +116,7 @@ describe('Post services and model', function () {
 	before(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
 			mongoose
-				.connect(process.env.TEST_MONGODB_CONNECTION, {
+				.connect(process.env.MONGODB_CONNECTION, {
 					useNewUrlParser: true,
 					useUnifiedTopology: true
 				})
@@ -124,7 +129,7 @@ describe('Post services and model', function () {
 
 	beforeEach(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
-			await Post.deleteMany({});
+			await Post.deleteMany({});//({_id: { $in: postsToDelete } });
 		} else {
 			posts = [];
 		}
@@ -132,7 +137,7 @@ describe('Post services and model', function () {
 
 	after(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
-			await Post.deleteMany({});
+			await Post.deleteMany({});//({_id: { $in: postsToDelete } });
 			await mongoose.disconnect();
 		} else {
 			sinon.restore();
@@ -272,16 +277,22 @@ describe('Post services and model', function () {
 		});
 
 		it('should return one post', async function () {
-			await services.createPost(new mongoose.mongo.ObjectID(), '1', '1');
+			let post = new mongoose.mongo.ObjectID();
+			postsToDelete.push(post);
+			await services.createPost(post, '1', '1');
 
 			const value = await services.getAllPosts();
 			expect(value.length).to.equal(1);
 		});
 
 		it('should return two posts', async function () {
-			await services.createPost(new mongoose.mongo.ObjectID(), '0', '0');
-			await services.createPost(new mongoose.mongo.ObjectID(), '1', '1');
+			let post = new mongoose.mongo.ObjectID();
+			postsToDelete.push(post);
+			await services.createPost(post, '0', '0');
 
+			post = new mongoose.mongo.ObjectID();
+			postsToDelete.push(post);
+			await services.createPost(post, '1', '1');
 			const value = await services.getAllPosts();
 			expect(value.length).to.equal(2);
 		});
@@ -327,7 +338,6 @@ describe('Post services and model', function () {
 	describe('updateContent', function () {
 		it('should show content = \'mitochondria\'', async function () {
 			const postIDs = (await generatePosts(10, 10)).postIDs;
-
 			await services.updateContent(postIDs[0], 'mitochondria');
 			const value = await services.getPostByID(postIDs[0]);
 			expect(value).to.not.be.null;
@@ -335,9 +345,11 @@ describe('Post services and model', function () {
 		});
 
 		it('should show content = \' \'', async function () {
-			await services.createPost(new mongoose.mongo.ObjectID(), 'mitochondria', '0');
+			const post = new mongoose.mongo.ObjectID();
+			postsToDelete.push(post);
+			await services.createPost(post, 'mitochondria', '0');
 			const posts = await services.getAllPosts();
-			await services.updateContent(posts[0]._id, ' ');
+			await services.updateContent(posts[0]._id, ' ', []);
 			const value = await services.getPostByID(posts[0]._id);
 			expect(value).to.not.be.null;
 			expect(value.content).to.equal(' ');

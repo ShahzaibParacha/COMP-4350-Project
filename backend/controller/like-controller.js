@@ -2,7 +2,8 @@ const {
 	getNumLikes: getNumLikesFromService,
 	userLikedPost: userLikedPostFromService,
 	likePost: likePostFromService,
-	unlikePost: unlikePostFromService
+	unlikePost: unlikePostFromService,
+	getRecentUserLikedPosts: getRecentUserLikedPostsService,
 } = require('../service/likes-service');
 const mongoose = require('mongoose');
 const Result = require('../util/Result');
@@ -19,6 +20,19 @@ const getNumLikes = (req, res) => {
 			res.json(Result.success(num));
 		});
 };
+
+// const getRecentUserLikedPosts = (req, res) => {
+// 	const { user_id } = req.query;
+
+// 	if (!mongoose.Types.ObjectId.isValid(user_id)) {
+// 		return res.json(Result.invalidUserId());
+// 	}
+
+// 	getRecentUserLikedPostsService(user_id)
+// 		.then(posts => {
+// 			res.json(Result.success(posts));
+// 		});
+// }
 
 const userLikedPost = (req, res) => {
 	const { user_id, post_id } = req.query;

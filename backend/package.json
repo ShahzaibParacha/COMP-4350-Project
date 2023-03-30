@@ -6,7 +6,7 @@
   "scripts": {
     "unit": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/*.js",
     "integration": "nyc mocha --timeout 15000 ./tests/integration/*.js ./tests/*.js",
-    "test": "nyc mocha --timeout 15000 ./tests/integration/comment-route-test.js",
+    "test": "nyc mocha --timeout 15000 ./tests/integration/post-route-test.js",
     "all": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/integration/*.js ./tests/*.js",
     "start": "nodemon index.js"
   },
@@ -41,6 +41,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "python-shell": "^5.0.0",
     "sinon": "^15.0.1"
   },
   "devDependencies": {

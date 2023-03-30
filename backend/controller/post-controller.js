@@ -14,12 +14,36 @@ const createPost = async (req, res) => {
 	}
 
 	try {
-		const postResult = await postService.createPost(user_id, content);
-		const subscribeResult = await subscribeService.notifyAudiences(
+		const postResult = await postService.createPost(user_id, content, true);
+		const subscribeResult = subscribeService.notifyAudiences(
 			user_id,
 			postResult._id,
 			content
 		);
+
+		res.json(Result.success([postResult, subscribeResult]));
+	} catch (err) {
+		res.json(Result.fail(err));
+	}
+};
+
+//for load test, without the recommendation feature
+const createPostLoadTest = async (req, res) => {
+	const { content, user_id } = req.body;
+	console.log(user_id, content);
+
+	if (!mongoose.Types.ObjectId.isValid(user_id)) {
+		return res.json(Result.invalidUserId());
+	}
+
+	try {
+		const postResult = await postService.createPost(user_id, content, false);
+		const subscribeResult = subscribeService.notifyAudiences(
+			user_id,
+			postResult._id,
+			content
+		);
+
 		res.json(Result.success([postResult, subscribeResult]));
 	} catch (err) {
 		res.json(Result.fail(err));
@@ -33,9 +57,25 @@ const updatePostContent = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(post_id)) {
 		return res.json(Result.invalidPostId());
 	}
-
 	await postService
-		.updateContent(post_id, content)
+		.updateContent(post_id, content, true)
+		.then((result) => {
+			res.json(Result.success(result));
+		})
+		.catch((err) => {
+			res.json(Result.fail(err));
+		});
+};
+
+const updatePostContentLoadTest = async (req, res) => {
+	const { content, post_id } = req.body;
+	console.log(post_id, content);
+
+	if (!mongoose.Types.ObjectId.isValid(post_id)) {
+		return res.json(Result.invalidPostId());
+	}
+	await postService
+		.updateContent(post_id, content, false)
 		.then((result) => {
 			res.json(Result.success(result));
 		})
@@ -83,9 +123,8 @@ const removePostByID = async (req, res) => {
 
 const getRecentPost = async (req, res) => {
 	try {
-		const posts = await postService.getAllPosts();
+		const posts = await postService.getPageOfPosts(0, 20);
 		const result = await getPostsInfo(posts);
-
 		res.json(Result.success(result));
 	} catch (err) {
 		/* istanbul ignore next */
@@ -127,14 +166,15 @@ async function getPostsInfo(posts) {
 
 	for (let i = 0; i < posts.length; i+=1) {
 		let post = posts[i];
-      
-		result.push({
-			post, 
-			username: users[i].username,
-			affiliation: users[i].affiliation,
-			profile_photo: users[i].profile_photo,
-			numberLikes: likes[i],
-		});
+        if (users[i] !== null){
+			result.push({
+				post, 
+				username: users[i].username,
+				affiliation: users[i].affiliation,
+				profile_photo: users[i].profile_photo,
+				numberLikes: likes[i],
+			});
+		}
 	}
 
 	return result;
@@ -172,6 +212,28 @@ Array.prototype.extend = function (array) {
 	array.forEach(item => this.push(item));
 };
 
+const getRecommendedPosts = async(req, res) => {
+	const { user_id } = req.query;
+
+	/* istanbul ignore next */
+	if (!mongoose.Types.ObjectId.isValid(user_id)) {
+		return res.json(Result.invalidUserId());
+	}
+
+	try {
+		const posts = await postService.getRecommendedPosts(user_id);
+		console.log("the length of the recommended posts: " + posts.length)
+
+		const result = await getPostsInfo(posts);
+		console.log(result);
+		res.json(Result.success(result));
+	} catch (err) {
+		/* istanbul ignore next */
+		console.log("Here " + err);
+		res.json(Result.fail(err));
+	}
+};
+
 module.exports = {
 	createPost, 
 	updatePostContent,
@@ -180,4 +242,7 @@ module.exports = {
 	getRecentPost, 
 	getAllPostsFromUser,
 	getSubscribedPosts,
+	getRecommendedPosts,
+	createPostLoadTest,
+	updatePostContentLoadTest
 };

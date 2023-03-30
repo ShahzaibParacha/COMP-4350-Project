@@ -14,6 +14,7 @@ function ViewPost() {
   const [profile, setProfile] = useState();
   const [photo, setPhoto] = useState();
   const [post, setPost] = useState();
+  const [username, setUsername] = useState();
   const [date, setDate] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function ViewPost() {
         },
       })
       .then((r) => {
+        setUsername(r.data.data[0].username);
         setProfile(r.data.data[0].post.user_id);
         setPhoto(r.data.data[0].profile_photo);
         setPost(r.data.data[0].post.content);
@@ -56,7 +58,7 @@ function ViewPost() {
       <div className="grid grid-rows-4 grid-cols-8 gap-4">
         <div className="row-start-1 row-end-5 bg-black-600 row-span-2" />
         <div className="row-start-1 col-start-3 bg-base-100 col-span-4 row-end-5">
-          <div className="grid-column-1 pt-48">
+          <div className="grid-column-1 pt-16">
             <div className="pt-2">
               <div className="flex pb-4 items-center">
                 <button type="button" onClick={profileClick}>
@@ -68,7 +70,7 @@ function ViewPost() {
                     />
                   </div>
                 </button>
-                <h2 className="ml-4">User posted</h2>
+                <h2 className="ml-4">{username} posted</h2>
               </div>
               <p className="mb-10">Posted on {String(new Date(date))}</p>
               {/* TODO: Format correctly */}
