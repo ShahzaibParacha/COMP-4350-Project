@@ -36,11 +36,11 @@ const getRecommendedPosts = async (post_id) => {
 			{ "$limit": numSimilarPosts}
 		]);
 
-		const result = await aggregate.exec();
-		console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
-		console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
-		console.log(result);
-		return result;
+		return await aggregate.exec();
+		//console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
+		//console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
+		//console.log(result);
+		//return result;
 
 	}catch(err){
 		/* istanbul ignore next */

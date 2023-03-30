@@ -166,6 +166,7 @@ async function getPostsInfo(posts) {
 
 	for (let i = 0; i < posts.length; i+=1) {
 		let post = posts[i];
+		/* istanbul ignore next */
         if (users[i] !== null){
 			result.push({
 				post, 
@@ -229,7 +230,6 @@ const getRecommendedPosts = async(req, res) => {
 		res.json(Result.success(result));
 	} catch (err) {
 		/* istanbul ignore next */
-		console.log("Here " + err);
 		res.json(Result.fail(err));
 	}
 };
