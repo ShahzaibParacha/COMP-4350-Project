@@ -98,7 +98,7 @@ app.get('/getTestData', async (req, res) => {
 
 
 	// get fake posts from fakePosts.txt
-	let allText = fs.readFileSync('./fakePosts.txt', 'utf8');
+	let allText = fs.readFileSync('./util/fakePosts.txt', 'utf8');
 	fakePostsLib = allText.split('\n');
 
 	//try Dean's sample posts instead:
@@ -163,7 +163,7 @@ app.get('/getTestData', async (req, res) => {
 
 	function writeReport(){
 		console.log('generating report...');
-		const writeStream = fs.createWriteStream('fakeDateReport.txt');
+		const writeStream = fs.createWriteStream('./util/fakeDateReport.txt');
 		writeStream.write('\t\t\t\t\t\t\t\tAudience List\t\t\n');
 		writeStream.write('_id\t\t\t\t\t\t\tusername\temail\t\t\t\tpassword\t\tisWriter\t\n');
 		audienceList.forEach((audience) => {
