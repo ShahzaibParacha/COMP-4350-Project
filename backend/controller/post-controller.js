@@ -14,8 +14,30 @@ const createPost = async (req, res) => {
 	}
 
 	try {
-		//const keywords = await extractEngine.extractKeywords(content);//don't need to wait here
-		const postResult = await postService.createPost(user_id, content);
+		const postResult = await postService.createPost(user_id, content, true);
+		const subscribeResult = subscribeService.notifyAudiences(
+			user_id,
+			postResult._id,
+			content
+		);
+
+		res.json(Result.success([postResult, subscribeResult]));
+	} catch (err) {
+		res.json(Result.fail(err));
+	}
+};
+
+//for load test, without the recommendation feature
+const createPostLoadTest = async (req, res) => {
+	const { content, user_id } = req.body;
+	console.log(user_id, content);
+
+	if (!mongoose.Types.ObjectId.isValid(user_id)) {
+		return res.json(Result.invalidUserId());
+	}
+
+	try {
+		const postResult = await postService.createPost(user_id, content, false);
 		const subscribeResult = subscribeService.notifyAudiences(
 			user_id,
 			postResult._id,
@@ -35,9 +57,25 @@ const updatePostContent = async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(post_id)) {
 		return res.json(Result.invalidPostId());
 	}
-	//const keywords = await extractEngine.extractKeywords(content);
 	await postService
-		.updateContent(post_id, content)
+		.updateContent(post_id, content, true)
+		.then((result) => {
+			res.json(Result.success(result));
+		})
+		.catch((err) => {
+			res.json(Result.fail(err));
+		});
+};
+
+const updatePostContentLoadTest = async (req, res) => {
+	const { content, post_id } = req.body;
+	console.log(post_id, content);
+
+	if (!mongoose.Types.ObjectId.isValid(post_id)) {
+		return res.json(Result.invalidPostId());
+	}
+	await postService
+		.updateContent(post_id, content, false)
 		.then((result) => {
 			res.json(Result.success(result));
 		})
@@ -184,7 +222,8 @@ const getRecommendedPosts = async(req, res) => {
 
 	try {
 		const posts = await postService.getRecommendedPosts(user_id);
-		console.log(posts);
+		console.log("the length of the recommended posts: " + posts.length)
+
 		const result = await getPostsInfo(posts);
 		console.log(result);
 		res.json(Result.success(result));
@@ -204,4 +243,6 @@ module.exports = {
 	getAllPostsFromUser,
 	getSubscribedPosts,
 	getRecommendedPosts,
+	createPostLoadTest,
+	updatePostContentLoadTest
 };

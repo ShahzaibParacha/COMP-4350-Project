@@ -5,11 +5,11 @@ const getNumLikes = async (post_id) => {
 	return await Like.countDocuments({ post_id });
 };
 
-// get the recent 1 liked posts for the user
+// get the recent 3 liked posts for the user
 const getRecentUserLikedPosts = async(user_id) => {
 	return await Like.find({user_id: user_id})
 	.sort({ liked_date: -1 }) 
-	.limit(1);
+	.limit(3);
 };
 
 // determine if the user has liked a post
