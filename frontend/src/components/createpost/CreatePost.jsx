@@ -18,6 +18,7 @@ function CreatePost() {
   }, [contextId]);
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-color-mode", "dark");
     fromSessionToContext(userId, token, dispatch);
   }, []);
 
@@ -67,7 +68,7 @@ function CreatePost() {
               </button>
             </div>
 
-            <div className="py-4 h-fit min-h-screen bg-base-100">
+            <div className="my-4 h-fit min-h-screen bg-base-100">
               <MDEditor
                 value={post}
                 className="h-screen"
