@@ -15,6 +15,7 @@ function ViewPost() {
   const [photo, setPhoto] = useState();
   const [post, setPost] = useState();
   const [username, setUsername] = useState();
+  const [date, setDate] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
   const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
@@ -35,6 +36,7 @@ function ViewPost() {
         setProfile(r.data.data[0].post.user_id);
         setPhoto(r.data.data[0].profile_photo);
         setPost(r.data.data[0].post.content);
+        setDate(r.data.data[0].post.post_date);
       })
       .catch((e) => console.error(e, userId));
   }, []);
@@ -70,6 +72,8 @@ function ViewPost() {
                 </button>
                 <h2 className="ml-4">{username} posted</h2>
               </div>
+              <p className="mb-10">Posted on {String(new Date(date))}</p>
+              {/* TODO: Format correctly */}
               <div>
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {post}
