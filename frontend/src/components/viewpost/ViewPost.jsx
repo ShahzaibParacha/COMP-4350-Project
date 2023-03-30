@@ -93,7 +93,6 @@ function ViewPost() {
                   date
                 ).getDate()}, ${new Date(date).getFullYear()}`}
               </p>
-              {/* TODO: Format correctly */}
               <div>
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {post}
