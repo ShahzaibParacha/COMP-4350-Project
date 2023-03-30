@@ -29,13 +29,13 @@ const getRecommendedPosts = async (user_id) => {
 	const likedPosts = await likeService.getRecentUserLikedPosts(user_id);
 	for (let i = 0; i < likedPosts.length; i++) {
 		const post = await getPostByID(likedPosts[i].post_id);
+		/* istanbul ignore next */
 		if( post !== null && post._id != null && post.user_id != user_id ){
 			similarPostsPromises.push( getRecommendedPostsModel(post._id) );
 		}
 	}
 	const similarPosts = await Promise.all(similarPostsPromises);
 	const similarPostsFlat = similarPosts.flat(1);
-	//console.log(similarPostsFlat);
 	return similarPostsFlat;
 };
 

@@ -349,7 +349,7 @@ describe('Post services and model', function () {
 			postsToDelete.push(post);
 			await services.createPost(post, 'mitochondria', '0');
 			const posts = await services.getAllPosts();
-			await services.updateContent(posts[0]._id, ' ', []);
+			await services.updateContent(posts[0]._id, ' ');
 			const value = await services.getPostByID(posts[0]._id);
 			expect(value).to.not.be.null;
 			expect(value.content).to.equal(' ');

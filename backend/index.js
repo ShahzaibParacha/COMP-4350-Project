@@ -123,7 +123,7 @@ app.get('/getTestData', async (req, res) => {
 	  
 		let content = fakePostsLib.pop();
 		let creatorIndex = Math.floor(Math.random() * creatorSize);
-		return Post.createPost(creatorList[creatorIndex]._id, content, null)
+		return Post.createPost(creatorList[creatorIndex]._id, content, true)
 		  .then(post => {
 			postList.push(post);
 		  });

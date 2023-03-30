@@ -1,6 +1,7 @@
 const services = require('../service/post-service');
 const Like = require('../schema/likes-schema');
 const Post = require('../schema/post-schema');
+const extractEngine = require('../util/extract-keywords');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 require('dotenv').config();
@@ -32,9 +33,8 @@ const generatePosts = async () => {
 	// generate random posts created by numUsers users
 	let contents = ["A friend is someone who knows the song in your heart and can sing it back to you when you have forgotten the words.",
 	 				"A true friend is someone who sees the pain in your eyes while everyone else believes the smile on your face.",
-	  				"A book is a map to a new world waiting to be explored.",
-	   				"The best time to plant a tree was 20 years ago. The second-best time is now. - Chinese proverb"]
-	for (i = 0; i < 4; i++) {
+	  				"A book is a map to a new world waiting to be explored."]
+	for (i = 0; i < 3; i++) {
 		postIDs.push(new mongoose.mongo.ObjectID());
 
 		const attrib = { _id: postIDs[i], user_id: userIDs[1], content: contents[i], post_date: new Date(i * 1000000) };
@@ -42,9 +42,15 @@ const generatePosts = async () => {
 
 		postsToDelete.push(postIDs[i]);
 		await Post.create(attrib);
+		await extractEngine.extractKeywords(contents[i])
+			.then(keywords => {
+				Post.findOneAndUpdate({ _id: postIDs[i] }, { keywords: keywords }, { useFindAndModify: false })
+				.then(result => {});
+			});	
 		if (i === 0){
 			likesToDelete.push(userIDs[0]);
-			await Like.create( like_attr );
+			const like = await Like.create( like_attr );
+			likes.push(like);
 		}
 	}
 	return { postIDs, userIDs, likes };
@@ -64,12 +70,12 @@ describe('Recommendation Service test', function () {
 	});
 
 	beforeEach(async () => {
-		await Post.deleteMany({_id: { $in: postsToDelete } });
+		await Post.deleteMany({});
 	});
 
 	after(async () => {
-		await Post.deleteMany({_id: { $in: postsToDelete } });
-		await Like.deleteMany({user_id: { $in: likesToDelete }});
+		await Post.deleteMany({});
+		await Like.deleteMany({});
 		await mongoose.disconnect();
 	});
 
@@ -83,9 +89,10 @@ describe('Recommendation Service test', function () {
 
 		it('should return an array of recommendated post, it could be empty.', async function () {
 			const { userIDs, postIDs, likes } = (await generatePosts());
-            const values = await services.getRecommendedPosts(userIDs[0]);
-
-            expect(values).to.be.an('array');
+			const values = await services.getRecommendedPosts(userIDs[0]);
+				expect(values).to.be.an('array');
+				expect(values.length).to.equal(1);
+				expect(values[0].content).to.equal("A true friend is someone who sees the pain in your eyes while everyone else believes the smile on your face.");
 		});
 	});
 });

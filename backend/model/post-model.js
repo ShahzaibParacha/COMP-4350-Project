@@ -1,9 +1,4 @@
 const Post = require('../schema/post-schema');
-
-//two engines to choose: recommendation-engine or extract-keywords
-//const extractEngine = require('../util/extract-keywords');
-
-//this engine is slower
 const extractEngine = require('../util/extract-keywords');
 
 const getRecommendedPosts = async (post_id) => {
@@ -19,7 +14,6 @@ const getRecommendedPosts = async (post_id) => {
 						"must":[{
 							"moreLikeThis": {
 								like:{
-									//"content": post.content,
 									"keywords": post.keywords,
 								}
 							}
@@ -37,14 +31,14 @@ const getRecommendedPosts = async (post_id) => {
 		]);
 
 		const result = await aggregate.exec();
-		console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
-		console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
-		console.log(result);
+		// console.log("\n\n+++++++++++++++++++++++++\nThe original post content is: " + post.content + " \nThe keywords are: " + post.keywords);
+		// console.log("The " + numSimilarPosts + " similar posts for the liked post are: ");
+		// console.log(result);
 		return result;
 
 	}catch(err){
 		/* istanbul ignore next */
-		console.log("error in get similar post: " + err);
+		console.log("error in getting similar posts: " + err);
 	}
 };
 
