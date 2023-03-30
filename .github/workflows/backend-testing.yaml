@@ -38,7 +38,7 @@ jobs:
       - name: Installing Nodejs dependencies
         run: npm install
       - name: Installing Python
-        run: pip install -r requirements.txt
+        run: pip freeze > requirements.txt
       - name: Run unit tests
         run: npm run unit
         env: 
