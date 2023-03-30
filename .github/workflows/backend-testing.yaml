@@ -17,7 +17,7 @@ env:
   IMAGE_KEY: ${{ secrets.IMAGE_KEY }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  # PYTHON_PATH: 
+  PYTHON_PATH: /usr/bin/python
     
 jobs:
   run_tests:
@@ -39,8 +39,6 @@ jobs:
         run: npm install
       - name: Installing Python
         run: pip freeze > requirements.txt
-      - name: Echo path
-        run: which python
       - name: Run unit tests
         run: npm run unit
       - name: Run integration tests
