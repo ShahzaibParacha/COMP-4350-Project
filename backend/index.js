@@ -98,11 +98,11 @@ app.get('/getTestData', async (req, res) => {
 
 
 	// get fake posts from fakePosts.txt
-	let allText = fs.readFileSync('./util/fakePosts.txt', 'utf8');
-	fakePostsLib = allText.split('\n');
+	// let allText = fs.readFileSync('./util/fakePosts.txt', 'utf8');
+	// fakePostsLib = allText.split('\n');
 
 	//try Dean's sample posts instead:
-	var data = fs.readFileSync("./util/sampledata.csv", 'utf8');
+	let data = fs.readFileSync("./util/sampledata.csv", 'utf8');
 	const s = data.toString().split('"');
 	let i = 0;
 	while (i < s.length) {

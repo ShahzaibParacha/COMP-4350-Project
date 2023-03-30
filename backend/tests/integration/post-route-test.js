@@ -296,8 +296,6 @@ describe('Post routes', function () {
 				}
 			}).catch((err) => {console.log(err)});
 
-			//console.log(res);
-
 			expect(res.data.msg).to.equal('success');
 			expect(res.data.data).to.exist;
 			expect(res.data.data.length).to.equal(0);
@@ -721,7 +719,7 @@ describe('Post routes', function () {
 		it('should return a post', async function () {
 			const {userIDs, res} = (await setup(0, 1));
 
-			const response = await axios({
+			await axios({
 				method: 'post',
 				url: 'http://localhost:4350/api/post/createLoadTest',
 				headers: {

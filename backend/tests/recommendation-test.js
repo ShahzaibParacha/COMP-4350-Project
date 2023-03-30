@@ -8,7 +8,6 @@ require('dotenv').config();
 
 const userIDs = [];
 const postIDs = [];
-const likes = [];
 /* generatePosts
  *
  * Purpose: Generates a number of posts assigned to a number of users, and users like the posts
