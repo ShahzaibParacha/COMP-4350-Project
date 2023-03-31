@@ -73,7 +73,6 @@ describe('Recommendation Service test', function () {
 
 		it('should return an array of recommended post, it contains one post.', async function () {
 			const values = await services.getRecommendedPosts(userIDs[0]);
-			console.log(values);
 
 			expect(values).to.be.an('array');
 		});
