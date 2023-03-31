@@ -2,7 +2,9 @@ name: docker-upload-backend
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "develop"]
+  pull_request:
+    branches: ["master", "develop"]
 env:
   PORT: 4350
   MONGODB_CONNECTION: ${{ secrets.MONGODB_CONNECTION }}
