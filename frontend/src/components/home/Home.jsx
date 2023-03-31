@@ -61,7 +61,7 @@ function Home() {
               id="subscribed"
               className="bg-purple-100 w-64 h-12 hover:bg-neutral hover:text-white rounded-full text-gray-800 font-bold py-2 px-4 rounded-l"
             >
-              Subscribed
+              Recommended
             </button>
           </div>
           <div className="grid-column-1" />
