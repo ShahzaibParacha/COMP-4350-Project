@@ -13,7 +13,7 @@ function WidePost({ postType }) {
   const getRecommendedPosts = () => {
     axios({
       method: "get",
-      url: `http://localhost:4350/api/post/getRecommendatedPosts`,
+      url: `http://localhost:4350/api/post/getRecommendedPosts`,
       params: { user_id: userId },
       headers: {
         Authorization: token,
