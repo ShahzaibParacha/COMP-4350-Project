@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "unit": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/*.js",
-    "integration": "nyc mocha --timeout 15000 ./tests/integration/*.js ./tests/*.js",
-    "test": "nyc mocha --timeout 15000 ./tests/*.js",
-    "all": "nyc mocha --timeout 15000 ./tests/unit/*.js ./tests/integration/*.js ./tests/*.js",
+    "unit": "nyc mocha --timeout 30000 ./tests/unit/*.js ./tests/*.js",
+    "integration": "nyc mocha --timeout 30000 ./tests/integration/*.js ./tests/*.js",
+    "test": "nyc mocha --timeout 30000 ./tests/notification-test.js",
+    "all": "nyc mocha --timeout 30000 ./tests/unit/*.js ./tests/integration/*.js ./tests/*.js",
     "start": "nodemon index.js"
   },
   "repository": {

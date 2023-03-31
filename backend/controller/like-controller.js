@@ -2,7 +2,8 @@ const {
 	getNumLikes: getNumLikesFromService,
 	userLikedPost: userLikedPostFromService,
 	likePost: likePostFromService,
-	unlikePost: unlikePostFromService
+	unlikePost: unlikePostFromService,
+	getRecentUserLikedPosts: getRecentUserLikedPostsService,
 } = require('../service/likes-service');
 const mongoose = require('mongoose');
 const Result = require('../util/Result');

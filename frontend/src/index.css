@@ -60,3 +60,7 @@
     font-family: "Quicksand", sans-serif;
     font-weight: 500;
 }
+
+.line-break {
+    white-space: pre-wrap;
+}

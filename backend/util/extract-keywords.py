@@ -3,7 +3,6 @@ import sys
 import json
 from sentence_transformers import SentenceTransformer
 
-
 def extract_keywords( content):
     #('paraphrase-albert-small-v2') #( 'distilbert-base-nli-stsb-mean-tokens' ) #("all-MiniLM-L6-v2")
     sentence_model = SentenceTransformer( 'distilbert-base-nli-stsb-mean-tokens' ) 
@@ -11,6 +10,7 @@ def extract_keywords( content):
     keywords = kw_model.extract_keywords(content)
     return keywords
 
+# use up to 5 top keywords for now
 if __name__ == '__main__':
     args = sys.argv
     keywords = extract_keywords( args[1] )

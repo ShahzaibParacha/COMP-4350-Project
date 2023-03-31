@@ -112,7 +112,7 @@ describe('Post routes', function () {
 		const app = express();
 
 		mongoose
-			.connect(process.env.TEST_MONGODB_CONNECTION, {
+			.connect(process.env.MONGODB_CONNECTION, {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			})
@@ -280,13 +280,13 @@ describe('Post routes', function () {
 		});
 	});
 
-	describe('GET request to getRecommendatedPosts', function () {
+	describe('GET request to getRecommendedPosts', function () {
 		it('should return nothing', async function () {
 			const {id, token} = (await setup(0, 1)).res.data.data;
 
 			const res = await axios({
 				method: 'get',
-				url: 'http://localhost:4350/api/post/getRecommendatedPosts',
+				url: 'http://localhost:4350/api/post/getRecommendedPosts',
 				headers: {
 					Authorization: token,
 					withCredentials: true
@@ -294,7 +294,7 @@ describe('Post routes', function () {
 				params: {
 					user_id: id
 				}
-			});
+			}).catch((err) => {console.log(err)});
 
 			expect(res.data.msg).to.equal('success');
 			expect(res.data.data).to.exist;
@@ -648,7 +648,6 @@ describe('Post routes', function () {
 			expect(posts).to.exist;
 			expect(posts.length).to.equal(1);
 			expect(posts[0].content).to.equal('69');
-			//expect(response.data.data[1].notification_state).to.equal('success'); //the controller does not wait for notification anymore
 		});
 
 		it('should return three posts', async function () {
@@ -712,6 +711,177 @@ describe('Post routes', function () {
 			});
 
 			expect(response.data.code).to.equal(40000);
+		});
+	});
+
+	//cover the createLoadTest API
+	describe('POST request to create', function () {
+		it('should return a post', async function () {
+			const {userIDs, res} = (await setup(0, 1));
+
+			await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/post/createLoadTest',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '69',
+					user_id: userIDs[0]
+				}
+			});
+
+			const posts = await Post.find({user_id: userIDs[0]});
+
+			expect(posts).to.exist;
+			expect(posts.length).to.equal(1);
+			expect(posts[0].content).to.equal('69');
+		});
+
+		it('should return three posts', async function () {
+			const {userIDs, res} = (await setup(4, 2));
+
+			await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/post/createLoadTest',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '4',
+					user_id: userIDs[0]
+				}
+			});
+
+			const posts = await Post.find({user_id: userIDs[0]});
+
+			expect(posts).to.exist;
+			expect(posts.length).to.equal(3);
+			for (let i = 0; i < posts.length; i++) {
+				expect(posts[i].content).to.equal(i * 2 + '');
+			}
+		});
+
+		it('should not succeed', async function () {
+			const {res} = (await setup(5, 1));
+
+			const response = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/post/createLoadTest',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '69',
+					user_id: '20'
+				}
+			});
+
+			expect(response.data.code).to.equal(40002);
+		});
+
+		it('should not succeed', async function () {
+			const {res} = (await setup(5, 1));
+
+			const response = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/post/createLoadTest',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '69',
+					user_id: 20
+				}
+			});
+
+			expect(response.data.code).to.equal(40000);
+		});
+	});
+
+	describe('POST request to update', function () {
+		it('should update content from 0 to 69', async function () {
+			const {postIDs, res} = (await setup(10, 1));
+
+			await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/post/updateLoadTest',
+				headers: {
+					Authorization: res.data.data.token,
+					withCredentials: true
+				},
+				data: {
+					content: '69',
+					post_id: postIDs[1]
+				}
+			});
+
+			const post = await Post.findById(postIDs[1]);
+
+			expect(post).to.exist;
+			expect(post.content).to.equal('69');
+		});
+
+		it('should not update anything', async function () {
+			const {token} = (await setup(10, 2)).res.data.data;
+
+			await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/post/updateLoadTest',
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				data: {
+					post_id: new mongoose.mongo.ObjectID()
+				}
+			});
+
+			const posts = await Post.find({});
+
+			for (let i = 0; i < posts.length; i++) {
+				expect(posts[i].content).to.equal(i + '');
+			}
+		});
+
+		it('should not succeed', async function () {
+			const {token} = (await setup(10, 2)).res.data.data;
+
+			const res = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/post/updateLoadTest',
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				data: {
+					post_id: '20'
+				}
+			});
+
+			expect(res.data.code).to.equal(40003);
+		});
+
+		it('should not succeed', async function () {
+			const {token} = (await setup(10, 2)).res.data.data;
+
+			const res = await axios({
+				method: 'post',
+				url: 'http://localhost:4350/api/post/updateLoadTest',
+				headers: {
+					Authorization: token,
+					withCredentials: true
+				},
+				data: {
+					post_id: 20
+				}
+			});
+
+			expect(res.data.code).to.equal(40000);
 		});
 	});
 });

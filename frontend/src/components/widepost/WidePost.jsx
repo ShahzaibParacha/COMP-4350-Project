@@ -56,12 +56,23 @@ function WidePost({ postType }) {
     navigate(`/writer/${profile}`);
   };
 
+  // const renderContent = (content) => {
+  //   if (content) {
+  //     console.log(`content: ${content}`);
+  //     if (content[0] === "#") {
+  //       return removeMd(content.split(/\r?\n/));
+  //     }
+  //     return removeMd(content.substring(0, 200));
+  //   }
+  //   return "";
+  // };
+
   return (
     <div>
       {posts.map((post) => (
         <div
           key={post.post._id}
-          className="w-full my-4 rounded-2xl text-left border font-base bg-gray-50 shadow-xl"
+          className="w-full my-4 rounded-2xl text-left border font-base bg-gray-50 shadow-xl ease-in duration-200 hover:shadow-xxl hover:border-purple-800 transform hover:scale-x-105"
         >
           <div className="bg-gray-50 rounded-2xl py-4 sm:grid sm:grid-cols-6 sm:gap-4">
             <div className="flex justify-center items-center">
@@ -69,8 +80,9 @@ function WidePost({ postType }) {
                 <button
                   type="button"
                   onClick={() => profileClick(post.post.user_id)}
+                  className="flex justify-center pl-6"
                 >
-                  <div>
+                  <div className="justify-center">
                     <img
                       className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
                       src={
@@ -82,16 +94,31 @@ function WidePost({ postType }) {
                     />
                   </div>
                 </button>
-                <p className="text-[0.69rem] font-base font-medium leading-6 text-gray-900">
-                  {post.username.length > 15
-                    ? `${post.username.substring(0, 15)}...`
+                <h3 className="text-sm flex justify-center font-base font-medium leading-6 text-gray-900">
+                  {post.username.length > 10
+                    ? `${post.username.substring(0, 10)}...`
                     : post.username}
-                </p>
-                <p className="mt-1 font-base max-w-2xl text-[0.6rem] text-gray-500">
-                  {post.numberLikes === 1
-                    ? `${post.numberLikes} Like`
-                    : `${post.numberLikes} Likes`}
-                </p>
+                </h3>
+                <div className="mt-1 flex justify-center font-base max-w-2xl pt-1 text-sm text-gray-500">
+                  <p className="pt-1 pr-1">{post.numberLikes}</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.0"
+                    stroke="currentColor"
+                    className={
+                      post.numberLikes > 0
+                        ? "w-6 h-6 fill-purple-900 stroke-none"
+                        : "w-6 h-6 fill-none stroke-black"
+                    }
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
             <button
@@ -100,10 +127,11 @@ function WidePost({ postType }) {
               className="border-l border-neutral px-4 py-2 col-start-2 col-span-5 sm:px-6"
             >
               <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                <dd className="mt-1 text-left text-sm font-base text-gray-900 sm:col-span-6 sm:mt-0 overflow-x-hidden">
-                  {post.post.content.length > 200
-                    ? removeMd(`${post.post.content.substring(0, 200)}...`)
-                    : removeMd(post.post.content)}
+                <dd className="mt-1 text-left text-sm font-base text-gray-900 sm:col-span-6 sm:mt-0">
+                  {post.post.content.length > 200 &&
+                  post.post.content[0] === "#"
+                    ? removeMd(post.post.content.split("\n", 1)[0])
+                    : `${removeMd(post.post.content.substring(0, 270))}...`}
                 </dd>
               </div>
             </button>
@@ -113,7 +141,6 @@ function WidePost({ postType }) {
     </div>
   );
 }
-
 export default WidePost;
 
 WidePost.propTypes = {

@@ -12,14 +12,12 @@ async function getUserAudiences (userId, pageNum, pageSize) {
 async function notifyAudiences (user_id, post_id, content) {
 	const creator = await userService.getUserInfo(user_id);
 	const subscribers = await getUserAudiences(user_id);
-	//console.log('The number of audiences for the user is: ' + subscribers.length);
 
 	try {
 		const audience_emails = [];
 
 		if (subscribers.length != 0) {
 			const subject = 'New post from your subscribed CASTr ' + creator.username + '!';
-			// const url = '?'
 			const content_trunc = content.substr(0, 200) + '...';
 
 			for (const subscriber of subscribers) {

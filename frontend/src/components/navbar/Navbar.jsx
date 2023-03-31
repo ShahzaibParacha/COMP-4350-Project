@@ -37,19 +37,6 @@ function Navbar() {
   const handleNavClick = (e, item) => {
     e.preventDefault();
 
-    // const navigationItems = [...leftNavigation, ...rightNavigation];
-    //
-    // const navItem = navigationItems.find((o) => o.name === item.name);
-    //
-    // console.log(navItem);
-    // navItem.current = true;
-    //
-    // // eslint-disable-next-line array-callback-return
-    // navigationItems.forEach((nav) => {
-    //   // eslint-disable-next-line no-param-reassign
-    //   nav.current = false;
-    // });
-
     if (item.href === "/login") {
       logout();
     }
@@ -74,20 +61,15 @@ function Navbar() {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
+                <div className="flex items-center">
                   <img
-                    className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
-                  <img
-                    className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    className="hidden h-16 w-auto lg:block"
+                    src="/logo.png"
+                    alt="CASTr"
                   />
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                <div className="hidden sm:ml-6 sm:block flex items-center">
+                  <div className="flex items-center">
                     {leftNavigation.map((item) => (
                       <button
                         type="button"
@@ -97,7 +79,7 @@ function Navbar() {
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium"
+                          "px-3 py-2 rounded-md text-sm font-medium mt-4"
                         )}
                         aria-current={item.current ? "page" : ""}
                       >

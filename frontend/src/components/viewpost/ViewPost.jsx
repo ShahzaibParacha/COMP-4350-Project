@@ -15,6 +15,7 @@ function ViewPost() {
   const [photo, setPhoto] = useState();
   const [post, setPost] = useState();
   const [username, setUsername] = useState();
+  const [date, setDate] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
   const { userId: contextId, token: contextToken, dispatch } = useAuthContext();
@@ -35,6 +36,7 @@ function ViewPost() {
         setProfile(r.data.data[0].post.user_id);
         setPhoto(r.data.data[0].profile_photo);
         setPost(r.data.data[0].post.content);
+        setDate(r.data.data[0].post.post_date);
       })
       .catch((e) => console.error(e, userId));
   }, []);
@@ -50,6 +52,21 @@ function ViewPost() {
   const profileClick = () => {
     navigate(`/writer/${profile}`);
   };
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   return (
     <div className="bg-base-100 h-fit min-h-screen pb-16">
@@ -70,6 +87,12 @@ function ViewPost() {
                 </button>
                 <h2 className="ml-4">{username} posted</h2>
               </div>
+              <p className="mb-10 font-bold">
+                Written on{" "}
+                {`${months[new Date(date).getMonth()]} ${new Date(
+                  date
+                ).getDate()}, ${new Date(date).getFullYear()}`}
+              </p>
               <div>
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {post}

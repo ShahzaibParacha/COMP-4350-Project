@@ -133,7 +133,7 @@ function setFakeDatabase() {
 		creator_id: userList[0]._id,
 		audience_id: userList[3]._id,
 		subscription_date: Date.now(),
-		receive_notification: true
+		receive_notification: false
 	}));
 
 	SubscriberSchema.create(new SubscriberSchema({
@@ -146,7 +146,7 @@ function setFakeDatabase() {
 
 async function connectDatabase() {
 	await mongoose
-		.connect(process.env.TEST_MONGODB_CONNECTION, {
+		.connect(process.env.MONGODB_CONNECTION, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true
 		});
@@ -178,7 +178,7 @@ describe('Subscriber notification tests', function () {
 		it('should send email notification to subscribers successfully', async () => {
 			const result = await SubscriberService.notifyAudiences(userList[0]._id, post_id, content);
 			expect(result.notification_state).to.equal('success');
-			expect(result.notification_accepted_by).to.deep.equal([userList[1].email, userList[3].email]);
+			expect(result.notification_accepted_by).to.deep.equal([userList[1].email]);
 		});
 
 		it('should not send anything because there are no subscribers for the creator.', async () => {
