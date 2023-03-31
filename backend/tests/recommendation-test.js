@@ -24,6 +24,7 @@ const generatePosts = async () => {
 	// generate random posts created by numUsers users
 	let contents = ["A friend is someone who knows the song in your heart and can sing it back to you when you have forgotten the words.",
 	 				"A true friend is someone who sees the pain in your eyes while everyone else believes the smile on your face.",
+					"A true friend is someone who sees the pain in your eyes while everyone else believes the smile on your face. Love you!",
 	  				"A book is a map to a new world waiting to be explored."]
 	for (i = 0; i < 3; i++) {
 		postIDs.push(new mongoose.mongo.ObjectID());
@@ -41,6 +42,7 @@ const generatePosts = async () => {
 			await Like.create( like_attr );
 		}
 	}
+	await Like.create({user_id: userIDs[0], post_id: postIDs[1]});
 };
 
 describe('Recommendation Service test', function () {
@@ -71,7 +73,9 @@ describe('Recommendation Service test', function () {
 
 		it('should return an array of recommended post, it contains one post.', async function () {
 			const values = await services.getRecommendedPosts(userIDs[0]);
-				expect(values).to.be.an('array');
+			console.log(values);
+
+			expect(values).to.be.an('array');
 		});
 	});
 });

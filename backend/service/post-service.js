@@ -25,8 +25,11 @@ const countPostsFromUser = (user_id) => { return countPostsFromUserModel(user_id
 //get a list of recommendated posts based on the liked information of the user
 const getRecommendedPosts = async (user_id) => {
 	const similarPostsPromises = [];
+	const uniquePosts = [];
 
 	const likedPosts = await likeService.getRecentUserLikedPosts(user_id);
+	console.log("The number of liked posts for this user is: " + likedPosts.length);
+
 	for (let i = 0; i < likedPosts.length; i++) {
 		const post = await getPostByID(likedPosts[i].post_id);
 		/* istanbul ignore next */
@@ -36,7 +39,21 @@ const getRecommendedPosts = async (user_id) => {
 	}
 	const similarPosts = await Promise.all(similarPostsPromises);
 	const similarPostsFlat = similarPosts.flat(1);
-	return similarPostsFlat;
+
+	for( let post of similarPostsFlat){
+		let found = false;
+		for (let postInner of uniquePosts) {
+			if (JSON.stringify(postInner._id) === JSON.stringify(post._id)){
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			uniquePosts.push(post);
+		}
+	}
+	console.log("The number of recommended posts are: " + uniquePosts.length);
+	return uniquePosts;
 };
 
 module.exports = {
