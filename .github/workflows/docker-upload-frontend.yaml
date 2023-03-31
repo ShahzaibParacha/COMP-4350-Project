@@ -3,8 +3,6 @@ name: docker-upload-frontend
 on:
   push:
     branches: ["master", "develop"]
-  pull_request:
-    branches: ["master", "develop"]
 env:
   VERSION_NUMBER: 1.1
     
