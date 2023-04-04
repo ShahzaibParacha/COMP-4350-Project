@@ -25,6 +25,7 @@ module.exports = {
       },
       fontFamily: {
         base: ["Quicksand", "sans-serif"],
+        local: ["Questrial", "sans-serif"],
       },
     },
   },

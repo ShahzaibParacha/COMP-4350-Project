@@ -65,15 +65,15 @@ function SignUp() {
   }
 
   return (
-    <div className="grid h-screen place-items-center bg-base-100 py-24 px-6 sm:py-32 lg:px-8">
+    <div className="grid h-screen place-items-center bg-base-100 py-12 px-6 sm:py-32 lg:px-8">
+      <img
+        className="w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white"
+        src="/logo-white.png"
+        alt="CASTr"
+      />{" "}
       <div className="w-full max-w-md space-y-8">
         <div>
-          {/* <img */}
-          {/*  className="mx-auto h-12 w-auto" */}
-          {/*  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" */}
-          {/*  alt="Your Company" */}
-          {/* /> */}
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+          <h2 className="font-local text-center text-3xl font-bold tracking-tight text-gray-900">
             Sign up for an account
           </h2>
         </div>
@@ -91,7 +91,7 @@ function SignUp() {
                 autoComplete="username"
                 onChange={handleUsername}
                 required
-                className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative font-local block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Username"
               />
             </div>
@@ -107,7 +107,7 @@ function SignUp() {
                 autoComplete="email"
                 onChange={handleEmailAddress}
                 required
-                className="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative font-local block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Email address"
               />
             </div>
@@ -123,7 +123,7 @@ function SignUp() {
                 autoComplete="current-password"
                 onChange={handlePassword}
                 required
-                className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="relative font-local block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Password"
               />
             </div>
@@ -134,13 +134,13 @@ function SignUp() {
               type="submit"
               className="group relative flex w-full justify-center rounded-md border border-transparent bg-neutral py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3" />
+              <span className="absolute font-local inset-y-0 left-0 flex items-center pl-3" />
               Sign up
             </button>
           </div>
           <div>{loginStatus === "success" ? renderSuccess() : null}</div>
           <div>{loginStatus === "failure" ? renderFailure() : null}</div>
-          <div className="text-center">
+          <div className="font-local text-center">
             Already have an account?{" "}
             <button
               type="button"
