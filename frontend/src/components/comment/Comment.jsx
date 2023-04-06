@@ -206,6 +206,10 @@ function Comment({ id }) {
     navigate(`/writer/${profile}`);
   };
 
+  const likeOrLikes = (num) => {
+    return num !== 1 ? "Likes" : "Like";
+  };
+
   const buttonClicked = "w-6 h-6 fill-purple-900 hover:fill-purple-600";
   const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none";
 
@@ -281,7 +285,7 @@ function Comment({ id }) {
             <p className="ml-2">
               {numLikes === null
                 ? "Loading..."
-                : `${numLikes} ${numLikes !== 1 ? "Likes" : "Like"}`}
+                : `${numLikes} ${likeOrLikes(numLikes)}`}
             </p>
           </div>
         </div>

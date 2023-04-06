@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Disclosure } from "@headlessui/react";
 // eslint-disable-next-line import/no-extraneous-dependencies

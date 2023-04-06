@@ -37,23 +37,22 @@ const setup = async (numComments, numPosts, numUsers) => {
 	let commentIDs = [];
 	let postIDs = [];
 	let userIDs = [];
-	let i = 0;
 
 	await Comment.deleteMany({});
 
 	//creates an user id to leave comments
-	for (i = 0; i < numUsers; i++) {
+	for (let i = 0; i < numUsers; i++) {
 		userIDs.push(new mongoose.mongo.ObjectID);
 	}
 	//userID = new mongoose.mongo.ObjectID;
 
 	//generate post ids
-	for (i = 0; i < numPosts; i++) {
+	for (let i = 0; i < numPosts; i++) {
 		postIDs.push(new mongoose.mongo.ObjectID);
 	}
 
 	//generate random comments to numPosts posts
-	for (i = 0; i < numComments; i++) {
+	for (let i = 0; i < numComments; i++) {
 		commentIDs.push(new mongoose.mongo.ObjectID);
 		const attrib = {
 			_id: commentIDs[i], post_id: postIDs[i % numPosts],
@@ -185,7 +184,7 @@ describe('Comment routes', function () {
 		});
 
 		it('should not succeed', async function () {
-			const {postIDs, userIDs, res} = (await setup(5, 1, 1));
+			const {postIDs, res} = (await setup(5, 1, 1));
 
 			const response = await axios({
 				method: 'post',
@@ -302,8 +301,8 @@ describe('Comment routes', function () {
 			expect(response.data.msg).to.equal('success');
 			expect(response.data.data).to.exist;
 			expect(response.data.data.length).to.equal(5);
-			for (let i = 0; i < response.data.data.length; i++) {
-				expect(response.data.data[i].content % 2).to.equal(0);
+			for (let datum of response.data.data) {
+				expect(datum.content % 2).to.equal(0);
 			}
 		});
 	});

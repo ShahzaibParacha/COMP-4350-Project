@@ -23,16 +23,15 @@ const postsToDelete = [];
 const generatePosts = async (numPosts, numUsers) => {
 	const userIDs = [];
 	const postIDs = [];
-	let i = 0;
 
 	// generate user ids
-	for (i = 0; i < numUsers; i++) {
+	for (let i = 0; i < numUsers; i++) {
 		userIDs.push(new mongoose.mongo.ObjectID());
 	}
 
 	// generate random posts created by numUsers users
 	let attribs = [];
-	for (i = 0; i < numPosts; i++) {
+	for (let i = 0; i < numPosts; i++) {
 		postIDs.push(new mongoose.mongo.ObjectID());
 
 		const attrib = { _id: postIDs[postIDs.length - 1], user_id: userIDs[i % numUsers], content: i, post_date: new Date(i * 1000000) };
@@ -66,7 +65,7 @@ const setFakeDatabase = () => {
 		}
 
 		// get page from posts
-		temp = posts.sort((a, b) => { return b.post_date - a.post_date; });
+		temp = [...posts].sort((a, b) => { return b.post_date - a.post_date; });
 
 		if (obj3.skip < posts.length) {
 			temp = temp.slice(obj3.skip, temp.length);

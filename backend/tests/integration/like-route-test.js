@@ -35,19 +35,19 @@ let server;
 const setup = async (numPosts, numUsers, numLikes) => {
 	let postIDs = [];
 	let userIDs = [];
-	let i = 0, userIdx = 0, postIdx = 0;
+	let userIdx = 0, postIdx = 0;
 
 	if (numLikes <= numPosts * numUsers) {
 
 		await Like.deleteMany({});
 
 		//generate user ids
-		for (i = 0; i < numUsers; i++) {
+		for (let i = 0; i < numUsers; i++) {
 			userIDs.push(new mongoose.mongo.ObjectID);
 		}
 
 		//generate random posts created by numUsers users
-		for (i = 0; i < numPosts; i++) {
+		for (let i = 0; i < numPosts; i++) {
 			postIDs.push(new mongoose.mongo.ObjectID);
 		}
 
@@ -58,7 +58,7 @@ const setup = async (numPosts, numUsers, numLikes) => {
 		//the first user will like the second post
 		//...
 		//the last user will like the last post
-		for (i = 0; i < numLikes; i++) {
+		for (let i = 0; i < numLikes; i++) {
 			await Like.create({ post_id: postIDs[postIdx], user_id: userIDs[userIdx] });
 
 			userIdx++;
