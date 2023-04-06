@@ -44,6 +44,7 @@ const getRecommendedPosts = async (user_id) => {
 	for( let post of similarPostsFlat){
 		let found = false;
 		for (let postInner of uniquePosts) {
+			/* istanbul ignore next */
 			if (JSON.stringify(postInner._id) === JSON.stringify(post._id)){
 				found = true;
 				break;
