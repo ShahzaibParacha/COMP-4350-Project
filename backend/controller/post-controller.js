@@ -154,12 +154,10 @@ async function getPostsInfo(posts) {
 	const userPromises = [];
 	const likePromises = [];
 
-	for (let i = 0; i < posts.length; i++) {
-		let post = posts[i];
-
+	for (let post of posts) {
 		userPromises.push(userService.getUserInfo(post.user_id));
 		likePromises.push(likeService.getNumLikes(post._id));
-	}
+	} 
 
 	const users = await Promise.all(userPromises);
 	const likes = await Promise.all(likePromises);

@@ -9,7 +9,7 @@ import {
   failure,
 } from "../../util/messages";
 import { fromContextToSession, fromSessionToContext } from "../../util/state";
-import Subscribed from "../subscribed/subscribed";
+import Subscribed from "../subscribed/Subscribed";
 
 function Writer() {
   const navigate = useNavigate();
@@ -38,7 +38,6 @@ function Writer() {
 
   useEffect(() => {
     fromSessionToContext(userId, token, dispatch);
-    console.log(`id got: ${id}`);
 
     axios
       .get(`http://localhost:4350/api/user/profile`, {
@@ -102,11 +101,13 @@ function Writer() {
   }, [contextId]);
 
   function showDeleteModal() {
-    document.getElementById("delete_modal").style.display = "block";
+    document.getElementById("delete_modal").style.zIndex = "10";
+    document.getElementById("delete_modal").style.opacity = "1";
   }
 
   function hideDeleteModal() {
-    document.getElementById("delete_modal").style.display = "none";
+    document.getElementById("delete_modal").style.zIndex = "-10";
+    document.getElementById("delete_modal").style.opacity = "0";
   }
 
   function deleteAccount() {
@@ -132,6 +133,7 @@ function Writer() {
 
   function switchMode(e) {
     e.preventDefault();
+
     isChangingDetails(!changeDetails);
     isChangingBio(false);
     isChangingPassword(false);
@@ -159,6 +161,15 @@ function Writer() {
     }
     if (imgMsg !== null) {
       hideMessage(imgMsg);
+    }
+
+    const accountDetails = document.getElementById("account_details");
+    if (!changeDetails) {
+      accountDetails.style.borderColor = "rgb(156 163 175)";
+      accountDetails.style.maxHeight = "5000px";
+    } else {
+      accountDetails.style.borderColor = "transparent";
+      accountDetails.style.maxHeight = "0px";
     }
   }
 
@@ -416,7 +427,7 @@ function Writer() {
             showMessage(
               document.getElementById("image_message"),
               "Successfully updated!",
-              success,
+              "#00FF00",
               false,
               "center"
             );
@@ -562,21 +573,20 @@ function Writer() {
   }
 
   function renderProfile() {
-    const classForEditBio =
-      "flex flex-col items-start w-full border-gray-400 border-b-2 pb-4";
+    const classForEditBio = "flex flex-col items-start w-full pb-4";
     const classForBio = "flex flex-col items-start w-full";
 
     return (
       <div className="w-screen bg-base-100">
         <div
-          className="relative z-10 hidden"
+          className="relative z-[-10] transition-opacity"
           aria-labelledby="modal-title"
           role="dialog"
           aria-modal="true"
           id="delete_modal"
         >
-          <div className="fixed inset-0 transition-opacity" />
-          <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="fixed inset-0" />
+          <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -631,65 +641,73 @@ function Writer() {
         </div>
 
         <div className="w-9/12 h-fit min-h-screen mx-auto px-8">
-          <div className="m-auto mb-4 border-gray-400 border-b-2 pt-8 pb-4 w-full flex gap-8">
-            <div className="flex flex-col items-center w-6/12 p-2 gap-1">
-              <img
-                className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white mb-4"
-                src={image === "" ? "/sample_profile.jpg" : image}
-                alt="Profile"
-              />
-              {changeDetails && !changeImage && (
-                <button type="button" onClick={switchImage}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6 fill-none hover:fill-black"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                    />
-                  </svg>
-                </button>
-              )}
-              {changeDetails && changeImage && (
-                <div className="flex flex-col items-center md:flex-row">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="image_input"
-                    className="w-full"
-                  />
+          <div className="m-auto mb-4 pt-8 pb-4 w-full flex gap-8 items-start">
+            <div className="flex flex-col items-center w-6/12">
+              <div
+                id="image_card"
+                className="flex flex-col items-center w-full p-4 rounded-3xl bg-neutral shadow-2xl mb-4"
+              >
+                <img
+                  className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white mb-4"
+                  src={image === "" ? "/sample_profile.jpg" : image}
+                  alt="Profile"
+                />
+                {changeDetails && !changeImage && (
                   <button type="button" onClick={switchImage}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="w-6 h-6 hover:stroke-green-500"
+                      className="w-6 h-6 fill-none hover:fill-white enlarge-md stroke-white"
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M4.5 12.75l6 6 9-13.5"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
                       />
                     </svg>
                   </button>
+                )}
+                {changeDetails && changeImage && (
+                  <div className="flex flex-col items-center md:flex-row">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="image_input"
+                      className="w-full text-white mr-2"
+                    />
+                    <button type="button" onClick={switchImage}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6 hover:stroke-green-500 stroke-white enlarge-md"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+                <p id="image_message" className="opacity-0 text-xs" />
+                <div className="flex justify-center items-center w-full">
+                  <h1 className="text-3xl font-bold text-white overflow-x-auto py-2">
+                    {username}
+                  </h1>
                 </div>
-              )}
-              <p id="image_message" className="opacity-0 text-xs" />
-              <div className="flex justify-center items-center w-full">
-                <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto py-2">
-                  {username}
-                </h1>
               </div>
               <Subscribed id={id} />
             </div>
-            <div className="flex flex-col w-6/12 p-2 gap-1">
+            <div
+              id="details_card"
+              className="flex flex-col w-6/12 p-2 gap-1 border-2 border-black p-4 rounded-3xl shadow-2xl"
+            >
               <div className="flex justify-end">
                 {id === userId && (
                   <button
@@ -768,7 +786,7 @@ function Writer() {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6 fill-none hover:fill-black"
+                          className="w-6 h-6 fill-none hover:fill-black enlarge-md"
                         >
                           <path
                             strokeLinecap="round"
@@ -783,7 +801,7 @@ function Writer() {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6 hover:stroke-green-500"
+                          className="w-6 h-6 hover:stroke-green-500 enlarge-md"
                         >
                           <path
                             strokeLinecap="round"
@@ -824,7 +842,7 @@ function Writer() {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6 fill-none hover:fill-black"
+                          className="w-6 h-6 fill-none hover:fill-black enlarge-md"
                         >
                           <path
                             strokeLinecap="round"
@@ -839,7 +857,7 @@ function Writer() {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          className="w-6 h-6 hover:stroke-green-500"
+                          className="w-6 h-6 hover:stroke-green-500 enlarge-md"
                         >
                           <path
                             strokeLinecap="round"
@@ -862,8 +880,11 @@ function Writer() {
                 )}
                 <p id="bio_message" className="opacity-0 text-xs" />
               </div>
-              {changeDetails && (
-                <div className="w-full">
+              {true && (
+                <div
+                  className="w-full border-transparent border-t-2 transition-[max-height, border-color] max-h-0 duration-[690ms] overflow-y-clip"
+                  id="account_details"
+                >
                   <form>
                     <h2 className="text-start text-2xl font-bold tracking-tight text-gray-900 my-2">
                       Account Details
@@ -879,7 +900,7 @@ function Writer() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="1.5"
                                 stroke="currentColor"
-                                className="w-6 h-6 fill-none hover:fill-black"
+                                className="w-6 h-6 fill-none hover:fill-black enlarge-md"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -894,7 +915,7 @@ function Writer() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="1.5"
                                 stroke="currentColor"
-                                className="w-6 h-6 hover:stroke-green-500"
+                                className="w-6 h-6 hover:stroke-green-500 enlarge-md"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -929,7 +950,7 @@ function Writer() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="1.5"
                                 stroke="currentColor"
-                                className="w-6 h-6 fill-none hover:fill-black"
+                                className="w-6 h-6 fill-none hover:fill-black enlarge-md"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -944,7 +965,7 @@ function Writer() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="1.5"
                                 stroke="currentColor"
-                                className="w-6 h-6 hover:stroke-green-500"
+                                className="w-6 h-6 hover:stroke-green-500 enlarge-md"
                               >
                                 <path
                                   strokeLinecap="round"

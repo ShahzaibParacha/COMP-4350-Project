@@ -165,7 +165,7 @@ function ViewPost() {
                 <button type="button" onClick={profileClick}>
                   <div className="flex justify-center">
                     <img
-                      className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
+                      className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover enlarge-sm"
                       src={photo === null ? "/sample_profile.jpg" : photo}
                       alt="Profile"
                     />
@@ -196,6 +196,7 @@ function ViewPost() {
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {post}
                 </ReactMarkdown>
+                <div className="bg-gray-400 rounded-[5px] w-[80%] h-[4.2px] mx-auto mt-8" />
                 <Comment id={id} />
               </div>
             </div>

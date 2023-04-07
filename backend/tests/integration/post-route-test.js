@@ -38,18 +38,17 @@ let server;
 const setup = async (numPosts, numUsers) => {
 	let userIDs = [];
 	let postIDs = [];
-	let i = 0;
 
 	await Post.deleteMany({});
 	await Like.deleteMany({});
 
 	//generate user ids
-	for (i = 0; i < numUsers; i++) {
+	for (let i = 0; i < numUsers; i++) {
 		userIDs.push(new mongoose.mongo.ObjectID);
 	}
 
 	//generate random posts created by numUsers users
-	for (i = 0; i < numPosts; i++) {
+	for (let i = 0; i < numPosts; i++) {
 		postIDs.push(new mongoose.mongo.ObjectID);
 		const attrib = {
 			_id: postIDs[postIDs.length - 1],
@@ -274,8 +273,8 @@ describe('Post routes', function () {
 			expect(res.data.msg).to.equal('success');
 			expect(res.data.data).to.exist;
 			expect(res.data.data.length).to.equal(5);
-			for (let i = 0; i < res.data.data.length; i++) {
-				expect(res.data.data[i].post.content % 2).to.equal(0);
+			for (let datum of res.data.data) {
+				expect(datum.post.content % 2).to.equal(0);
 			}
 		});
 	});
@@ -560,8 +559,8 @@ describe('Post routes', function () {
 
 			expect(posts).to.exist;
 			expect(posts.length).to.equal(9);
-			for (let i = 0; i < posts.length; i++) {
-				expect(posts[i].content).to.not.equal(1 + '');
+			for (let post of posts) {
+				expect(post.content).to.not.equal(1 + '');
 			}
 		});
 
@@ -630,7 +629,7 @@ describe('Post routes', function () {
 		it('should return a post', async function () {
 			const {userIDs, res} = (await setup(0, 1));
 
-			const response = await axios({
+			await axios({
 				method: 'post',
 				url: 'http://localhost:4350/api/post/create',
 				headers: {

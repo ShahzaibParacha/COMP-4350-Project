@@ -24,15 +24,14 @@ const generateComments = (numComments, numUsers) => {
 	// let post = mongoose.mongo.ObjectID();
 	const comments = [];
 	const userIDs = [];
-	let i = 0;
 
 	// generate user ids
-	for (i = 0; i < numUsers; i++) {
+	for (let i = 0; i < numUsers; i++) {
 		userIDs.push(new mongoose.mongo.ObjectID());
 	}
 
 	// generate random comments for the post above
-	for (i = 0; i < numComments; i++) {
+	for (let i = 0; i < numComments; i++) {
 		comments.push(new Comment({ post_id: post, user_id: userIDs[i % numUsers], content: i }));
 	}
 
