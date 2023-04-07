@@ -3,11 +3,13 @@ const Like = require('../schema/likes-schema');
 const Post = require('../schema/post-schema');
 const extractEngine = require('../util/extract-keywords');
 const mongoose = require('mongoose');
+const sinon = require('sinon');
 const expect = require('chai').expect;
 require('dotenv').config();
 
 const userIDs = [];
 const postIDs = [];
+let similarPosts;
 /* generatePosts
  *
  * Purpose: Generates a number of posts assigned to a number of users, and users like the posts
@@ -57,9 +59,17 @@ describe('Recommendation Service test', function () {
 
 		await Post.deleteMany({});
 		await generatePosts();
+		similarPosts = await Post.find({ _id: { $in: postIDs.slice(1, 3) }});
+
+		// stub mongoose
+		sinon.stub(Post, "aggregate").callsFake((obj) => {
+			//const postId = obj[0].$search.compound.mustNot[0].equals.value;
+			return { exec: () => { return similarPosts; }};
+		});
 	});
 
 	after(async () => {
+		sinon.restore();
 		await Post.deleteMany({});
 		await Like.deleteMany({});
 		await mongoose.disconnect();
@@ -73,8 +83,8 @@ describe('Recommendation Service test', function () {
 
 		it('should return an array of recommended post, it contains one post.', async function () {
 			const values = await services.getRecommendedPosts(userIDs[0]);
-
 			expect(values).to.be.an('array');
+			expect(values.length).to.equal(2);
 		});
 	});
 });

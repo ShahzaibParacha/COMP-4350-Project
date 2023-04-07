@@ -102,7 +102,7 @@ app.get('/getTestData', async (req, res) => {
 	// fakePostsLib = allText.split('\n');
 
 	//try Dean's sample posts instead:
-	let data = fs.readFileSync("./util/sampledata.csv", 'utf8');
+	let data = fs.readFileSync("./util/sampledata.txt", 'utf8');
 	const s = data.toString().split('"');
 	let i = 0;
 	while (i < s.length) {
