@@ -64,3 +64,11 @@
 .line-break {
     white-space: pre-wrap;
 }
+
+.enlarge-md:hover{
+    transform: scale(1.3);
+}
+
+.enlarge-sm:hover{
+    transform: scale(1.1);
+}

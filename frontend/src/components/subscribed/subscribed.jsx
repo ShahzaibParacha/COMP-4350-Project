@@ -76,20 +76,22 @@ function Subscribed({ id }) {
 
   return (
     subscribed.length > 0 && (
-      <div className="w-full mt-4 border-gray-400 border-t-2 pt-2">
+      <div className="w-full mt-4 pt-2 border-2 border-black rounded-3xl py-5 overflow-auto">
         <h2 className="text-center mb-4 text-xl font-bold text-gray-900">
           Writers {userId === id ? "You" : "They"} Follow
         </h2>
-        <div className="w-full overflow-auto p-2 max-h-[690px]">
+        <div className="min-w-full w-fit max-h-[690px]">
           {subscribed.map((user, i) => (
             <div
               key={user.creator_id}
-              className="flex gap-2 items-center justify-between mb-2"
+              className={`flex gap-2 items-center justify-between p-3 ${
+                i % 2 === 0 ? "bg-gray-100" : "bg-white"
+              }`}
             >
               <div className="flex items-center gap-2 w-fit">
                 <button
                   type="button"
-                  className="h-[calc(8rem*0.5)] w-[calc(8rem*0.5)]"
+                  className="h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] enlarge-sm"
                   onClick={() => profileClick(user.creator_id)}
                 >
                   <img
