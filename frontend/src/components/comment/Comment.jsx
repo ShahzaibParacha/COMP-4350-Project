@@ -212,9 +212,8 @@ function Comment({ id }) {
     return num !== 1 ? "Likes" : "Like";
   };
 
-  const buttonClicked =
-    "w-6 h-6 fill-purple-900 hover:fill-purple-600 enlarge-md";
-  const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none enlarge-md";
+  const buttonClicked = "w-6 h-6 fill-black hover:fill-purple-600 enlarge-md";
+  const buttonNotClicked = "w-6 h-6 hover:fill-purple-600 fill-none enlarge-md";
 
   return (
     <div className="pt-16">

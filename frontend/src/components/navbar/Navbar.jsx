@@ -64,7 +64,7 @@ function Navbar() {
                 <div className="flex items-center">
                   <img
                     className="hidden h-16 w-auto lg:block"
-                    src="/logo.png"
+                    src="/logo-black.png"
                     alt="CASTr"
                   />
                 </div>

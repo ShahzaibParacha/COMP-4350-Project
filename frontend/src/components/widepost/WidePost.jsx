@@ -84,7 +84,7 @@ function WidePost({ postType }) {
                 >
                   <div className="justify-center">
                     <img
-                      className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
+                      className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover enlarge-sm"
                       src={
                         post.profile_photo === null
                           ? "/sample_profile.jpg"

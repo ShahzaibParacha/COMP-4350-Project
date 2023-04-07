@@ -163,6 +163,15 @@ function Writer() {
     if (imgMsg !== null) {
       hideMessage(imgMsg);
     }
+
+    const accountDetails = document.getElementById("account_details");
+    if (!changeDetails) {
+      accountDetails.style.borderColor = "rgb(156 163 175)";
+      accountDetails.style.maxHeight = "5000px";
+    } else {
+      accountDetails.style.borderColor = "transparent";
+      accountDetails.style.maxHeight = "0px";
+    }
   }
 
   function switchUsername(e) {
@@ -635,7 +644,7 @@ function Writer() {
         <div className="w-9/12 h-fit min-h-screen mx-auto px-8">
           <div className="m-auto mb-4 pt-8 pb-4 w-full flex gap-8 items-start">
             <div className="flex flex-col items-center w-6/12">
-              <div className="flex flex-col items-center w-full border-2 border-black p-4 rounded-3xl">
+              <div className="flex flex-col items-center w-full p-4 rounded-3xl bg-neutral shadow-2xl mb-4">
                 <img
                   className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white mb-4"
                   src={image === "" ? "/sample_profile.jpg" : image}
@@ -686,14 +695,14 @@ function Writer() {
                 )}
                 <p id="image_message" className="opacity-0 text-xs" />
                 <div className="flex justify-center items-center w-full">
-                  <h1 className="text-3xl font-bold text-gray-900 overflow-x-auto py-2">
+                  <h1 className="text-3xl font-bold text-white overflow-x-auto py-2">
                     {username}
                   </h1>
                 </div>
               </div>
               <Subscribed id={id} />
             </div>
-            <div className="flex flex-col w-6/12 p-2 gap-1 border-2 border-black p-4 rounded-3xl">
+            <div className="flex flex-col w-6/12 p-2 gap-1 border-2 border-black p-4 rounded-3xl shadow-2xl">
               <div className="flex justify-end">
                 {id === userId && (
                   <button
@@ -866,9 +875,9 @@ function Writer() {
                 )}
                 <p id="bio_message" className="opacity-0 text-xs" />
               </div>
-              {changeDetails && (
+              {true && (
                 <div
-                  className="w-full border-gray-400 border-t-2"
+                  className="w-full border-transparent border-t-2 transition-[max-height, border-color] max-h-0 duration-[690ms] overflow-y-clip"
                   id="account_details"
                 >
                   <form>
