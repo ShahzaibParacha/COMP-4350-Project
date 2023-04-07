@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import MDEditor from "@uiw/react-md-editor";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import rehypeSanitize from "rehype-sanitize";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
@@ -25,7 +27,7 @@ function CreatePost() {
   const handlePostCreation = (e) => {
     e.preventDefault();
     // eslint-disable-next-line no-console
-    console.log(post);
+    // console.log(post);
 
     axios({
       method: "post",
@@ -74,8 +76,10 @@ function CreatePost() {
                 className="h-screen"
                 onChange={createPost}
                 height={690}
+                previewOptions={{
+                  rehypePlugins: [[rehypeSanitize]],
+                }}
               />
-              {/* <MDEditor.Markdown source={value} /> */}
             </div>
           </div>
         </div>
