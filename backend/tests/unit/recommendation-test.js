@@ -1,7 +1,7 @@
-const services = require('../service/post-service');
-const Like = require('../schema/likes-schema');
-const Post = require('../schema/post-schema');
-const extractEngine = require('../util/extract-keywords');
+const services = require('../../service/post-service');
+const Like = require('../../schema/likes-schema');
+const Post = require('../../schema/post-schema');
+const extractEngine = require('../../util/extract-keywords');
 const mongoose = require('mongoose');
 const sinon = require('sinon');
 const expect = require('chai').expect;
@@ -10,6 +10,7 @@ require('dotenv').config();
 const userIDs = [];
 const postIDs = [];
 let similarPosts;
+
 /* generatePosts
  *
  * Purpose: Generates a number of posts assigned to a number of users, and users like the posts
@@ -63,7 +64,6 @@ describe('Recommendation Service test', function () {
 
 		// stub mongoose
 		sinon.stub(Post, "aggregate").callsFake((obj) => {
-			//const postId = obj[0].$search.compound.mustNot[0].equals.value;
 			return { exec: () => { return similarPosts; }};
 		});
 	});
