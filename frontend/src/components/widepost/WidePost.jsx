@@ -128,8 +128,7 @@ function WidePost({ postType }) {
             >
               <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                 <dd className="mt-1 text-left text-sm font-base text-gray-900 sm:col-span-6 sm:mt-0">
-                  {post.post.content.length > 200 &&
-                  post.post.content[0] === "#"
+                  {post.post.content.length > 0
                     ? removeMd(post.post.content.split("\n", 1)[0])
                     : `${removeMd(post.post.content.substring(0, 270))}...`}
                 </dd>

@@ -36,7 +36,11 @@ function SignUp() {
   }
 
   function renderSuccess() {
-    return <p className="text-green-600">Signup Succeeded!</p>;
+    return (
+      <p className="text-green-600">
+        Signup Succeeded! Redirecting you to the Login page
+      </p>
+    );
   }
 
   function handleSignUp(e) {
@@ -57,7 +61,9 @@ function SignUp() {
         console.log(res.data.msg);
         if (res.data.msg === "success") {
           setLoginStatus("success");
-          navigate("../login", { state: null });
+          setTimeout(() => {
+            navigate("../login", { state: null });
+          }, 2000);
         } else {
           setLoginStatus("failure");
         }

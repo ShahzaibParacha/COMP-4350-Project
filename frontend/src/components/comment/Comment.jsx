@@ -80,7 +80,7 @@ function Comment({ id }) {
     if (qrCode === null) {
       // change this later since we are sharing posts and not profiles
       QRCode.toString(
-        `http://localhost:3000/post/${id}`,
+        `http://${window.location.host}/post/${id}`,
         { type: "svg" },
         (err, svg) => {
           if (err) throw err;

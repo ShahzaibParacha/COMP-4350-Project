@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import MDEditor from "@uiw/react-md-editor";
-// eslint-disable-next-line import/no-extraneous-dependencies
+// eslint-disable-next-line
 import rehypeSanitize from "rehype-sanitize";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

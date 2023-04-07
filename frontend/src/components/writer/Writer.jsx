@@ -9,7 +9,7 @@ import {
   failure,
 } from "../../util/messages";
 import { fromContextToSession, fromSessionToContext } from "../../util/state";
-import Subscribed from "../subscribed/subscribed";
+import Subscribed from "../subscribed/Subscribed";
 
 function Writer() {
   const navigate = useNavigate();
@@ -427,7 +427,7 @@ function Writer() {
             showMessage(
               document.getElementById("image_message"),
               "Successfully updated!",
-              success,
+              "#00FF00",
               false,
               "center"
             );
@@ -643,7 +643,10 @@ function Writer() {
         <div className="w-9/12 h-fit min-h-screen mx-auto px-8">
           <div className="m-auto mb-4 pt-8 pb-4 w-full flex gap-8 items-start">
             <div className="flex flex-col items-center w-6/12">
-              <div className="flex flex-col items-center w-full p-4 rounded-3xl bg-neutral shadow-2xl mb-4">
+              <div
+                id="image_card"
+                className="flex flex-col items-center w-full p-4 rounded-3xl bg-neutral shadow-2xl mb-4"
+              >
                 <img
                   className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white mb-4"
                   src={image === "" ? "/sample_profile.jpg" : image}
@@ -656,7 +659,7 @@ function Writer() {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="w-6 h-6 fill-none hover:fill-black enlarge-md"
+                      className="w-6 h-6 fill-none hover:fill-white enlarge-md stroke-white"
                     >
                       <path
                         strokeLinecap="round"
@@ -672,7 +675,7 @@ function Writer() {
                       type="file"
                       accept="image/*"
                       id="image_input"
-                      className="w-full"
+                      className="w-full text-white mr-2"
                     />
                     <button type="button" onClick={switchImage}>
                       <svg
@@ -681,7 +684,7 @@ function Writer() {
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="w-6 h-6 hover:stroke-green-500 enlarge-md"
+                        className="w-6 h-6 hover:stroke-green-500 stroke-white enlarge-md"
                       >
                         <path
                           strokeLinecap="round"
@@ -701,7 +704,10 @@ function Writer() {
               </div>
               <Subscribed id={id} />
             </div>
-            <div className="flex flex-col w-6/12 p-2 gap-1 border-2 border-black p-4 rounded-3xl shadow-2xl">
+            <div
+              id="details_card"
+              className="flex flex-col w-6/12 p-2 gap-1 border-2 border-black p-4 rounded-3xl shadow-2xl"
+            >
               <div className="flex justify-end">
                 {id === userId && (
                   <button

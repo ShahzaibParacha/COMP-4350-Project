@@ -37,25 +37,27 @@ function Login() {
       })
       .then((res) => {
         if (res.data.msg === "success") {
-          // need to do this to rerender App.js
-          dispatch({ type: "SET_USER_ID", payload: res.data.data.id });
-          dispatch({ type: "SET_TOKEN", payload: res.data.data.token });
-
-          sessionStorage.setItem(
-            "session",
-            JSON.stringify({
-              userId: res.data.data.id,
-              token: res.data.data.token,
-            })
-          );
-
           setLoginStatus("success");
 
-          if (location.state !== null) {
-            navigate(`..${location.state}`);
-          } else {
-            navigate("../");
-          }
+          setTimeout(() => {
+            // need to do this to rerender App.js
+            dispatch({ type: "SET_USER_ID", payload: res.data.data.id });
+            dispatch({ type: "SET_TOKEN", payload: res.data.data.token });
+
+            sessionStorage.setItem(
+              "session",
+              JSON.stringify({
+                userId: res.data.data.id,
+                token: res.data.data.token,
+              })
+            );
+
+            if (location.state !== null) {
+              navigate(`..${location.state}`);
+            } else {
+              navigate("../");
+            }
+          }, 2000);
         } else {
           setLoginStatus("failure");
         }
@@ -68,7 +70,11 @@ function Login() {
   }
 
   function renderSuccess() {
-    return <p className="text-green-600">Login Succeeded!</p>;
+    return (
+      <p className="text-green-600">
+        Login Succeeded! Redirecting you to your Home page
+      </p>
+    );
   }
 
   return (
