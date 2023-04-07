@@ -56,17 +56,6 @@ function WidePost({ postType }) {
     navigate(`/writer/${profile}`);
   };
 
-  // const renderContent = (content) => {
-  //   if (content) {
-  //     console.log(`content: ${content}`);
-  //     if (content[0] === "#") {
-  //       return removeMd(content.split(/\r?\n/));
-  //     }
-  //     return removeMd(content.substring(0, 200));
-  //   }
-  //   return "";
-  // };
-
   return (
     <div>
       {posts.map((post) => (
