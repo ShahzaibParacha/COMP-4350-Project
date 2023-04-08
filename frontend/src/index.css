@@ -72,3 +72,7 @@
 .enlarge-sm:hover{
     transform: scale(1.1);
 }
+
+.hover-card:hover {
+    transform: scale(1.05);
+}

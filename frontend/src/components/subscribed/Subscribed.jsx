@@ -76,7 +76,7 @@ function Subscribed({ id }) {
 
   return (
     subscribed.length > 0 && (
-      <div className="w-full mt-4 pt-2 border-2 border-black rounded-3xl py-5 overflow-auto shadow-2xl">
+      <div className="w-full mt-4 pt-2 border-2 border-black rounded-3xl py-5 overflow-auto shadow-2xl hover-card transition-transform">
         <h2 className="text-center mb-4 text-xl font-bold text-gray-900">
           Writers {userId === id ? "You" : "They"} Follow
         </h2>

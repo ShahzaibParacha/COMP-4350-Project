@@ -427,7 +427,7 @@ function Writer() {
             showMessage(
               document.getElementById("image_message"),
               "Successfully updated!",
-              "#00FF00",
+              "#00DD00",
               false,
               "center"
             );
@@ -645,7 +645,7 @@ function Writer() {
             <div className="flex flex-col items-center w-6/12">
               <div
                 id="image_card"
-                className="flex flex-col items-center w-full p-4 rounded-3xl bg-neutral shadow-2xl mb-4"
+                className="flex flex-col items-center w-full p-4 rounded-3xl bg-neutral shadow-2xl mb-4 transition-transform hover-card"
               >
                 <img
                   className="rounded-full w-[calc(100vw*0.25)] h-[calc(100vw*0.25)] lg:w-[calc(100vw*0.15)] lg:h-[calc(100vw*0.15)] object-cover text-center leading-[calc(100vw*0.25)] lg:leading-[calc(100vw*0.15)] bg-white mb-4"
@@ -706,7 +706,7 @@ function Writer() {
             </div>
             <div
               id="details_card"
-              className="flex flex-col w-6/12 p-2 gap-1 border-2 border-black p-4 rounded-3xl shadow-2xl"
+              className="flex flex-col w-6/12 p-2 gap-1 border-2 border-black p-4 rounded-3xl shadow-2xl hover-card transition-transform"
             >
               <div className="flex justify-end">
                 {id === userId && (
@@ -882,7 +882,7 @@ function Writer() {
               </div>
               {true && (
                 <div
-                  className="w-full border-transparent border-t-2 transition-[max-height, border-color] max-h-0 duration-[690ms] overflow-y-clip"
+                  className="w-full border-transparent border-t-2 transition-[max-height, border-color] duration-[690ms] overflow-y-clip max-h-0"
                   id="account_details"
                 >
                   <form>
