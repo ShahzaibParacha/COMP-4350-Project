@@ -19,8 +19,8 @@ const getCommentsFromPost = (req, res) => {
 			const result = [];
 
 			// retrieve the profile of the users who wrote the comments
-			for (let i = 0; i < comments.length; i++) {
-				promises.push(getUserInfo(comments[i].user_id));
+			for (let comment of comments) {
+				promises.push(getUserInfo(comment.user_id));
 			}
 
 			Promise.all(promises)

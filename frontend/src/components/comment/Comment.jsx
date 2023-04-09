@@ -80,7 +80,7 @@ function Comment({ id }) {
     if (qrCode === null) {
       // change this later since we are sharing posts and not profiles
       QRCode.toString(
-        `http://localhost:3000/post/${id}`,
+        `http://${window.location.host}/post/${id}`,
         { type: "svg" },
         (err, svg) => {
           if (err) throw err;
@@ -195,31 +195,37 @@ function Comment({ id }) {
   }
 
   function showQRCodeModal() {
-    document.getElementById("qr_code_modal").style.display = "block";
+    document.getElementById("qr_code_modal").style.zIndex = "10";
+    document.getElementById("qr_code_modal").style.opacity = "1";
   }
 
   function hideQRCodeModal() {
-    document.getElementById("qr_code_modal").style.display = "none";
+    document.getElementById("qr_code_modal").style.zIndex = "-10";
+    document.getElementById("qr_code_modal").style.opacity = "0";
   }
 
   const profileClick = (profile) => {
     navigate(`/writer/${profile}`);
   };
 
-  const buttonClicked = "w-6 h-6 fill-purple-900 hover:fill-purple-600";
-  const buttonNotClicked = "w-6 h-6 hover:fill-black fill-none";
+  const likeOrLikes = (num) => {
+    return num !== 1 ? "Likes" : "Like";
+  };
+
+  const buttonClicked = "w-6 h-6 fill-black hover:fill-purple-600 enlarge-md";
+  const buttonNotClicked = "w-6 h-6 hover:fill-purple-600 fill-none enlarge-md";
 
   return (
     <div className="pt-16">
       <div
-        className="relative z-10 hidden"
+        className="relative z-[-10] transition-opacity"
         aria-labelledby="modal-title"
         role="dialog"
         aria-modal="true"
         id="qr_code_modal"
       >
-        <div className="fixed inset-0 transition-opacity" />
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0" />
+        <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
               <div className="pt-5 pb-4">
@@ -281,7 +287,7 @@ function Comment({ id }) {
             <p className="ml-2">
               {numLikes === null
                 ? "Loading..."
-                : `${numLikes} ${numLikes !== 1 ? "Likes" : "Like"}`}
+                : `${numLikes} ${likeOrLikes(numLikes)}`}
             </p>
           </div>
         </div>
@@ -371,7 +377,7 @@ function Comment({ id }) {
                     onClick={() => profileClick(comment.user_id)}
                   >
                     <img
-                      className="rounded-full object-cover w-full h-full"
+                      className="rounded-full object-cover w-full h-full enlarge-sm"
                       src={
                         comment.profile_photo === null
                           ? "/sample_profile.jpg"

@@ -56,23 +56,12 @@ function WidePost({ postType }) {
     navigate(`/writer/${profile}`);
   };
 
-  // const renderContent = (content) => {
-  //   if (content) {
-  //     console.log(`content: ${content}`);
-  //     if (content[0] === "#") {
-  //       return removeMd(content.split(/\r?\n/));
-  //     }
-  //     return removeMd(content.substring(0, 200));
-  //   }
-  //   return "";
-  // };
-
   return (
     <div>
       {posts.map((post) => (
         <div
           key={post.post._id}
-          className="w-full my-4 rounded-2xl text-left border font-base bg-gray-50 shadow-xl ease-in duration-200 hover:shadow-xxl hover:border-purple-800 transform hover:scale-x-105"
+          className="w-full my-4 rounded-2xl text-left border font-base bg-gray-50 shadow-xl ease-in duration-200 hover:shadow-xxl hover:border-purple-800 border-black border-1 transform hover:scale-x-[1.02]"
         >
           <div className="bg-gray-50 rounded-2xl py-4 sm:grid sm:grid-cols-6 sm:gap-4">
             <div className="flex justify-center items-center">
@@ -80,11 +69,11 @@ function WidePost({ postType }) {
                 <button
                   type="button"
                   onClick={() => profileClick(post.post.user_id)}
-                  className="flex justify-center pl-6"
+                  className="flex justify-center"
                 >
                   <div className="justify-center">
                     <img
-                      className="rounded-full h-[calc(8rem*0.5)] w-[calc(8rem*0.5)] object-cover"
+                      className="h-[calc(8rem*1)] w-[calc(8rem*1)] object-cover enlarge-sm"
                       src={
                         post.profile_photo === null
                           ? "/sample_profile.jpg"
@@ -127,11 +116,15 @@ function WidePost({ postType }) {
               className="border-l border-neutral px-4 py-2 col-start-2 col-span-5 sm:px-6"
             >
               <div className="bg-gray-50 px-6 py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                <dd className="mt-1 text-left text-sm font-base text-gray-900 sm:col-span-6 sm:mt-0">
-                  {post.post.content.length > 200 &&
-                  post.post.content[0] === "#"
-                    ? removeMd(post.post.content.split("\n", 1)[0])
+                <dd className="mt-1 text-left text-xl font-bold font-base text-gray-900 sm:col-span-6 sm:mt-0 ">
+                  {post.post.content.length > 0
+                    ? removeMd(post.post.content.split("\n")[0])
                     : `${removeMd(post.post.content.substring(0, 270))}...`}
+                </dd>
+                <dd className="mt-1 text-left text-md font-base text-gray-900 sm:col-span-6 sm:mt-0 ">
+                  {post.post.content.length > 0
+                    ? removeMd(post.post.content.split("\n")[1])
+                    : `${removeMd(post.post.content.substring(0, 300))}...`}
                 </dd>
               </div>
             </button>

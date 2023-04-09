@@ -16,7 +16,7 @@ module.exports = {
         primary: "#f2c982",
         secondary: "#0bbfb3",
         accent: "#35f2e8",
-        neutral: "#362338",
+        neutral: "#000000",
         "base-100": "#FFFFFF",
         info: "#8AABE0",
         success: "#17BA8C",
@@ -25,6 +25,7 @@ module.exports = {
       },
       fontFamily: {
         base: ["Quicksand", "sans-serif"],
+        local: ["Questrial", "sans-serif"],
       },
     },
   },

@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Navigate, Routes, useLocation } from "react-router-dom";
 import Home from "./components/home/Home";
 import Writer from "./components/writer/Writer";
-import Error from "./components/error/Error";
+import NotFound from "./components/notfound/NotFound";
 import Login from "./components/login/Login";
 import SignUp from "./components/signup/SignUp";
 import CreatePost from "./components/createpost/CreatePost";
@@ -79,7 +79,7 @@ function App() {
         />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<SignUp />} />
-        <Route exact path="/404" element={<Error />} />
+        <Route exact path="/404" element={<NotFound />} />
         <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
     </div>

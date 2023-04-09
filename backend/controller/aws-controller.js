@@ -5,7 +5,8 @@ const {
 } = require('@aws-sdk/client-s3');
 const Params = require('../util/Params');
 const Result = require('../util/Result');
-require('dotenv').config;
+const dotenv = require('dotenv');
+dotenv.config();
 
 const s3 = new S3Client({
 	region: 'us-east-2',
