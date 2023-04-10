@@ -12,10 +12,10 @@ while (i < s.length) {
     }
     console.log(s[i] + "; the line index: " + i);
     if ( s[i] !== undefined) {
-       writeStream.write(marked(s[i])); 
+        const mark = marked(s[i]);
+        console.log(mark);
+       writeStream.write(mark); 
     }
     i++;
 }
-//console.log(markdown); // Outputs: "<p>This is plain text.</p>\n"
-//writeStream.write(marked(data));
 writeStream.end();

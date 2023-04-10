@@ -15,6 +15,7 @@ const Like = require('./service/likes-service');
 const fs = require('fs');
 require('./util/passport')(passport);
 const { writer } = require('repl');
+const marked = require('marked');
 
 const app = express();
 mongoose
@@ -112,7 +113,6 @@ app.get('/getTestData', async (req, res) => {
 		i++;
 	}
 	fakePostsLib = s;
-	console.log(fakePostsLib.length);
 
 	console.log('simulating creating posts...');
 	// simulate that some creators create some post
