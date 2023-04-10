@@ -151,10 +151,10 @@ app.get('/getTestData', async (req, res) => {
 		console.log("The count for the posts: " + postList.length);
 		console.log('simulating like...');
 		// simulate that some audiences like some posts
-		for (let i = 0; i < audienceList.length; i++) {
-			for (let j = 0; j < postList.length; j++) {
+		for (let audience of audienceList) {
+			for (let post of postList) {
 				if (Math.random() >= 0.95) {
-					let like = await Like.likePost(postList[j]._id, audienceList[i]._id);
+					let like = await Like.likePost(post._id, audience._id);
 					likeList.push(like);
 				}
 			}

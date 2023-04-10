@@ -2,7 +2,7 @@ import React from "react";
 
 import { useNavigate } from "react-router-dom";
 
-function Error() {
+function NotFound() {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -56,4 +56,4 @@ function Error() {
   );
 }
 
-export default Error;
+export default NotFound;
