@@ -41,7 +41,7 @@ class Result {
 	}
 
 	static invalidPassword () {
-		return new Result(ResultCode.INVALID_PASSWORD.code, ResultCode.INVALID_EMAIL.desc, null);
+		return new Result(ResultCode.INVALID_PASSWORD.code, ResultCode.INVALID_PASSWORD.desc, null);
 	}
 
 	static invalidAudienceId () {
