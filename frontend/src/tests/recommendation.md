@@ -48,8 +48,8 @@
 
 3. When a user clicks the "Recommendation" on the home page, the system does the following steps:
 
-   1. Look for the recent 3 liked posts by the user;
+   a. Look for the recent 3 liked posts by the user;
 
-   1. For each liked post, the system uses Mongoose Altas Search engine 'MoreLikeThis' to search for similar posts based on the keywords of the post, and returns up to 5 most similar posts.
+   b. For each liked post, the system uses Mongoose Altas Search engine 'MoreLikeThis' to search for similar posts based on the keywords of the post, and returns up to 5 most similar posts.
 
-   1. Pools the found similar posts (maximal 15 posts) together, return the list as the recommended posts for the user and presents them on the home page.
+   c. Pools the found similar posts (maximal 15 posts) together, return the list as the recommended posts for the user and presents them on the home page.
