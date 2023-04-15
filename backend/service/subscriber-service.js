@@ -8,7 +8,6 @@ async function getUserAudiences (userId, pageNum, pageSize) {
 	if (pageNum === undefined || pageNum === null || pageSize === undefined || pageSize === null || isNaN(pageSize) || isNaN(pageNum)) { return await Subscriber.getAllAudienceByUserId(userId); } else { return await Subscriber.getAudiencePageByUserId(userId, pageNum, pageSize); }
 }
 
-// TODO: right now the post_id is not used
 async function notifyAudiences (user_id, post_id, content) {
 	const creator = await userService.getUserInfo(user_id);
 	const subscribers = await getUserAudiences(user_id);
