@@ -1,12 +1,9 @@
 const services = require('../service/post-service');
-const Like = require('../schema/likes-schema');
 const sinon = require('sinon');
 const Post = require('../schema/post-schema');
 const mongoose = require('mongoose');
 const expect = require('chai').expect;
 require('dotenv').config();
-
-const postsToDelete = [];
 
 /* generatePosts
  *
@@ -38,7 +35,6 @@ const generatePosts = async (numPosts, numUsers) => {
 		attribs.push(attrib)
 
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
-			postsToDelete.push(postIDs[i]);
 			await Post.create(attrib);
 		} else {
 			posts.push(new Post(attrib));
@@ -114,7 +110,7 @@ let posts = []; // fake database
 describe('Post services and model', function () {
 	before(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
-			mongoose
+			await mongoose
 				.connect(process.env.MONGODB_CONNECTION, {
 					useNewUrlParser: true,
 					useUnifiedTopology: true
@@ -128,7 +124,7 @@ describe('Post services and model', function () {
 
 	beforeEach(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
-			await Post.deleteMany({});//({_id: { $in: postsToDelete } });
+			await Post.deleteMany({});
 		} else {
 			posts = [];
 		}
@@ -136,7 +132,7 @@ describe('Post services and model', function () {
 
 	after(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
-			await Post.deleteMany({});//({_id: { $in: postsToDelete } });
+			await Post.deleteMany({});
 			await mongoose.disconnect();
 		} else {
 			sinon.restore();
@@ -277,7 +273,6 @@ describe('Post services and model', function () {
 
 		it('should return one post', async function () {
 			let post = new mongoose.mongo.ObjectID();
-			postsToDelete.push(post);
 			await services.createPost(post, '1', '1');
 
 			const value = await services.getAllPosts();
@@ -286,11 +281,9 @@ describe('Post services and model', function () {
 
 		it('should return two posts', async function () {
 			let post = new mongoose.mongo.ObjectID();
-			postsToDelete.push(post);
 			await services.createPost(post, '0', '0');
 
 			post = new mongoose.mongo.ObjectID();
-			postsToDelete.push(post);
 			await services.createPost(post, '1', '1');
 			const value = await services.getAllPosts();
 			expect(value.length).to.equal(2);
@@ -345,7 +338,6 @@ describe('Post services and model', function () {
 
 		it('should show content = \' \'', async function () {
 			const post = new mongoose.mongo.ObjectID();
-			postsToDelete.push(post);
 			await services.createPost(post, 'mitochondria', '0');
 			const posts = await services.getAllPosts();
 			await services.updateContent(posts[0]._id, ' ');

@@ -44,7 +44,6 @@ const setup = async (numComments, numPosts, numUsers) => {
 	for (let i = 0; i < numUsers; i++) {
 		userIDs.push(new mongoose.mongo.ObjectID);
 	}
-	//userID = new mongoose.mongo.ObjectID;
 
 	//generate post ids
 	for (let i = 0; i < numPosts; i++) {
