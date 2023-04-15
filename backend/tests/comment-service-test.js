@@ -21,7 +21,6 @@ const expect = require('chai').expect;
 const post = mongoose.mongo.ObjectID();
 
 const generateComments = (numComments, numUsers) => {
-	// let post = mongoose.mongo.ObjectID();
 	const comments = [];
 	const userIDs = [];
 
