@@ -149,7 +149,9 @@ async function connectDatabase() {
 		.connect(process.env.MONGODB_CONNECTION, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true
-		});
+		})
+		.then(() => { console.log('Success to connect mongodb'); })
+		.catch(() => { console.log('Fail to connect mongodb'); });
 }
 
 describe('Subscriber notification tests', function () {
