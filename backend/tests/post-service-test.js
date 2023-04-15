@@ -110,7 +110,7 @@ let posts = []; // fake database
 describe('Post services and model', function () {
 	before(async () => {
 		if (process.env.TEST_TYPE === 'INTEGRATION') {
-			mongoose
+			await mongoose
 				.connect(process.env.MONGODB_CONNECTION, {
 					useNewUrlParser: true,
 					useUnifiedTopology: true
