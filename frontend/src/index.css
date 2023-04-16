@@ -1,0 +1,82 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.vanishing {
+    animation-name: vanish;
+    animation-duration: 4s;
+    animation-iteration-count: 1;
+}
+
+@layer base {
+    h1 {
+        @apply text-2xl font-bold md:text-4xl;
+    }
+
+    h2 {
+        @apply text-xl font-bold md:text-3xl;
+    }
+
+    h3 {
+        @apply text-lg font-bold md:text-2xl;
+    }
+
+    h4 {
+        @apply text-base font-bold md:text-lg;
+    }
+
+    p {
+        @apply font-normal;
+    }
+
+    a {
+        @apply underline text-red-400 hover:text-red-800 visited:text-purple-600;
+    }
+
+    body {
+        @apply text-sm md:text-base;
+    }
+
+    ul, ol {
+        list-style: revert;
+        @apply pl-5;
+    }
+
+}
+
+@keyframes vanish {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+* {
+    font-family: "Questrial", sans-serif;
+    font-weight: 500;
+}
+
+.line-break {
+    white-space: pre-wrap;
+}
+
+.enlarge-md:hover{
+    transform: scale(1.3);
+}
+
+.enlarge-sm:hover{
+    transform: scale(1.1);
+}
+
+.hover-card:hover {
+    transform: scale(1.05);
+}
+
+p {
+    white-space: pre-line;
+}

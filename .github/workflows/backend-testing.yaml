@@ -1,0 +1,51 @@
+name: backend-testing
+
+on:
+  push:
+    branches: ["master", "develop"]
+  pull_request:
+    branches: ["master", "develop"]
+env:
+  PORT: 4350
+  MONGODB_CONNECTION: ${{ secrets.MONGODB_CONNECTION }}
+  PASSPORT_SECRET: ${{ secrets.PASSPORT_SECRET }}
+  TEST_TYPE: UNIT
+  NOTICE_EMAIL_ADDRESS: ${{ secrets.NOTICE_EMAIL_ADDRESS }}
+  NOTICE_EMAIL_PASSWORD: ${{ secrets.NOTICE_EMAIL_PASSWORD }}
+  PROD_MONGODB_CONNECTION: ${{ secrets.PROD_MONGODB_CONNECTION }}
+  IMAGE_ACCESS_ID: ${{ secrets.IMAGE_ACCESS_ID }}
+  IMAGE_KEY: ${{ secrets.IMAGE_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  PYTHON_PATH: /usr/bin/python
+    
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    strategy:
+      matrix:
+        node-version: [16.15.1]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Installing Nodejs dependencies
+        run: npm install
+      - name: Installing Python
+        run: pip install -r requirements.txt
+      - name: Run unit tests
+        run: npm run unit
+      - name: Run integration tests
+        run: npm run integration
+        env:
+          TEST_TYPE: INTEGRATION
+          
+
+      - name: Run all tests
+        run: npm run all

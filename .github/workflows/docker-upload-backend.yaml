@@ -1,0 +1,53 @@
+name: docker-upload-backend
+
+on:
+  push:
+    branches: ["master", "develop"]
+env:
+  PORT: 4350
+  MONGODB_CONNECTION: ${{ secrets.MONGODB_CONNECTION }}
+  PASSPORT_SECRET: ${{ secrets.PASSPORT_SECRET }}
+  TEST_TYPE: UNIT
+  NOTICE_EMAIL_ADDRESS: ${{ secrets.NOTICE_EMAIL_ADDRESS }}
+  NOTICE_EMAIL_PASSWORD: ${{ secrets.NOTICE_EMAIL_PASSWORD }}
+  PROD_MONGODB_CONNECTION: ${{ secrets.PROD_MONGODB_CONNECTION }}
+  IMAGE_ACCESS_ID: ${{ secrets.IMAGE_ACCESS_ID }}
+  IMAGE_KEY: ${{ secrets.IMAGE_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  PYTHON_PATH: /usr/bin/python
+  VERSION_NUMBER: 1.1
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    strategy:
+      matrix:
+        node-version: [16.15.1]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Use Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Installing Nodejs dependencies
+        run: npm install
+      - name: Intalling Python
+        run: pip install -r requirements.txt
+      - name: Log on to Docker
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push to Dockerhub
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          push: true
+          tags: theogschool/castr-backend:${{ env.VERSION_NUMBER }}
