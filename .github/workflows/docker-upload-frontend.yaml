@@ -26,6 +26,8 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Installing Nodejs dependencies
         run: npm install
+      - name: Install Serve
+        run: npm install serve
       - name: Build
         run: npm run build
       - name: Log on to Docker
